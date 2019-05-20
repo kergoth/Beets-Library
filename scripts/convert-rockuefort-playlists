@@ -1,0 +1,36 @@
+#!/bin/bash
+
+playlist_line_query() {
+    echo "$1" \
+        | tr '|￨' '\n\n' \
+        | grep -v '^$' \
+        | while IFS== read -r k v; do
+            printf '%s:"%s"\n' "$k" "$v"
+        done \
+        | tr '\n' ' '
+        echo
+}
+
+playlist_queries() {
+    cat "$fn" | grep -v '^#' | while read -r line; do
+        playlist_line_query "$line"
+    done
+}
+
+tmpfile=$(mktemp -t "${0##*/}.XXXX")
+trap 'rm -f "$tmpfile"' EXIT
+trap 'rm -f "$tmpfile"; pkill -P $$; wait; trap - INT; kill -INT 0' INT
+trap 'rm -f "$tmpfile"; pkill -P $$; wait; trap - TERM; kill 0' TERM
+
+find ../DAP\ Music/Playlists -type f | grep -v DS_Store | while read -r fn; do
+    o="Library/Playlists/${fn#../DAP Music/Playlists/}"
+    if [ -e "$o" ]; then
+        continue
+    fi
+    playlist_queries "$fn" | sed -e 's/"/\\"/g; s#^ *#        - "#; s/ *$/"/' >"$tmpfile"
+    echo "    - name: \"${o#Library/Playlists/}.m3u\""
+    echo "      album_query:"
+    cat "$tmpfile"
+    echo "      query:"
+    cat "$tmpfile"
+done

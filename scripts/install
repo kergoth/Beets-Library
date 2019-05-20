@@ -1,0 +1,9 @@
+#!/bin/sh
+
+pipv3 beets \
+    git+https://github.com/beetbox/beets \
+    pyacoustid \
+    requests \
+    beets-alternatives \
+    beets-noimport \
+    git+https://github.com/ssssam/beets-copyartifacts@devel

@@ -1,0 +1,64 @@
+#!/bin/sh
+
+scriptdir="$(cd "$(dirname "$0")" && pwd -P)"
+
+if [ $# -eq 0 ]; then
+    set -- "$scriptdir/../By Source"/*/
+fi
+
+beet_import() {
+    command beet import "$@"
+}
+
+for source; do
+    source="${source%/}"
+    sourcename="${source##*/}"
+    echo >&2 "Importing $source"
+
+    beet_import -i -s --set=source="$sourcename" "$source/"*/"[non-album tracks]"
+    beet noimport "$source/"*/"[non-album tracks]"
+
+    # Beets doesn't reliably pick up the compilation tag from much of my music
+    # My guess is an interoperability issue with Picard.
+    beet_import -i --set=source="$sourcename" --set=comp=true "$source/Compilations"
+    beet_import -i --set=source="$sourcename" --set=comp=true "$source/Various Artists"
+
+    beet_import -i --set=source="$sourcename" "$source"
+done
+
+beet modify --nowrite -y -a albumartist::"^Various artists$" albumartist="Various Artists"
+beet modify --nowrite -y -a albumartist::"^Various$" albumartist="Various Artists"
+beet modify --nowrite -y "johannes aikio" genre=Game
+beet modify --nowrite -y "nacional records sampler" comp=true
+
+# Fixup singletons
+beet modify -y singleton:false album:"non-album tracks" album_id= album=
+beet modify -y singleton:false album::"^$" album_id= album=
+beet modify -y singleton:true album::"." album=
+
+# Beets isn't picking up my manually set releasetype field for some reason
+beet modify --nowrite -y "You Don't Hear Jack" albumtype=spokenword
+beet modify --nowrite -y "Teachings on Love" albumtype=audiobook
+
+# 'Various Artists' albums not flagged as compilations
+beet modify --nowrite -y -a is_various_no_comp:1 comp=true
+
+# Useful queries
+#
+#   Empty artists field: beet ls artist:'^$'
+#   Files with a book genre but not set to an audiobook type: beet ls genre:book '^albumtype:audiobook'
+#
+#   Albums with an albumartist, but not flagged as comp: beet ls -a is_comp_albumartist:1
+#   Various artists albums not flagged as comp: beet ls -a is_various_no_comp:1
+#   Tracks with no album set but which are not singleton: beet list album::'^$' singleton:false -f '$path'
+#   Not MusicBrainz matched: beet ls -a 'mb_albumid::^$'
+#   Not MusicBrainz matched: beet ls 'mb_trackid::^$'
+#   Missing source field: beet ls -a 'source::^$'
+#     beet modify -a 'source::^$' source=Humble
+#
+# Useful commands:
+#   `beet import -L`: re-import by library query. useful to run a musicbrainz
+#   search on albums that currently lack mb metadata.
+#     `beet import --autotag -W -t -L mb_albumid::'^$'`
+#   beet dup -F -k artist -k album -k title -k track -k disc -f '$id  $artist - $album - $disc_and_track - $title'
+#   beet dup -F -k artist -k title -k track -k disc -f '$id  $artist - $album - $disc_and_track - $title'
