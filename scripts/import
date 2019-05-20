@@ -57,7 +57,7 @@ for source; do
 
     for non_album in "$source"/*/"[non-album tracks]"; do
         if [ -d "$non_album" ]; then
-            beet_import -i -s --set=source="$sourcename" "$non_album"
+            beet_import -s --set=source="$sourcename" "$non_album"
             beet noimport "$non_album"
         fi
     done
@@ -66,11 +66,11 @@ for source; do
     # My guess is an interoperability issue with Picard.
     for comp in "$source/Compilations" "$source/Various Artists"; do
         if [ -d "$comp" ]; then
-            beet_import -i --set=source="$sourcename" --set=comp=true "$comp"
+            beet_import --set=source="$sourcename" --set=comp=true "$comp"
         fi
     done
 
-    beet_import -i --set=source="$sourcename" "$source"
+    beet_import --set=source="$sourcename" "$source"
 done
 
 beet modify --nowrite -y -a albumartist::"^Various artists$" albumartist="Various Artists" || :
