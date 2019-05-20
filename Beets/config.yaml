@@ -16,6 +16,7 @@ asciify_paths: true
 import:
   log: ./import.log
   timid: yes
+  incremental: yes
   # I prefer to adjust my tags manually with Picard prior to importing into
   # beets, as I can more easily manually match and search for releases.
   write: no
