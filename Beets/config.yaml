@@ -56,6 +56,8 @@ set_fields:
   source: 'Other'
 
 plugins:
+  - inline_hook
+  - types
   - alternatives
   - badfiles
   - chroma
@@ -63,6 +65,7 @@ plugins:
   - duplicates
   - edit
   - embedart
+  - hook
   - importadded
   - importfeeds
   - info
