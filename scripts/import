@@ -2,6 +2,38 @@
 
 set -e
 
+quote(){
+    sed -e "s,','\\\\'',g; 1s,^,',; \$s,\$,',;" << EOF
+$1
+EOF
+}
+
+save () {
+    case "$1" in
+    # when a string contains a "'" we have to escape it
+    *\'*)
+        saved="$saved $(quote "$1")"
+        ;;
+    # otherwise just quote the variable
+    *)
+        saved="$saved '$1'"
+        ;;
+    esac
+}
+
+saved=
+for i in $(seq 1 $#); do
+    arg="$1"
+    shift
+    case "$arg" in
+        -*)
+            save "$arg"
+            continue
+            ;;
+    esac
+    set -- "$@" "$arg"
+done
+
 scriptdir="$(cd "$(dirname "$0")" && pwd -P)"
 
 if [ $# -eq 0 ]; then
@@ -9,7 +41,13 @@ if [ $# -eq 0 ]; then
 fi
 
 beet_import() {
-    command beet import "$@"
+    (
+        for arg; do
+            save "$arg"
+        done
+        eval set -- "$saved"
+        command beet import "$@"
+    )
 }
 
 for source; do
