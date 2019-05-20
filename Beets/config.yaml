@@ -1,5 +1,8 @@
 directory: ../Library
-pluginpath: ./plugins
+# Ugh, relative plugin paths are based on PWD, not BEETSDIR
+pluginpath:
+  - ./plugins
+  - ./Beets/plugins
 
 per_disc_numbering: yes
 id3v23: yes
