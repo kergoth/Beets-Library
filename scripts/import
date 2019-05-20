@@ -73,10 +73,10 @@ for source; do
     beet_import --set=source="$sourcename" "$source"
 done
 
-beet modify --nowrite -y -a albumartist::"^Various artists$" albumartist="Various Artists" || :
-beet modify --nowrite -y -a albumartist::"^Various$" albumartist="Various Artists" || :
-beet modify --nowrite -y "johannes aikio" genre=Game || :
-beet modify --nowrite -y "nacional records sampler" comp=true || :
+beet modify -y -a albumartist::"^Various artists$" albumartist="Various Artists" || :
+beet modify -y -a albumartist::"^Various$" albumartist="Various Artists" || :
+beet modify -y "johannes aikio" genre=Game || :
+beet modify -y "nacional records sampler" comp=true || :
 
 # Fixup singletons
 beet modify -y singleton:false album:"non-album tracks" album_id= album= || :
@@ -84,11 +84,11 @@ beet modify -y singleton:false album::"^$" album_id= album= || :
 beet modify -y singleton:true album::"." album= || :
 
 # Beets isn't picking up my manually set releasetype field for some reason
-beet modify --nowrite -y "You Don't Hear Jack" albumtype=spokenword || :
-beet modify --nowrite -y "Teachings on Love" albumtype=audiobook || :
+beet modify -y "You Don't Hear Jack" albumtype=spokenword || :
+beet modify -y "Teachings on Love" albumtype=audiobook || :
 
 # 'Various Artists' albums not flagged as compilations
-beet modify --nowrite -y -a is_various_no_comp:1 comp=true || :
+beet modify -y -a is_various_no_comp:1 comp=true || :
 
 # Useful queries
 #
