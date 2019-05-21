@@ -56,8 +56,6 @@ set_fields:
   source: 'Unknown'
 
 plugins:
-  - inline_hook
-  - types
   - alternatives
   - badfiles
   - chroma
@@ -65,18 +63,21 @@ plugins:
   - duplicates
   - edit
   - embedart
+  - fetchart
   - hook
   - importadded
   - importfeeds
   - info
   - inline
+  - inline_hook
+  - last_import
   - mbsync
   - missing
   - noimport
   - playlist
   - smartplaylist
   - the
-  - fetchart
+  - types
 
 copyartifacts:
   extensions: .cue .log .jpg .png .txt
@@ -93,31 +94,6 @@ importfeeds:
   formats: m3u m3u_multi
   dir: Library/Playlists/Recent
   relative_to: ..
-
-types:
-  last_import: 'bool'
-
-inline_hook:
-  hooks:
-    - event: import_task_created
-      handler: |
-        for album in session.lib.albums('last_import:1'):
-          album['last_import'] = False
-          album.store('last_import')
-
-        for item in session.lib.items('last_import:1'):
-          item['last_import'] = False
-          item.store('last_import')
-
-    - event: album_imported
-      handler: |
-        album['last_import'] = True
-        album.store('last_import')
-
-    - event: item_imported
-      handler: |
-        item['last_import'] = True
-        item.store('last_import')
 
 playlist:
     auto: yes
