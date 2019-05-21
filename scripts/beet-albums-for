@@ -1,0 +1,6 @@
+#!/bin/sh
+# Show albums corresponding to an item search
+
+for album_id in $(beet ls -f '$album_id' "$@"); do
+    beet ls -a "id:$album_id"
+done | awk '!visited[$0]++'
