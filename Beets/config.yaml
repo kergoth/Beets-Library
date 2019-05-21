@@ -6,9 +6,9 @@ pluginpath:
 
 per_disc_numbering: yes
 id3v23: yes
-format_item: %if{$album,$album - $disc_and_track - }$artist - $title
+format_item: '[$id] %if{$album,$album - $disc_and_track - }$artist - $title'
 sort_item: albumartist+ album+ disc+ track+ artist+
-format_album: $albumartist - $album
+format_album: '[$id] $albumartist - $album'
 sort_album: albumartist+ album+
 path_sep_replace: _
 asciify_paths: true
