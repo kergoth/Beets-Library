@@ -65,6 +65,7 @@ class InlineHookPlugin(BeetsPlugin):
         'import_begin': 'session',
         'import_task_apply': 'session, task',
         'import_task_choice': 'session, task',
+        'import_task_created': 'session, task',
         'import_task_files': 'session, task',
         'import_task_start': 'session, task',
         'item_copied': 'item, source',
