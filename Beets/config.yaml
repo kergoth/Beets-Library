@@ -78,6 +78,9 @@ plugins:
   - the
   - fetchart
 
+copyartifacts:
+  extensions: .cue .log .jpg .png .txt
+
 importadded:
   preserve_mtimes: true
 
