@@ -89,6 +89,31 @@ importfeeds:
   dir: Library/Playlists/Recent
   relative_to: ..
 
+types:
+  last_import: 'bool'
+
+inline_hook:
+  hooks:
+    - event: import_task_created
+      handler: |
+        for album in session.lib.albums('last_import:1'):
+          album['last_import'] = False
+          album.store('last_import')
+
+        for item in session.lib.items('last_import:1'):
+          item['last_import'] = False
+          item.store('last_import')
+
+    - event: album_imported
+      handler: |
+        album['last_import'] = True
+        album.store('last_import')
+
+    - event: item_imported
+      handler: |
+        item['last_import'] = True
+        item.store('last_import')
+
 playlist:
     auto: yes
     relative_to: ..
