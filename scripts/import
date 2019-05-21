@@ -52,7 +52,15 @@ beet_import() {
 
 for source; do
     source="${source%/}"
-    sourcename="${source##*/}"
+    case "$source" in
+        */By\ Source/*)
+            sourcename="${source##*/By Source/}"
+            sourcename="${sourcename%%/*}"
+            ;;
+        *)
+            sourcename=Unknown
+            ;;
+    esac
     echo >&2 "Importing $source"
 
     for non_album in "$source"/*/"[non-album tracks]"; do
