@@ -60,7 +60,7 @@ class LastimportPlugin(BeetsPlugin):
                 fmt = config['format_item'].get()
 
         query = lib.albums if album else lib.items
-        for obj in query('last_import:true'):
+        for obj in query('last_import:true added+'):
             print_(format(obj, fmt))
 
     def import_task_created(self, session, task):
