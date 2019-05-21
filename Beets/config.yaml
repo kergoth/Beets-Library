@@ -53,7 +53,7 @@ replace:
 
 # Defaults for fields I generally set on the import command-line
 set_fields:
-  source: 'Other'
+  source: 'Unknown'
 
 plugins:
   - inline_hook
