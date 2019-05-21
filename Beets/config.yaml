@@ -43,6 +43,7 @@ replace:
   '\\': '⧹'
   '\|': '￨'
   '\*': '∗'
+  # '\?': 'ʔ'
 
   '^[-\.]': ''
   '[-;\.]$': ''
@@ -56,6 +57,8 @@ set_fields:
   source: 'Other'
 
 plugins:
+  # - export
+  # - extrafiles
   - inline_hook
   - types
   - alternatives
@@ -76,7 +79,59 @@ plugins:
   - playlist
   - smartplaylist
   - the
+  # Fetchart will need tweaking/configuring for my preferences
   - fetchart
+  # - lyrics
+  # - lastgenre -- imports genre from last.fm
+  # Adds mbsync command to fetch updates to tags from musicbrainz for tracks
+  # that already have musicbrainz ids. I expect this will cause problems for
+  # cases where I manually corrected something after matching in Picard
+  # - replaygain
+  # - rewrite -- this applies field replacements on templates, i.e. to
+  # canonicalize an artist
+  # Removing / clearing tags I don't want:
+  # - zero
+  # - scrub
+
+  # 'rewrite' will rewrite for templates, but is there a way to encode
+  # field/tag overrides i.e. for the autotagger? In this case, for this query,
+  # override genre to that. This would encode the knowledge of manual tweaks
+  # I've had to make to musicbrainz entries, for example.
+
+  # TODO: use the 'the' plugin. I prefer it done on albums, not artists, and
+  # I prefer it not be done to games or soundtracks, as those are titles of
+  # media, movies, etc where a 'The' prefix is canonical. I'm more likely to
+  # remember the prefix there than with a random album title.
+
+# hook:
+#   hooks:
+#     - event: import
+#       command: "sh -c '\"$(dirname \"$1\")/hooks/imported\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
+
+# types:
+#   last_import: 'bool'
+
+# inline_hook:
+#   hooks:
+#     - event: import_task_created
+#       handler: |
+#         for album in session.lib.albums('last_import:1'):
+#           album.set_parse('last_import', '0')
+#           album.store('last_import')
+
+#         for item in session.lib.items('last_import:1'):
+#           item.set_parse('last_import', '0')
+#           item.store('last_import')
+
+#     - event: album_imported
+#       handler: |
+#         album.set_parse('last_import', '1')
+#         album.store('last_import')
+
+#     - event: item_imported
+#       handler: |
+#         item.set_parse('last_import', '1')
+#         item.store('last_import')
 
 importadded:
   preserve_mtimes: true
@@ -91,6 +146,29 @@ playlist:
     relative_to: ..
     playlist_dir: Library/Playlists
 
+# extrafiles:
+#   patterns:
+#     all: '*'
+#
+# The extrafiles plugin is rather buggy at the moment. It duplicates files,
+# mixes up types, etc.
+# extrafiles:
+#    patterns:
+#      log: '*.log'
+#      cue: '*.cue'
+#      dr: '*_dr.txt'
+#      dr_nonalbum: '*_dr_nonalbum.txt'
+#      # art:
+#      #   - '*.jpg'
+#      #   - '*.png'
+
+#    paths:
+#        log: $albumpath/$albumartist - $album
+#        cue: $albumpath/$albumartist - $album
+#        dr: $albumpath/${album}_dr
+#        dr_nonalbum: $albumpath/${album}_dr_nonalbum
+#        # art: $albumpath/$filename
+
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
 album_fields:
@@ -100,7 +178,8 @@ album_fields:
   existing: len(items)
   single_track: 1 if len(items) == 1 else 0
 
-  # Let me search for albums that may be a compilation but aren't flagged
+  # Let me search for albums that may be a compilation but aren't flagged as
+  # such.
   is_comp_albumartist: |
     if comp:
       return 0
@@ -165,11 +244,39 @@ item_fields:
     else:
       return title
 
+  # artist_title: u'%s - %s' % (artist, title) if albumartist != artist else title
+  # initial: (albumartist_sort or artist_sort or albumartist or artist or '_')[0].upper()
+  # definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
+  # filename: |
+  #     import os
+  #     from beets.util import bytestring_path
+  #     return bytestring_path(os.path.basename(path))
+
 alternatives:
   dap:
+    # directory: /Volumes/DAP
     directory: ../DAP
     paths:
+      # default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title}'
+      # singleton: 'Single Tracks/$artist - $title'
+      # albumtype:spokenword: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # albumtype:audiobook: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # albumtype:audio drama: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # albumtype:interview: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # genre:Christmas: 'Christmas Albums/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # genre:Classical: 'Classical Albums/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # genre:Game: 'Game Albums/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # genre:Soundtrack: 'Soundtrack Albums/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # albumtype:soundtrack: 'Soundtrack Albums/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # album:sampler: 'Samplers/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # albumtype:single: 'Singles/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$comp_title'
+      # comp: 'Albums/$comp_albumartist/$album%aunique{}/$$disc_and_track_pre$artist - $title'
+      # default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc/}/$track_pre$comp_title}'
+
       default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}}'
+      # default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}}'
+      # default: '%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
+      # default: 'Albums/$comp_albumartist/$album%aunique{}/$track_pre%if{$comp,$artist - $title,$title}'
 
       genre:Speech: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
       genre:Meditation: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
@@ -193,6 +300,9 @@ alternatives:
       # the album artist if it's set to something other than Various Artists.
       comp: 'Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre$artist - $title'
 
+      # default: 'Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc/}/$track_pre$comp_title}'
+      # missing:1..: 'Missing Tracks/$album%aunique{}%if{$multidisc, Disc $disc}/$track_pre$comp_title'
+      # single_track:1: 'Single Tracks/$artist - $title'
     query: ''
     formats: link
     removable: true
@@ -3398,6 +3508,7 @@ smartplaylist:
         - "artist:\"C+C Music Factory\" title:\"Gonna Make You Sweat\""
       query:
         - "artist:\"C+C Music Factory\" title:\"Gonna Make You Sweat\""
+    # - name: "Random Single Tracks.m3u"
     - name: "Workout.m3u"
       album_query:
         - "album:\"Workout Mix\""
