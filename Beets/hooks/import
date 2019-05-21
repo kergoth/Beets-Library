@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Set certain album items to singleton
+for album_id in $(beet ls -f '$id' -a last_import:1); do
+    beet modify -y album_id:$album_id album:"non-album tracks" singleton=true album= 2>/dev/null
+    beet modify -y album_id:$album_id album::"^$" singleton=true album= 2>/dev/null
+done
+
+# Clear out the album field for imported singletons
+beet modify -y last_import:1 album::"." album= 2>/dev/null
+
+# 'Various Artists' albums not flagged as compilations
+beet modify -y -a last_import:1 is_various_no_comp:1 comp=true 2>/dev/null

@@ -81,6 +81,11 @@ plugins:
 copyartifacts:
   extensions: .cue .log .jpg .png .txt
 
+hook:
+  hooks:
+    - event: import
+      command: "sh -c '\"$(dirname \"$1\")/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
+
 importadded:
   preserve_mtimes: true
 
