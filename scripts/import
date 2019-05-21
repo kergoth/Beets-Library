@@ -89,23 +89,3 @@ beet modify -y "Teachings on Love" albumtype=audiobook || :
 
 # 'Various Artists' albums not flagged as compilations
 beet modify -y -a is_various_no_comp:1 comp=true || :
-
-# Useful queries
-#
-#   Empty artists field: beet ls artist:'^$'
-#   Files with a book genre but not set to an audiobook type: beet ls genre:book '^albumtype:audiobook'
-#
-#   Albums with an albumartist, but not flagged as comp: beet ls -a is_comp_albumartist:1
-#   Various artists albums not flagged as comp: beet ls -a is_various_no_comp:1
-#   Tracks with no album set but which are not singleton: beet list album::'^$' singleton:false -f '$path'
-#   Not MusicBrainz matched: beet ls -a 'mb_albumid::^$'
-#   Not MusicBrainz matched: beet ls 'mb_trackid::^$'
-#   Missing source field: beet ls -a 'source::^$'
-#     beet modify -a 'source::^$' source=Humble
-#
-# Useful commands:
-#   `beet import -L`: re-import by library query. useful to run a musicbrainz
-#   search on albums that currently lack mb metadata.
-#     `beet import --autotag -W -t -L mb_albumid::'^$'`
-#   beet dup -F -k artist -k album -k title -k track -k disc -f '$id  $artist - $album - $disc_and_track - $title'
-#   beet dup -F -k artist -k title -k track -k disc -f '$id  $artist - $album - $disc_and_track - $title'
