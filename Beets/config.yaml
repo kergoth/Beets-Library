@@ -24,6 +24,7 @@ import:
 
 paths:
   default: '$source/$comp_albumartist/$album%aunique{}/$disc_and_track - $title'
+  'label:Music for Programming': '$source/$label/$album%aunique{}/$disc_and_track - $title'
   singleton: '$source/$artist/[non-album tracks]/$title'
   comp: '$source/$comp_albumartist/$album%aunique{}/$disc_and_track - $title'
   ext:log: $albumpath/$album
@@ -148,7 +149,6 @@ album_fields:
 item_fields:
   item_field_context: str(globals())
 
-  osource: source if 'source' in globals() else 'Other'
   disc_count: u'%02i.' % (disc)
   multiartist: 1 if albumartist != artist else 0
   multidisc: 1 if disctotal > 1 else 0
@@ -179,6 +179,9 @@ alternatives:
     paths:
       default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}}'
 
+      'label:Music for Programming': '%if{$missing,Incomplete ,}Albums/$label/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
+
+      genre:Background: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
       genre:Speech: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
       genre:Meditation: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
       genre:Dharma: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
