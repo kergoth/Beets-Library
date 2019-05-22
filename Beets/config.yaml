@@ -138,13 +138,12 @@ album_fields:
       return 0
 
   comp_albumartist: |
-    is_various = albumartist == 'Various Artists'
-    if albumartist and not is_various:
-      return albumartist
-    elif comp or ('compilation' in globals() and compilation):
+    if albumartist and albumartist != 'Various Artists':
+      return albumartist[1:] if albumartist.startswith('.') else albumartist
+    elif comp:
       return 'Compilations'
     else:
-      return albumartist
+      return albumartist[1:] if albumartist.startswith('.') else albumartist
 
 item_fields:
   item_field_context: str(globals())
