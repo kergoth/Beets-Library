@@ -49,9 +49,9 @@ class LastimportPlugin(BeetsPlugin):
             fmt = u'$path'
         elif not fmt:
             if album:
-                fmt = config['format_album'].get()
+                fmt = u'$added ' + config['format_album'].get()
             else:
-                fmt = config['format_item'].get()
+                fmt = u'$added ' + config['format_item'].get()
 
         query = lib.albums if album else lib.items
         for obj in query('last_import:true added+'):
