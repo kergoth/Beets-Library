@@ -1,4 +1,5 @@
 directory: ../Library
+library: ../Library/library.db
 # Ugh, relative plugin paths are based on PWD, not BEETSDIR
 pluginpath:
   - ./plugins
