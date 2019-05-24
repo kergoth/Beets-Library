@@ -145,6 +145,15 @@ album_fields:
       return 'Compilations'
     else:
       return albumartist[1:] if albumartist.startswith('.') else albumartist
+  non_music: |
+    lgenre = genre.lower()
+    lalbumtype = albumtype.lower()
+    if any(i in lgenre for i in ('speech', 'meditation', 'dharma', 'book', 'spoken')):
+      return 1
+    elif any(i in lalbumtype for i in ('spokenword', 'audiobook', 'audio drama', 'interview')):
+      return 1
+    else:
+      return 0
 
 item_fields:
   item_field_context: str(globals())
