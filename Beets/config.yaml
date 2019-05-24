@@ -87,7 +87,7 @@ copyartifacts:
 hook:
   hooks:
     - event: import
-      command: "sh -c '\"$(dirname \"$1\")/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
+      command: "[ -z \"$BEETS_NO_HOOKS\" ] && sh -c '\"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
 
 importadded:
   preserve_mtimes: true
