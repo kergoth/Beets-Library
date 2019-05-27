@@ -211,7 +211,7 @@ alternatives:
       albumtype:single: 'Singles/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
       # I use comp_albumartist here, not Compilations, as I prefer to be under
       # the album artist if it's set to something other than Various Artists.
-      comp: 'Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre$artist - $title'
+      comp: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
 
     query: ''
     formats: link
