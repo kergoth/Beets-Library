@@ -180,8 +180,10 @@ item_fields:
 
 format_fields:
   item_fields:
-    album_directory_alldiscs: '%if{$album,$album%aunique{},[non-album tracks]}'
-    album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
+    album_directory_name: '%the{$album%aunique{}}'
+    album_directory_alldiscs: '%if{$album,%the{$album%aunique{}},[non-album tracks]}'
+    album_directory: '%if{$album,%the{$_album_directory},[non-album tracks]}'
+    the_album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
     _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}'
     comp_filename: '$track_pre%if{$comp,$artist - $title,$title}'
     track_pre: '%if{$track,$trim_track - }'
@@ -206,8 +208,8 @@ alternatives:
       genre:Game: 'Game Albums/$album_directory/$comp_filename'
       singleton: 'Single Tracks/$artist - $title'
       album:sampler: 'Samplers/$album_directory/$comp_filename'
-      genre:Soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
-      albumtype:soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
+      genre:Soundtrack: 'Soundtrack Albums/$the_album_directory/$comp_filename'
+      albumtype:soundtrack: 'Soundtrack Albums/$the_album_directory/$comp_filename'
       albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
 
       comp: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
