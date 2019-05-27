@@ -11,7 +11,7 @@ format_album: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
 format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $title'
 sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
-path_sep_replace: _
+path_sep_replace: '／'
 asciify_paths: true
 
 import:
@@ -41,7 +41,7 @@ paths:
 # beets-alternatives for use on the digital audio player.
 replace:
   ':': '∶'
-  '/': '⧸'
+  '/': '／'
   '\\': '⧹'
   '\|': '￨'
   '\*': '∗'
