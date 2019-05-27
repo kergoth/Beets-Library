@@ -24,9 +24,9 @@ import:
   autotag: no
 
 paths:
-  default: '$source/$comp_albumartist/$album%aunique{}/$disc_and_track - $title'
+  default: '$source/$comp_albumartist/$album_directory_alldiscs/$disc_and_track_pre$title'
   singleton: '$source/$artist/[non-album tracks]/$title'
-  comp: '$source/$comp_albumartist/$album%aunique{}/$disc_and_track - $title'
+  comp: '$source/$comp_albumartist/$album_directory_alldiscs/$disc_and_track_pre$title'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album
 
@@ -65,6 +65,7 @@ plugins:
   - edit
   - embedart
   - fetchart
+  - format_fields
   - hook
   - importadded
   - importfeeds
@@ -147,6 +148,9 @@ album_fields:
       return 'Compilations'
     else:
       return albumartist[1:] if albumartist.startswith('.') else albumartist
+
+  # FIXME: see if there's a function for the default query behavior, i.e.
+  # 'foo:bar', rather than rolling it myself
   non_music: |
     lgenre = genre.lower()
     lalbumtype = albumtype.lower()
@@ -160,58 +164,54 @@ album_fields:
 item_fields:
   item_field_context: str(globals())
 
-  disc_count: u'%02i.' % (disc)
-  multiartist: 1 if albumartist != artist else 0
   multidisc: 1 if disctotal > 1 else 0
   # disc and track prefix with ' - ' sep. Returns an empty string if track == 0.
   disc_and_track_pre: |
-    if disctotal > 1:
+    if not track:
+      return ''
+    elif disctotal > 1:
       return u'%02i.%02i - ' % (disc, track)
-    elif track == 0:
-      return ''
     else:
-      return u'%i - ' % track
-  # track prefix with ' - ' sep. Returns an empty string if track == 0.
-  track_pre: |
-    if track == 0:
-      return ''
-    else:
-      return u'%i - ' % track
-  disc_and_track: u'%02i.%02i' % (disc, track) if disctotal > 1 else u'%02i' % (track)
-  comp_title: |
-    if comp:
-      return u'%s - %s' % (artist, title)
-    else:
-      return title
+      return u'%02i - ' % track
+
+  # Strip the leading zeros
+  trim_track: str(track)
+  trim_disc: str(disc)
+
+format_fields:
+  item_fields:
+    album_directory_alldiscs: '%if{$album,$album%aunique{},[non-album tracks]}'
+    album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
+    _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}'
+    comp_filename: '$track_pre%if{$comp,$artist - $title,$title}'
+    track_pre: '%if{$track,$trim_track - }'
 
 alternatives:
   dap:
     directory: ../DAP
     paths:
-      default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}}'
+      genre:Background: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Speech: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Meditation: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Dharma: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Book: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Spoken: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      albumtype:spokenword: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      albumtype:audiobook: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      albumtype:audio drama: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      albumtype:interview: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
 
-      genre:Background: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Speech: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Meditation: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Dharma: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Book: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Spoken: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      albumtype:spokenword: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      albumtype:audiobook: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      albumtype:audio drama: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      albumtype:interview: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-
-      genre:Christmas: 'Christmas Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Classical: 'Classical Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Game: 'Game Albums/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
+      genre:Christmas: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Classical: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Game: 'Game Albums/$album_directory/$comp_filename'
       singleton: 'Single Tracks/$artist - $title'
-      album:sampler: 'Samplers/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      genre:Soundtrack: 'Soundtrack Albums/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      albumtype:soundtrack: 'Soundtrack Albums/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      albumtype:single: 'Singles/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
-      # I use comp_albumartist here, not Compilations, as I prefer to be under
-      # the album artist if it's set to something other than Various Artists.
+      album:sampler: 'Samplers/$album_directory/$comp_filename'
+      genre:Soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
+      albumtype:soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
+      albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
+
       comp: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
+      default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
 
     query: ''
     formats: link
