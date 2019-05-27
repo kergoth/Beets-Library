@@ -209,8 +209,8 @@ alternatives:
 
       singleton: 'Single Tracks/$artist - $title'
       album:sampler: 'Samplers/$album_directory/$comp_filename'
-      genre:Soundtrack: 'Soundtrack Albums/$the_album_directory/$comp_filename'
-      albumtype:soundtrack: 'Soundtrack Albums/$the_album_directory/$comp_filename'
+      genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$the_album_directory/$comp_filename}'
+      albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$the_album_directory/$comp_filename}'
       albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
 
       # I want these to be categorized as albums, not single tracks, and
