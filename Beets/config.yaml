@@ -206,11 +206,18 @@ alternatives:
       genre:Christmas: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
       genre:Classical: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
       genre:Game: 'Game Albums/$album_directory/$comp_filename'
+
       singleton: 'Single Tracks/$artist - $title'
       album:sampler: 'Samplers/$album_directory/$comp_filename'
       genre:Soundtrack: 'Soundtrack Albums/$the_album_directory/$comp_filename'
       albumtype:soundtrack: 'Soundtrack Albums/$the_album_directory/$comp_filename'
       albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
+
+      # I want these to be categorized as albums, not single tracks, and
+      # grouped by label, not artist. I'm not a big fan of this hardcoded
+      # exception, however, so I may set a field and go based on that
+      # instead.
+      'label:Music for Programming': '%if{$missing,Incomplete ,}Albums/$label/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
 
       comp: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
       default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
