@@ -25,7 +25,6 @@ import:
 
 paths:
   default: '$source/$comp_albumartist/$album%aunique{}/$disc_and_track - $title'
-  'label:Music for Programming': '$source/$label/$album%aunique{}/$disc_and_track - $title'
   singleton: '$source/$artist/[non-album tracks]/$title'
   comp: '$source/$comp_albumartist/$album%aunique{}/$disc_and_track - $title'
   ext:log: $albumpath/$album
@@ -140,7 +139,9 @@ album_fields:
       return 0
 
   comp_albumartist: |
-    if albumartist and albumartist != 'Various Artists':
+    if label and label in ['Music for Programming']:
+      return label
+    elif albumartist and albumartist != 'Various Artists':
       return albumartist[1:] if albumartist.startswith('.') else albumartist
     elif comp:
       return 'Compilations'
@@ -188,8 +189,6 @@ alternatives:
     directory: ../DAP
     paths:
       default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}}'
-
-      'label:Music for Programming': '%if{$missing,Incomplete ,}Albums/$label/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
 
       genre:Background: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
       genre:Speech: 'Non-Music/$genre/$comp_albumartist/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
