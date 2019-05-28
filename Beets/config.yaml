@@ -165,6 +165,9 @@ album_fields:
         return ' (Explicit)'
     return ''
 
+  # Strip the leading zero
+  trim_disc: str(disc)
+
 item_fields:
   item_field_context: str(globals())
 
@@ -178,9 +181,8 @@ item_fields:
     else:
       return u'%02i - ' % track
 
-  # Strip the leading zeros
+  # Strip the leading zero
   trim_track: str(track)
-  trim_disc: str(disc)
 
   explicit_or_clean: |
     if 'itunesadvisory' in globals():
