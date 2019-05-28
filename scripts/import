@@ -46,7 +46,7 @@ beet_import() {
             save "$arg"
         done
         eval set -- "$saved"
-        command beet import "$@"
+        command beet import -WA "$@"
     )
 }
 
