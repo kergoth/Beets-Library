@@ -204,6 +204,7 @@ alternatives:
       albumtype:interview: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
 
       genre:Christmas: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Holiday: 'Christmas Albums/$comp_albumartist/$album_directory/$comp_filename'
       genre:Classical: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
       genre:Game: 'Game Albums/$album_directory/$comp_filename'
 
