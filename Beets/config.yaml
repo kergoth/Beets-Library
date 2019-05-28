@@ -18,10 +18,6 @@ import:
   log: ./import.log
   timid: yes
   incremental: yes
-  # I prefer to adjust my tags manually with Picard prior to importing into
-  # beets, as I can more easily manually match and search for releases.
-  write: no
-  autotag: no
 
 paths:
   default: '$source/$comp_albumartist/$album_directory_alldiscs/$disc_and_track_pre$title'
