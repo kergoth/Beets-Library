@@ -78,7 +78,7 @@ plugins:
   - types
 
 copyartifacts:
-  extensions: .cue .log .jpg .png .txt
+  extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
 
 hook:
   hooks:
