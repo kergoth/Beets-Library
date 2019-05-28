@@ -192,6 +192,13 @@ item_fields:
         return ' (Clean)'
     return ''
 
+  # Skip the track prefix if it's a single track of a single-track album
+  alt_track_pre: |
+    if not track or (tracktotal and tracktotal == 1):
+      return ''
+    else:
+      return '%i - ' % track
+
 format_fields:
   album_fields:
     album_directory_alldiscs: '%if{$album,%the{$album%aunique{}}$explicit_or_clean_album,[non-album tracks]}'
@@ -200,7 +207,7 @@ format_fields:
     _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}$explicit_or_clean_album'
   item_fields:
     full_title: '$title%ifdef{itunesadvisory,$explicit_or_clean}'
-    comp_filename: '$track_pre%if{$comp,$artist - $full_title,$full_title}'
+    comp_filename: '$alt_track_pre%if{$comp,$artist - $full_title,$full_title}'
     track_pre: '%if{$track,$trim_track - }'
 
 the:
@@ -236,7 +243,7 @@ alternatives:
       # Flatten the various single-track `Music for Programming` albums
       # 'label:Music for Programming': 'Albums/$label/$label/$artist - $title'
 
-      'label:Music for Programming': '%if{$missing,Incomplete ,}Albums/$label/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$track_pre%if{$comp,$artist - $title,$title}'
+      'label:Music for Programming': '%if{$missing,Incomplete ,}Albums/$label/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$alt_track_pre%if{$comp,$artist - $title,$title}'
 
       comp: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
       default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
