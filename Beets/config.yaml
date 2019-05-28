@@ -68,6 +68,7 @@ plugins:
   - info
   - inline
   - inline_hook
+  - itunesadvisory
   - last_import
   - mbsync
   - missing
@@ -157,6 +158,13 @@ album_fields:
     else:
       return 0
 
+  explicit_or_clean_album: |
+    for item in items:
+      advisory = getattr(item, 'itunesadvisory', '0')
+      if str(advisory) == '1':
+        return ' (Explicit)'
+    return ''
+
 item_fields:
   item_field_context: str(globals())
 
@@ -174,14 +182,23 @@ item_fields:
   trim_track: str(track)
   trim_disc: str(disc)
 
+  explicit_or_clean: |
+    if 'itunesadvisory' in globals():
+      if str(itunesadvisory) == '1':
+        return ' (Explicit)'
+      elif str(itunesadvisory) == '2':
+        return ' (Clean)'
+    return ''
+
 format_fields:
-  item_fields:
-    album_directory_name: '%the{$album%aunique{}}'
-    album_directory_alldiscs: '%if{$album,%the{$album%aunique{}},[non-album tracks]}'
+  album_fields:
+    album_directory_alldiscs: '%if{$album,%the{$album%aunique{}}$explicit_or_clean_album,[non-album tracks]}'
     album_directory: '%if{$album,%the{$_album_directory},[non-album tracks]}'
     the_album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
-    _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}'
-    comp_filename: '$track_pre%if{$comp,$artist - $title,$title}'
+    _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}$explicit_or_clean_album'
+  item_fields:
+    full_title: '$title%ifdef{itunesadvisory,$explicit_or_clean}'
+    comp_filename: '$track_pre%if{$comp,$artist - $full_title,$full_title}'
     track_pre: '%if{$track,$trim_track - }'
 
 the:
