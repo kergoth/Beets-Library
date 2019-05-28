@@ -20,9 +20,9 @@ import:
   incremental: yes
 
 paths:
-  default: '$source/$comp_albumartist/$album_directory_alldiscs/$disc_and_track_pre$title'
+  default: '$source/$comp_albumartist/%if{$album,$album%aunique{},[non-album tracks]}/$disc_and_track_pre$title'
   singleton: '$source/$artist/[non-album tracks]/$title'
-  comp: '$source/$comp_albumartist/$album_directory_alldiscs/$disc_and_track_pre$title'
+  comp: '$source/$comp_albumartist/%if{$album,$album%aunique{},[non-album tracks]}/$disc_and_track_pre$title'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album
 
