@@ -184,6 +184,10 @@ format_fields:
     comp_filename: '$track_pre%if{$comp,$artist - $title,$title}'
     track_pre: '%if{$track,$trim_track - }'
 
+the:
+  # Temporary, for compatibility with old layout
+  a: false
+
 alternatives:
   dap:
     directory: ../DAP
