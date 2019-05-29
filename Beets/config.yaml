@@ -242,17 +242,17 @@ alternatives:
       # Flatten the various single-track `Music for Programming` albums
       'label:Music for Programming': 'Albums/$label/$label/$artist - $title'
 
-      genre:Christmas: 'Christmas Albums/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Holiday: 'Christmas Albums/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Christmas: 'Christmas Music/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Holiday: 'Christmas Music/$comp_albumartist/$album_directory/$comp_filename'
 
       # Games are currently not grouped by artist, as they're like
       # a Soundtrack, and their identity is more associated with the
       # game/movie, not the composer. That said, I *do* often want to listen
       # to game music from a certain composer, so I may either change this
       # layout or create artist playlists for all the game composers.
-      genre:game: 'Game Albums/$album_directory/$comp_filename'
-      genre:videogame: 'Game Albums/$album_directory/$comp_filename'
-      genre:vgm: 'Game Albums/$album_directory/$comp_filename'
+      genre:game: 'Game Music/$album_directory/$comp_filename'
+      genre:videogame: 'Game Music/$album_directory/$comp_filename'
+      genre:vgm: 'Game Music/$album_directory/$comp_filename'
 
       singleton: 'Single Tracks/$artist - $title'
       album:sampler: '%if{$single_track,Single Tracks/$artist - $title,Samplers/$album_directory/$comp_filename}'
@@ -260,8 +260,8 @@ alternatives:
       albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
       tracktotal:1: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
 
-      genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
-      albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
+      genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtracks/$album_directory/$comp_filename}'
+      albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtracks/$album_directory/$comp_filename}'
 
       comp: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
       default: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
