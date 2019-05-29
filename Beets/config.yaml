@@ -260,9 +260,6 @@ alternatives:
       albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
       tracktotal:1: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
 
-      # I want classical singles in singles, not classical, *for now*
-      genre:Classical: 'Classical Albums/$comp_albumartist/$album_directory/$comp_filename'
-
       genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
       albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
 
