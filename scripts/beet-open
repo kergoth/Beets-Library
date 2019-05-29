@@ -1,0 +1,60 @@
+#!/bin/sh
+# Open or reveal the files from a `beet ls` query
+
+usage() {
+    cat >&2 <<END
+${0##*/} [options] [SEARCH_QUERY]
+
+Options:
+
+-R    Reveal
+-h    Show usage
+END
+exit 2
+}
+
+reveal=0
+while getopts Rh opt; do
+    case "$opt" in
+        R)
+            reveal=1
+            ;;
+        \? | h)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+nlxargs () {
+    tr '\n' '\0' | xargs -0 "$@"
+}
+
+# shellcheck disable=SC2039
+case "$OSTYPE" in
+    darwin*)
+        ;;
+    *)
+        if command -v xdg-open >/dev/null 2>&1; then
+            open () {
+                xdg-open "$@"
+            }
+        elif command -v wsl-open >/dev/null 2>&1; then
+            open () {
+                wsl-open "$@"
+            }
+        else
+            echo >&2 "Error: no xdg-open or wsl-open found"
+            exit 1
+        fi
+        ;;
+esac
+
+# shellcheck disable=SC2016
+beet ls -f '$path' "$@" \
+    | if [ "$reveal" -eq 1 ]; then
+        nlxargs -n 1 dirname
+    else
+        cat
+    fi \
+    | nlxargs open
