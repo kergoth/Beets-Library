@@ -35,18 +35,26 @@ paths:
 # replacements on my main library, and have additional ones in
 # beets-alternatives for use on the digital audio player.
 replace:
-  ':': '∶'
+  ' *:': '∶'
   '/': '／'
   '\\': '⧹'
   '\|': '￨'
   '\*': '∗'
 
-
   '^[-\.]': ''
-  '[-;\.]$': ''
   '[\x00-\x1f]': _
-  '\s+$': ''
   '^\s+': ''
+
+  # Revert asciify for certain chars
+  # '...': '…'
+
+  # For compatibility
+  # '\s+$': ''
+  # '\.$': ''
+  # '[-;]$': ''
+  ' *™': ''
+  ' *\(tm\)': ''
+  '\*': '*'
 
 # Defaults for fields I generally set on the import command-line
 set_fields:
@@ -55,6 +63,7 @@ set_fields:
 plugins:
   - alternatives
   - badfiles
+  # - check
   - chroma
   - copyartifacts
   - duplicates
@@ -109,10 +118,12 @@ album_fields:
   single_track: 1 if len(items) == 1 else 0
 
   # Let me search for albums that may be a compilation but aren't flagged
+  multiartist: 1 if not all(item.artist == items[0].artist for item in items) else 0
+
   is_comp_albumartist: |
     if comp:
       return 0
-    elif albumartist and not all(item.artist == albumartist for item in items):
+    elif not all(item.artist == albumartist for item in items):
       # This isn't always a compilation, for example in albums with featuring
       # artists on some of the tracks
       return 1
@@ -137,9 +148,7 @@ album_fields:
       return 0
 
   comp_albumartist: |
-    if label and label in ['Music for Programming']:
-      return label
-    elif albumartist and albumartist != 'Various Artists':
+    if albumartist and albumartist != 'Various Artists':
       return albumartist[1:] if albumartist.startswith('.') else albumartist
     elif comp:
       return 'Compilations'
@@ -165,9 +174,6 @@ album_fields:
         return ' (Explicit)'
     return ''
 
-  # Strip the leading zero
-  trim_disc: str(disc)
-
 item_fields:
   item_field_context: str(globals())
 
@@ -183,6 +189,7 @@ item_fields:
 
   # Strip the leading zero
   trim_track: str(track)
+  trim_disc: str(disc)
 
   explicit_or_clean: |
     if 'itunesadvisory' in globals():
@@ -200,15 +207,18 @@ item_fields:
       return '%i - ' % track
 
 format_fields:
-  album_fields:
+  item_fields:
+    full_title: '$title%ifdef{itunesadvisory,$explicit_or_clean}'
+    comp_filename: '%if{$singleton,,$alt_track_pre}%if{$comp,$artist - $full_title,$full_title}'
+    track_pre: '%if{$track,$trim_track - }'
+
+    albumsdir: '%if{$tracktotal,%if{$missing,Incomplete ,}}Albums'
     album_directory_alldiscs: '%if{$album,%the{$album%aunique{}}$explicit_or_clean_album,[non-album tracks]}'
     album_directory: '%if{$album,%the{$_album_directory},[non-album tracks]}'
     the_album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
     _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}$explicit_or_clean_album'
-  item_fields:
-    full_title: '$title%ifdef{itunesadvisory,$explicit_or_clean}'
-    comp_filename: '$alt_track_pre%if{$comp,$artist - $full_title,$full_title}'
-    track_pre: '%if{$track,$trim_track - }'
+
+    albumartistdir: '%first{$comp_albumartist}'
 
 the:
   # Temporary, for compatibility with old layout
@@ -229,24 +239,58 @@ alternatives:
       albumtype:audio drama: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
       albumtype:interview: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
 
-      genre:Christmas: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Christmas: 'Christmas Albums/$comp_albumartist/$album_directory/$comp_filename'
       genre:Holiday: 'Christmas Albums/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Classical: '$genre Albums/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Game: 'Game Albums/$album_directory/$comp_filename'
+
+      # Games are currently not grouped by artist, as they're like
+      # a Soundtrack, and their identity is more associated with the
+      # game/movie, not the composer. That said, I *do* often want to listen
+      # to game music from a certain composer, so I may either change this
+      # layout or create artist playlists for all the game composers.
+      genre:game: 'Game Albums/$album_directory/$comp_filename'
+      genre:videogame: 'Game Albums/$album_directory/$comp_filename'
+      genre:vgm: 'Game Albums/$album_directory/$comp_filename'
 
       singleton: 'Single Tracks/$artist - $title'
-      album:sampler: 'Samplers/$album_directory/$comp_filename'
-      genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$the_album_directory/$comp_filename}'
-      albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$the_album_directory/$comp_filename}'
+      album:sampler: '%if{$single_track,Single Tracks/$artist - $title,Samplers/$album_directory/$comp_filename}'
+
+      # FIXME: move this down, I don't want music for programming in singles,
+      # but have it here temporarily
       albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
+      tracktotal:1: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
+
+      # I want classical singles in singles, not classical, *for now*
+      genre:Classical: 'Classical Albums/$comp_albumartist/$album_directory/$comp_filename'
 
       # Flatten the various single-track `Music for Programming` albums
       # 'label:Music for Programming': 'Albums/$label/$label/$artist - $title'
+      'label:Music for Programming': 'Albums/$label/$album_directory/$comp_filename'
 
-      'label:Music for Programming': '%if{$missing,Incomplete ,}Albums/$label/$album%aunique{}%if{$multidisc, Disc $disc}%if{$disctitle,: $disctitle}/$alt_track_pre%if{$comp,$artist - $title,$title}'
+      genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
+      albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
 
-      comp: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
-      default: '%if{$single_track,Single Tracks/$artist - $title,%if{$missing,Incomplete ,}Albums/$comp_albumartist/$album_directory/$comp_filename}'
+      # Ugh, temporary
+      # genre:Soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
+      # albumtype:soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
+
+      comp: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
+      default: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
+
+      # Kill single tracks logic to test performance.
+      # Time was 25 mins or so with stock paths, 55 minutes with these paths
+      # with single tracks, now testing these paths without single tracks
+      #
+      # It's possible performance may improve when I can leverage album fields
+      # in the query rather than only in the format
+      #
+      # Update: ditching the %if{} for single tracks reduces overall alt
+      # update time from 55 minutes to 47 minutes. I expect the biggest issue
+      # is we have to access and use album information for a given track, for
+      # every track, and it determines the path on a per-track basis, so it's
+      # likely having to do certain db queries repeatedly unless it caches
+      # well behind the scenes. Hopefully the fix to allow album fields in
+      # path queries will also speed this up, since the branch at least
+      # implements some level of caching.
 
     query: ''
     formats: link
@@ -254,3 +298,5 @@ alternatives:
 
 include:
   - config/smartplaylist.yaml
+
+#  vim: set et sts=2 sw=2 :
