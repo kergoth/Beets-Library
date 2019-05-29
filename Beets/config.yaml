@@ -228,22 +228,22 @@ alternatives:
   dap:
     directory: ../DAP
     paths:
-      genre:Background: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Speech: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Meditation: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Dharma: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Book: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Spoken: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      albumtype:spokenword: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      albumtype:audiobook: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      albumtype:audio drama: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
-      albumtype:interview: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Background: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      genre:Speech: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      genre:Meditation: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      genre:Dharma: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      genre:Book: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      genre:Spoken: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      albumtype:spokenword: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      albumtype:audiobook: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      albumtype:audio drama: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
+      albumtype:interview: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
 
       # Flatten the various single-track `Music for Programming` albums
       'label:Music for Programming': 'Albums/$label/$label/$artist - $title'
 
-      genre:Christmas: 'Christmas Music/$comp_albumartist/$album_directory/$comp_filename'
-      genre:Holiday: 'Christmas Music/$comp_albumartist/$album_directory/$comp_filename'
+      genre:Christmas: 'Christmas Music/$albumartistdir/$album_directory/$comp_filename'
+      genre:Holiday: 'Christmas Music/$albumartistdir/$album_directory/$comp_filename'
 
       # Games are currently not grouped by artist, as they're like
       # a Soundtrack, and their identity is more associated with the
@@ -257,14 +257,14 @@ alternatives:
       singleton: 'Single Tracks/$artist - $title'
       album:sampler: '%if{$single_track,Single Tracks/$artist - $title,Samplers/$album_directory/$comp_filename}'
 
-      albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
-      tracktotal:1: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
+      albumtype:single: 'Singles/$albumartistdir/$album_directory/$comp_filename'
+      tracktotal:1: 'Singles/$albumartistdir/$album_directory/$comp_filename'
 
       genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtracks/$album_directory/$comp_filename}'
       albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtracks/$album_directory/$comp_filename}'
 
-      comp: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
-      default: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
+      comp: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$albumartistdir/$album_directory/$comp_filename}'
+      default: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$albumartistdir/$album_directory/$comp_filename}'
 
       # Kill single tracks logic to test performance.
       # Time was 25 mins or so with stock paths, 55 minutes with these paths
