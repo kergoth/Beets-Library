@@ -35,26 +35,25 @@ paths:
 # replacements on my main library, and have additional ones in
 # beets-alternatives for use on the digital audio player.
 replace:
+  # Unicode lookalikes
   ' *:': '∶'
   '/': '／'
   '\\': '⧹'
   '\|': '￨'
   '\*': '∗'
 
+  # Die, trademarks
+  ' *™': ''
+  ' *\(tm\)': ''
+
+  # Visual cleanup
   '^[-\.]': ''
   '[\x00-\x1f]': _
   '^\s+': ''
+  '\s+$': ''
 
   # Revert asciify for certain chars
-  # '...': '…'
-
-  # For compatibility
-  # '\s+$': ''
-  # '\.$': ''
-  # '[-;]$': ''
-  ' *™': ''
-  ' *\(tm\)': ''
-  '\*': '*'
+  '\.\.\.': '…'
 
 # Defaults for fields I generally set on the import command-line
 set_fields:
