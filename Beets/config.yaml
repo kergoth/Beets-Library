@@ -239,6 +239,9 @@ alternatives:
       albumtype:audio drama: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
       albumtype:interview: 'Non-Music/$genre/$comp_albumartist/$album_directory/$comp_filename'
 
+      # Flatten the various single-track `Music for Programming` albums
+      'label:Music for Programming': 'Albums/$label/$label/$artist - $title'
+
       genre:Christmas: 'Christmas Albums/$comp_albumartist/$album_directory/$comp_filename'
       genre:Holiday: 'Christmas Albums/$comp_albumartist/$album_directory/$comp_filename'
 
@@ -254,24 +257,14 @@ alternatives:
       singleton: 'Single Tracks/$artist - $title'
       album:sampler: '%if{$single_track,Single Tracks/$artist - $title,Samplers/$album_directory/$comp_filename}'
 
-      # FIXME: move this down, I don't want music for programming in singles,
-      # but have it here temporarily
       albumtype:single: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
       tracktotal:1: 'Singles/$comp_albumartist/$album_directory/$comp_filename'
 
       # I want classical singles in singles, not classical, *for now*
       genre:Classical: 'Classical Albums/$comp_albumartist/$album_directory/$comp_filename'
 
-      # Flatten the various single-track `Music for Programming` albums
-      # 'label:Music for Programming': 'Albums/$label/$label/$artist - $title'
-      'label:Music for Programming': 'Albums/$label/$album_directory/$comp_filename'
-
       genre:Soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
       albumtype:soundtrack: '%if{$single_track,Single Tracks/$artist - $title,Soundtrack Albums/$album_directory/$comp_filename}'
-
-      # Ugh, temporary
-      # genre:Soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
-      # albumtype:soundtrack: 'Soundtrack Albums/$album_directory/$comp_filename'
 
       comp: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
       default: '%if{$single_track,Single Tracks/$artist - $title,$albumsdir/$comp_albumartist/$album_directory/$comp_filename}'
