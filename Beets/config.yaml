@@ -226,7 +226,7 @@ format_fields:
     the_album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
     _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}$explicit_or_clean_album'
 
-    albumartistdir: '%first{$comp_albumartist}'
+    albumartistdir: '%asciify{%first{$comp_albumartist}}'
 
 alternatives:
   dap:
