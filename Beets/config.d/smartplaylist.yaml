@@ -5,6 +5,28 @@ smartplaylist:
   # playlist_dir seems to be relative to BEETSDIR
   playlist_dir: ../Library/Playlists
   playlists:
+    - name: Recent/Last Day.m3u
+      query:
+        - 'added- added:-1d..'
+    - name: Recent/Last 3 Days.m3u
+      query:
+        - 'added- added:-3d..'
+    - name: Recent/Last 7 Days.m3u
+      query:
+        - 'added- added:-7d..'
+    - name: Recent/Last 14 Days.m3u
+      query:
+        - 'added- added:-14d..'
+    - name: Recent/Last 30 Days.m3u
+      query:
+        - 'added- added:-30d..'
+    - name: Recent/Last 45 Days.m3u
+      query:
+        - 'added- added:-45d..'
+    - name: Recent/Last 60 Days.m3u
+      query:
+        - 'added- added:-60d..'
+
     - name: Genre/Steampunk.m3u
       album_query:
         - 'genre:Steampunk'
