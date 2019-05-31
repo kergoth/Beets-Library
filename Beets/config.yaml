@@ -295,6 +295,6 @@ alternatives:
     removable: true
 
 include:
-  - config/smartplaylist.yaml
+  - config.d/smartplaylist.yaml
 
 #  vim: set et sts=2 sw=2 :
