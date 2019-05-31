@@ -213,6 +213,8 @@ item_fields:
       return '%i - ' % track
 
 format_fields:
+  album_fields:
+    incomplete: '%if{$tracktotal,%if{$missing,1,0},0}'
   item_fields:
     full_title: '$title%ifdef{itunesadvisory,$explicit_or_clean}'
     comp_filename: '%if{$singleton,,$alt_track_pre}%if{$comp,$artist - $full_title,$full_title}'
