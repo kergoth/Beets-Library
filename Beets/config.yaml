@@ -228,10 +228,6 @@ format_fields:
 
     albumartistdir: '%first{$comp_albumartist}'
 
-the:
-  # Temporary, for compatibility with old layout
-  a: false
-
 alternatives:
   dap:
     directory: ../DAP
