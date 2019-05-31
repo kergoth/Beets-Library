@@ -111,7 +111,7 @@ playlist:
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
 album_fields:
-  album_field_context: str(globals())
+  album_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
   # Number of existing tracks in this album
   existing: len(items)
@@ -175,7 +175,7 @@ album_fields:
     return ''
 
 item_fields:
-  item_field_context: str(globals())
+  item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
   multidisc: 1 if disctotal > 1 else 0
   # disc and track prefix with ' - ' sep. Returns an empty string if track == 0.
