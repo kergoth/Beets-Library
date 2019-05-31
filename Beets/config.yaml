@@ -221,12 +221,15 @@ format_fields:
     incomplete: '%if{$tracktotal,%if{$missing,1,0},0}'
   item_fields:
     full_title: '$title%ifdef{itunesadvisory,$explicit_or_clean}'
-    comp_filename: '%if{$singleton,,$alt_track_pre}%if{$comp,$artist - $full_title,$full_title}'
+    comp_filename_splitdiscs: '%if{$singleton,,$alt_track_pre}%if{$comp,$artist - $full_title,$full_title}'
+    comp_filename_alldiscs: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$artist - $full_title,$full_title}'
+    comp_filename: '$comp_filename_alldiscs'
     track_pre: '%if{$track,$trim_track - }'
 
     albumsdir: '%if{$tracktotal,%if{$missing,Incomplete ,}}Albums'
     album_directory_alldiscs: '%if{$album,%the{$album%aunique{}}$explicit_or_clean_album,[non-album tracks]}'
-    album_directory: '%if{$album,%the{$_album_directory},[non-album tracks]}'
+    album_directory_splitdiscs: '%if{$album,%the{$_album_directory},[non-album tracks]}'
+    album_directory: '$album_directory_alldiscs'
     the_album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
     _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}$explicit_or_clean_album'
 
