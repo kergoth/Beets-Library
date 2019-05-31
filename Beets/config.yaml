@@ -42,9 +42,13 @@ replace:
   '\|': '￨'
   '\*': '∗'
 
-  # Die, trademarks
+  # Die, marks I don't care about
   ' *™': ''
   ' *\(tm\)': ''
+  ' *®': ''
+  ' *\(r\)': ''
+  ' *©': ''
+  ' *\(c\)': ''
 
   # Visual cleanup
   '^[-\.]': ''
