@@ -11,8 +11,7 @@ format_album: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
 format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $title'
 sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
-path_sep_replace: '／'
-asciify_paths: true
+path_sep_replace: ／
 
 import:
   log: ./import.log
@@ -37,10 +36,6 @@ paths:
 replace:
   # Unicode lookalikes
   ' *:': '∶'
-  '/': '／'
-  '\\': '⧹'
-  '\|': '￨'
-  '\*': '∗'
 
   # Die, marks I don't care about
   ' *™': ''
@@ -296,6 +291,13 @@ alternatives:
     query: ''
     formats: link
     removable: true
+
+    replace:
+      # Bad font rendering for these characters on the Shanling M0 DAP
+      '“': '"'
+      '”': '"'
+      '‘': "'"
+      '’': "'"
 
 include:
   - config.d/smartplaylist.yaml
