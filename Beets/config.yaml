@@ -48,6 +48,7 @@ replace:
 
   # Visual cleanup
   '^[-\.]': ''
+  '/[-\.]': '/'
   '[\x00-\x1f]': _
   '^\s+': ''
   '\s+$': ''
@@ -148,11 +149,11 @@ album_fields:
 
   comp_albumartist: |
     if albumartist and albumartist != 'Various Artists':
-      return albumartist[1:] if albumartist.startswith('.') else albumartist
+      return albumartist
     elif comp:
       return 'Compilations'
     else:
-      return albumartist[1:] if albumartist.startswith('.') else albumartist
+      return albumartist
 
   # FIXME: see if there's a function for the default query behavior, i.e.
   # 'foo:bar', rather than rolling it myself
