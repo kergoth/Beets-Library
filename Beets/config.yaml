@@ -108,6 +108,9 @@ playlist:
     relative_to: ..
     playlist_dir: Library/Playlists
 
+types:
+  existing: int
+
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
 album_fields:
