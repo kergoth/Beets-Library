@@ -1,4 +1,5 @@
 smartplaylist:
+  auto: false
   # relative_to seems to be relative to PWD
   relative_to: Library/Playlists
   # playlist_dir seems to be relative to BEETSDIR
