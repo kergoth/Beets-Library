@@ -248,7 +248,7 @@ alternatives:
       albumtype:interview: 'Non-Music/$genre/$albumartistdir/$album_directory/$comp_filename'
 
       # Flatten the various single-track `Music for Programming` albums
-      'label:Music for Programming': 'Albums/$label/$label/$artist - $title'
+      'label:Music for Programming': 'Albums/$label/$label/$title'
 
       genre:Christmas: 'Christmas Music/$albumartistdir/$album_directory/$comp_filename'
       genre:Holiday: 'Christmas Music/$albumartistdir/$album_directory/$comp_filename'
