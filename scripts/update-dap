@@ -4,10 +4,4 @@ origdir="$PWD"
 beet alt update dap --create
 dead-symlinks DAP* | nlxargs rm -fv
 rockuefort scan
-
-rsync -avP --exclude .Trashes --exclude .fseventsd --exclude .DS_Store --exclude ._\* --exclude .Spotlight-V100 --exclude update\* --delete ./DAP/ ./Manual\ Additions/ ./DAP\ Test/
-( cd DAP\ Test && rm -rf _Playlists && /Volumes/Data/DAP\ Music/scripts/update-playlists ../Rockuefort\ Playlists )
-if [ -e /Volumes/DAP ]; then
-    rsync -avLP --exclude .Trashes --exclude .fseventsd --exclude .DS_Store --exclude ._\* --exclude .Spotlight-V100 --exclude update\* --delete ./DAP/ ./Manual\ Additions/ /Volumes/DAP/
-    ( cd /Volumes/DAP && rm -rf _Playlists && /Volumes/Data/DAP\ Music/scripts/update-playlists "$origdir"/Rockuefort\ Playlists )
-fi
+( cd DAP && rm -rf _Playlists && /Volumes/Data/DAP\ Music/scripts/update-playlists ../Rockuefort\ Playlists )
