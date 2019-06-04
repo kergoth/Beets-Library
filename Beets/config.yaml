@@ -162,18 +162,6 @@ album_fields:
     else:
       return albumartist
 
-  # FIXME: see if there's a function for the default query behavior, i.e.
-  # 'foo:bar', rather than rolling it myself
-  non_music: |
-    lgenre = genre.lower()
-    lalbumtype = albumtype.lower()
-    if any(i in lgenre for i in ('speech', 'meditation', 'dharma', 'book', 'spoken')):
-      return 1
-    elif any(i in lalbumtype for i in ('spokenword', 'audiobook', 'audio drama', 'interview')):
-      return 1
-    else:
-      return 0
-
   explicit_or_clean_album: |
     for item in items:
       advisory = getattr(item, 'itunesadvisory', '0')
@@ -215,6 +203,18 @@ item_fields:
       return ''
     else:
       return '%i - ' % track
+
+  # FIXME: see if there's a function for the default query behavior, i.e.
+  # 'foo:bar', rather than rolling it myself
+  non_music: |
+    lgenre = genre.lower()
+    lalbumtype = albumtype.lower()
+    if any(i in lgenre for i in ('speech', 'meditation', 'dharma', 'book', 'spoken')):
+      return 1
+    elif any(i in lalbumtype for i in ('spokenword', 'audiobook', 'audio drama', 'interview')):
+      return 1
+    else:
+      return 0
 
 format_fields:
   album_fields:
