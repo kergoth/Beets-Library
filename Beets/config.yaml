@@ -114,6 +114,13 @@ playlist:
 
 types:
   existing: int
+  is_comp_albumartist: bool
+  is_comp_same_artists: bool
+  is_various_no_comp: bool
+  multiartist: bool
+  multidisc: bool
+  non_music: bool
+  single_track: bool
 
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
