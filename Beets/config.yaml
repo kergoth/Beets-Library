@@ -211,8 +211,6 @@ item_fields:
     else:
       return '%i - ' % track
 
-  # FIXME: see if there's a function for the default query behavior, i.e.
-  # 'foo:bar', rather than rolling it myself
   non_music: |
     lgenre = genre.lower()
     lalbumtype = albumtype.lower()
