@@ -10,6 +10,28 @@ set -eu
 
 first_id="$1"
 shift
+
+echo >&2 "Selected albums:"
+beet ls -a id:"$first_id"
+beet ls album_id:"$first_id" | sed -e 's/^/  /'
+for album_id; do
+    beet ls -a "id:$album_id"
+    beet ls album_id:"$album_id" | sed -e 's/^/  /'
+done
+
+while :; do
+    printf >&2 "Continue? [y/n] "
+    read -r i
+    case "$i" in
+        [yY])
+            break;
+            ;;
+        [nN])
+            exit 1;
+            ;;
+    esac
+done
+
 echo >&2 "Merging album_ids $* into $first_id"
 echo beet modify $(echo " $*" | sed -e 's/ / album_id:/g; s/^ //') "album_id=$first_id"
 echo beet rm -a $(echo " $*" | sed -e 's/ / id:/g; s/^ //')
