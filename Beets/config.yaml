@@ -176,6 +176,9 @@ album_fields:
         return ' (Explicit)'
     return ''
 
+  album_discs: |
+    discs = sorted(set(i.disc for i in items if i.disc))
+    return ','.join(str(d) for d in discs)
   multidisc: 1 if disctotal > 1 else 0
 
 item_fields:
