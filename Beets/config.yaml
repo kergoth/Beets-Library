@@ -228,21 +228,31 @@ item_fields:
 format_fields:
   album_fields:
     incomplete: '%if{$tracktotal,%if{$missing,1,0},0}'
+
+    # Used in path formats
+    albumsdir: '%if{$tracktotal,%if{$missing,Incomplete ,}}Albums'
+    album_directory_alldiscs: '%the{$album%aunique{}}$explicit_or_clean_album'
+    _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}$explicit_or_clean_album'
+    albumartistdir: '%asciify{%first{$comp_albumartist}}'
+
+    # Unused
+    album_directory_splitdiscs: '%the{$_album_directory}'
+
+    # Fallbacks from item fields
+    album_directory: '$album_directory_alldiscs'
+    the_album_directory: '$_album_directory'
   item_fields:
+    # Used in path formats
+    # singleton is an item field, not an album field, obviously..
+    album_directory: '%if{$singleton,[non-album tracks],$album_directory_alldiscs}'
+    the_album_directory: '%if{$singleton,[non-album tracks],$_album_directory]'
     full_title: '$title%ifdef{itunesadvisory,$explicit_or_clean}'
-    comp_filename_splitdiscs: '%if{$singleton,,$alt_track_pre}%if{$comp,$artist - $full_title,$full_title}'
     comp_filename_alldiscs: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$artist - $full_title,$full_title}'
     comp_filename: '$comp_filename_alldiscs'
+
+    # Unused
+    comp_filename_splitdiscs: '%if{$singleton,,$alt_track_pre}%if{$comp,$artist - $full_title,$full_title}'
     track_pre: '%if{$track,$trim_track - }'
-
-    albumsdir: '%if{$tracktotal,%if{$missing,Incomplete ,}}Albums'
-    album_directory_alldiscs: '%if{$album,%the{$album%aunique{}}$explicit_or_clean_album,[non-album tracks]}'
-    album_directory_splitdiscs: '%if{$album,%the{$_album_directory},[non-album tracks]}'
-    album_directory: '$album_directory_alldiscs'
-    the_album_directory: '%if{$album,$_album_directory,[non-album tracks]}'
-    _album_directory: '$album%aunique{}%if{$multidisc, Disc $trim_disc}%if{$disctitle,: $disctitle}$explicit_or_clean_album'
-
-    albumartistdir: '%asciify{%first{$comp_albumartist}}'
 
 alternatives:
   dap:
