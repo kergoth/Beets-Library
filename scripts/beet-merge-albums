@@ -1,0 +1,10 @@
+#!/bin/sh
+# shellcheck disable=SC2046
+
+set -eu
+
+first_id="$1"
+shift
+echo >&2 "Merging album_ids $* into $first_id"
+echo beet modify $(echo " $*" | sed -e 's/ / album_id:/g; s/^ //') "album_id=$first_id"
+echo beet rm -a $(echo " $*" | sed -e 's/ / id:/g; s/^ //')
