@@ -1,4 +1,9 @@
 #!/bin/sh
+# Merge albums by ID, then re-import the merged album
+# Note that we do not copy album metadata amongst the tracks the way
+# `duplicates` does at this time, so this may need manual correction for
+# merging non-musicbrainz albums if any key metadata mismatches.
+#
 # shellcheck disable=SC2046
 
 set -eu
