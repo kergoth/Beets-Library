@@ -22,8 +22,8 @@ trap 'rm -f "$tmpfile"' EXIT
 trap 'rm -f "$tmpfile"; pkill -P $$; wait; trap - INT; kill -INT 0' INT
 trap 'rm -f "$tmpfile"; pkill -P $$; wait; trap - TERM; kill 0' TERM
 
-find ../DAP\ Music/Playlists -type f | grep -v DS_Store | while read -r fn; do
-    o="Library/Playlists/${fn#../DAP Music/Playlists/}"
+find Rockuefort\ Playlists -type f | grep -v DS_Store | while read -r fn; do
+    o="Library/Playlists/${fn#Rockuefort Playlists/}"
     if [ -e "$o" ]; then
         continue
     fi
