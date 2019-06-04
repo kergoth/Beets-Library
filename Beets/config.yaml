@@ -60,31 +60,36 @@ import:
     source: 'Unknown'
 
 plugins:
-  - alternatives
+  # Stock plugins
   - badfiles
-  # - check
   - chroma
-  - copyartifacts
   - duplicates
   - edit
   - embedart
   - fetchart
-  - format_fields
   - hook
   - importadded
   - importfeeds
   - info
   - inline
-  - inline_hook
-  - itunesadvisory
-  - last_import
   - mbsync
   - missing
-  - noimport
   - playlist
   - smartplaylist
   - the
   - types
+
+  # 3rd party plugins
+  - alternatives
+  # - check
+  - copyartifacts
+  - noimport
+
+  # My plugins
+  - format_fields
+  - inline_hook
+  - itunesadvisory
+  - last_import
 
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
