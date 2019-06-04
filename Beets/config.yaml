@@ -13,11 +13,6 @@ sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
 path_sep_replace: ／
 
-import:
-  log: ./import.log
-  timid: yes
-  incremental: yes
-
 paths:
   default: '$source/$comp_albumartist/%if{$album,$album%aunique{},[non-album tracks]}/$disc_and_track_pre$title'
   singleton: '$source/$artist/[non-album tracks]/$title'
@@ -55,9 +50,13 @@ replace:
   # Revert asciify for certain chars
   '\.\.\.': '…'
 
-# Defaults for fields I generally set on the import command-line
-set_fields:
-  source: 'Unknown'
+import:
+  log: ./import.log
+  timid: yes
+  incremental: yes
+  set_fields:
+    # source is where I obtained the music. iTunes, Amazon, Other, etc.
+    source: 'Unknown'
 
 plugins:
   - alternatives
