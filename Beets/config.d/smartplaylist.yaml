@@ -125,6 +125,16 @@ smartplaylist:
       query: source:"iTunes"
       album_query: source:"iTunes"
 
+    - name: "Artists/Ramin Djawadi.m3u"
+      album_query:
+        - "artist:\"Ramin Djawadi\""
+      query:
+        - "artist:\"Ramin Djawadi\""
+    - name: "Artists/Depeche Mode.m3u"
+      album_query:
+        - "artist:\"Depeche Mode\""
+      query:
+        - "artist:\"Depeche Mode\""
     - name: "Artists/Amanda Palmer.m3u"
       album_query:
         - "artist:\"Amanda Palmer\""
