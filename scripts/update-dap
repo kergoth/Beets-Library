@@ -1,7 +1,20 @@
 #!/bin/sh
 
-origdir="$PWD"
+bgrm DAP*
 beet alt update dap --create
-dead-symlinks DAP* | nlxargs rm -fv
 rockuefort scan
-( cd DAP && rm -rf _Playlists && /Volumes/Data/DAP\ Music/scripts/update-playlists ../Rockuefort\ Playlists )
+(
+    cd DAP || exit 1
+    rm -rf _Playlists
+    /Volumes/Data/DAP\ Music/scripts/update-playlists ../Rockuefort\ Playlists
+
+    # Temporary workaround for update-playlists
+    cur="$(echo "$PWD" | sed -e 's#/#\\\\#g')"
+    printf '%s\n' "$cur"
+    find . -iname \*.m3u -o -iname \*.m3u8 | while read -r playlist; do
+        relpath="$(python -c 'import os,sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$(dirname "$playlist")")"
+        reladj="$(echo "$relpath" | sed -e 's#/#\\\\#g')"
+        cat "$playlist" | sed -e "s#$cur#$reladj#" | >"$playlist.new" \
+            && mv "$playlist.new" "$playlist"
+done
+)
