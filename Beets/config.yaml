@@ -199,9 +199,7 @@ album_fields:
       return 0
 
   comp_albumartist: |
-    if albumartist and albumartist != 'Various Artists':
-      return albumartist
-    elif comp:
+    if comp:
       return 'Compilations'
     else:
       return albumartist
