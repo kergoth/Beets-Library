@@ -260,6 +260,8 @@ item_fields:
     else:
       return 0
 
+  definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
+
 format_fields:
   album_fields:
     album_ls_format: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
