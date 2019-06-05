@@ -71,6 +71,15 @@ class AliasCommand(Subcommand):
             command = self.command[1:]
             argv = shlex_split(command) + args
         else:
+            # Note that it's not currently viable to directly execute the
+            # Subcommand instance. While we could get the list of subcommands
+            # via plugins.commands() and ui.default_commands, we lack access
+            # to the library object in this context, which is needed to run
+            # the 'func' method.
+            #
+            # TODO: determine if we can get the global arguments and options
+            # from the current cli instance and pass them back into this
+            # external beet call, i.e. -v, -l LIBRARY, etc.
             argv = ['beet'] + shlex_split(self.command) + args
 
         if self.log:
