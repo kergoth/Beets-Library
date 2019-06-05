@@ -56,16 +56,6 @@ class AliasCommand(Subcommand):
         self.command = command
         self.log = log
 
-    def print_help(self):
-        self.parser.print_help()
-        # FIXME: I think I'd have to rework the config format to support this,
-        # by adding a per-alias option to query externally for help, possibly
-        # passing the actual help command.
-        # try:
-        #     self.run_command(args=['--help'])
-        # except subprocess.CalledProcessError:
-        #     pass
-
     def run_command(self, args=None):
         if args is None:
             args = []
