@@ -31,9 +31,7 @@ class LastimportPlugin(BeetsPlugin):
         """Add the last-import command."""
         last_import = Subcommand('last-import',
                                  help=u'print the most recently imported items.')
-        last_import.parser.add_album_option()
-        last_import.parser.add_path_option()
-        last_import.parser.add_format_option()
+        last_import.parser.add_all_common_options()
         last_import.func = self.last_import
         return [last_import]
 
