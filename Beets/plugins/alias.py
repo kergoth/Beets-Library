@@ -123,8 +123,7 @@ class AliasPlugin(BeetsPlugin):
                 if os.access(cmd, os.X_OK):
                     command = os.path.basename(cmd)
                     alias = command[5:]
-                    self._log.debug('adding {} external alias from PATH', command)
-                    yield (alias, self.get_command(alias, '!' + command))
+                    yield (alias, self.get_command(alias, '!' + command, 'Run external command `%s`' % command))
 
     def cmd_alias(self, lib, opts, args, commands):
         """Print the available alias commands."""
