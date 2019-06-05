@@ -117,7 +117,7 @@ alias:
 
     # Potential concerns
     various-not-comp: ls -a is_various_not_comp:true
-    unknown-soundtracks: ls -f '$genre $path' albumtype:soundtrack \^genre:soundtrack \^genre:game
+    unknown-soundtracks: albums-for albumtype:soundtrack \^genre:soundtrack \^genre:game \^genre:videogame \^genre:vgm
 
     # Informative
     non-mb-albums: ls -a mb_albumid::^$
