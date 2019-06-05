@@ -1,0 +1,35 @@
+#!/bin/sh
+# I really don't care about the mediafile/confuse deprecation warnings, make
+# them go away with a wrapper script.
+
+abs_script() {
+    case "$script" in
+        /*)
+            echo "$0"
+            ;;
+        *)
+            command -v "$0"
+            ;;
+    esac
+}
+
+run_wrapped() {
+    # Remove scriptdir from the PATH and locate the next script
+    script="$(abs_script)"
+    NO_SCRIPTDIR_PATH="$(printf '%s\n' "$PATH" | tr ':' '\n' | grep -Fvx "$(dirname "$script")" | tr '\n' ':')"
+    wrapped="$(PATH="$NO_SCRIPTDIR_PATH" command -v "${0##*/}")"
+    "$wrapped" "$@"
+}
+
+# Set up the pipe to filter out the messages I don't want without merging
+# stdout and stderr
+tmpdir="$(mktemp -d -t "${0##*/}.XXXXX")" || exit 1
+trap 'rm -rf "$tmpdir"' EXIT INT TERM
+errpipe="$tmpdir/errpipe"
+mkfifo "$errpipe"
+
+grep -Ev 'UserWarning|warnings.warn' <"$errpipe" >&2 &
+run_wrapped "$@" 2>"$errpipe"
+ret=$?
+wait
+exit "$ret"
