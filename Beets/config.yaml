@@ -5,8 +5,8 @@ pluginpath:
   - ./plugins
   - ./Beets/plugins
 
-per_disc_numbering: yes
-id3v23: yes
+per_disc_numbering: true
+id3v23: true
 format_album: '$album_ls_format'
 format_item: '$item_ls_format'
 sort_album: albumartist+ album+
@@ -53,8 +53,8 @@ replace:
 
 import:
   log: ./import.log
-  timid: yes
-  incremental: yes
+  timid: true
+  incremental: true
   set_fields:
     # source is where I obtained the music. iTunes, Amazon, Other, etc.
     source: 'Unknown'
