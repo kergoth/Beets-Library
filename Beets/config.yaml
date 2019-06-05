@@ -7,8 +7,8 @@ pluginpath:
 
 per_disc_numbering: yes
 id3v23: yes
-format_album: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
-format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $title'
+format_album: '$album_ls_format'
+format_item: '$item_ls_format'
 sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
 path_sep_replace: ／
@@ -262,6 +262,8 @@ item_fields:
 
 format_fields:
   album_fields:
+    album_ls_format: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
+
     incomplete: '%if{$tracktotal,%if{$missing,1,0},0}'
 
     # Used in path formats
@@ -277,6 +279,8 @@ format_fields:
     album_directory: '$album_directory_alldiscs'
     the_album_directory: '$_album_directory'
   item_fields:
+    item_ls_format: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $title'
+
     # Used in path formats
     # singleton is an item field, not an album field, obviously..
     album_directory: '%if{$singleton,[non-album tracks],$album_directory_alldiscs}'
