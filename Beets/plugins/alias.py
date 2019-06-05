@@ -49,8 +49,8 @@ class PassThroughOptionParser(OptionParser):
 
 
 class AliasCommand(Subcommand):
-    def __init__(self, alias, command, log=None):
-        super(AliasCommand, self).__init__(alias, help=command, parser=PassThroughOptionParser(add_help_option=False))
+    def __init__(self, alias, command, log=None, help=None):
+        super(AliasCommand, self).__init__(alias, help=help or command, parser=PassThroughOptionParser(add_help_option=False, description=help or command))
 
         self.alias = alias
         self.command = command
@@ -105,9 +105,9 @@ class AliasPlugin(BeetsPlugin):
             'aliases': {},
         })
 
-    def get_command(self, alias, command):
+    def get_command(self, alias, command, help=None):
         """Create a Subcommand instance for the specified alias."""
-        return AliasCommand(alias, command, log=self._log)
+        return AliasCommand(alias, command, log=self._log, help=help)
 
     def get_path_commands(self):
         """Create subcommands for beet-* scripts in $PATH."""
