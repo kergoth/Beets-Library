@@ -14,10 +14,17 @@ Example:
 
 from __future__ import division, absolute_import, print_function
 
+import confuse
 import glob
 import os
+import six
 import subprocess
 import sys
+
+if sys.version_info >= (3, 3):
+    from collections import abc
+else:
+    import collections as abc
 
 from optparse import OptionParser, BadOptionError, AmbiguousOptionError
 
@@ -123,10 +130,20 @@ class AliasPlugin(BeetsPlugin):
             commands = {}
 
         for alias in self.config['aliases'].keys():
-            command = self.config['aliases'][alias].get()
             if alias in commands:
-                raise ui.UserError(u'alias `%s` was specified multiple times' % alias)
-            commands[alias] = self.get_command(alias, command)
+                raise confuse.ConfigError(u'alias.aliases.%s was specified multiple times' % alias)
+
+            command = self.config['aliases'][alias].get()
+            if isinstance(command, six.text_type):
+                commands[alias] = self.get_command(alias, command)
+            elif isinstance(command, abc.Mapping):
+                command_text = command.get('command')
+                if not command_text:
+                    raise confuse.ConfigError(u'alias.aliases.%s.command not found' % alias)
+                help_text = command.get('help', command_text)
+                commands[alias] = self.get_command(alias, command_text, help_text)
+            else:
+                raise confuse.ConfigError(u'alias.aliases.%s must be a string or single-element mapping' % alias)
 
         if 'alias' in commands:
             raise ui.UserError(u'alias `alias` is reserved for the alias plugin')
