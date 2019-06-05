@@ -87,6 +87,7 @@ plugins:
 
   # My plugins
   - alias
+  - alias_query
   - format_fields
   - inline_hook
   - itunesadvisory
