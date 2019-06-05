@@ -86,10 +86,47 @@ plugins:
   - noimport
 
   # My plugins
+  - alias
   - format_fields
   - inline_hook
   - itunesadvisory
   - last_import
+
+alias:
+  aliases:
+    reimport: import -maL
+    reimport-mb: reimport mb_albumid::'^$'
+    dup-albums: dup -aF
+    dup-a: dup-albums
+    singletons: ls singleton:true
+
+    # get-config library; get-config alias.aliases.reimport
+    get-config: '!sh -c "beet config | yq -r \".$1\"" -'
+
+    # Show incomplete albums, skipping any albums where I only have one track
+    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album, $existing/$albumtotal, missing $missing tracks" missing:2.. single_track:false , missing:1 \\^genre:game \\^genre:videogame \\^genre:vgm single_track:false'
+
+    # Very basic dupe check for albums lacking musicbrainz data, primarily
+    simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
+
+    # Red flags
+    empty-artist: ls artist::'^$'
+    empty-album: ls album::'^$' singleton:false
+    book-not-audiobook: ls genre:book '^albumtype:audiobook'
+    unknown-source: source:Unknown
+
+    # Potential concerns
+    various-not-comp: ls -a is_various_not_comp:true
+    unknown-soundtracks: ls -f '$genre $path' albumtype:soundtrack \^genre:soundtrack \^genre:game
+
+    # Informative
+    non-mb-albums: ls -a mb_albumid::^$
+    possible-singles: ls -a tracktotal:1 'albumtype::^$'
+    # These are often not an issue, just albums which feature multiple
+    # artists, but aren't compilations. Cases where the album artist is the
+    # producer, cases where there are featuring artist, etc.
+    multiartist-not-comp: ls -a comp:false multiartist:true
+
 
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
@@ -116,7 +153,7 @@ types:
   existing: int
   is_comp_albumartist: bool
   is_comp_same_artists: bool
-  is_various_no_comp: bool
+  is_various_not_comp: bool
   multiartist: bool
   multidisc: bool
   non_music: bool
@@ -143,7 +180,7 @@ album_fields:
       return 1
     else:
       return 0
-  is_various_no_comp: |
+  is_various_not_comp: |
     if comp:
       return 0
     elif albumartist == 'Various Artists':
