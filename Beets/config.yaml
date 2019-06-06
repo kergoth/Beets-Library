@@ -5,6 +5,9 @@ pluginpath:
   - ./plugins
   - ./Beets/plugins
 
+ui:
+  color: true
+
 per_disc_numbering: true
 id3v23: true
 format_album: '$album_ls_format'
