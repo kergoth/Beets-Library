@@ -90,9 +90,11 @@ plugins:
   - alias
   - alias_query
   - format_fields
-  - inline_hook
-  - itunesadvisory
   - last_import
+
+  # My disabled plugins
+  # - inline_hook
+  # - itunesadvisory
 
 alias:
   aliases:
