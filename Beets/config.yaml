@@ -125,7 +125,7 @@ alias:
 
     # Informative
     non-mb-albums: ls -a mb_albumid::^$
-    possible-singles: ls -a tracktotal:1 'albumtype::^$'
+    possible-singles: "ls -a albumtotal::'^1$' 'albumtype::^$'"
     # These are often not an issue, just albums which feature multiple
     # artists, but aren't compilations. Cases where the album artist is the
     # producer, cases where there are featuring artist, etc.
@@ -262,7 +262,7 @@ format_fields:
   album_fields:
     format_album: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
 
-    incomplete: '%if{$tracktotal,%if{$missing,1,0},0}'
+    incomplete: '%if{$albumtotal,%if{$missing,1,0},0}'
 
     # Used in path formats
     albumsdir: '%if{$tracktotal,%if{$missing,Incomplete ,}}Albums'
