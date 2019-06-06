@@ -141,9 +141,9 @@ hook:
       command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
 
 playlist:
-    auto: yes
-    relative_to: ..
-    playlist_dir: Library/Playlists
+  auto: true
+  relative_to: ..
+  playlist_dir: Library/Playlists
 
 types:
   existing: int
