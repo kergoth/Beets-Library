@@ -147,7 +147,6 @@ playlist:
 
 types:
   existing: int
-  is_comp_albumartist: bool
   is_comp_same_artists: bool
   is_various_not_comp: bool
   multiartist: bool
@@ -167,15 +166,6 @@ album_fields:
   # Let me search for albums that may be a compilation but aren't flagged
   multiartist: 1 if not all(item.artist == items[0].artist for item in items) else 0
 
-  is_comp_albumartist: |
-    if comp:
-      return 0
-    elif not all(item.artist == albumartist for item in items):
-      # This isn't always a compilation, for example in albums with featuring
-      # artists on some of the tracks
-      return 1
-    else:
-      return 0
   is_various_not_comp: |
     if comp:
       return 0
