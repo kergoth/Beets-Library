@@ -16,16 +16,18 @@ class FormatFieldsPlugin(BeetsPlugin):
             'item_fields': {},
             'album_fields': {},
         })
+        self.set_template_fields()
 
+    def set_template_fields(self):
         for field, template in self.config['item_fields'].items():
             def apply(i, field=field, template=template):
-                return self.apply_template(field, template.get(str), i, False)
+                return self.apply_template(field, template.as_str(), i)
             self.template_fields[field] = apply
 
         for field, template in self.config['album_fields'].items():
             def apply(i, field=field, template=template):
-                return self.apply_template(field, template.get(str), i, True)
+                return self.apply_template(field, template.as_str(), i)
             self.album_template_fields[field] = apply
 
-    def apply_template(self, field, template, model, is_album):
+    def apply_template(self, field, template, model):
         return model.evaluate_template(template)
