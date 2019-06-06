@@ -34,14 +34,14 @@ class AlbumAliasQuery(AliasQuery):
     model = Album
 
 
-class AliasqueryPlugin(BeetsPlugin):
+class AliasQueryPlugin(BeetsPlugin):
     """Aliased queries support.
 
     Allow definition of named / aliased queries.
     """
 
     def __init__(self):
-        super(AliasqueryPlugin, self).__init__()
+        super(AliasQueryPlugin, self).__init__()
 
         self.config.add({
             'item_queries': {},
