@@ -160,6 +160,7 @@ types:
 
   # Item inline and format fields
   non_music: bool
+  excess_tracks: bool
 
   # Existing fields to deal with lacking or wrong defaults
   e_advisory: int
@@ -215,6 +216,8 @@ album_fields:
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
+
+  excess_tracks: 1 if tracktotal and track and track > tracktotal else 0
 
   # disc and track prefix with ' - ' sep. Returns an empty string if track == 0.
   disc_and_track_pre: |
