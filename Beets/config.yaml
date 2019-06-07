@@ -82,7 +82,6 @@ plugins:
 
   # 3rd party plugins
   - alternatives
-  - check
   - copyartifacts
   - noimport
 
