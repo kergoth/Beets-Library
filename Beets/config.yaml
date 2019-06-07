@@ -156,6 +156,7 @@ types:
   multiartist: bool
   multidisc: bool
   single_track: bool
+  is_incomplete: bool
 
   # Item inline and format fields
   non_music: bool
@@ -177,6 +178,44 @@ album_fields:
   multidisc: 1 if disctotal > 1 else 0
   # Let me search for albums that may be a compilation but aren't flagged
   multiartist: not bool(all(item.artist == items[0].artist for item in items))
+
+  # Heuristic based approach to determining whether an album is incomplete. If
+  # we have tracktotals, then we can take the naive approach, but if not, we
+  # can assume that if the # of tracks is less than the highest track number,
+  # this is an incomplete album. For example, an album with a single track
+  # whose track number is 9, we can assume it's incomplete.
+  #
+  # This is needed as the `missing` plugin gives a negative value for any
+  # album lacking track numbers.
+  is_incomplete: |
+    from beets import config
+
+    per_disc = config['per_disc_numbering'].get(bool)
+    if per_disc:
+      from itertools import groupby
+      def keyfunc(i):
+        return i.disc or 0
+      grouped = groupby(sorted(items, key=keyfunc), keyfunc)
+      by_disc = dict((k, list(v)) for k, v in grouped)
+    else:
+      by_disc = {1: items}
+
+    for disc, disc_items in by_disc.items():
+      tracktotal = disc_items[0].tracktotal
+      if tracktotal:
+        if (tracktotal - len(disc_items)) > 0:
+          return True
+      else:
+        # We can't know how many tracks are missing without tracktotal,
+        # but we can at least assume tracks are missing if we only have
+        # a single track #9 and nothing else, for example.
+        highest = max(item.track for item in disc_items)
+        if highest:
+          # Only use this approach if we have track numbers
+          existing = len(disc_items)
+          if (highest - existing) > 0:
+            return True
+    return False
 
   is_various_not_comp: |
     if comp:
