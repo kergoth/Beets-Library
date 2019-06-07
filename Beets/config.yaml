@@ -186,7 +186,7 @@ album_fields:
   # whose track number is 9, we can assume it's incomplete.
   #
   # This is needed as the `missing` plugin gives a negative value for any
-  # album lacking track numbers.
+  # album lacking tracktotal.
   is_incomplete: |
     from beets import config
 
