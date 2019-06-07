@@ -156,6 +156,7 @@ types:
   multiartist: bool
   multidisc: bool
   single_track: bool
+  incomplete: bool
   is_incomplete: bool
 
   # Item inline and format fields
