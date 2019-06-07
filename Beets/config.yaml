@@ -302,7 +302,8 @@ format_fields:
   album_fields:
     format_album: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
 
-    incomplete: '%if{$albumtotal,%if{$missing,1,0},0}'
+    # Use missing if it's not negative, otherwise use the alternate approach
+    incomplete: '%if{$albumtotal,%if{$missing,1,0},$is_incomplete}'
 
     # Used in path formats
     albumsdir: '%if{$incomplete,Incomplete }Albums'
