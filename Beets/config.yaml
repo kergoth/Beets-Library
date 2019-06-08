@@ -165,7 +165,8 @@ types:
   multidisc: bool
   single_track: bool
   incomplete: bool
-  is_incomplete: bool
+  is_incomplete: int
+  first_tracktotal: int
 
   # Item inline and format fields
   non_music: bool
@@ -204,14 +205,14 @@ album_fields:
   #
   # This is needed as the `missing` plugin gives a negative value for any
   # album lacking tracktotal.
-  is_incomplete: |
+  incomplete: |
     from beets import config
 
     per_disc = config['per_disc_numbering'].get(bool)
     if per_disc:
       from itertools import groupby
       def keyfunc(i):
-        return i.disc or 0
+        return i.disc or 1
       grouped = groupby(sorted(items, key=keyfunc), keyfunc)
       by_disc = dict((k, list(v)) for k, v in grouped)
     else:
@@ -223,15 +224,19 @@ album_fields:
         if (tracktotal - len(disc_items)) > 0:
           return True
       else:
-        # We can't know how many tracks are missing without tracktotal,
-        # but we can at least assume tracks are missing if we only have
-        # a single track #9 and nothing else, for example.
-        highest = max(item.track for item in disc_items)
+        # Lacking tracktotals, the best we can do is make some assumptions
+        # based on the track numbers. If we have a single track 9, clearly
+        # tracks 1 through 8 are missing.
+        tracknumbers = [item.track for item in disc_items]
+        highest = max(tracknumbers)
         if highest:
-          # Only use this approach if we have track numbers
           existing = len(disc_items)
-          if (highest - existing) > 0:
+          if highest != existing:
             return True
+          else:
+            tracknumbers.sort()
+            if tracknumbers != list(range(1, highest+1)):
+              return True
     return False
 
   is_various_not_comp: |
@@ -268,6 +273,7 @@ album_fields:
   album_discs: |
     discs = sorted(set(i.disc for i in items if i.disc))
     return ','.join(str(d) for d in discs)
+  first_tracktotal: items[0].tracktotal
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
@@ -319,9 +325,6 @@ format_fields:
   album_fields:
     format_album: '[$id] $albumartist - %if{$album,$album,[non-album tracks]}'
 
-    # Use missing if it's not negative, otherwise use the alternate approach
-    incomplete: '%if{$albumtotal,%if{$missing,1,0},$is_incomplete}'
-
     # Used in path formats
     albumsdir: '%if{$incomplete,Incomplete }Albums'
     _albumdir: '%the{$album%aunique{}}$explicit_or_clean_album'
@@ -333,6 +336,8 @@ format_fields:
     # Deal with undefined values for queries
     # This isn't undefined, but is negative when tracktotal/albumtotal is 0
     e_missing: '%if{$albumtotal,$missing,0}'
+
+    is_incomplete: '%if{$first_tracktotal,%if{$missing,1,0},%if{$incomplete,1,0}}'
 
   item_fields:
     format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $title'
