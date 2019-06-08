@@ -103,6 +103,10 @@ alias:
     dup-a: dup-albums
     singletons: ls singleton:true
 
+    # Strip release-specific tags. Useful in cases where the precise release
+    # is unknown, or is not in MusicBrainz yet.
+    norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
+
     # get-config library; get-config alias.aliases.reimport
     get-config: '!sh -c "beet config | yq -r \".$1\"" -'
 
