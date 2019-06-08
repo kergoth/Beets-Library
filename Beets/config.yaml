@@ -111,7 +111,8 @@ alias:
     get-config: '!sh -c "beet config | yq -r \".$1\"" -'
 
     # Show incomplete albums, skipping any albums where I only have one track
-    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album, $existing/$albumtotal, missing $missing tracks" missing:2.. single_track:false , missing:1 \\^genre:game \\^genre:videogame \\^genre:vgm single_track:false'
+    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^alias:is_game single_track:false'
+    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:false alias:is_game'
 
     # Very basic dupe check for albums lacking musicbrainz data, primarily
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
