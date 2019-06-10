@@ -52,7 +52,7 @@ class LastimportPlugin(BeetsPlugin):
                 fmt = u'$added ' + config['format_item'].get()
 
         query = lib.albums if album else lib.items
-        for obj in query('last_import:true added+'):
+        for obj in query('last_import:1 added+'):
             print_(format(obj, fmt))
 
     def import_task_created(self, session, task):
@@ -62,7 +62,7 @@ class LastimportPlugin(BeetsPlugin):
                 album['last_import'] = False
                 album.store('last_import')
 
-            for item in session.lib.items('last_import:false'):
+            for item in session.lib.items('last_import:true'):
                 item['last_import'] = False
                 item.store('last_import')
 
