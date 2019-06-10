@@ -117,14 +117,11 @@ alias:
     # Albums with no albumtotal/tracktotals set
     missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal::"^0$"'
 
-    # Very basic dupe check for albums lacking musicbrainz data, primarily
-    simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
-
     # Red flags
     empty-artist: ls artist::'^$'
     empty-album: ls album::'^$' singleton:false
     book-not-audiobook: ls genre:book '^albumtype:audiobook'
-    unknown-source: source:Unknown
+    unknown-source: ls source:Unknown
 
     # Potential concerns
     various-not-comp: ls -a is_various_not_comp:true
