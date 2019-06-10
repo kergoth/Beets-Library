@@ -97,18 +97,23 @@ plugins:
 
 alias:
   aliases:
+    # get-config library; get-config alias.aliases.reimport
+    get-config: '!sh -c "beet config | yq -r \".$1\"" -'
+
     reimport: import -maL
     reimport-mb: reimport mb_albumid::'^$'
-    dup-albums: dup -aF
-    dup-a: dup-albums
-    singletons: ls singleton:true
 
     # Strip release-specific tags. Useful in cases where the precise release
     # is unknown, or is not in MusicBrainz yet.
     norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
 
-    # get-config library; get-config alias.aliases.reimport
-    get-config: '!sh -c "beet config | yq -r \".$1\"" -'
+    dup-albums: dup -aF
+    dup-a: dup-albums
+
+    # Very basic dupe check for albums lacking musicbrainz data, primarily
+    simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
+
+    singletons: ls singleton:true
 
     # Show incomplete albums, skipping any albums where I only have one track
     incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^alias:is_game single_track:false'
