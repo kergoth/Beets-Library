@@ -3,6 +3,7 @@
 from __future__ import division, absolute_import, print_function
 
 import ast
+import confuse
 
 from beets.plugins import BeetsPlugin
 
@@ -91,6 +92,8 @@ class InlineHookPlugin(BeetsPlugin):
         for hook_index in range(len(inline_hooks)):
             hook = self.config['hooks'][hook_index]
             event = hook['event'].as_str()
+            if event not in self.argspecs:
+                raise confuse.ConfigError('inline_hook.hooks[%d].event: `%s` is not a handled event' % (hook_index, event))
             handler = hook['handler'].as_str()
             # TODO: determine config value line number and use for lineoffset
             function = compile_func(handler, 'inline_hook_' + event, self.argspecs.get(event) or '')
