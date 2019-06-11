@@ -78,6 +78,7 @@ plugins:
   - acousticbrainz
   - badfiles
   - chroma
+  - discogs
   - duplicates
   - edit
   - embedart
