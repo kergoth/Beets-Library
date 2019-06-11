@@ -64,6 +64,7 @@ import:
 
 plugins:
   # Stock plugins
+  - acousticbrainz
   - badfiles
   - chroma
   - duplicates
@@ -95,6 +96,17 @@ plugins:
   # My disabled plugins
   # - inline_hook
   # - itunesadvisory
+
+acousticbrainz:
+  tags:
+    - bpm
+    - mood_acoustic
+    - mood_aggressive
+    - mood_electronic
+    - mood_happy
+    - mood_party
+    - mood_relaxed
+    - mood_sad
 
 alias:
   aliases:
