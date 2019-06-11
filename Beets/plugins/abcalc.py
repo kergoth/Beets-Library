@@ -1,3 +1,7 @@
+# Do the same calculation as absubmit, but run it only against non-musicbrainz
+# tracks, since absubmit/acousticbrainz only handle musicbrainz tracks, and
+# store the lowlevel values rather than submitting them.
+
 import confuse
 import hashlib
 import json
