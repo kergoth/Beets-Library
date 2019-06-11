@@ -88,7 +88,7 @@ class AliasCommand(Subcommand):
             subprocess.check_call(argv)
         except subprocess.CalledProcessError as exc:
             if self.log:
-                self.log.debug(u'command `%s` failed with %d' % (subprocess.list2cmdline(argv), exc.returncode))
+                self.log.debug(u'command `{0}` failed with {1}', subprocess.list2cmdline(argv), exc.returncode)
             raise
 
     def func(self, lib, opts, args):
@@ -123,12 +123,12 @@ class AliasPlugin(BeetsPlugin):
                 if os.access(cmd, os.X_OK):
                     command = os.path.basename(cmd)
                     alias = command[5:]
-                    yield (alias, self.get_command(alias, '!' + command, 'Run external command `%s`' % command))
+                    yield (alias, self.get_command(alias, '!' + command, u'Run external command `{0}`'.format(command)))
 
     def cmd_alias(self, lib, opts, args, commands):
         """Print the available alias commands."""
         for alias, command in sorted(commands.items()):
-            print_(u'%s: %s' % (alias, command))
+            print_(u'{0}: {1}'.format(alias, command))
 
     def commands(self):
         """Add the alias commands."""
@@ -139,7 +139,7 @@ class AliasPlugin(BeetsPlugin):
 
         for alias in self.config['aliases'].keys():
             if alias in commands:
-                raise confuse.ConfigError(u'alias.aliases.%s was specified multiple times' % alias)
+                raise confuse.ConfigError(u'alias.aliases.{0} was specified multiple times'.format(alias))
 
             command = self.config['aliases'][alias].get()
             if isinstance(command, six.text_type):
@@ -147,11 +147,11 @@ class AliasPlugin(BeetsPlugin):
             elif isinstance(command, abc.Mapping):
                 command_text = command.get('command')
                 if not command_text:
-                    raise confuse.ConfigError(u'alias.aliases.%s.command not found' % alias)
+                    raise confuse.ConfigError(u'alias.aliases.{0}.command not found'.format(alias))
                 help_text = command.get('help', command_text)
                 commands[alias] = self.get_command(alias, command_text, help_text)
             else:
-                raise confuse.ConfigError(u'alias.aliases.%s must be a string or single-element mapping' % alias)
+                raise confuse.ConfigError(u'alias.aliases.{0} must be a string or single-element mapping'.format(alias))
 
         if 'alias' in commands:
             raise ui.UserError(u'alias `alias` is reserved for the alias plugin')

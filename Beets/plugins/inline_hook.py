@@ -93,7 +93,7 @@ class InlineHookPlugin(BeetsPlugin):
             hook = self.config['hooks'][hook_index]
             event = hook['event'].as_str()
             if event not in self.argspecs:
-                raise confuse.ConfigError('inline_hook.hooks[%d].event: `%s` is not a handled event' % (hook_index, event))
+                raise confuse.ConfigError('inline_hook.hooks[{0}].event: `{1}` is not a handled event'.format(hook_index, event))
             handler = hook['handler'].as_str()
             # TODO: determine config value line number and use for lineoffset
             function = compile_func(handler, 'inline_hook_' + event, self.argspecs.get(event) or '')
