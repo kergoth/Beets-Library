@@ -117,6 +117,7 @@ alias:
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
 
     singletons: ls singleton:true
+    complete: ls -a incomplete:0
 
     # Show incomplete albums, skipping any albums where I only have one track
     incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^alias:is_game single_track:false'
