@@ -89,6 +89,7 @@ plugins:
   - alias
   - alias_query
   - format_fields
+  - inline_hook
   - last_import
 
   # My disabled plugins
@@ -155,6 +156,15 @@ hook:
   hooks:
     - event: import
       command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
+
+inline_hook:
+  hooks:
+    - event: import_task_created
+      handler: |
+        from beets import config, ui
+        set_fields = config['import']['set_fields']
+        if 'source' not in set_fields.keys() or set_fields['source'].as_str() == 'Unknown':
+          raise ui.UserError('No source specified, please include --set=source=SOURCE')
 
 playlist:
   auto: true
