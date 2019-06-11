@@ -83,6 +83,7 @@ plugins:
   - edit
   - embedart
   - fetchart
+  - fromfilename
   - hook
   - info
   - inline
