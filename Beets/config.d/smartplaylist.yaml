@@ -5,6 +5,9 @@ smartplaylist:
   # playlist_dir seems to be relative to BEETSDIR
   playlist_dir: ../Library/Playlists
   playlists:
+    - name: High-Res.m3u
+      query:
+        - 'samplerate:96000..'
     - name: Recent/Last Day.m3u
       query:
         - 'added- added:-1d..'
