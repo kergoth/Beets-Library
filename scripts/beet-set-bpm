@@ -1,0 +1,4 @@
+#!/bin/sh
+
+beet set-nonmb-bpm -y
+beet acousticbrainz

@@ -1,0 +1,47 @@
+#!/bin/sh
+# shellcheck disable=SC2016
+
+set -eu
+
+usage() {
+    cat >&2 <<END
+${0##*/} [-y] [QUERY..]
+
+Set the bpm field using streaming_extractor_music on any tracks which are
+non-musicbrainz (no mb_trackid set) and which currently have bpm set to 0.
+
+Options:
+  -y    Skip confirmation for beet modify
+END
+    exit 2
+}
+
+skip_confirmation=
+while getopts yh opt; do
+    case "$opt" in
+        y)
+            skip_confirmation=1
+            ;;
+        \? | h)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+tmpfile=$(mktemp -t "${0##*/}.XXXX")
+trap 'rm -f "$tmpfile"' EXIT
+trap 'rm -f "$tmpfile"; trap - INT; kill -INT 0' INT
+trap 'rm -f "$tmpfile"; trap - TERM; kill 0' TERM
+
+TAB="$(printf '\t')"
+beet ls -f '$id	$path' mb_trackid::'^$' bpm:0 "$@" | while IFS="$TAB" read -r id fn; do
+    echo "$id $fn"
+    streaming_extractor_music "$fn" "$tmpfile" || continue
+    bpm="$(jq -r .rhythm.bpm <"$tmpfile")" || continue
+    if [ -z "$bpm" ] || [ "$bpm" = "0" ]; then
+        continue
+    fi
+    bpm="$(printf '%.0f\n' "$bpm")" || continue
+    beet modify ${skip_confirmation:+-y} id:"$id" bpm="$bpm" </dev/tty
+done
