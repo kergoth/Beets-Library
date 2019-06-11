@@ -39,5 +39,7 @@ eval set -- "$saved"
 
 # shellcheck disable=SC2016
 album_id_query="$(beet ls -f '$id' -a "$@" | xargs | sed -e 's/^/ /; s/ / , album_id:/g; s/^ , //')"
-# shellcheck disable=SC2086
-beet ls ${format:+-f "$format"} $album_id_query
+if [ -n "$album_id_query" ]; then
+    # shellcheck disable=SC2086
+    beet ls ${format:+-f "$format"} $album_id_query
+fi
