@@ -1,6 +1,30 @@
 #!/bin/sh
 
+# shellcheck source=./common-music.sh
+. "$(dirname "$0")"/common-music.sh
+
+set -e
+
 bgrm DAP
 beet alt update dap --create
+cd DAP || exit 1
+
+# Copy album art files
+music_find . \
+    | grep -Ev 'Single\ Tracks|non-album\ tracks' \
+    | sed -e 's#/[^/]*$##' \
+    | while read -r dir; do
+        music_find "$dir" | head -n 1
+    done \
+    | sort -u \
+    | while read -r fn; do
+        linkdest="$(abs_readlink "$fn")"
+        origdir="$(dirname "$linkdest")"
+        if [ -e "$origdir/cover.jpg" ]; then
+            cp -avf "$origdir/cover.jpg" "$(dirname "$fn")"
+        fi
+    done
+
+# Update rockuefort playlists
 rockuefort scan
-cd DAP && ../scripts/update-playlists
+../scripts/update-playlists
