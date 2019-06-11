@@ -1,4 +1,9 @@
 #!/bin/sh
+# Get info from acousticbrainz if available, otherwise submit to
+# acousticbrainz for musicbrainz tracks and calculate and store what we can
 
-beet set-nonmb-bpm -y
+set -e
+
+beet abcalc
 beet acousticbrainz
+beet absubmit
