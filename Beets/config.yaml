@@ -133,6 +133,9 @@ alias:
     # is unknown, or is not in MusicBrainz yet.
     norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
 
+    # Extract embedded art only for albums missing a cover art file
+    extract-missing-art: extractart -a artpath::^$
+
     dup-albums: dup -aF
     dup-a: dup-albums
 
