@@ -198,6 +198,7 @@ types:
   incomplete: bool
   is_incomplete: int
   first_tracktotal: int
+  average_bpm: int
 
   # Item inline and format fields
   non_music: bool
@@ -305,6 +306,14 @@ album_fields:
     discs = sorted(set(i.disc for i in items if i.disc))
     return ','.join(str(d) for d in discs)
   first_tracktotal: items[0].tracktotal
+
+  # For albums with bpm tags on all their tracks, give us the mean
+  average_bpm: |
+    item_bpms = [getattr(i, 'bpm', 0) for i in items]
+    if all(i > 0 for i in item_bpms):
+      return int(sum(item_bpms) / len(items))
+    else:
+      return 0
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
