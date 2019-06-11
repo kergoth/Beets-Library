@@ -136,6 +136,8 @@ alias:
     # Extract embedded art only for albums missing a cover art file
     extract-missing-art: extractart -a artpath::^$
 
+    missing-art: fetchart -q
+
     dup-albums: dup -aF
     dup-a: dup-albums
 
