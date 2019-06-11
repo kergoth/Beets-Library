@@ -63,6 +63,16 @@ import:
     # source is where I obtained the music. iTunes, Amazon, Other, etc.
     source: 'Unknown'
 
+match:
+  preferred:
+    countries: ['US', 'GB|UK']
+    media: ['Digital Media|File', 'CD']
+    original_year: yes
+  max_rec:
+    unmatched_tracks: low
+  ignored_media: ['Data CD', 'DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD',
+                  'VCD', 'SVCD', 'UMD', 'VHS']
+
 plugins:
   # Stock plugins
   - acousticbrainz
