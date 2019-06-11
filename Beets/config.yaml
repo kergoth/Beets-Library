@@ -56,7 +56,7 @@ replace:
   '\.\.\.': '…'
 
 import:
-  log: ./import.log
+  log: ../Library/import.log
   timid: true
   incremental: true
   set_fields:
