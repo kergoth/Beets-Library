@@ -75,6 +75,7 @@ match:
 
 plugins:
   # Stock plugins
+  - absubmit
   - acousticbrainz
   - badfiles
   - chroma
@@ -100,6 +101,7 @@ plugins:
   - noimport
 
   # My plugins
+  - abcalc
   - alias
   - alias_query
   - format_fields
