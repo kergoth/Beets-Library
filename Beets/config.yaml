@@ -110,6 +110,9 @@ alias:
     dup-albums: dup -aF
     dup-a: dup-albums
 
+    # Complete non-game/non-christmas albums with more than one track
+    non-game-albums: complete single_track:0 ^alias:is_game ^alias:is_christmas
+
     # Very basic dupe check for albums lacking musicbrainz data, primarily
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
 
