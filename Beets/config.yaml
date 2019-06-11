@@ -1,5 +1,6 @@
 directory: ../Library
 library: ../Library/library.db
+statefile: ../Library/state.pickle
 # Ugh, relative plugin paths are based on PWD, not BEETSDIR
 pluginpath:
   - ./plugins
