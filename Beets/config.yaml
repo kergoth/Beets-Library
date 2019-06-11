@@ -178,6 +178,14 @@ bandcamp:
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
 
+fetchart:
+  # Shanling M0 with 3.0 firmware supports a max of 8192x8192
+  maxwidth: 8192
+  # Default
+  sources: filesystem coverart itunes amazon albumart
+  # Set art_source field
+  store_source: true
+
 hook:
   hooks:
     - event: import
