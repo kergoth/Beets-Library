@@ -144,6 +144,9 @@ alias:
     # producer, cases where there are featuring artist, etc.
     multiartist-not-comp: ls -a comp:false multiartist:true
 
+bandcamp:
+  art: true
+  split_artist_title: true
 
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
