@@ -1,0 +1,33 @@
+#!/bin/sh
+
+usage() {
+    cat >&2 <<END
+${0##*/} [options] SOURCE [SOURCE..]
+
+Options:
+  -q QUERY
+END
+exit 2
+}
+
+query=
+while getopts q:h opt; do
+    case "$opt" in
+        q)
+            query="$OPTARG"
+            ;;
+        \? | h)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -eq 0 ]; then
+    usage
+fi
+
+for source; do
+    # shellcheck disable=SC2086
+    beet reimport-mb "--set=source=$source" "source::^$source$" $query
+done
