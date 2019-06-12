@@ -146,6 +146,7 @@ alias:
     extract-missing-art: extractart -a artpath::^$
 
     missing-art: fetchart -q
+    reveal: open -R
 
     dup-albums: dup -aF
     dup-a: dup-albums
