@@ -78,6 +78,7 @@ plugins:
   - absubmit
   - acousticbrainz
   - badfiles
+  - convert
   - chroma
   - discogs
   - duplicates
