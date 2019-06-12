@@ -98,6 +98,7 @@ plugins:
 
   # 3rd party plugins
   - alternatives
+  - bandcamp
   - copyartifacts
   - noimport
 
