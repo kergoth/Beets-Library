@@ -3,13 +3,10 @@
 # store the lowlevel values rather than submitting them.
 
 import confuse
-import hashlib
 import json
 import os
 import tempfile
 import subprocess
-
-from distutils.spawn import find_executable
 
 from beets import ui, util, config
 from beets.plugins import BeetsPlugin, find_plugins
@@ -17,8 +14,14 @@ from beetsplug import acousticbrainz
 
 
 class ABCalcPlugin(BeetsPlugin):
+    supported_extensions = ['.mp3', '.ogg', '.oga', '.flac', '.mp4', '.m4a', '.m4r',
+                            '.m4b', '.m4p', '.aac', '.wma', '.asf', '.mpc', '.wv',
+                            '.spx', '.tta', '.3g2', '.aif', '.aiff', '.ape']
+
     def __init__(self):
         super(ABCalcPlugin, self).__init__()
+
+        self.supported_extensions = [util.bytestring_path(ext) for ext in list(self.supported_extensions)]
 
         self.config.add({
             'force': False,
@@ -88,9 +91,25 @@ class ABCalcPlugin(BeetsPlugin):
         if not self.absubmit or not self.acousticbrainz:
             raise ui.UserError('absubmit and acousticbrainz are required for this plugin')
 
-        def func(item, self=self):
+        def func(item):
             return self.analyze(item, write, force)
-        util.par_map(func, items)
+        util.par_map(func, self.included_items(items, force))
+
+    def included_items(self, items, force):
+        for item in items:
+            _, ext = os.path.splitext(item.path)
+            if ext not in self.supported_extensions:
+                self._log.debug(u'skipping item {} as {} files are unsupported', item, ext)
+                continue
+
+            if getattr(item, 'mb_trackid', None):
+                self._log.debug(u'skipping item {} as it has mb_trackid. use acousticbrainz or absubmit instead', item)
+                continue
+            elif not force and (not self.tags or 'bpm' in self.tags):
+                if getattr(item, 'bpm', 0):
+                    self._log.debug(u'skipping item {} as it has bpm. set force to override', item)
+                    continue
+            yield item
 
     def get_extractor_data(self, item):
         with tempfile.NamedTemporaryFile() as tmpfile:
@@ -100,24 +119,19 @@ class ABCalcPlugin(BeetsPlugin):
             try:
                 util.command_output(args)
             except subprocess.CalledProcessError as exc:
-                msg = u'{0} exited with status {1}'.format(subprocess.list2cmdline(args), exc.returncode)
-                raise ui.UserError(msg)
+                self._log.warning(u'{} "{}" "{}" exited with status {}', self.extractor, util.displayable_path(item.path), tmpfile.name, exc.returncode)
+                return
 
             with open(tmpfile.name, 'rb') as tmp_file:
                 return json.load(tmp_file)
 
     def analyze(self, item, write, force):
-        if getattr(item, 'mb_trackid', None):
-            self._log.debug(u'skipping item {} as it has mb_trackid. use acousticbrainz or absubmit instead', item)
-            return
-        elif not force and (not self.tags or 'bpm' in self.tags):
-            if getattr(item, 'bpm', 0):
-                self._log.debug(u'skipping item {} as it has bpm. set force to override', item)
-                return
-
         self._log.info(u'getting data for: {0}', item)
 
         data = self.get_extractor_data(item)
+        if not data:
+            return
+
         for attr, val in self.acousticbrainz._map_data_to_scheme(data, self.abscheme):
             if not self.tags or attr in self.tags:
                 if not force:
