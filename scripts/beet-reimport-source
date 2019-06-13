@@ -24,7 +24,7 @@ done
 shift $((OPTIND - 1))
 
 if [ $# -eq 0 ]; then
-    usage
+    set -- $(find Library -mindepth 1 -maxdepth 1 -type d | sed -e 's#^Library/##')
 fi
 
 for source; do
