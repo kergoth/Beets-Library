@@ -133,8 +133,10 @@ acousticbrainz:
 
 alias:
   aliases:
-    # get-config library; get-config alias.aliases.reimport
+    # $ beet get-config alias.aliases.reimport
     get-config: '!sh -c "beet config | yq -r \".$1\"" -'
+    # $ beet get-config-path library
+    get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
     reimport: import -maL
     reimport-mb: reimport mb_albumid::'^$'
