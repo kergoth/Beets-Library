@@ -2,18 +2,8 @@
 
 from __future__ import division, absolute_import, print_function
 
-from beets.dbcore import FieldQuery
-from beets.dbcore.query import NoneQuery, TrueQuery
+from beets.dbcore.query import MatchQuery, NoneQuery, TrueQuery
 from beets.plugins import BeetsPlugin
-
-
-# Via the beets documentation
-class ExactMatchQuery(FieldQuery):
-    """Match exact value."""
-
-    @classmethod
-    def value_match(cls, pattern, val):
-        return pattern == val
 
 
 # Via beets.dbcore
@@ -45,5 +35,5 @@ class ExistingQueriesPlugin(BeetsPlugin):
     def queries(self):
         return {
             '^': NoneFieldQuery,
-            '@': ExactMatchQuery,
+            '@': MatchQuery,
         }
