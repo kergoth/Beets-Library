@@ -110,6 +110,7 @@ plugins:
   - format_fields
   - inline_hook
   - last_import
+  - other_queries
 
   # My disabled plugins
   #
