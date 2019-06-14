@@ -106,6 +106,7 @@ plugins:
   - abcalc
   - alias
   - alias_query
+  - existing_queries
   - format_fields
   - inline_hook
   - last_import
