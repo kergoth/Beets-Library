@@ -2,3 +2,4 @@
 
 pipx install --spec git+https://github.com/beetbox/beets beets
 pipx runpip beets install -U requests discogs-client pyacoustid git+https://github.com/edk0/beets-join-albums git+https://github.com/steven-murray/beet-summarize git+https://github.com/wisp3rwind/beets-alternatives.git beets-bandcamp beets-noimport git+https://github.com/ssssam/beets-copyartifacts@devel
+pipx install --spec git+https://github.com/kalgynirae/rockuefort rockuefort
