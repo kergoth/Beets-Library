@@ -191,6 +191,9 @@ alias:
     # producer, cases where there are featuring artist, etc.
     multiartist-not-comp: ls -a comp:false multiartist:true
 
+    recent: ls -a 'added+' -f '$added $format_album'
+    latest: recent
+
 bandcamp:
   art: true
   split_artist_title: true
