@@ -8,7 +8,10 @@ set -e
 if [ "$1" = "-f" ]; then
     bgrm DAP
 else
-    dead-symlinks DAP | tr '\n' '\0' | xargs -0 rm -fv
+    find DAP -type l \
+        | while read -r fn; do test -e "$fn" || echo "$fn"; done \
+        | tr '\n' '\0' \
+        | xargs -0 rm -fv
 fi
 beet alt update dap --create
 cd DAP || exit 1
