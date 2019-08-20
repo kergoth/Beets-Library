@@ -33,7 +33,7 @@ replace:
   ' *:': '∶'
 
   # Remove a leading period that would make it hidden on unix/mac systems
-  '^.': ''
+  '^\.': ''
 
 path_sep_replace: ／
 
