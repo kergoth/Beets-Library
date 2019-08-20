@@ -34,7 +34,6 @@ replace:
 
   # Remove a leading period that would make it hidden on unix/mac systems
   '^.': ''
-  '/.': '/'
 
 path_sep_replace: ／
 
@@ -458,8 +457,7 @@ dap_replace:
 
   # Visual cleanup
   '^-': ''
-  '/-': '/'
-  '[-\.;]/': '/'
+  '[-\.;]$': ''
   '[\x00-\x1f]': _
   '^\s+': ''
   '\s+$': ''
