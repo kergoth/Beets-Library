@@ -1,5 +1,15 @@
 #!/bin/sh
 
-pipx install --spec git+https://github.com/beetbox/beets beets
-pipx runpip beets install -U requests discogs-client pyacoustid git+https://github.com/edk0/beets-join-albums git+https://github.com/steven-murray/beet-summarize git+https://github.com/wisp3rwind/beets-alternatives.git beets-bandcamp beets-noimport git+https://github.com/ssssam/beets-copyartifacts@devel
-pipx install --spec git+https://github.com/kalgynirae/rockuefort rockuefort
+PATH="$(dirname "$0"):$PATH"
+
+beets_url=https://github.com/beetbox/beets
+spec="git+$beets_url"
+if command -v git-get >/dev/null 2>&1; then
+    git_get_path="$(git-get "$beets_url" 2>/dev/null)"
+    if [ -d "$git_get_path" ]; then
+        spec="$git_get_path"
+    fi
+fi
+
+pipx-install -n beets "$spec" requests discogs-client pyacoustid git+https://github.com/edk0/beets-join-albums git+https://github.com/steven-murray/beet-summarize git+https://github.com/wisp3rwind/beets-alternatives.git beets-bandcamp beets-noimport git+https://github.com/ssssam/beets-copyartifacts@devel
+pipx-install -n rockuefort git+https://github.com/kalgynirae/rockuefort
