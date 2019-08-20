@@ -16,6 +16,10 @@
 
 # Beets TODO
 
+- Add path format functions to apply additional replacements just for the DAP
+  paths, not a full asciify, but just subst the characters that are invalid
+  on that filesystem, and some that look bad on my device.
+
 Re-visit the tags on the Twisted Insurrection soundtrack. It seems discogs has
 entries for it, but it's split into multiple volumes. Can I split the
 soundtrack I downloaded into those volumes, or are later volumes cumulative,
