@@ -111,6 +111,7 @@ plugins:
   - inline_hook
   - last_import
   - other_queries
+  - replace
 
   # My disabled plugins
   #
