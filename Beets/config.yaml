@@ -32,6 +32,10 @@ paths:
 replace:
   ' *:': '∶'
 
+  # Remove a leading period that would make it hidden on unix/mac systems
+  '^.': ''
+  '/.': '/'
+
 path_sep_replace: ／
 
 import:
@@ -453,8 +457,8 @@ dap_replace:
   ' *\(c\)': ''
 
   # Visual cleanup
-  '^[-\.]': ''
-  '/[-\.]': '/'
+  '^-': ''
+  '/-': '/'
   '[-\.;]/': '/'
   '[\x00-\x1f]': _
   '^\s+': ''
