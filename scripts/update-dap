@@ -11,7 +11,8 @@ else
     find DAP -type l \
         | while read -r fn; do test -e "$fn" || echo "$fn"; done \
         | tr '\n' '\0' \
-        | xargs -0 rm -fv
+        | xargs -0 rm -fv \
+        | sed -e 's,^,-,'
 fi
 beet alt update dap --create
 cd DAP || exit 1
