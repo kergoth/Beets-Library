@@ -15,7 +15,6 @@ format_album: '$format_album'
 format_item: '$format_item'
 sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
-path_sep_replace: ／
 
 paths:
   default: '$source/$comp_albumartist/%if{$album,$album%aunique{},[non-album tracks]}/$disc_and_track_pre$title'
@@ -28,32 +27,12 @@ paths:
 # http://www.unicode.org/Public/security/latest/confusables.txt
 #
 # This isn't ideal, as these are *not* the correct unicode characters, but it
-# looks close enough visually on the media player, while being compatible with
-# its filesystem, which is the goal. Ideally I'd run very very few
-# replacements on my main library, and have additional ones in
-# beets-alternatives for use on the digital audio player.
+# looks close enough visually, while being compatible with the filesystem,
+# which is the goal.
 replace:
-  # Unicode lookalikes
   ' *:': '∶'
 
-  # Die, marks I don't care about
-  ' *™': ''
-  ' *\(tm\)': ''
-  ' *®': ''
-  ' *\(r\)': ''
-  ' *©': ''
-  ' *\(c\)': ''
-
-  # Visual cleanup
-  '^[-\.]': ''
-  '/[-\.]': '/'
-  '[-\.;]/': '/'
-  '[\x00-\x1f]': _
-  '^\s+': ''
-  '\s+$': ''
-
-  # Revert asciify for certain chars
-  '\.\.\.': '…'
+path_sep_replace: ／
 
 import:
   log: ../Library/import.log
@@ -453,21 +432,42 @@ alternatives:
     directory: ../DAP
     formats: link
     paths:
-      non_music:true     : 'Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename'
-      alias:is_mfp       : 'Albums/$label/$label/$full_title'
-      alias:is_christmas : 'Christmas Music/$albumartistdir/$albumdir/$comp_filename'
-      alias:is_game      : 'Game Music/$albumdir/$comp_filename'
-      singleton          : 'Single Tracks/$artist_title'
-      album:sampler      : '%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}'
-      alias:is_single    : 'Singles/$albumartistdir/$albumdir/$comp_filename'
-      alias:is_soundtrack: '%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}'
-      default            : '%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}'
-    replace:
-      # Bad font rendering for these characters on the Shanling M0 DAP
-      '“': '"'
-      '”': '"'
-      '‘': "'"
-      '’': "'"
+      non_music:true     : '%replace{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
+      alias:is_mfp       : '%replace{dap_replace,Albums/$label/$label/$full_title}'
+      alias:is_christmas : '%replace{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
+      alias:is_game      : '%replace{dap_replace,Game Music/$albumdir/$comp_filename}'
+      singleton          : '%replace{dap_replace,Single Tracks/$artist_title}'
+      album:sampler      : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
+      alias:is_single    : '%replace{dap_replace,Singles/$albumartistdir/$albumdir/$comp_filename}'
+      alias:is_soundtrack: '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
+      default            : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
+
+# These replacements improve the visuals and navigation on the media player
+dap_replace:
+  # Marks I don't care about
+  ' *™': ''
+  ' *\(tm\)': ''
+  ' *®': ''
+  ' *\(r\)': ''
+  ' *©': ''
+  ' *\(c\)': ''
+
+  # Visual cleanup
+  '^[-\.]': ''
+  '/[-\.]': '/'
+  '[-\.;]/': '/'
+  '[\x00-\x1f]': _
+  '^\s+': ''
+  '\s+$': ''
+
+  # Revert asciify for certain chars
+  '\.\.\.': '…'
+
+  # Bad font rendering for these characters on the Shanling M0 DAP
+  '“': '"'
+  '”': '"'
+  '‘': "'"
+  '’': "'"
 
 include:
   - config.d/smartplaylist.yaml
