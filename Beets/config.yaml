@@ -90,7 +90,7 @@ plugins:
   - inline_hook
   - last_import
   - other_queries
-  - replace
+  - replace_format
 
   # My disabled plugins
   #
