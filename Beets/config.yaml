@@ -105,6 +105,9 @@ plugins:
   #   %pyif{int("$something") > 0 && int("$somethingelse") < 0,foo}
   # - pyif
 
+abcalc:
+  auto: true
+
 acousticbrainz:
   tags:
     - bpm
