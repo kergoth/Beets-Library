@@ -420,7 +420,7 @@ format_fields:
     is_incomplete: '%if{$first_tracktotal,%if{$missing,1,0},%if{$incomplete,1,0}}'
 
   item_fields:
-    format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $title'
+    format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $full_title'
 
     # Used in path formats
     # singleton is an item field, not an album field, obviously..
