@@ -227,6 +227,7 @@ types:
   # Manually set fields. Use e_<field> to deal with it being undefined
   # db-only version of itunesadvisory. 2 == Explicit, 1 == Clean
   advisory: int
+  albumadvisory: int
 
   # Album inline and format fields
   existing: int
@@ -246,6 +247,7 @@ types:
 
   # Existing fields to deal with lacking or wrong defaults
   e_advisory: int
+  e_albumadvisory: int
   e_missing: int
 
 # It's irritating that we can't reference other inline fields to avoid this
@@ -336,10 +338,14 @@ album_fields:
       return albumartist
 
   explicit_or_clean_album: |
-    for item in items:
-      advisory = getattr(item, 'advisory', 0)
-      if advisory == 1:
-        return ' (Explicit)'
+    if 'albumadvisory' in globals() and albumadvisory == 1:
+      return ' (Explicit)'
+    else:
+      # Slow path
+      for item in items:
+        advisory = getattr(item, 'advisory', 0)
+        if advisory == 1:
+          return ' (Explicit)'
     return ''
 
   album_discs: |
@@ -416,6 +422,7 @@ format_fields:
     # Deal with undefined values for queries
     # This isn't undefined, but is negative when tracktotal/albumtotal is 0
     e_missing: '%if{$albumtotal,$missing,0}'
+    e_albumadvisory: '%ifdef{albumadvisory}'
 
     is_incomplete: '%if{$first_tracktotal,%if{$missing,1,0},%if{$incomplete,1,0}}'
 
