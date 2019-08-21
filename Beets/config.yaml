@@ -136,6 +136,13 @@ alias:
     missing-art: fetchart -q
     reveal: open -R
 
+    # Mac-specific alias
+    picard: '!beet-open -a "-a MusicBrainz\ Picard"'
+
+    # FIXME: bugged. args with spaces passed from a standard alias to an
+    # external alias is problematic
+    # picard: 'open -a "-a MusicBrainz\ Picard"'
+
     dup-albums: dup -aF
     dup-a: dup-albums
 
