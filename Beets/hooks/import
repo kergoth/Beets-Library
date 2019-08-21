@@ -1,9 +1,10 @@
 #!/bin/sh
+# shellcheck disable=SC2016
 
 # Set certain album items to singleton
-for album_id in $(beet ls -f '$id' -a last_import:1); do
-    beet modify -y album_id:$album_id album:"non-album tracks" singleton=true album= 2>/dev/null
-    beet modify -y album_id:$album_id album::"^$" singleton=true album= 2>/dev/null
+beet ls -f '$id' -a last_import:1 | while read -r album_id; do
+    beet modify -y "album_id:$album_id" album:"non-album tracks" singleton=true album= 2>/dev/null
+    beet modify -y "album_id:$album_id" album::"^$" singleton=true album= 2>/dev/null
 done
 
 # Clear out the album field for imported singletons
