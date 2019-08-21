@@ -169,6 +169,7 @@ alias:
     book-not-audiobook: ls genre:book '^albumtype:audiobook'
     unknown-source: ls source:Unknown
     excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
+    red-flags: '!sh -c "(set -x; beet empty-artist; beet empty-album; beet book-not-audiobook; beet unknown-source; beet excess-tracks) | python3 -c \"import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))\""'
 
     # Potential concerns
     various-not-comp: ls -a is_various_not_comp:true
