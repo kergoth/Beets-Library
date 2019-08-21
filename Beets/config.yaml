@@ -168,6 +168,7 @@ alias:
     empty-album: ls album::'^$' singleton:false
     book-not-audiobook: ls genre:book '^albumtype:audiobook'
     unknown-source: ls source:Unknown
+    excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
 
     # Potential concerns
     various-not-comp: ls -a is_various_not_comp:true
