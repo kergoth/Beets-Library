@@ -7,17 +7,22 @@ ${0##*/} [options] [SEARCH_QUERY]
 
 Options:
 
--R    Reveal
--h    Show usage
+-R            Reveal
+-a OPEN_ARGS  Specify arguments to pass along to the underlying open command.
+-h            Show usage
 END
 exit 2
 }
 
 reveal=0
-while getopts Rh opt; do
+open_args=
+while getopts Ra:h opt; do
     case "$opt" in
         R)
             reveal=1
+            ;;
+        a)
+            open_args="$OPTARG"
             ;;
         \? | h)
             usage
@@ -58,4 +63,4 @@ beet ls -f '$path' "$@" \
         cat
     fi \
     | sort -u \
-    | nlxargs open
+    | ( eval set -- ${open_args:+$open_args}; nlxargs open "$@"; )
