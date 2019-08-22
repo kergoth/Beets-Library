@@ -52,4 +52,4 @@ class AliasQueryPlugin(BeetsPlugin):
             self.item_queries = {'alias': ItemAliasQuery}
 
         if self.config['album_queries']:
-            self.album_queries = {'alias': AlbumAliasQuery}
+            self.album_queries = {'album_alias': AlbumAliasQuery}
