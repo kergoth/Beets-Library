@@ -261,6 +261,9 @@ album_fields:
     grouped = groupby(sorted(items, key=keyfunc), keyfunc)
     by_disc = [(k, len(list(v))) for k, v in grouped]
     return ','.join(str(v[1]) for v in sorted(by_disc))
+  existing_discs: |
+    discs = sorted(set(i.disc for i in items if i.disc))
+    return ','.join(str(d) for d in discs)
 
   single_track: len(items) == 1
 
@@ -337,9 +340,6 @@ album_fields:
           return ' (Explicit)'
     return ''
 
-  album_discs: |
-    discs = sorted(set(i.disc for i in items if i.disc))
-    return ','.join(str(d) for d in discs)
   first_tracktotal: items[0].tracktotal
 
   # For albums with bpm tags on all their tracks, give us the mean
