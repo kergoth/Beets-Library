@@ -423,6 +423,7 @@ format_fields:
 
 alias_query:
   album_queries:
+    # This is used both in an alias command and an import hook
     is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   item_queries:
     is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
