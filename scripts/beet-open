@@ -8,7 +8,7 @@ ${0##*/} [options] [SEARCH_QUERY]
 Options:
 
 -R            Reveal
--a OPEN_ARGS  Specify arguments to pass along to the underlying open command.
+-A OPEN_ARGS  Specify arguments to pass along to the underlying open command.
 -h            Show usage
 END
 exit 2
