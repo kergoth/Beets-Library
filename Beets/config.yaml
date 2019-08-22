@@ -176,6 +176,8 @@ alias:
 
     # Potential concerns
     unknown-soundtracks: albums-for albumtype:soundtrack \^genre:soundtrack \^genre:game \^genre:videogame \^genre:vgm
+    # This is automatically corrected in my import hook
+    various-not-comp: ls -a album_alias:is_various_not_comp
 
     # Informative
     non-mb-albums: ls -a mb_albumid::^$
