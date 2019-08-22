@@ -240,7 +240,6 @@ types:
   average_bpm: int
 
   # Item inline and format fields
-  non_music: bool
   excess_tracks: bool
 
   # Existing fields to deal with lacking or wrong defaults
@@ -385,16 +384,6 @@ item_fields:
     else:
       return '%i - ' % track
 
-  non_music: |
-    lgenre = genre.lower()
-    lalbumtype = albumtype.lower()
-    if any(i in lgenre for i in ('speech', 'meditation', 'dharma', 'book', 'spoken')):
-      return 1
-    elif any(i in lalbumtype for i in ('spokenword', 'audiobook', 'audio drama', 'interview')):
-      return 1
-    else:
-      return 0
-
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
 
 format_fields:
@@ -435,6 +424,7 @@ alias_query:
   album_queries:
     is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   item_queries:
+    is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
     is_christmas: 'genre:Christmas , genre:Holiday'
     is_game: 'genre:game , genre:videogame , genre:vgm'
     is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
@@ -446,7 +436,7 @@ alternatives:
     directory: ../DAP
     formats: link
     paths:
-      non_music:true     : '%replace{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
+      alias:is_non_music : '%replace{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
       alias:is_mfp       : '%replace{dap_replace,Albums/$label/$label/$full_title}'
       alias:is_christmas : '%replace{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
       alias:is_game      : '%replace{dap_replace,Game Music/$albumdir/$comp_filename}'
