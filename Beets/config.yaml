@@ -127,14 +127,14 @@ alias:
     get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
     reimport: import -maL
-    reimport-mb: reimport mb_albumid::'^$'
+    reimport-mb: reimport mb_albumid:@
 
     # Strip release-specific tags. Useful in cases where the precise release
     # is unknown, or is not in MusicBrainz yet.
     norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
 
     # Extract embedded art only for albums missing a cover art file
-    extract-missing-art: extractart -a artpath::^$
+    extract-missing-art: extractart -a artpath:@
 
     missing-art: fetchart -q
     reveal: open -R
@@ -167,9 +167,9 @@ alias:
     missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal::"^0$"'
 
     # Red flags
-    empty-artist: ls artist::'^$'
-    empty-album: ls album::'^$' singleton:false
-    book-not-audiobook: ls genre:book '^albumtype:audiobook'
+    empty-artist: ls artist:@
+    empty-album: ls album:@ singleton:false
+    book-not-audiobook: ls genre:book ^albumtype:audiobook
     unknown-source: ls source:Unknown
     excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
     red-flags: '!sh -c "(set -x; beet empty-artist; beet empty-album; beet book-not-audiobook; beet unknown-source; beet excess-tracks) | python3 -c \"import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))\""'
@@ -180,8 +180,8 @@ alias:
     various-not-comp: ls -a album_alias:is_various_not_comp
 
     # Informative
-    non-mb-albums: ls -a mb_albumid::^$
-    possible-singles: albums-for tracktotal:1 albumtype::^$
+    non-mb-albums: ls -a mb_albumid:@
+    possible-singles: albums-for tracktotal:1 albumtype:@
     # These are often not an issue, just albums which feature multiple
     # artists, but aren't compilations. Cases where the album artist is the
     # producer, cases where there are featuring artist, etc.
@@ -418,7 +418,7 @@ format_fields:
     comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$artist_title,$full_title}'
 
     # Deal with undefined values for queries. This lets me do ls e_advisory:0,
-    # instead of having to check for advisory::'^$'.
+    # instead of having to check for advisory:@.
     e_advisory: '%ifdef{advisory}'
     e_alt_dap: '%ifdef{alt.dap}'
 
