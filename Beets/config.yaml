@@ -175,7 +175,6 @@ alias:
     red-flags: '!sh -c "(set -x; beet empty-artist; beet empty-album; beet book-not-audiobook; beet unknown-source; beet excess-tracks) | python3 -c \"import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))\""'
 
     # Potential concerns
-    various-not-comp: ls -a is_various_not_comp:true
     unknown-soundtracks: albums-for albumtype:soundtrack \^genre:soundtrack \^genre:game \^genre:videogame \^genre:vgm
 
     # Informative
@@ -232,7 +231,6 @@ types:
   # Album inline and format fields
   existing: int
   is_comp_same_artists: bool
-  is_various_not_comp: bool
   multiartist: bool
   multidisc: bool
   single_track: bool
@@ -312,14 +310,6 @@ album_fields:
             if tracknumbers != list(range(1, highest+1)):
               return True
     return False
-
-  is_various_not_comp: |
-    if comp:
-      return 0
-    elif albumartist == 'Various Artists':
-      return 1
-    else:
-      return 0
 
   # This is flagged as a compilation, but all the track artists are the same.
   # Consider setting albumartist instead. This only works when missing:0 at
@@ -442,6 +432,8 @@ format_fields:
     e_alt_dap: '%ifdef{alt.dap}'
 
 alias_query:
+  album_queries:
+    is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   item_queries:
     is_christmas: 'genre:Christmas , genre:Holiday'
     is_game: 'genre:game , genre:videogame , genre:vgm'
