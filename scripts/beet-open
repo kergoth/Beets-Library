@@ -16,12 +16,12 @@ exit 2
 
 reveal=0
 open_args=
-while getopts Ra:h opt; do
+while getopts RA:h opt; do
     case "$opt" in
         R)
             reveal=1
             ;;
-        a)
+        A)
             open_args="$OPTARG"
             ;;
         \? | h)
