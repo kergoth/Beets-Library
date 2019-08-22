@@ -121,6 +121,7 @@ acousticbrainz:
 
 alias:
   aliases:
+    # Utilities
     # $ beet get-config alias.aliases.reimport
     get-config: '!sh -c "beet config | yq -r \".$1\"" -'
     # $ beet get-config-path library
@@ -155,17 +156,17 @@ alias:
     # Very basic dupe check for albums lacking musicbrainz data, primarily
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
 
-    singletons: ls singleton:true
+    singletons: ls singleton:1
     complete: ls -a incomplete:0
     high-res: albums-for samplerate:96000..
 
     # Show incomplete albums, skipping any albums where I only have one track
-    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^alias:is_game single_track:false'
-    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:false alias:is_game'
+    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^alias:is_game single_track:0'
+    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:0 alias:is_game'
 
     # Red flags
     empty-artist: ls artist:@
-    empty-album: ls album:@ singleton:false
+    empty-album: ls album:@ singleton:0
     book-not-audiobook: ls genre:book ^albumtype:audiobook
     unknown-source: ls source:Unknown
     excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
@@ -184,7 +185,7 @@ alias:
     # These are often not an issue, just albums which feature multiple
     # artists, but aren't compilations. Cases where the album artist is the
     # producer, cases where there are featuring artist, etc.
-    multiartist-not-comp: ls -a comp:false multiartist:true
+    multiartist-not-comp: ls -a comp:0 multiartist:1
 
     recent: ls -a 'added+' -f '$added $format_album'
 
