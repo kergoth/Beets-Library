@@ -163,9 +163,6 @@ alias:
     incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^alias:is_game single_track:false'
     incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:false alias:is_game'
 
-    # Albums with no albumtotal/tracktotals set
-    missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal::"^0$"'
-
     # Red flags
     empty-artist: ls artist:@
     empty-album: ls album:@ singleton:false
@@ -176,6 +173,7 @@ alias:
 
     # Potential concerns
     unknown-soundtracks: albums-for albumtype:soundtrack \^genre:soundtrack \^genre:game \^genre:videogame \^genre:vgm
+    missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal:@0'
     # This is automatically corrected in my import hook
     various-not-comp: ls -a album_alias:is_various_not_comp
 
