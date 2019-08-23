@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+# Show what we're about to delete
+beet ls -a "$@"
+
+# Move the files to Removed
+beet mv -ta -d Removed "$@"
+
+# Remove the files from the db
+beet rm -a "$@"
