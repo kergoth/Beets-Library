@@ -1,12 +1,40 @@
 #!/bin/sh
+# shellcheck disable=SC2016
 
 set -e
 
-# Show what we're about to delete
-beet ls -a "$@"
+librarypath="$(cd "$(beet get-config-path directory)" && pwd -P)"
+album_flexible_fields="$(beet-flexible-fields -a | xargs | tr ' ' ',')"
+item_flexible_fields="$(beet-flexible-fields -i | xargs | tr ' ' ',')"
 
-# Move the files to Removed
-beet mv -ta -d Removed "$@"
+albums="$(beet ls -f '$id' -a "$@" | xargs)"
 
-# Remove the files from the db
-beet rm -a "$@"
+case "$albums" in
+    *\ *)
+        echo >&2 "Error: multiple albums matched."
+        exit 1
+        ;;
+esac
+
+for album_id in $albums; do
+    beet ls -a id:"$album_id"
+
+    # Move the files to Removed
+    beet mv -tae -d Removed id:"$album_id"
+
+    # Export flexible fields
+    path="$(beet ls -f '$path' -a "id:$album_id")"
+    relpath="$(relpath "$path" "$librarypath")"
+    destdir="Removed/$relpath"
+    mkdir -p "$destdir" # FIXME: HACK
+    if [ -d "$destdir" ]; then
+        echo >&2 "Exporting album fields"
+        first_id="$(beet ls -f '$id' "album_id:$album_id" | head -n 1)"
+        beet export -l -i "$album_flexible_fields" "id:$first_id" | jq '.[0]' >"$destdir/album.json"
+        echo >&2 "Exporting album item fields"
+        beet export -l -i "path,$item_flexible_fields" "album_id:$album_id" | jq . >"$destdir/items.json"
+    fi
+
+    # Remove the files from the db
+    beet rm -ad "id:$album_id"
+done
