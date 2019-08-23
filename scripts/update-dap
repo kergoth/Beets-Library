@@ -15,24 +15,9 @@ else
         | sed -e 's,^,-,'
 fi
 beet alt update dap --create
+"$(dirname "$0")/update-dap-covers"
+
 cd DAP || exit 1
-
-# Copy album art files
-music_find . \
-    | grep -Ev 'Single\ Tracks|non-album\ tracks' \
-    | sed -e 's#/[^/]*$##' \
-    | while read -r dir; do
-        music_find "$dir" | head -n 1
-    done \
-    | sort -u \
-    | while read -r fn; do
-        linkdest="$(abs_readlink "$fn")"
-        origdir="$(dirname "$linkdest")"
-        if [ -e "$origdir/cover.jpg" ]; then
-            cp -avf "$origdir/cover.jpg" "$(dirname "$fn")"
-        fi
-    done
-
 # Update rockuefort playlists
 rockuefort scan
 ../scripts/update-playlists

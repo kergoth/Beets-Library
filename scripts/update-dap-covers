@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# shellcheck source=./common-music.sh
+. "$(dirname "$0")"/common-music.sh
+
+set -e
+
+cd DAP || exit 1
+
+# Copy album art files
+find . -type l -not -name \*.m3u8 \
+    | grep -Ev 'Single Tracks|non-album tracks' \
+    | sed -e 's#/[^/]*$##' \
+    | sort -u \
+    | while read -r dir; do
+        music_find "$dir" | head -n 1
+    done \
+    | while read -r fn; do
+        linkdest="$(abs_readlink "$fn")"
+        origdir="$(dirname "$linkdest")"
+        destdir="$(dirname "$fn")"
+        if [ -e "$origdir/cover.jpg" ] && [ ! -e "$destdir/cover.jpg" ]; then
+            convert "$origdir/cover.jpg" -resize '8192x8192>' -bordercolor black -border 18x18 "$destdir/cover.jpg"
+        fi
+    done
