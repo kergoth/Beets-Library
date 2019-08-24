@@ -137,6 +137,9 @@ alias:
     # Extract embedded art only for albums missing a cover art file
     extract-missing-art: extractart -a artpath:@
 
+    # Clear embedded art from albums that have an artpath
+    clearart-albums: clearart album_id::.
+
     missing-art: fetchart -q
     reveal: open -R
 
