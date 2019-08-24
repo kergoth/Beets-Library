@@ -195,6 +195,9 @@ bandcamp:
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
 
+embedart:
+  auto: false
+
 fetchart:
   # Shanling M0 with 3.0 firmware supports a max of 8192x8192
   maxwidth: 8192
