@@ -199,8 +199,6 @@ embedart:
   auto: false
 
 fetchart:
-  # Shanling M0 with 3.0 firmware supports a max of 8192x8192
-  maxwidth: 8192
   # Default
   sources: filesystem coverart itunes amazon albumart
   # Set art_source field
