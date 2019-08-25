@@ -156,7 +156,7 @@ alias:
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
 
     singletons: ls singleton:1
-    complete: ls -a incomplete:0
+    complete: ls -a is_incomplete:0
     high-res: albums-for samplerate:96000..
 
     # Show incomplete albums, skipping any albums where I only have one track
@@ -392,7 +392,7 @@ format_fields:
     format_album: '[$id] $albumartist - $album'
 
     # Used in path formats
-    albumsdir: '%if{$incomplete,Incomplete }Albums'
+    albumsdir: '%if{$is_incomplete,Incomplete }Albums'
     _albumdir: '%the{$album%aunique{}}$explicit_or_clean_album'
     albumartistdir: '%asciify{%first{$comp_albumartist}}'
 
