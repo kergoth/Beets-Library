@@ -20,6 +20,6 @@ find . -type l -not -name \*.m3u8 \
         origdir="$(dirname "$linkdest")"
         destdir="$(dirname "$fn")"
         if [ -e "$origdir/cover.jpg" ] && [ ! -e "$destdir/cover.jpg" ]; then
-            convert "$origdir/cover.jpg" -resize '8192x8192>' -bordercolor black -border 18x18 "$destdir/cover.jpg"
+            convert "$origdir/cover.jpg" -resize 220x220 -bordercolor black -border 10x10 "$destdir/cover.jpg"
         fi
     done
