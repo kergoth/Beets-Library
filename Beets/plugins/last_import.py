@@ -58,12 +58,12 @@ class LastimportPlugin(BeetsPlugin):
     def import_task_created(self, session, task):
         """Clear existing last_import fields before the new import."""
         with session.lib.transaction():
-            for album in session.lib.albums('last_import:true'):
-                album['last_import'] = False
+            for album in session.lib.albums('last_import:1'):
+                album['last_import'] = 0
                 album.store('last_import')
 
-            for item in session.lib.items('last_import:true'):
-                item['last_import'] = False
+            for item in session.lib.items('last_import:1'):
+                item['last_import'] = 0
                 item.store('last_import')
 
     def imported(self, session, task):
@@ -72,5 +72,5 @@ class LastimportPlugin(BeetsPlugin):
         else:
             item = task.item
 
-        item['last_import'] = True
+        item['last_import'] = 1
         item.store('last_import')
