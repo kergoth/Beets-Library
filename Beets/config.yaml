@@ -145,6 +145,7 @@ alias:
 
     # Mac-specific alias
     picard: 'open -A "-a MusicBrainz\ Picard"'
+    vlc: 'open -A "-a VLC"'
 
     dup-albums: dup -aF
     dup-a: dup-albums
