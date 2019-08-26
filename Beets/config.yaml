@@ -428,6 +428,8 @@ alias_query:
   item_queries:
     is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
     is_christmas: 'genre:Christmas , genre:Holiday'
+    is_classical: 'genre:Classical'
+    dap_classical: 'genre:Classical ^artist:"Christopher Tin"'
     is_game: 'genre:game , genre:videogame , genre:vgm'
     is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
     is_single: 'albumtype:single , tracktotal:1'
@@ -442,6 +444,7 @@ alternatives:
       alias:is_mfp       : '%replace{dap_replace,Albums/$label/$label/$full_title}'
       alias:is_christmas : '%replace{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
       alias:is_game      : '%replace{dap_replace,Game Music/$albumdir/$comp_filename}'
+      alias:dap_classical : '%replace{dap_replace,Classical Music/$albumartistdir/$albumdir/$comp_filename}'
       singleton          : '%replace{dap_replace,Single Tracks/$artist_title}'
       album:sampler      : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
       alias:is_single    : '%replace{dap_replace,Singles/$albumartistdir/%replace{no_single_suffix,$albumdir}/$comp_filename}'
