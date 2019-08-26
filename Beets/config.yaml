@@ -144,8 +144,8 @@ alias:
     reveal: open -R
 
     # Mac-specific alias
-    picard: 'open -A "-a MusicBrainz\ Picard"'
-    vlc: 'open -A "-a VLC"'
+    picard: 'open -A "-a MusicBrainz\ Picard" --'
+    vlc: 'open -A "-a VLC" --'
 
     dup-albums: dup -aF
     dup-a: dup-albums
@@ -395,7 +395,7 @@ format_fields:
     # Used in path formats
     albumsdir: '%if{$is_incomplete,Incomplete }Albums'
     _albumdir: '%the{$album%aunique{}}$explicit_or_clean_album'
-    albumartistdir: '%asciify{%first{$comp_albumartist}}'
+    albumartistdir: '%replace{sort_artist,%asciify{%first{$comp_albumartist}}}'
 
     # Fallbacks from item fields
     albumdir: '$_albumdir'
@@ -454,6 +454,12 @@ alternatives:
 
 no_single_suffix:
   ' - Single$': ''
+
+sort_artist:
+  # Deal with non-alphanumeric sort issues when browsing
+  '∶wumpscut∶': 'wumpscut'
+  '_ensnare_': 'ensnare'
+  '.mpegasus': 'mpegasus'
 
 # These replacements improve the visuals and navigation on the media player
 dap_replace:
