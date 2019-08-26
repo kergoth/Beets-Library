@@ -122,10 +122,10 @@ alias:
     norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
 
     # Extract embedded art only for albums missing a cover art file
-    extract-missing-art: extractart -a artpath:@
+    extract-missing-art: extractart -a artpath:^
 
     # Clear embedded art from albums that have an artpath
-    clearart-albums: clearart album_id::.
+    clearart-albums: clearart album_id::. ^artpath:^
 
     missing-art: fetchart -q
     reveal: open -R
