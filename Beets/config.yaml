@@ -92,16 +92,6 @@ plugins:
   - other_queries
   - replace_format
 
-  # My disabled plugins
-  #
-  # Add ITUNESADVISORY to mediafile. I'm using a flexible attribute 'advisory'
-  # instead to avoid the issues with the mediafile extension support.
-  # - itunesadvisory
-  #
-  # Python conditional template func. For example:
-  #   %pyif{int("$something") > 0 && int("$somethingelse") < 0,foo}
-  # - pyif
-
 abcalc:
   auto: true
 
