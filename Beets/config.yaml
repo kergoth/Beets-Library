@@ -25,10 +25,6 @@ paths:
 
 # For unicode lookalikes, see:
 # http://www.unicode.org/Public/security/latest/confusables.txt
-#
-# This isn't ideal, as these are *not* the correct unicode characters, but it
-# looks close enough visually, while being compatible with the filesystem,
-# which is the goal.
 replace:
   ' *:': '∶'
 
@@ -148,7 +144,6 @@ alias:
     vlc: 'open -A "-a VLC" --'
 
     dup-albums: dup -aF
-    dup-a: dup-albums
 
     # Complete non-game/non-christmas albums with more than one track
     non-game-albums: complete single_track:0 ^alias:is_game ^alias:is_christmas
