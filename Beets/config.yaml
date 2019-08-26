@@ -62,6 +62,7 @@ plugins:
   - duplicates
   - edit
   - embedart
+  - export
   - fetchart
   - fromfilename
   - hook
