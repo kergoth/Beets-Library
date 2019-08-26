@@ -3,18 +3,16 @@
 
 set -e
 
+if [ $# -eq 0 ]; then
+    echo >&2 'Usage: remove-album QUERY [..]'
+    exit 1
+fi
+
 librarypath="$(cd "$(beet get-config-path directory)" && pwd -P)"
 album_flexible_fields="$(beet-flexible-fields -a | xargs | tr ' ' ',')"
 item_flexible_fields="$(beet-flexible-fields -i | xargs | tr ' ' ',')"
 
 albums="$(beet ls -f '$id' -a "$@" | xargs)"
-
-case "$albums" in
-    *\ *)
-        echo >&2 "Error: multiple albums matched."
-        exit 1
-        ;;
-esac
 
 for album_id in $albums; do
     beet ls -a id:"$album_id"
