@@ -167,7 +167,7 @@ alias:
     # Informative
     non-mb-albums: ls -a mb_albumid:@
     possible-singles: albums-for tracktotal:1 albumtype:@
-    possible-not-comp: is_comp_same_artists:1
+    possible-not-comp: ls -a comp:1 is_incomplete:0 is_comp_same_artists:1
     # These are often not an issue, just albums which feature multiple
     # artists, but aren't compilations. Cases where the album artist is the
     # producer, cases where there are featuring artist, etc.
