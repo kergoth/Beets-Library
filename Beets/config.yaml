@@ -37,6 +37,7 @@ import:
   log: ../Library/import.log
   timid: true
   incremental: true
+  default_action: skip
   set_fields:
     # source is where I obtained the music. iTunes, Amazon, Other, etc.
     source: 'Unknown'
