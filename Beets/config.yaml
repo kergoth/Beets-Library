@@ -39,6 +39,9 @@ import:
     # source is where I obtained the music. iTunes, Amazon, Other, etc.
     source: 'Unknown'
 
+# files matching these patterns are deleted from source after import
+clutter: ["Thumbs.DB", ".DS_Store", "*.m3u"]
+
 match:
   preferred:
     countries: ['US', 'GB|UK']
