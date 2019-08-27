@@ -36,7 +36,9 @@ else:
 
 class NoOpOptionParser(optparse.OptionParser):
     def parse_args(self, args=None, namespace=None):
-        return [], args or sys.argv[1:]
+        if args is None:
+            args = sys.argv[1:]
+        return [], args
 
 
 class AliasCommand(Subcommand):
