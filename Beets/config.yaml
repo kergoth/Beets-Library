@@ -51,7 +51,7 @@ match:
   max_rec:
     unmatched_tracks: low
   ignored_media: ['Data CD', 'DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD',
-                  'VCD', 'SVCD', 'UMD', 'VHS']
+                  'VCD', 'SVCD', 'UMD', 'VHS', '12" Vinyl']
 
 plugins:
   # Stock plugins
