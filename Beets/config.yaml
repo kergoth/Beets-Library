@@ -242,6 +242,7 @@ album_fields:
 
   # Number of existing tracks in this album
   existing: len(items)
+  # Used by the missing-albumtotal alias
   existing_by_disc: |
     from itertools import groupby
     def keyfunc(i):
@@ -249,6 +250,7 @@ album_fields:
     grouped = groupby(sorted(items, key=keyfunc), keyfunc)
     by_disc = [(k, len(list(v))) for k, v in grouped]
     return ','.join(str(v[1]) for v in sorted(by_disc))
+  # Not used at this time, only made available
   existing_discs: |
     discs = sorted(set(i.disc for i in items if i.disc))
     return ','.join(str(d) for d in discs)
@@ -322,8 +324,6 @@ album_fields:
           return ' (Explicit)'
     return ''
 
-  first_tracktotal: items[0].tracktotal
-
   # For albums with bpm tags on all their tracks, give us the mean
   average_bpm: |
     item_bpms = [getattr(i, 'bpm', 0) for i in items]
@@ -331,6 +331,8 @@ album_fields:
       return int(sum(item_bpms) / len(items))
     else:
       return 0
+
+  first_tracktotal: items[0].tracktotal
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
