@@ -311,12 +311,6 @@ album_fields:
     else:
       return 0
 
-  comp_albumartist: |
-    if comp:
-      return 'Compilations'
-    else:
-      return albumartist
-
   explicit_or_clean_album: |
     if 'albumadvisory' in globals() and albumadvisory == 1:
       return ' (Explicit)'
@@ -379,6 +373,7 @@ format_fields:
     format_album: '[$id] $albumartist - $album'
 
     # Used in path formats
+    comp_albumartist: '%if{$comp,Compilations,$albumartist}'
     albumsdir: '%if{$is_incomplete,Incomplete }Albums'
     _albumdir: '%the{$album%aunique{}}$explicit_or_clean_album'
     albumartistdir: '%replace{sort_artist,%asciify{%first{$comp_albumartist}}}'
