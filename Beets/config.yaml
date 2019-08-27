@@ -160,7 +160,7 @@ alias:
 
     # Potential concerns
     unknown-soundtracks: albums-for albumtype:soundtrack \^genre:soundtrack \^genre:game \^genre:videogame \^genre:vgm
-    missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal:@0'
+    missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal:0'
     # This is automatically corrected in my import hook
     various-not-comp: ls -a album_alias:is_various_not_comp
 
