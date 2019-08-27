@@ -128,7 +128,7 @@ alias:
     clearart-albums: clearart album_id::. ^artpath:^
 
     missing-art: fetchart -q
-    reveal: open -R
+    reveal: open -R --
 
     # Mac-specific alias
     picard: 'open -A "-a MusicBrainz\ Picard" --'
