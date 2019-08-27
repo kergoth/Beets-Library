@@ -448,6 +448,7 @@ sort_artist:
   '∶wumpscut∶': 'wumpscut'
   '_ensnare_': 'ensnare'
   '.mpegasus': 'mpegasus'
+  '“Weird Al” Yankovic': 'Weird Al Yankovic'
 
 # These replacements improve the visuals and navigation on the media player
 dap_replace:
