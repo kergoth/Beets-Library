@@ -91,9 +91,6 @@ plugins:
   - other_queries
   - replace_format
 
-abcalc:
-  auto: true
-
 acousticbrainz:
   tags:
     - bpm
