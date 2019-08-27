@@ -414,6 +414,7 @@ alias_query:
     # This is used both in an alias command and an import hook
     is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   item_queries:
+    is_music: '^alias:is_non_music'
     is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
     is_christmas: 'genre:Christmas , genre:Holiday'
     is_classical: 'genre:Classical'
