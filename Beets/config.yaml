@@ -419,6 +419,7 @@ alias_query:
     is_christmas: 'genre:Christmas , genre:Holiday'
     is_classical: 'genre:Classical'
     dap_classical: 'genre:Classical ^artist:"Christopher Tin"'
+    is_complete: 'is_incomplete:0'
     is_game: 'genre:game , genre:videogame , genre:vgm'
     is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
     is_single: 'albumtype:single , tracktotal:1'
