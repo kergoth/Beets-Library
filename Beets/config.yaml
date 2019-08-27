@@ -411,11 +411,12 @@ alias_query:
     is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   item_queries:
     is_music: '^alias:is_non_music'
+    is_complete: 'is_incomplete:0'
+
     is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
     is_christmas: 'genre:Christmas , genre:Holiday'
     is_classical: 'genre:Classical'
     dap_classical: 'genre:Classical ^artist:"Christopher Tin"'
-    is_complete: 'is_incomplete:0'
     is_game: 'genre:game , genre:videogame , genre:vgm'
     is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
     is_single: 'albumtype:single , tracktotal:1'
