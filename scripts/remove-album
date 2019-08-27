@@ -8,6 +8,8 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+remove_dest="$(beet get-config-path directory)/../Removed"
+
 librarypath="$(cd "$(beet get-config-path directory)" && pwd -P)"
 album_flexible_fields="$(beet-flexible-fields -a | xargs | tr ' ' ',')"
 item_flexible_fields="$(beet-flexible-fields -i | xargs | tr ' ' ',')"
@@ -18,12 +20,12 @@ for album_id in $albums; do
     beet ls -a id:"$album_id"
 
     # Move the files to Removed
-    beet mv -tae -d Removed id:"$album_id"
+    beet mv -tae -d "$remove_dest" id:"$album_id"
 
     # Export flexible fields
     path="$(beet ls -f '$path' -a "id:$album_id")"
     relpath="$(relpath "$path" "$librarypath")"
-    destdir="Removed/$relpath"
+    destdir="$remove_dest/$relpath"
     if [ -d "$destdir" ]; then
         echo >&2 "Exporting album fields"
         first_id="$(beet ls -f '$id' "album_id:$album_id" | head -n 1)"
@@ -35,17 +37,3 @@ for album_id in $albums; do
     # Remove the files from the db
     beet rm -ad "id:$album_id"
 done
-
-# Move the cover image
-# TAB="$(printf '\t')"
-# librarypath="$(cd "$(beet get-config-path directory)" && pwd -P)"
-# beet ls -a -f "\$path$TAB\$artpath" "$@" | while IFS="$TAB" read -r path artpath; do
-#     if [ -n "$artpath" ] && [ -e "$artpath" ]; then
-#         if [ "$(find "$path" -type f)" = "$artpath" ]; then
-#             relpath="$(relpath "$path" "$librarypath")"
-#             mkdir -p "Removed/$relpath"
-#             mv -v "$artpath" "Removed/$relpath/cover.jpg"
-#             remove-empty-dirs "$path" 2>/dev/null || :
-#         fi
-#     fi
-# done
