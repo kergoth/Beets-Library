@@ -47,9 +47,7 @@ match:
     countries: ['US', 'GB|UK']
     media: ['Digital Media|File', 'CD']
     original_year: yes
-  ignored: unmatched_tracks tracks
-  max_rec:
-    unmatched_tracks: low
+  ignored: unmatched_tracks
   ignored_media: ['Data CD', 'DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD',
                   'VCD', 'SVCD', 'UMD', 'VHS', '12" Vinyl']
 
