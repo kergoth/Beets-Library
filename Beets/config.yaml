@@ -382,9 +382,10 @@ format_fields:
     format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $full_title'
 
     # Used in path formats
+    artist_title: '$path_artist - $full_title'
     # singleton is an item field, not an album field, obviously..
-    artist_title: '%first{$artist} - $full_title'
     albumdir: '%if{$singleton,[non-album tracks],$_albumdir}'
+    path_artist: '%replace{sort_artist,%asciify{%first{$artist}}}'
     full_title: '$title%if{$e_advisory,$explicit_or_clean}'
     comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$artist_title,$full_title}'
 
