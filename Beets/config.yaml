@@ -443,6 +443,9 @@ adjust_classical_album:
   ' *[,;/／].*': ''
 
 adjust_artist:
+  # .. What?
+  '\n': ''
+
   # Deal with non-alphanumeric sort issues when browsing
   ':wumpscut:': 'wumpscut'
   '\.mpegasus': 'mpegasus'
