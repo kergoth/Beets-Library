@@ -141,7 +141,7 @@ alias:
 
     music: ls \^alias:is_non_music
     singletons: ls singleton:1
-    complete: ls -a is_incomplete:0
+    complete: ls -a incomplete:0
     high-res: albums-for samplerate:96000..
 
     # Show incomplete albums, skipping any albums where I only have one track
@@ -165,7 +165,7 @@ alias:
     # Informative
     non-mb-albums: ls -a mb_albumid:@
     possible-singles: albums-for tracktotal:1 albumtype:@
-    possible-not-comp: ls -a comp:1 is_incomplete:0 is_comp_same_artists:1
+    possible-not-comp: ls -a comp:1 incomplete:0 is_comp_same_artists:1
     # These are often not an issue, just albums which feature multiple
     # artists, but aren't compilations. Cases where the album artist is the
     # producer, cases where there are featuring artist, etc.
@@ -224,7 +224,6 @@ types:
   multidisc: bool
   single_track: bool
   incomplete: bool
-  is_incomplete: int
   first_tracktotal: int
   average_bpm: int
 
@@ -377,7 +376,7 @@ format_fields:
 
     # Used in path formats
     comp_albumartist: '%if{$comp,Compilations,$albumartist}'
-    albumsdir: '%if{$is_incomplete,Incomplete }Albums'
+    albumsdir: '%if{$incomplete,Incomplete }Albums'
     _albumdir: '%the{$album%aunique{}}$explicit_or_clean_album'
     albumartistdir: '%replace{sort_artist,%asciify{%first{$comp_albumartist}}}'
 
@@ -388,8 +387,6 @@ format_fields:
     # This isn't undefined, but is negative when tracktotal/albumtotal is 0
     e_missing: '%if{$albumtotal,$missing,0}'
     e_albumadvisory: '%ifdef{albumadvisory}'
-
-    is_incomplete: '%if{$first_tracktotal,%if{$missing,1,0},%if{$incomplete,1,0}}'
 
   item_fields:
     format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $full_title'
@@ -412,7 +409,7 @@ alias_query:
     is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   item_queries:
     is_music: '^alias:is_non_music'
-    is_complete: 'is_incomplete:0'
+    is_complete: 'incomplete:0'
 
     is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
     is_christmas: 'genre:Christmas , genre:Holiday'
