@@ -409,6 +409,7 @@ alias_query:
     is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
     is_single: 'albumtype:single , tracktotal:1'
     is_mfp: 'label:"Music for Programming"'
+    is_sampler: 'albumtype:sampler , album:sampler'
 
 alternatives:
   dap:
@@ -421,7 +422,7 @@ alternatives:
       alias:is_game      : '%replace{dap_replace,Game Music/$albumdir/$comp_filename}'
       alias:dap_classical : '%replace{dap_replace,Classical Music/$albumartistdir/$albumdir/$comp_filename}'
       singleton          : '%replace{dap_replace,Single Tracks/$artist_title}'
-      album:sampler      : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
+      alias:is_sampler   : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
       alias:is_single    : '%replace{dap_replace,Singles/$albumartistdir/%replace{no_single_suffix,$albumdir}/$comp_filename}'
       alias:is_soundtrack: '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
       default            : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
