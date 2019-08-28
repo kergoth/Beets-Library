@@ -15,11 +15,13 @@ abs_script() {
 
 run_wrapped() {
     # Remove scriptdir from the PATH and locate the next script
-    script="$(abs_script)"
-    NO_SCRIPTDIR_PATH="$(printf '%s\n' "$PATH" | tr ':' '\n' | grep -Fvx "$(dirname "$script")" | tr '\n' ':')"
+    NO_SCRIPTDIR_PATH="$(printf '%s\n' "$PATH" | tr ':' '\n' | grep -Fvx "$scriptdir" | tr '\n' ':')"
     wrapped="$(PATH="$NO_SCRIPTDIR_PATH" command -v "${0##*/}")"
-    "$wrapped" "$@"
+    cd "$scriptdir/.." && "$wrapped" "$@"
 }
+
+script="$(abs_script)"
+scriptdir="$(dirname "$script")"
 
 # Set up the pipe to filter out the messages I don't want without merging
 # stdout and stderr
