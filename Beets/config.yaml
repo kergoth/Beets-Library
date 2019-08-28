@@ -417,16 +417,16 @@ alternatives:
     directory: ../DAP
     formats: link
     paths:
-      alias:is_non_music : '%replace{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
-      alias:is_mfp       : '%replace{dap_replace,Albums/$label/$label/$full_title}'
-      alias:is_christmas : '%replace{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
-      alias:is_game      : '%replace{dap_replace,Game Music/$albumdir/$comp_filename}'
-      alias:dap_classical : '%replace{dap_replace,Classical Music/$albumartistdir/%replace{adjust_classical_album,$albumdir}/$comp_filename}'
-      singleton          : '%replace{dap_replace,Single Tracks/$artist_title}'
-      alias:is_sampler   : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
-      alias:is_single    : '%replace{dap_replace,Singles/$albumartistdir/%replace{no_single_suffix,$albumdir}/$comp_filename}'
-      alias:is_soundtrack: '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
-      default            : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
+      alias:is_non_music : '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
+      alias:is_mfp       : '%replace_path{dap_replace,Albums/$label/$label/$full_title}'
+      alias:is_christmas : '%replace_path{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
+      alias:is_game      : '%replace_path{dap_replace,Game Music/$albumdir/$comp_filename}'
+      alias:dap_classical : '%replace_path{dap_replace,Classical Music/$albumartistdir/%replace_path{adjust_classical_album,$albumdir}/$comp_filename}'
+      singleton          : '%replace_path{dap_replace,Single Tracks/$artist_title}'
+      alias:is_sampler   : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
+      alias:is_single    : '%replace_path{dap_replace,Singles/$albumartistdir/%replace_path{no_single_suffix,$albumdir}/$comp_filename}'
+      alias:is_soundtrack: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
+      default            : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
 
 no_single_suffix:
   ' - Single$': ''
@@ -440,7 +440,7 @@ adjust_album:
   'Ultima V∶ Warriors of Destiny - The Lazarus Project Official Soundtrack': 'Ultima V: Lazarus Soundtrack'
 
 adjust_classical_album:
-  ' *[,;／].*': ''
+  ' *[,;/／].*': ''
 
 adjust_artist:
   # Deal with non-alphanumeric sort issues when browsing
