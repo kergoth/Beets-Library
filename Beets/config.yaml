@@ -368,7 +368,7 @@ format_fields:
     comp_albumartist: '%if{$comp,Compilations,$albumartist}'
     albumsdir: '%if{$incomplete,Incomplete }Albums'
     _albumdir: '%the{$album%aunique{}}%if{$e_albumadvisory, (Explicit)}'
-    albumartistdir: '%replace{sort_artist,%asciify{%first{$comp_albumartist}}}'
+    albumartistdir: '%replace{adjust_artist,%asciify{$comp_albumartist}}'
 
     # Fallbacks from item fields
     albumdir: '$_albumdir'
@@ -385,7 +385,7 @@ format_fields:
     artist_title: '$path_artist - $full_title'
     # singleton is an item field, not an album field, obviously..
     albumdir: '%if{$singleton,[non-album tracks],$_albumdir}'
-    path_artist: '%replace{sort_artist,%asciify{%first{$artist}}}'
+    path_artist: '%replace{adjust_artist,%asciify{$artist}}'
     full_title: '$title%if{$e_advisory,$explicit_or_clean}'
     comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$artist_title,$full_title}'
 
@@ -431,12 +431,28 @@ alternatives:
 no_single_suffix:
   ' - Single$': ''
 
-sort_artist:
+adjust_artist:
   # Deal with non-alphanumeric sort issues when browsing
-  '∶wumpscut∶': 'wumpscut'
+  ':wumpscut:': 'wumpscut'
+  '\.mpegasus': 'mpegasus'
   '_ensnare_': 'ensnare'
-  '.mpegasus': 'mpegasus'
   '“Weird Al” Yankovic': 'Weird Al Yankovic'
+
+  # Multi-artist
+  ' *[,;/](?! *Jr).*': ''
+
+  # Consistency
+  'George Alistair Sanger': 'George Sanger'
+
+  # Ease navigation
+  'Amanda Palmer \+ The Grand Theft Orchestra': 'Amanda Palmer'
+  'Amanda Palmer & The Grand Theft Orchestra': 'Amanda Palmer'
+  'Bob Seger & the Silver Bullet Band': 'Bob Seger'
+  'Ben Harper With Charlie Musselwhite': 'Ben Harper'
+  'Bob Marley & The Wailers': 'Bob Marley'
+
+  # Remove featuring artists for navigation
+  ' [fF]([eE][aA])?[tT]\. .*': ''
 
 # These replacements improve the visuals and navigation on the media player
 dap_replace:
