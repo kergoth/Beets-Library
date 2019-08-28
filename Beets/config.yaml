@@ -367,7 +367,7 @@ format_fields:
     # Used in path formats
     comp_albumartist: '%if{$comp,Compilations,$albumartist}'
     albumsdir: '%if{$incomplete,Incomplete }Albums'
-    _albumdir: '%the{$album%aunique{}}%if{$e_albumadvisory, (Explicit)}'
+    _albumdir: '%the{%replace{adjust_album,$album%aunique{}}}%if{$e_albumadvisory, (Explicit)}'
     albumartistdir: '%replace{adjust_artist,%asciify{$comp_albumartist}}'
 
     # Fallbacks from item fields
@@ -430,6 +430,14 @@ alternatives:
 
 no_single_suffix:
   ' - Single$': ''
+
+adjust_album:
+  # Consistency
+  'Video Games Live, Volume One': 'Video Games Live: Level 1'
+  'Computec Edition Vol. 1': 'Computec Edition, Vol. 1'
+  'HGTV ／ Paste': 'HGTV & Paste'
+  # Shorten album length
+  'Ultima V∶ Warriors of Destiny - The Lazarus Project Official Soundtrack': 'Ultima V: Lazarus Soundtrack'
 
 adjust_artist:
   # Deal with non-alphanumeric sort issues when browsing
