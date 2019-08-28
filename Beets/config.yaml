@@ -220,6 +220,7 @@ types:
   # Album inline and format fields
   existing: int
   is_comp_same_artists: bool
+  has_explicit_track: bool
   multiartist: bool
   multidisc: bool
   single_track: bool
@@ -312,16 +313,8 @@ album_fields:
     else:
       return 0
 
-  explicit_or_clean_album: |
-    if 'albumadvisory' in globals() and albumadvisory == 1:
-      return ' (Explicit)'
-    else:
-      # Slow path
-      for item in items:
-        advisory = getattr(item, 'advisory', 0)
-        if advisory == 1:
-          return ' (Explicit)'
-    return ''
+  has_explicit_track: |
+    return any(getattr(item, 'advisory', 0) == 1 for item in items)
 
   # For albums with bpm tags on all their tracks, give us the mean
   average_bpm: |
@@ -374,7 +367,7 @@ format_fields:
     # Used in path formats
     comp_albumartist: '%if{$comp,Compilations,$albumartist}'
     albumsdir: '%if{$incomplete,Incomplete }Albums'
-    _albumdir: '%the{$album%aunique{}}$explicit_or_clean_album'
+    _albumdir: '%the{$album%aunique{}}%if{$e_albumadvisory, (Explicit)}'
     albumartistdir: '%replace{sort_artist,%asciify{%first{$comp_albumartist}}}'
 
     # Fallbacks from item fields
