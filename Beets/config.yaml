@@ -214,6 +214,9 @@ types:
   advisory: int
   albumadvisory: int
 
+  # Built-in computed fields
+  albumtotal: int
+
   # Album inline and format fields
   existing: int
   is_comp_same_artists: bool
