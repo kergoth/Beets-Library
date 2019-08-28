@@ -421,7 +421,7 @@ alternatives:
       alias:is_mfp       : '%replace{dap_replace,Albums/$label/$label/$full_title}'
       alias:is_christmas : '%replace{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
       alias:is_game      : '%replace{dap_replace,Game Music/$albumdir/$comp_filename}'
-      alias:dap_classical : '%replace{dap_replace,Classical Music/$albumartistdir/$albumdir/$comp_filename}'
+      alias:dap_classical : '%replace{dap_replace,Classical Music/$albumartistdir/%replace{adjust_classical_album,$albumdir}/$comp_filename}'
       singleton          : '%replace{dap_replace,Single Tracks/$artist_title}'
       alias:is_sampler   : '%replace{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
       alias:is_single    : '%replace{dap_replace,Singles/$albumartistdir/%replace{no_single_suffix,$albumdir}/$comp_filename}'
@@ -438,6 +438,9 @@ adjust_album:
   'HGTV ／ Paste': 'HGTV & Paste'
   # Shorten album length
   'Ultima V∶ Warriors of Destiny - The Lazarus Project Official Soundtrack': 'Ultima V: Lazarus Soundtrack'
+
+adjust_classical_album:
+  ' *[,;／].*': ''
 
 adjust_artist:
   # Deal with non-alphanumeric sort issues when browsing
