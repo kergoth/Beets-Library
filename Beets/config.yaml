@@ -170,6 +170,7 @@ alias:
     # artists, but aren't compilations. Cases where the album artist is the
     # producer, cases where there are featuring artist, etc.
     multiartist-not-comp: ls -a comp:0 multiartist:1
+    has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0
 
     recent: ls -a 'added+' -f '$added $format_album'
 
@@ -221,6 +222,7 @@ types:
   existing: int
   is_comp_same_artists: bool
   has_explicit_track: bool
+  all_same_genres: bool
   multiartist: bool
   multidisc: bool
   single_track: bool
@@ -315,6 +317,12 @@ album_fields:
 
   has_explicit_track: |
     return any(getattr(item, 'advisory', 0) == 1 for item in items)
+
+  all_same_genres: |
+    return all(item.genre == items[0].genre for item in items)
+
+  album_genres: |
+    return ','.join(sorted(set(item.genre for item in items)))
 
   # For albums with bpm tags on all their tracks, give us the mean
   average_bpm: |
