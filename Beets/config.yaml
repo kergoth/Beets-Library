@@ -137,7 +137,7 @@ alias:
     non-game-albums: complete single_track:0 ^alias:is_game ^alias:is_christmas
 
     # Very basic dupe check for albums lacking musicbrainz data, primarily
-    simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k tracktotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
+    simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
 
     music: ls \^alias:is_non_music
     singletons: ls singleton:1
@@ -416,7 +416,7 @@ alias_query:
     dap_classical: 'genre:Classical ^artist:"Christopher Tin"'
     is_game: 'genre:game , genre:videogame , genre:vgm'
     is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
-    is_single: 'albumtype:single , tracktotal:1'
+    is_single: 'albumtype:single , albumtotal:1'
     is_mfp: 'label:"Music for Programming"'
     is_sampler: 'albumtype:sampler , album:sampler'
 
