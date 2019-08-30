@@ -216,8 +216,9 @@ types:
   # 1 == explicit album (contains at least one explicit track)
   albumadvisory: bool
 
-  # Built-in computed fields
+  # Built-in or Plugin fields
   albumtotal: int
+  bpm: int
 
   # Album inline and format fields
   existing: int
