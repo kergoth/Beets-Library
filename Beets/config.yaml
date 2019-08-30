@@ -485,6 +485,7 @@ adjust_artist:
   'Bob Seger & the Silver Bullet Band': 'Bob Seger'
   'Ben Harper With Charlie Musselwhite': 'Ben Harper'
   'Bob Marley & The Wailers': 'Bob Marley'
+  'Stafford Bawler + Todd Baker': 'Stafford Bawler'
 
 # These replacements improve the visuals and navigation on the media player
 dap_replace:
