@@ -446,6 +446,7 @@ alternatives:
       alias:is_sampler   : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
       alias:is_single    : '%replace_path{dap_replace,Singles/$albumartistdir/%replace_path{no_single_suffix,$albumdir}/$comp_filename}'
       alias:is_soundtrack: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
+      comp:1             : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Compilations/$albumdir/$comp_filename}}'
       default            : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
 
 no_single_suffix:
