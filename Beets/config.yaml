@@ -211,9 +211,10 @@ playlist:
 
 types:
   # Manually set fields. Use e_<field> to deal with it being undefined
-  # db-only version of itunesadvisory. 2 == Explicit, 1 == Clean
+  # db-only version of itunesadvisory. 1 == Explicit, 2 == Clean
   advisory: int
-  albumadvisory: int
+  # 1 == explicit album (contains at least one explicit track)
+  albumadvisory: bool
 
   # Built-in computed fields
   albumtotal: int
