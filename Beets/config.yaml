@@ -239,7 +239,7 @@ types:
 
   # Existing fields to deal with lacking or wrong defaults
   e_advisory: int
-  e_albumadvisory: int
+  e_albumadvisory: bool
   e_missing: int
 
 # It's irritating that we can't reference other inline fields to avoid this
