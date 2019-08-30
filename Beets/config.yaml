@@ -79,6 +79,7 @@ plugins:
   - alternatives
   - bandcamp
   - copyartifacts
+  - join_albums
   - noimport
 
   # My plugins
