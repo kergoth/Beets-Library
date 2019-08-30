@@ -16,6 +16,9 @@ beet ls -f '$id' -a last_import:1 | while read -r album_id; do
     beet clearart -y "album_id:$album_id"
 done
 
+# Save comments if set
+beet-export-album-comments last-import:1
+
 # Clear out the album field for imported singletons
 beet modify -y last_import:1 album::. album= 2>/dev/null
 
