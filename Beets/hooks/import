@@ -1,5 +1,8 @@
 #!/bin/sh
 # shellcheck disable=SC2016
+#
+# TODO: warn if an album isn't a soundtrack, but has soundtrack, OST, or
+# 'Sound Track' in the album title
 
 # Set certain album items to singleton
 beet ls -f '$id' -a last_import:1 | while read -r album_id; do
