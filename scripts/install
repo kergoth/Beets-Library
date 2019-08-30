@@ -2,14 +2,38 @@
 
 PATH="$(dirname "$0"):$PATH"
 
-beets_url=https://github.com/beetbox/beets
-spec="git+$beets_url"
-if command -v git-get >/dev/null 2>&1; then
-    git_get_path="$(git-get "$beets_url" 2>/dev/null)"
-    if [ -d "$git_get_path" ]; then
-        spec="$git_get_path"
-    fi
-fi
+for url in https://github.com/beetbox/beets \
+           https://github.com/unrblt/beets-bandcamp \
+           https://github.com/edk0/beets-join-albums \
+           https://github.com/steven-murray/beet-summarize \
+           https://github.com/wisp3rwind/beets-alternatives \
+           https://github.com/ssssam/beets-copyartifacts; do
 
-pipx-install -n beets "$spec" requests discogs-client pyacoustid git+https://github.com/edk0/beets-join-albums git+https://github.com/steven-murray/beet-summarize git+https://github.com/wisp3rwind/beets-alternatives.git beets-bandcamp beets-noimport git+https://github.com/ssssam/beets-copyartifacts@devel
+    case "$url" in
+        *copyartifacts*)
+            branch=devel
+            ;;
+        *)
+            branch=master
+            ;;
+    esac
+
+    spec="git+$url"
+    if command -v git-get >/dev/null 2>&1; then
+        git_get_path="$(git-get "$url" 2>/dev/null)"
+        if [ -d "$git_get_path" ]; then
+            spec="$git_get_path"
+            if [ "$branch" != master ]; then
+                ( cd "$git_get_path" && git checkout devel )
+            fi
+        fi
+    else
+        if [ "$branch" != master ]; then
+            spec="$spec@$branch"
+        fi
+    fi
+    set -- "$@" "$spec"
+done
+
+pipx-install -n beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport
 pipx-install -n rockuefort git+https://github.com/kalgynirae/rockuefort
