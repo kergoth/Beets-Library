@@ -378,10 +378,11 @@ format_fields:
     comp_albumartist: '%if{$comp,Compilations,$albumartist}'
     albumsdir: '%if{$incomplete,Incomplete }Albums'
     _albumdir: '%the{%replace{adjust_album,$album%aunique{}}}%if{$e_albumadvisory, (Explicit)}'
-    albumartistdir: '%asciify{%replace{adjust_artist,$comp_albumartist}}'
+    _albumartistdir: '%asciify{%replace{adjust_artist,$comp_albumartist}}'
 
     # Fallbacks from item fields
     albumdir: '$_albumdir'
+    albumartistdir: '$_albumartistdir'
 
     # Deal with undefined values for queries
     # This isn't undefined, but is negative when tracktotal/albumtotal is 0
@@ -395,6 +396,7 @@ format_fields:
     artist_title: '$path_artist - $full_title'
     # singleton is an item field, not an album field, obviously..
     albumdir: '%if{$singleton,[non-album tracks],$_albumdir}'
+    albumartistdir: '%if{$singleton,$path_artist,$_albumartistdir}'
     path_artist: '%asciify{%replace{adjust_artist,$artist}}'
     full_title: '$title%if{$e_advisory,$explicit_or_clean}'
     comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$artist_title,$full_title}'
