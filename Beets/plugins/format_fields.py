@@ -20,11 +20,15 @@ class FormatFieldsPlugin(BeetsPlugin):
 
     def set_template_fields(self):
         for field, template in self.config['item_fields'].items():
+            self._log.debug('adding item field {}', field)
+
             def apply(i, field=field, template=template):
                 return self.apply_template(field, template.as_str(), i)
             self.template_fields[field] = apply
 
         for field, template in self.config['album_fields'].items():
+            self._log.debug('adding album field {}', field)
+
             def apply(i, field=field, template=template):
                 return self.apply_template(field, template.as_str(), i)
             self.album_template_fields[field] = apply
