@@ -25,6 +25,9 @@ beet modify -y last_import:1 album::. album= 2>/dev/null
 # 'Various Artists' albums not flagged as compilations
 beet modify -y -a last_import:1 album_query:is_various_not_comp comp=1 2>/dev/null
 
+beet ls -a -f '$path' last_import:1
+beet ls -f '$path' last_import:1
+
 if [ -z "$BEETS_NO_REVEAL" ]; then
     # Open the album folder
     beet open -- -a last_import:1
