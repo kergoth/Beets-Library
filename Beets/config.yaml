@@ -82,16 +82,27 @@ plugins:
   - join_albums
   - noimport
 
-  # My plugins
+  # My local plugins
+  # Calculate acoustic fingerprint, only against non-musicbrainz tracks, and
+  # save the values rather than submitting them.
   - abcalc
+  # Define beet command aliases, much like you can with git
   - alias
-  - existing_queries
+  # Define fields using path format strings, useful to clean up path formats
   - format_fields
+  # Define hooks via inline python
   - inline_hook
+  # Keep track of the most recently imported items, useful in hooks
   - last_import
-  - other_queries
+  # Add `replace` format function for applying specific sets of replacements
   - replace_format
+  # Define named/saved queries, and define fields using those queries
   - saved_queries
+  # Named queries and query prefixes from the Beets source. 'any:', @ prefix
+  # for exact match, and ^ prefix for a None value.
+  - existing_queries
+  # % prefix for non-NULL/non-None
+  - other_queries
 
 acousticbrainz:
   tags:
