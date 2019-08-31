@@ -213,15 +213,21 @@ playlist:
   playlist_dir: Library/Playlists
 
 types:
-  # Manually set fields. Use e_<field> to deal with it being undefined
-  # db-only version of itunesadvisory. 1 == Explicit, 2 == Clean
+  # Flexible fields. Use e_<field> to deal with it being undefined db-only
+  # version of itunesadvisory. 1 == Explicit, 2 == Clean
   advisory: int
   # 1 == explicit album (contains at least one explicit track)
   albumadvisory: int
 
+  # Default values for the above
+  e_advisory: int
+  e_albumadvisory: int
+
   # Built-in or Plugin fields
   albumtotal: int
   bpm: int
+  # Deal with `missing` going negative
+  e_missing: int
 
   # Album inline and format fields
   existing: int
@@ -237,11 +243,6 @@ types:
   # Item inline and format fields
   excess_tracks: bool
 
-  # Existing fields to deal with lacking or wrong defaults
-  e_advisory: int
-  e_albumadvisory: int
-  e_missing: int
-
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
 album_fields:
@@ -249,6 +250,7 @@ album_fields:
 
   # Number of existing tracks in this album
   existing: len(items)
+
   # Used by the missing-albumtotal alias
   existing_by_disc: |
     from itertools import groupby
@@ -257,6 +259,7 @@ album_fields:
     grouped = groupby(sorted(items, key=keyfunc), keyfunc)
     by_disc = [(k, len(list(v))) for k, v in grouped]
     return ','.join(str(v[1]) for v in sorted(by_disc))
+
   # Not used at this time, only made available
   existing_discs: |
     discs = sorted(set(i.disc for i in items if i.disc))
@@ -264,7 +267,7 @@ album_fields:
 
   single_track: len(items) == 1
 
-  multidisc: 1 if disctotal > 1 else 0
+  multidisc: disctotal > 1
   # Let me search for albums that may be a compilation but aren't flagged
   multiartist: not bool(all(item.artist == items[0].artist for item in items))
 
@@ -314,20 +317,13 @@ album_fields:
   # Consider setting albumartist instead. This only works when missing:0 at
   # the moment, as I can't get to the list of *available* tracks, only the
   # existing ones.
-  is_comp_same_artists: |
-    if comp and all(item.artist == items[0].artist for item in items):
-      return 1
-    else:
-      return 0
+  is_comp_same_artists: comp and all(item.artist == items[0].artist for item in items)
 
-  has_explicit_track: |
-    return any(getattr(item, 'advisory', 0) == 1 for item in items)
+  has_explicit_track: any(getattr(item, 'advisory', 0) == 1 for item in items)
 
-  all_same_genres: |
-    return all(item.genre == items[0].genre for item in items)
+  all_same_genres: all(item.genre == items[0].genre for item in items)
 
-  album_genres: |
-    return ','.join(sorted(set(item.genre for item in items)))
+  album_genres: "','.join(sorted(set(item.genre for item in items)))"
 
   # For albums with bpm tags on all their tracks, give us the mean
   average_bpm: |
@@ -340,7 +336,7 @@ album_fields:
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
-  excess_tracks: 1 if tracktotal and track and track > tracktotal else 0
+  excess_tracks: bool(tracktotal and track and track > tracktotal)
 
   # disc and track prefix with ' - ' sep. Returns an empty string if track == 0.
   disc_and_track_pre: |
