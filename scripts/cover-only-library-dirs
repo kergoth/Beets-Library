@@ -1,0 +1,2 @@
+#!/bin/sh
+find Library -name cover.jpg | while read -r f; do d="$(dirname "$f")"; if [ $(find "$d" -type f -o -type l | wc -l) -eq 1 ]; then echo "$d"; fi; done
