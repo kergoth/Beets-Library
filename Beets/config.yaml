@@ -217,7 +217,7 @@ types:
   # db-only version of itunesadvisory. 1 == Explicit, 2 == Clean
   advisory: int
   # 1 == explicit album (contains at least one explicit track)
-  albumadvisory: bool
+  albumadvisory: int
 
   # Built-in or Plugin fields
   albumtotal: int
@@ -239,7 +239,7 @@ types:
 
   # Existing fields to deal with lacking or wrong defaults
   e_advisory: int
-  e_albumadvisory: bool
+  e_albumadvisory: int
   e_missing: int
 
 # It's irritating that we can't reference other inline fields to avoid this
