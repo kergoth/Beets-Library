@@ -14,9 +14,9 @@ sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
 
 paths:
-  default: '$source/$comp_albumartist/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  default: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   singleton: '$source/$artist/[non-album tracks]/$path_filename'
-  comp: '$source/$comp_albumartist/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  comp: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album
 
@@ -385,6 +385,7 @@ format_fields:
     format_album: '[$id] $albumartist - $album'
 
     # Used in path formats
+    comp_albumartist_credit: '%if{$comp,Compilations,%if{$albumartist_credit,$albumartist_credit,$albumartist}}'
     comp_albumartist: '%if{$comp,Compilations,$albumartist}'
     albumsdir: '%if{$incomplete,Incomplete }Albums'
     _albumdir: '%the{%replace{adjust_album,$album%aunique{}}}%if{$e_albumadvisory, (Explicit)}'
@@ -410,8 +411,8 @@ format_fields:
     path_artist: '%asciify{%replace{adjust_artist,$artist}}'
     full_title: '$title%if{$e_advisory,$explicit_or_clean}'
     comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
-    # Unasciified
-    path_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$artist - }$full_title'
+    # Unasciified, credited artist
+    path_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
 
     # Deal with undefined values for queries. This lets me do ls e_advisory:0,
     # instead of having to check for advisory:@.
