@@ -85,13 +85,13 @@ plugins:
   # My plugins
   - abcalc
   - alias
-  - alias_query
   - existing_queries
   - format_fields
   - inline_hook
   - last_import
   - other_queries
   - replace_format
+  - saved_queries
 
 acousticbrainz:
   tags:
@@ -135,19 +135,19 @@ alias:
     dup-albums: dup -aF
 
     # Complete non-game/non-christmas albums with more than one track
-    non-game-albums: complete single_track:0 ^alias:is_game ^alias:is_christmas
+    non-game-albums: complete single_track:0 ^query:is_game ^query:is_christmas
 
     # Very basic dupe check for albums lacking musicbrainz data, primarily
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
 
-    music: ls \^alias:is_non_music
+    music: ls \^query:is_non_music
     singletons: ls singleton:1
     complete: ls -a incomplete:0
     high-res: albums-for samplerate:96000..
 
     # Show incomplete albums, skipping any albums where I only have one track
-    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^alias:is_game single_track:0'
-    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:0 alias:is_game'
+    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^query:is_game single_track:0'
+    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:0 query:is_game'
 
     # Red flags
     empty-artist: ls artist:@
@@ -161,7 +161,7 @@ alias:
     unknown-soundtracks: albums-for albumtype:soundtrack \^genre:soundtrack \^genre:game \^genre:videogame \^genre:vgm
     missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 "albumtotal::^0$"'
     # This is automatically corrected in my import hook
-    various-not-comp: ls -a album_alias:is_various_not_comp
+    various-not-comp: ls -a album_query:is_various_not_comp
 
     # Informative
     non-mb-albums: ls -a mb_albumid:@
@@ -409,45 +409,45 @@ format_fields:
     e_advisory: '%ifdef{advisory}'
     e_alt_dap: '%ifdef{alt.dap}'
 
-alias_query:
-  album_queries:
-    # This is used both in an alias command and an import hook
-    is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
-  item_queries:
-    is_music: '^alias:is_non_music'
-    is_complete: 'incomplete:0'
+album_queries:
+  # This is used both in an alias command and an import hook
+  is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
 
-    is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
-    is_christmas: 'genre:Christmas , genre:Holiday'
-    is_classical: 'genre:Classical'
-    is_live: 'albumtype:live'
-    is_game: 'genre:game , genre:videogame , genre:vgm'
-    is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
-    is_single: 'albumtype:single , albumtotal:1'
-    is_mfp: 'label:"Music for Programming"'
-    is_ocremix: 'label:"OverClocked ReMix"'
-    is_sampler: 'albumtype:sampler , album:sampler'
+item_queries:
+  is_music: '^query:is_non_music'
+  is_complete: 'incomplete:0'
 
-    dap_classical: 'genre:Classical ^artist:"Christopher Tin"'
-    dap_game: 'alias:is_game alias:is_soundtrack'
-    dap_game_extra: 'alias:is_game ^alias:is_soundtrack'
+  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
+  is_christmas: 'genre:Christmas , genre:Holiday'
+  is_classical: 'genre:Classical'
+  is_live: 'albumtype:live'
+  is_game: 'genre:game , genre:videogame , genre:vgm'
+  is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
+  is_single: 'albumtype:single , albumtotal:1'
+  is_mfp: 'label:"Music for Programming"'
+  is_ocremix: 'label:"OverClocked ReMix"'
+  is_sampler: 'albumtype:sampler , album:sampler'
+
+  dap_classical: 'genre:Classical ^artist:"Christopher Tin"'
+  dap_game: 'query:is_game query:is_soundtrack'
+  dap_game_extra: 'query:is_game ^query:is_soundtrack'
 
 alternatives:
   dap:
     directory: ../DAP
     formats: link
     paths:
-      alias:is_non_music : '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
-      alias:is_mfp       : '%replace_path{dap_replace,Albums/$label/$label/$full_title}'
-      alias:is_christmas : '%replace_path{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
-      alias:is_ocremix   : '%replace_path{dap_replace,Game Music/$label/$albumdir/$comp_filename}'
-      alias:dap_game_extra: '%replace_path{dap_replace,Game Music/$albumartistdir/$albumdir/$comp_filename}'
-      alias:dap_game      : '%replace_path{dap_replace,Game Soundtracks/$albumdir/$comp_filename}'
-      alias:dap_classical : '%replace_path{dap_replace,Classical Music/$albumartistdir/%replace_path{adjust_classical_album,$albumdir}/$comp_filename}'
+      query:is_non_music : '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
+      query:is_mfp       : '%replace_path{dap_replace,Albums/$label/$label/$full_title}'
+      query:is_christmas : '%replace_path{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
+      query:is_ocremix   : '%replace_path{dap_replace,Game Music/$label/$albumdir/$comp_filename}'
+      query:dap_game_extra: '%replace_path{dap_replace,Game Music/$albumartistdir/$albumdir/$comp_filename}'
+      query:dap_game      : '%replace_path{dap_replace,Game Soundtracks/$albumdir/$comp_filename}'
+      query:dap_classical : '%replace_path{dap_replace,Classical Music/$albumartistdir/%replace_path{adjust_classical_album,$albumdir}/$comp_filename}'
       singleton          : '%replace_path{dap_replace,Single Tracks/$artist_title}'
-      alias:is_sampler   : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
-      alias:is_single    : '%replace_path{dap_replace,Singles/$albumartistdir/%replace_path{no_single_suffix,$albumdir}/$comp_filename}'
-      alias:is_soundtrack: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
+      query:is_sampler   : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
+      query:is_single    : '%replace_path{dap_replace,Singles/$albumartistdir/%replace_path{no_single_suffix,$albumdir}/$comp_filename}'
+      query:is_soundtrack: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
       comp:1             : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Compilations/$albumdir/$comp_filename}}'
       default            : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
 
