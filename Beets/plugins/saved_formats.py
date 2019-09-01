@@ -19,22 +19,22 @@ class SavedFormatsPlugin(BeetsPlugin):
             'item_formats': {},
             'album_formats': {},
         })
-        self.set_template_formats()
+        self.set_template_fields()
 
-    def set_template_formats(self):
+    def set_template_fields(self):
         for field, template in config['item_formats'].items():
             self._log.debug('adding item field {}', field)
 
             def apply(i, field=field, template=template):
                 return self.apply_template(field, template.as_str(), i)
-            self.template_formats[field] = apply
+            self.template_fields[field] = apply
 
         for field, template in config['album_formats'].items():
             self._log.debug('adding album field {}', field)
 
             def apply(i, field=field, template=template):
                 return self.apply_template(field, template.as_str(), i)
-            self.album_template_formats[field] = apply
+            self.album_template_fields[field] = apply
 
     def apply_template(self, field, template, model):
         return model.evaluate_template(template)
