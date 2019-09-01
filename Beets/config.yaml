@@ -237,10 +237,12 @@ types:
   # Built-in or Plugin fields
   albumtotal: int
   bpm: int
+
   # Deal with `missing` going negative
   e_missing: int
 
   # Album inline and format fields
+  album_id: int
   existing: int
   is_comp_same_artists: bool
   has_explicit_track: bool
@@ -382,6 +384,9 @@ item_fields:
 
 album_formats:
   format_album: '[$id] $albumartist - $album'
+
+  # Convenience
+  album_id: '$id'
 
   # Used in path formats
   comp_albumartist_credit: '%if{$comp,Compilations,%if{$albumartist_credit,$albumartist_credit,$albumartist}}'
