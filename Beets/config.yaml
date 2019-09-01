@@ -88,8 +88,8 @@ plugins:
   - abcalc
   # Define beet command aliases, much like you can with git
   - alias
-  # Define fields using path format strings, useful to clean up path formats
-  - format_fields
+  # Define saved format strings by storing them in fields
+  - saved_formats
   # Define hooks via inline python
   - inline_hook
   # Keep track of the most recently imported items, useful in hooks
@@ -380,44 +380,43 @@ item_fields:
 
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
 
-format_fields:
-  album_fields:
-    format_album: '[$id] $albumartist - $album'
+album_formats:
+  format_album: '[$id] $albumartist - $album'
 
-    # Used in path formats
-    comp_albumartist_credit: '%if{$comp,Compilations,%if{$albumartist_credit,$albumartist_credit,$albumartist}}'
-    comp_albumartist: '%if{$comp,Compilations,$albumartist}'
-    albumsdir: '%if{$incomplete,Incomplete }Albums'
-    _albumdir: '%the{%replace{adjust_album,$album%aunique{}}}%if{$e_albumadvisory, (Explicit)}'
-    _albumartistdir: '%asciify{%replace{adjust_artist,$comp_albumartist}}'
+  # Used in path formats
+  comp_albumartist_credit: '%if{$comp,Compilations,%if{$albumartist_credit,$albumartist_credit,$albumartist}}'
+  comp_albumartist: '%if{$comp,Compilations,$albumartist}'
+  albumsdir: '%if{$incomplete,Incomplete }Albums'
+  _albumdir: '%the{%replace{adjust_album,$album%aunique{}}}%if{$e_albumadvisory, (Explicit)}'
+  _albumartistdir: '%asciify{%replace{adjust_artist,$comp_albumartist}}'
 
-    # Fallbacks from item fields
-    albumdir: '$_albumdir'
-    albumartistdir: '$_albumartistdir'
+  # Fallbacks from item fields
+  albumdir: '$_albumdir'
+  albumartistdir: '$_albumartistdir'
 
-    # Deal with undefined values for queries
-    # This isn't undefined, but is negative when tracktotal/albumtotal is 0
-    e_missing: '%if{$albumtotal,$missing,0}'
-    e_albumadvisory: '%ifdef{albumadvisory}'
+  # Deal with undefined values for queries
+  # This isn't undefined, but is negative when tracktotal/albumtotal is 0
+  e_missing: '%if{$albumtotal,$missing,0}'
+  e_albumadvisory: '%ifdef{albumadvisory}'
 
-  item_fields:
-    format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $full_title'
+item_formats:
+  format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $full_title'
 
-    # Used in path formats
-    artist_title: '$path_artist - $full_title'
-    # singleton is an item field, not an album field, obviously..
-    albumdir: '%if{$singleton,[non-album tracks],$_albumdir}'
-    albumartistdir: '%if{$singleton,$path_artist,$_albumartistdir}'
-    path_artist: '%asciify{%replace{adjust_artist,$artist}}'
-    full_title: '$title%if{$e_advisory,$explicit_or_clean}'
-    comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
-    # Unasciified, credited artist
-    path_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
+  # Used in path formats
+  artist_title: '$path_artist - $full_title'
+  # singleton is an item field, not an album field, obviously..
+  albumdir: '%if{$singleton,[non-album tracks],$_albumdir}'
+  albumartistdir: '%if{$singleton,$path_artist,$_albumartistdir}'
+  path_artist: '%asciify{%replace{adjust_artist,$artist}}'
+  full_title: '$title%if{$e_advisory,$explicit_or_clean}'
+  comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
+  # Unasciified, credited artist
+  path_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
 
-    # Deal with undefined values for queries. This lets me do ls e_advisory:0,
-    # instead of having to check for advisory:@.
-    e_advisory: '%ifdef{advisory}'
-    e_alt_dap: '%ifdef{alt.dap}'
+  # Deal with undefined values for queries. This lets me do ls e_advisory:0,
+  # instead of having to check for advisory:@.
+  e_advisory: '%ifdef{advisory}'
+  e_alt_dap: '%ifdef{alt.dap}'
 
 album_queries:
   # This is used both in an alias command and an import hook
