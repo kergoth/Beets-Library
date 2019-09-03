@@ -152,7 +152,7 @@ alias:
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
 
     music: ls \^query:is_non_music
-    singletons: ls singleton:1
+    singletons: ls singleton:true
     complete: ls -a incomplete:0
     high-res: albums-for samplerate:96000..
 
@@ -162,7 +162,7 @@ alias:
 
     # Red flags
     empty-artist: ls artist:@
-    empty-album: ls album:@ singleton:0
+    empty-album: ls album:@ singleton:false
     book-not-audiobook: ls genre:book ^albumtype:audiobook
     unknown-source: ls source:Unknown
     excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
