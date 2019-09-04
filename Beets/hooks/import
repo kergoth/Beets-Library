@@ -16,6 +16,9 @@ beet ls -f '$id' -a last_import:1 | while read -r album_id; do
     beet clearart -y "album_id:$album_id"
 done
 
+# Likely a single
+beet modify -a last_import:1 albumtotal:1 albumtype::'^(|other)$' albumtype=single
+
 # Save comments if set
 beet-export-album-comments last-import:1
 
