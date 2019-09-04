@@ -353,9 +353,9 @@ item_fields:
 
   excess_tracks: bool(tracktotal and track and track > tracktotal)
 
-  # disc and track prefix with ' - ' sep. Returns an empty string if track == 0.
+  # disc and track prefix with ' - ' sep. Returns '' if track == 0 or this is the only track.
   disc_and_track_pre: |
-    if not track:
+    if not track or (tracktotal and tracktotal == 1):
       return ''
     elif disctotal > 1:
       return u'%02i.%02i - ' % (disc, track)
@@ -374,13 +374,6 @@ item_fields:
         return ' (Clean)'
     else:
       return ''
-
-  # Skip the track prefix if it's a single track of a single-track album
-  alt_track_pre: |
-    if not track or (tracktotal and tracktotal == 1):
-      return ''
-    else:
-      return '%i - ' % track
 
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
 
