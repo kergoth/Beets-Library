@@ -104,6 +104,7 @@ plugins:
   - existing_queries
   # % prefix for non-NULL/non-None
   - other_queries
+  - spotify_explicit
 
 acousticbrainz:
   tags:
