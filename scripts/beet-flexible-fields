@@ -5,7 +5,7 @@ get_flexible_fields () {
     beet fields \
         | sed -n "s/^  *//; ${1:-/flexible attributes/,\$p}" \
         | sed -e '/:$/d' \
-        | grep -Ev 'singleton|last_import|alt\.|art_source|data_source|totaltracks' \
+        | grep -Evx 'alt\..*|singleton|last_import|alt\.|art_source|data_source|totaltracks|track|track_alt' \
         | sort -u
 }
 
