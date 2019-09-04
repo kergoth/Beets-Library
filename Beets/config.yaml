@@ -65,6 +65,7 @@ plugins:
   - export
   - fetchart
   - fromfilename
+  - fuzzy
   - hook
   - info
   - inline
