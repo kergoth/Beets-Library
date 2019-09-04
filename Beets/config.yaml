@@ -434,7 +434,7 @@ item_queries:
   is_live: 'albumtype:live'
   is_game: 'genre:game , genre:videogame , genre:vgm'
   is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
-  is_single: 'albumtype:single , albumtotal:1'
+  is_single: 'albumtype:single'
   is_mfp: 'label:"Music for Programming"'
   is_ocremix: 'label:"OverClocked ReMix"'
   is_sampler: 'albumtype:sampler , album:sampler'
