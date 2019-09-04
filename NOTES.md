@@ -39,7 +39,7 @@ do that in sql or just python?
 
 ## Issues of note
 
-Discogs and MusicBrains differ in their use of the albumtype field. Discogs
+Discogs and MusicBrainz differ in their use of the albumtype field. Discogs
 has 'Single, Promo' for example, whereas MusicBrainz is lowercase and uses
 a semicolon separator. The standard query style `albumtype:single` matches
 both, but use of it in inline fields could be more irritating. Further, the
