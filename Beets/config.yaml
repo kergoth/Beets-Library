@@ -401,18 +401,17 @@ album_formats:
   e_data_source: '%ifdef{data_source}'
 
 item_formats:
-  format_item: '[$id] %if{$singleton,,$album - $disc_and_track_pre}$artist - $full_title'
+  format_item: '[$id] %if{$album,$album - $disc_and_track_pre}$artist - $full_title'
 
   # Used in path formats
   artist_title: '$path_artist - $full_title'
-  # singleton is an item field, not an album field, obviously..
-  albumdir: '%if{$singleton,[non-album tracks],$_albumdir}'
-  albumartistdir: '%if{$singleton,$path_artist,$_albumartistdir}'
+  albumdir: '%if{$album,$_albumdir,[non-album tracks]}'
+  albumartistdir: '%if{$album,$_albumartistdir,$path_artist}'
   path_artist: '%asciify{%replace{adjust_artist,$artist}}'
   full_title: '$title%if{$e_advisory,$explicit_or_clean}'
-  comp_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
+  comp_filename: '%if{$album,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
   # Unasciified, credited artist
-  path_filename: '%if{$singleton,,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
+  path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
 
   # Deal with undefined values for queries. This lets me do ls e_advisory:0,
   # instead of having to check for advisory:@.
