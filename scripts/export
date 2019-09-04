@@ -9,8 +9,10 @@ item_flexible_fields="$(beet-flexible-fields -i | xargs | tr ' ' ',')"
 
 mkdir -p Exported
 
-echo >&2 "Exporting singleton item fields"
-beet export -l -i "path,$item_flexible_fields" singleton:true | jq . >Exported/singletons.json
+if [ $# -eq 0 ]; then
+    echo >&2 "Exporting singleton item fields"
+    beet export -l -i "path,$item_flexible_fields" singleton:true | jq . >Exported/singletons.json
+fi
 
 albums="$(beet ls -f '$id' -a "$@" | xargs)"
 for album_id in $albums; do
