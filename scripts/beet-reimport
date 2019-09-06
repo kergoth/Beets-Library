@@ -9,14 +9,17 @@ Options:
 
   -n   Dry run.
   -s   Singletons, not albums.
+  -S KEY=VALUE  Set a value on the imported album or singleton item regardless
+                of reimport result.
 END
 exit 2
 }
 
 dry_run=0
 album=1
+set_values=
 singleton=
-while getopts nsh opt; do
+while getopts nsS:h opt; do
     case "$opt" in
         n)
             dry_run=1
@@ -24,6 +27,9 @@ while getopts nsh opt; do
         s)
             album=
             singleton=1
+            ;;
+        S)
+            set_values="$set_values $OPTARG"
             ;;
         \? | h)
             usage
@@ -61,6 +67,21 @@ while read -r id; do
         if ! beet import -maL ${singleton:+--singletons} --set=source="$source" "$id_query" </dev/tty; then
             ret=1
             break
+        fi
+
+        if [ -n "$set_values" ]; then
+            # shellcheck disable=SC2086
+            beet modify -y ${album:+-a} "$id_query" $set_values
+            ret=$?
+            if [ $ret -gt 127 ]; then
+                # Exited due to signal
+                exit $ret
+            elif [ $ret -ne 0 ]; then
+                # If the modify failed, the id changed, so the import must
+                # have completed, and we can use last_import instead.
+                # shellcheck disable=SC2086
+                beet modify -y ${album:+-a} last_import:1 $set_values
+            fi
         fi
     fi
 done <"$tmp"
