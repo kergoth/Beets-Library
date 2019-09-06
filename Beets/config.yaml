@@ -438,7 +438,7 @@ item_queries:
   is_christmas: 'genre:Christmas , genre:Holiday'
   is_classical: 'genre:Classical'
   is_live: 'albumtype:live'
-  is_game: 'genre:game , genre:videogame , genre:vgm'
+  is_game: 'genre:game'
   is_soundtrack: 'genre:soundtrack , albumtype:soundtrack'
   is_single: 'albumtype:single'
   is_mfp: 'label:"Music for Programming"'
