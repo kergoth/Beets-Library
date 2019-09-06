@@ -48,7 +48,7 @@ while read -r id; do
         fi
     fi
 
-    beet ls "$id_query"
+    beet ls ${album:+-a} "$id_query"
 
     printf >&2 '+ export "%s"\n' "$id_query"
     if [ $dry_run -eq 0 ]; then
