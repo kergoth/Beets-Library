@@ -10,8 +10,8 @@ from beets.dbcore import types
 from beets.dbcore import Query
 
 
-class SavedQueries(Query):
-    model_name = None
+class SavedQuery(Query):
+    model_name = 'invalid'
 
     def __init__(self, name):
         self.name = name
@@ -26,12 +26,12 @@ class SavedQueries(Query):
         return self.query.match(item)
 
 
-class ItemSavedQueries(SavedQueries):
+class ItemSavedQuery(SavedQuery):
     model_name = 'item'
     model = Item
 
 
-class AlbumSavedQueries(SavedQueries):
+class AlbumSavedQuery(SavedQuery):
     model_name = 'album'
     model = Album
 
@@ -59,19 +59,19 @@ class SavedQueriesPlugin(BeetsPlugin):
 
         self._log.debug('adding named item query `query`')
         self._log.debug('adding named album query `album_query`')
-        self.item_queries = {'query': ItemSavedQueries}
-        self.album_queries = {'album_query': AlbumSavedQueries}
+        self.item_queries = {'query': ItemSavedQuery}
+        self.album_queries = {'album_query': AlbumSavedQuery}
         if self.config['add_fields'].get():
             self.item_types = {}
             self.template_fields = {}
             for name in config['item_queries'].keys():
                 self._log.debug('adding item field {}', name)
                 self.item_types[name] = types.BOOLEAN
-                self.template_fields[name] = lambda item, name=name: ItemSavedQueries(name).match(item)
+                self.template_fields[name] = lambda item, name=name: ItemSavedQuery(name).match(item)
 
             self.album_types = {}
             self.album_template_fields = {}
             for name in config['album_queries'].keys():
                 self._log.debug('adding album field {}', name)
                 self.album_types[name] = types.BOOLEAN
-                self.album_template_fields[name] = lambda album, name=name: AlbumSavedQueries(name).match(album)
+                self.album_template_fields[name] = lambda album, name=name: AlbumSavedQuery(name).match(album)
