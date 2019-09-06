@@ -1,0 +1,67 @@
+#!/bin/sh
+# shellcheck disable=SC2016,SC2046
+
+usage() {
+    cat >&2 <<END
+${0##*/} [options] [QUERY..]
+
+Options:
+
+  -n   Dry run.
+  -s   Singletons, not albums.
+END
+exit 2
+}
+
+dry_run=0
+album=1
+singleton=
+while getopts nsh opt; do
+    case "$opt" in
+        n)
+            dry_run=1
+            ;;
+        s)
+            album=
+            singleton=1
+            ;;
+        \? | h)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+ret=0
+tmp=$(mktemp -t "${0##*/}.XXXX")
+trap 'rm -f "$tmp"' EXIT INT TERM
+
+scriptdir="$(dirname "$0")"
+
+beet ls ${album:+-a} -f '$id' ${singleton:+singleton:true} "$@" >"$tmp"
+while read -r id; do
+    id_query="${album:+album_}id:$id"
+    if [ -n "$album" ]; then
+        if [ $(beet ls -a -f '$source' "$id_query" | wc -l) -ne 1 ]; then
+            echo >&2 "$id must have a single source set, skipping"
+            continue
+        fi
+    fi
+
+    beet ls "$id_query"
+
+    printf >&2 '+ export "%s"\n' "$id_query"
+    if [ $dry_run -eq 0 ]; then
+        "$scriptdir/export" "$id_query"
+    fi
+
+    source="$(beet ls ${album:+-a} -f '$source' "$id_query")"
+    printf >&2 '+ beet import -maL %s--set=source="%s" "%s"\n' "${singleton:+--singletons }" "$source" "$id_query"
+    if [ $dry_run -eq 0 ]; then
+        if ! beet import -maL ${singleton:+--singletons} --set=source="$source" "$id_query" </dev/tty; then
+            ret=1
+            break
+        fi
+    fi
+done <"$tmp"
+exit $ret
