@@ -1,4 +1,4 @@
-"""
+r"""
 Path format function to apply the specified set of replacements to a path.
 
 This can be used to apply replacements only to the alternative library created
