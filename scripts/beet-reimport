@@ -71,7 +71,7 @@ while read -r id; do
 
         if [ -n "$set_values" ]; then
             # shellcheck disable=SC2086
-            beet modify -y ${album:+-a} "$id_query" $set_values
+            beet modify -y ${album:+-a} "$id_query" $set_values 2>/dev/null
             ret=$?
             if [ $ret -gt 127 ]; then
                 # Exited due to signal
