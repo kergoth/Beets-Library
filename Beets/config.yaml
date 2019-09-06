@@ -264,6 +264,12 @@ types:
 album_fields:
   album_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
+  albumtype_suffix: |
+    if 'single' in albumtype or 'Single' in albumtype:
+      return ' - Single'
+    else:
+      return ''
+
   # Number of existing tracks in this album
   existing: len(items)
 
@@ -379,7 +385,7 @@ item_fields:
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
 
 album_formats:
-  format_album: '[$id] $albumartist - $album%if{$e_albumadvisory, (Explicit)}'
+  format_album: '[$id] $albumartist - $album$albumtype_suffix%if{$e_albumadvisory, (Explicit)}'
 
   # Convenience
   album_id: '$id'
