@@ -126,7 +126,6 @@ alias:
     # $ beet get-config-path library
     get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
-    reimport: import -maL
     reimport-mb: reimport mb_albumid:@
 
     # Strip release-specific tags. Useful in cases where the precise release
