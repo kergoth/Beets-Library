@@ -25,7 +25,7 @@ class LastimportPlugin(BeetsPlugin):
         })
 
         self.import_stages = [self.imported]
-        self.register_listener('import_task_created', self.import_task_created)
+        self.register_listener('import_begin', self.clear_last_import)
 
     def commands(self):
         """Add the last-import command."""
@@ -55,7 +55,7 @@ class LastimportPlugin(BeetsPlugin):
         for obj in query('last_import:1 added+'):
             print_(format(obj, fmt))
 
-    def import_task_created(self, session, task):
+    def clear_last_import(self, session, task):
         """Clear existing last_import fields before the new import."""
         with session.lib.transaction():
             for album in session.lib.albums('last_import:1'):
