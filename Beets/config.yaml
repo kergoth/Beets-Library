@@ -509,13 +509,10 @@ alternatives:
       query:dap_classical : '%replace_path{dap_replace,Classical Music/$albumartistdir/%replace_path{adjust_classical_album,$albumdir}/$comp_filename}'
       singleton          : '%replace_path{dap_replace,Single Tracks/$artist_title}'
       query:is_sampler   : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
-      query:is_single    : '%replace_path{dap_replace,Singles/$albumartistdir/%replace_path{no_single_suffix,$albumdir}/$comp_filename}'
+      query:is_single    : '%replace_path{dap_replace,Singles/$albumartistdir/$albumdir/$comp_filename}'
       query:is_soundtrack: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
       comp:1             : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Compilations/$albumdir/$comp_filename}}'
       default            : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
-
-no_single_suffix:
-  ' - Single$': ''
 
 adjust_album:
   # Consistency
