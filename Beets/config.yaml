@@ -91,6 +91,8 @@ plugins:
   - saved_formats
   # Query whether an item has embedded art
   - has_art
+  # Inspect candidate changes when importing
+  - import_inspect
   # Define hooks via inline python
   - inline_hook
   # Keep track of the most recently imported items, useful in hooks
