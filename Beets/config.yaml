@@ -216,9 +216,14 @@ inline_hook:
     - event: import_task_files
       handler: |
         from beets.importer import log
-        for item in task.imported_items():
+        if task.is_album:
+          item = task.album
           if not item.get('source'):
             item['source'] = 'Unknown'
+        else:
+          for item in task.imported_items():
+            if not item.get('source'):
+              item['source'] = 'Unknown'
 
     - event: import_task_created
       handler: |
