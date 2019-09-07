@@ -21,7 +21,7 @@ done
 # Likely a single
 beet modify -W -a last_import:1 albumtotal:1 albumtype::'^(|other)$' albumtype=single 2>/dev/null
 
-# Save comments if set
+# Save comments.txt if set
 beet-export-album-comments last-import:1
 
 # Clear out the album field for imported singletons
