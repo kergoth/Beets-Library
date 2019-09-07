@@ -199,6 +199,10 @@ bandcamp:
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
 
+edit:
+  itemfields: track title artist album albumdisambig tracktotal month day year
+  albumfields: album albumartist
+
 embedart:
   auto: false
 
