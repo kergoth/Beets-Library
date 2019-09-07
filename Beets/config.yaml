@@ -211,11 +211,38 @@ hook:
     - event: import
       command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
 
+import_inspect:
+  field_blacklist:
+    # When inspecting candidates, it's a given that release fields will
+    # change, and a number of these are shown already by the import interface,
+    # so focus on non-release fields.
+    - albumstatus
+    - asin
+    - barcode
+    - catalognumber
+    - catalognum
+    - country
+    - data_source
+    - discogs_albumid
+    - isrc
+    - label
+    - language
+    - mb_albumartistid
+    - mb_albumid
+    - mb_artistid
+    - mb_releasegroupid
+    - mb_releasetrackid
+    - mb_trackid
+    - mb_workid
+    - media
+    - releasecountry
+    - releasestatus
+    - script
+
 inline_hook:
   hooks:
     - event: import_task_files
       handler: |
-        from beets.importer import log
         if task.is_album:
           item = task.album
           if not item.get('source'):
