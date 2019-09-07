@@ -46,41 +46,34 @@ scriptdir="$(dirname "$0")"
 
 beet ls ${album:+-a} -f '$id' ${singleton:+singleton:true} "$@" >"$tmp"
 while read -r id; do
-    id_query="${album:+album_}id:$id"
-    if [ -n "$album" ]; then
-        if [ $(beet ls -a -f '$source' "$id_query" | wc -l) -ne 1 ]; then
-            echo >&2 "$id must have a single source set, skipping"
-            continue
-        fi
+    item_query="${album:+album_}id:$id"
+    beet ls ${album:+-a} "$item_query"
+
+    printf >&2 '+ export "%s"\n' "$item_query"
+    if [ $dry_run -eq 0 ]; then
+        "$scriptdir/export" "$item_query"
     fi
 
-    beet ls ${album:+-a} "$id_query"
-
-    printf >&2 '+ export "%s"\n' "$id_query"
+    printf >&2 '+ beet import -L %s "%s"\n' "${singleton:+--singletons }" "$item_query"
     if [ $dry_run -eq 0 ]; then
-        "$scriptdir/export" "$id_query"
-    fi
-
-    source="$(beet ls ${album:+-a} -f '$source' "$id_query")"
-    printf >&2 '+ beet import -maL %s--set=source="%s" "%s"\n' "${singleton:+--singletons }" "$source" "$id_query"
-    if [ $dry_run -eq 0 ]; then
-        if ! beet import -maL ${singleton:+--singletons} --set=source="$source" "$id_query" </dev/tty; then
+        if ! beet import -L ${singleton:+--singletons} "$item_query" </dev/tty; then
             ret=1
             break
         fi
 
+        if [ -z "$(beet ls -f '$id' ${album:+-a} "id:$id" 2>/dev/null)" ]; then
+            # Item was imported, id changed, get the new one with last_import
+            id="$(beet ls -f '$id' ${album:+-a} last_import:1)"
+            item_query="${album:+album_}id:$id"
+        fi
+
         if [ -n "$set_values" ]; then
             # shellcheck disable=SC2086
-            beet modify -y ${album:+-a} "$id_query" $set_values 2>/dev/null
+            beet modify -y ${album:+-a} "id:$id" $set_values 2>/dev/null
             ret=$?
             if [ $ret -gt 127 ]; then
                 # Exited due to signal
                 exit $ret
-            elif [ $ret -ne 0 ]; then
-                # If the modify failed, the id changed, so the import must
-                # have completed, and we can use last_import instead.
-                # shellcheck disable=SC2086
-                beet modify -y ${album:+-a} last_import:1 $set_values
             fi
         fi
     fi
