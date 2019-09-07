@@ -38,5 +38,11 @@ Missing tracks (2/3 - 66.7%):
  ! Jesus Saves         (# 2) (3:27)
  ! We Will Worship You (# 3) (4:02)
 Apply, More candidates, Skip, Use as-is, as Tracks, Group albums,
-Enter search, enter Id, aBort, eDit, edit Candidates, iNspect changes?
+Enter search, enter Id, aBort, eDit, edit Candidates, iNspect changes? a
+[] Carlos Whittaker - Carlos Whittaker
+  day: 26 -> 01
+  albumtype: ep -> single
+[] Carlos Whittaker - 01 - Carlos Whittaker - Rain It Down
+  artist_sort: Carlos Whittaker -> 
+Continue to apply these changes (Y/n)? y
 ```
