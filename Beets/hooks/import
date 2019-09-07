@@ -6,8 +6,8 @@
 
 # Set certain album items to singleton
 beet ls -f '$id' -a last_import:1 | while read -r album_id; do
-    beet modify -y "album_id:$album_id" singleton:false album:@ album_id= 2>/dev/null
-    beet modify -y "album_id:$album_id" singleton:false album:"non-album tracks" album_id= album= 2>/dev/null
+    beet modify -W -y "album_id:$album_id" singleton:false album:@ album_id= 2>/dev/null
+    beet modify -W -y "album_id:$album_id" singleton:false album:"non-album tracks" album_id= album= 2>/dev/null
 
     # Extract embedded album art if needed
     beet extractart -a "id:$album_id" "artpath:^"
@@ -19,16 +19,16 @@ beet ls -f '$id' -a last_import:1 | while read -r album_id; do
 done
 
 # Likely a single
-beet modify -a last_import:1 albumtotal:1 albumtype::'^(|other)$' albumtype=single 2>/dev/null
+beet modify -W -a last_import:1 albumtotal:1 albumtype::'^(|other)$' albumtype=single 2>/dev/null
 
 # Save comments if set
 beet-export-album-comments last-import:1
 
 # Clear out the album field for imported singletons
-beet modify -y last_import:1 album::. album= 2>/dev/null
+beet modify -W -y last_import:1 album::. album= 2>/dev/null
 
 # 'Various Artists' albums not flagged as compilations
-beet modify -y -a last_import:1 album_query:is_various_not_comp comp=1 2>/dev/null
+beet modify -W -y -a last_import:1 album_query:is_various_not_comp comp=1 2>/dev/null
 
 beet ls -a -f '$path' last_import:1
 beet ls -f '$path' last_import:1
