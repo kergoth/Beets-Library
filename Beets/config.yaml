@@ -440,7 +440,7 @@ album_formats:
   comp_albumartist: '%if{$comp,Compilations,$albumartist}'
   albumsdir: '%if{$incomplete,Incomplete }Albums'
   _albumdir: '%the{%replace{adjust_album,$album%aunique{}}}%if{$e_albumadvisory, (Explicit)}'
-  _albumartistdir: '%asciify{%replace{adjust_artist,$comp_albumartist}}'
+  _albumartistdir: '%the{%asciify{%replace{adjust_artist,$comp_albumartist}}}'
 
   # Fallbacks from item fields
   albumdir: '$_albumdir'
@@ -456,7 +456,7 @@ item_formats:
   format_item: '[$id] %if{$album,$album - $disc_and_track_pre}$artist - $full_title'
 
   # Used in path formats
-  artist_title: '$path_artist - $full_title'
+  artist_title: '%the{$path_artist} - $full_title'
   albumdir: '%if{$album,$_albumdir,[non-album tracks]}'
   albumartistdir: '%if{$album,$_albumartistdir,$path_artist}'
   path_artist: '%asciify{%replace{adjust_artist,$artist}}'
