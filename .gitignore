@@ -1,7 +1,20 @@
+# State and tooling
 __pycache__
+.mypy_cache
+/.vscode/
 /Session.vim
+
+# Music
 /Old Library
-/DAP*/
 /Library*/
 /Manual Additions/
 /Incoming/
+/Removed/
+/Exported/
+
+# DAP Libraries
+/*DAP*/
+/Unhoisted*/
+
+# Local-only configuration
+Beets/config.d/local.yaml
