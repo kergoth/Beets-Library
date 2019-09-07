@@ -105,6 +105,8 @@ plugins:
   - existing_queries
   # % prefix for non-NULL/non-None
   - other_queries
+  # Prompt choice to launch picard when importing
+  - picard
   - spotify_explicit
 
 acousticbrainz:
