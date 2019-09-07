@@ -35,9 +35,6 @@ import:
   timid: true
   incremental: true
   default_action: skip
-  set_fields:
-    # source is where I obtained the music. iTunes, Amazon, Other, etc.
-    source: 'Unknown'
 
 # files matching these patterns are deleted from source after import
 clutter: ["Thumbs.DB", ".DS_Store", "*.m3u"]
@@ -166,7 +163,7 @@ alias:
     empty-artist: ls artist:@
     empty-album: ls album:@ singleton:false
     book-not-audiobook: ls genre:book ^albumtype:audiobook
-    unknown-source: ls source:Unknown
+    unknown-source: ls source:Unknown , source:@
     excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
     red-flags: '!sh -c "(set -x; beet empty-artist; beet empty-album; beet book-not-audiobook; beet unknown-source; beet excess-tracks) | python3 -c \"import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))\""'
 
@@ -213,12 +210,20 @@ hook:
 
 inline_hook:
   hooks:
+    - event: import_task_files
+      handler: |
+        from beets.importer import log
+        for item in task.imported_items():
+          if not item.get('source'):
+            item['source'] = 'Unknown'
+
     - event: import_task_created
       handler: |
         from beets import config, ui
-        set_fields = config['import']['set_fields']
-        if 'source' not in set_fields.keys() or set_fields['source'].as_str() == 'Unknown':
-          raise ui.UserError('No source specified, please include --set=source=SOURCE')
+        if not config['import']['library'].get():
+          set_fields = config['import']['set_fields']
+          if 'source' not in set_fields.keys():
+            raise ui.UserError('No source specified, please include --set=source=SOURCE')
 
 playlist:
   auto: true
