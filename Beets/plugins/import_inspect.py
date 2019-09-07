@@ -19,17 +19,35 @@ def new_item(i):
 
 
 class ImportInspectPlugin(BeetsPlugin):
-    nonalbum_fields = library.Item._media_tag_fields.difference(library.Album.item_keys)
-
     def __init__(self):
         super(ImportInspectPlugin, self).__init__()
 
         self.config.add({
             'on_apply': True,
+            'field_whitelist': '',
+            'field_blacklist': '',
         })
+
+        self.album_fields = set(library.Album.item_keys)
+        self.nonalbum_fields = library.Item._media_tag_fields.difference(self.album_fields)
+
+        self.whitelist = self.config['field_whitelist'].as_str_seq()
+        if self.whitelist:
+            self.album_fields = self.album_fields.intersection(self.whitelist)
+            self.nonalbum_fields = self.nonalbum_fields.intersection(self.whitelist)
+
+        self.blacklist = self.config['field_blacklist'].as_str_seq()
+        if self.blacklist:
+            self.album_fields = self.album_fields.difference(self.blacklist)
+            self.nonalbum_fields = self.nonalbum_fields.difference(self.blacklist)
+
+        self.all_fields = list(sorted(self.album_fields | self.nonalbum_fields))
+        self.album_fields = list(sorted(self.album_fields))
+        self.nonalbum_fields = list(sorted(self.nonalbum_fields))
 
         self.register_listener('before_choose_candidate',
                                self.before_choose_candidate_listener)
+
         if self.config['on_apply'].get():
             self.register_listener('import_task_choice',
                                    self.import_task_choice_listener)
@@ -77,14 +95,14 @@ class ImportInspectPlugin(BeetsPlugin):
 
             # olditems[0].get_album() isn't working, create our own to compare
             olditems = list(match.mapping.keys())
-            oldvalues = dict((key, olditems[0][key]) for key in library.Album.item_keys)
+            oldvalues = dict((key, olditems[0][key]) for key in self.album_fields)
             oldalbum = library.Album(lib, **oldvalues)
 
             newitems = list(newmapping.keys())
-            values = dict((key, newitems[0][key]) for key in library.Album.item_keys)
+            values = dict((key, newitems[0][key]) for key in self.album_fields)
             album = library.Album(lib, **values)
 
-            album_changes = ui.show_model_changes(album, oldalbum, library.Album.item_keys)
+            album_changes = ui.show_model_changes(album, oldalbum, self.album_fields)
             if album_changes:
                 changes = True
 
@@ -97,6 +115,6 @@ class ImportInspectPlugin(BeetsPlugin):
         else:
             fakeitem = new_item(task.item)
             autotag.apply_item_metadata(fakeitem, match.info)
-            changes = ui.show_model_changes(fakeitem, task.item, library.Item._media_tag_fields)
+            changes = ui.show_model_changes(fakeitem, task.item, self.all_fields)
 
         return changes
