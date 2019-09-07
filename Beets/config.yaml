@@ -46,7 +46,7 @@ match:
     original_year: yes
   ignored: unmatched_tracks
   ignored_media: ['Data CD', 'DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD',
-                  'VCD', 'SVCD', 'UMD', 'VHS', '12" Vinyl']
+                  'VCD', 'SVCD', 'UMD', 'VHS', '12" Vinyl', 'Vinyl']
 
 plugins:
   # Stock plugins
