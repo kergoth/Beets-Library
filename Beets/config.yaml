@@ -218,10 +218,11 @@ hook:
       command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
 
 import_inspect:
-  field_blacklist:
+  ignored_new:
     # When inspecting candidates, it's a given that release fields will
-    # change, and a number of these are shown already by the import interface,
-    # so focus on non-release fields.
+    # be added, and a number of these are shown already by the import interface,
+    # so focus on non-release fields. Changes to existing release fields will still
+    # be shown, as that's useful when retagging an existing item.
     - albumstatus
     - asin
     - barcode
