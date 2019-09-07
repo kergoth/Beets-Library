@@ -1,0 +1,16 @@
+#!/bin/sh
+# shellcheck disable=SC2016
+
+get_query () {
+    album_id="$1"
+    for track; do
+        echo "album_id:$album_id track:$track , "
+    done | tr -d '\n' | sed -e "s/ , $//"
+}
+
+album_id="$1"
+shift
+query="$(get_query "$album_id" "$@")"
+# shellcheck disable=SC2086
+beet modify $query advisory=1
+beet modify -a album_id:"$album_id" albumadvisory=1

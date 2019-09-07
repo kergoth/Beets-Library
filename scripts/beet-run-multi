@@ -1,0 +1,32 @@
+#!/bin/sh
+
+usage() {
+    echo >&2 "${0##*/} [-A ARGS] CMD [CMD..]"
+    exit 2
+}
+
+err_if_not_empty () {
+    python3 -c 'import sys; line=sys.stdin.readline(); sys.stdout.write(l); sys.stdout.writelines(sys.stdin); sys.exit(bool(d))'
+}
+
+args=
+while getopts A:h opt; do
+    case "$opt" in
+        A)
+            args="$OPTARG"
+            ;;
+        \? | h)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+ret=0
+for cmd; do
+    (
+        eval "set -- $args"
+        beet "$cmd" "$@"
+    ) || ret=$?
+done | err_if_not_empty || ret=$?
+exit "$ret"

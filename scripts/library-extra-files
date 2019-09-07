@@ -1,0 +1,18 @@
+#!/bin/sh
+
+dbfile="$(mktemp -t "${0##*/}.XXXXXX")" || exit 1
+diskfile="$(mktemp -t "${0##*/}.XXXXXX")" || exit 1
+trap 'rm -f "$dbfile" "$diskfile"' EXIT INT TERM
+
+(
+    beet ls -f '$path'
+    beet ls -f '$artpath'
+) \
+    | tr '[:upper:]' '[:lower:]' \
+    | sort >"$dbfile"
+find "$PWD/Library" -type f \
+    | grep -Ev '\.DS_Store|state\.pickle|library\.db|import\.log|\.cue|\.log' \
+    | tr '[:upper:]' '[:lower:]' \
+    | sort >"$diskfile"
+touch "$diskfile"
+comm -13 "$dbfile" "$diskfile"
