@@ -79,7 +79,6 @@ plugins:
   - bandcamp
   - copyartifacts
   - join_albums
-  - noimport
 
   # My local plugins
   # Calculate acoustic fingerprint, only against non-musicbrainz tracks, and
