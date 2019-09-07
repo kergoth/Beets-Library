@@ -8,6 +8,8 @@ My personal beets configuration and scripts
 
 Inspect the changes that will be applied when selecting a candidate during the import process.
 
+This is particularly helpful when you have many candidates with similar information, as it gives you enough detail to differentiate, for example the total number of tracks, month/day, albumdisambig, etc.
+
 Example usage:
 ```
 /Volumes/Data/Beets Library/Library/iTunes/Carlos Whittaker/Carlos Whittaker (1 items)
