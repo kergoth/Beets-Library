@@ -89,6 +89,8 @@ plugins:
   - alias
   # Define saved format strings by storing them in fields
   - saved_formats
+  # Query whether an item has embedded art
+  - has_art
   # Define hooks via inline python
   - inline_hook
   # Keep track of the most recently imported items, useful in hooks
