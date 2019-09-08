@@ -55,7 +55,7 @@ class LastimportPlugin(BeetsPlugin):
         for obj in query('last_import:1 added+'):
             print_(format(obj, fmt))
 
-    def clear_last_import(self, session, task):
+    def clear_last_import(self, session):
         """Clear existing last_import fields before the new import."""
         with session.lib.transaction():
             for album in session.lib.albums('last_import:1'):
