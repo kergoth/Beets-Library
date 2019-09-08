@@ -53,6 +53,7 @@ plugins:
   - absubmit
   - acousticbrainz
   - badfiles
+  - beatport
   - convert
   - chroma
   - discogs
