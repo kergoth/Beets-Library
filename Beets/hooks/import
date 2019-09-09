@@ -9,7 +9,7 @@ beet ls -f '$id' -a last_import:1 | while read -r album_id; do
     beet modify -W -y "album_id:$album_id" singleton:false album:"non-album tracks" , singleton:false album:@ album_id= album= 2>/dev/null
 
     # Extract embedded album art if needed
-    beet extractart -a "id:$album_id" "artpath:^"
+    beet extractart -a "album_id:$album_id" "artpath:^"
 
     # Clear embedded album art. FIXME: run this only if there's embedded art
     # to clear, otherwise it pointlessly writes *all* the metadata changes
