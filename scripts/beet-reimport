@@ -56,6 +56,8 @@ while read -r id; do
 
     printf >&2 '+ beet import -L %s "%s"\n' "${singleton:+--singletons }" "$item_query"
     if [ $dry_run -eq 0 ]; then
+        beet ls "$item_query"
+
         if ! beet import -L ${singleton:+--singletons} "$item_query" </dev/tty; then
             ret=1
             break
