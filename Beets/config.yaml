@@ -41,7 +41,7 @@ clutter: ["Thumbs.DB", ".DS_Store", "*.m3u"]
 
 match:
   preferred:
-    countries: ['US', 'GB|UK']
+    countries: ['US', 'XW', 'GB|UK']
     media: ['Digital Media|File', 'CD']
     original_year: yes
   ignored: unmatched_tracks
