@@ -6,8 +6,7 @@
 
 # Set certain album items to singleton
 beet ls -f '$id' -a last_import:1 | while read -r album_id; do
-    beet modify -W -y "album_id:$album_id" singleton:false album:@ album_id= 2>/dev/null
-    beet modify -W -y "album_id:$album_id" singleton:false album:"non-album tracks" album_id= album= 2>/dev/null
+    beet modify -W -y "album_id:$album_id" singleton:false album:"non-album tracks" , singleton:false album:@ album_id= album= 2>/dev/null
 
     # Extract embedded album art if needed
     beet extractart -a "id:$album_id" "artpath:^"
