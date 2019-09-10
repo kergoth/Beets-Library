@@ -8,43 +8,26 @@ My personal beets configuration and scripts
 
 Inspect the changes that will be applied when selecting a candidate during the import process.
 
-This is particularly helpful when you have many candidates with similar information, as it gives you enough detail to differentiate, for example the total number of tracks, month/day, albumdisambig, etc.
+This is particularly helpful when you have many candidates with similar information, as it gives you enough detail to differentiate, for example the total number of tracks, month/day, albumdisambig, etc. The display is the same as that used by `beet-modify` and others, as it uses the same `ui.show_model_changes` function to do the work.
 
-Example usage:
+#### Usage
+
+Example inspection output:
 ```
-/Volumes/Data/Beets Library/Library/iTunes/Carlos Whittaker/Carlos Whittaker (1 items)
-Tagging:
-    Carlos Whittaker - Carlos Whittaker
-URL:
-    https://open.spotify.com/album/7DqDq7RNDp90viSfhTAyEK
-(Similarity: 71.2%) (missing tracks, source, year, tracks) (Spotify, 2010, Integrity Music)
- * Rain It Down -> Rain It Down (source)
-Missing tracks (2/3 - 66.7%):
- ! Jesus Saves         (# 2) (3:27)
- ! We Will Worship You (# 3) (4:02)
-Apply, More candidates, Skip, Use as-is, as Tracks, Group albums,
-Enter search, enter Id, aBort, eDit, edit Candidates, iNspect changes? n
-# selection (default 1)? 
-[] Carlos Whittaker - Carlos Whittaker
-  day: 26 -> 01
-  albumtype: ep -> single
-[] Carlos Whittaker - 01 - Carlos Whittaker - Rain It Down
-  artist_sort: Carlos Whittaker -> 
-Tagging:
-    Carlos Whittaker - Carlos Whittaker
-URL:
-    https://open.spotify.com/album/7DqDq7RNDp90viSfhTAyEK
-(Similarity: 71.2%) (missing tracks, source, year, tracks) (Spotify, 2010, Integrity Music)
- * Rain It Down -> Rain It Down (source)
-Missing tracks (2/3 - 66.7%):
- ! Jesus Saves         (# 2) (3:27)
- ! We Will Worship You (# 3) (4:02)
-Apply, More candidates, Skip, Use as-is, as Tracks, Group albums,
-Enter search, enter Id, aBort, eDit, edit Candidates, iNspect changes? a
-[] Carlos Whittaker - Carlos Whittaker
-  day: 26 -> 01
-  albumtype: ep -> single
-[] Carlos Whittaker - 01 - Carlos Whittaker - Rain It Down
-  artist_sort: Carlos Whittaker -> 
-Continue to apply these changes (Y/n)? y
+Gary Go - Gary Go (Bonus Track Version)
+  albumartist_sort:  -> Gary Go
+  albumartist_credit:  -> Gary Go
+  album: Gary Go (Bonus Track Version) -> Gary Go
+  month: 08 -> 09
+  day: 11 -> 15
+  albumtype:  -> album
+  albumdisambig:  -> Exclusive Amazon MP3 version
+  original_year: 0000 -> 2009
+  original_month: 00 -> 05
+  original_day: 00 -> 25
+Gary Go (Bonus Track Version) - 04 - Gary Go - Wonderful
+  artist_credit:  -> Gary Go
+  tracktotal: 13 -> 12
 ```
+
+[![Screencast](images/import_inspect.png)](https://asciinema.org/a/1r3HoearzkY2A8QG417bVM5nR)
