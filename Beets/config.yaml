@@ -109,6 +109,7 @@ plugins:
   # Prompt choice to launch picard when importing
   - picard
   - spotify_explicit
+  - reimportskipfields
 
 acousticbrainz:
   tags:
@@ -273,12 +274,18 @@ playlist:
   relative_to: ..
   playlist_dir: Library/Playlists
 
+reimportskipfields:
+  set_fields: reimported
+
 types:
   # Flexible fields. Use e_<field> to deal with it being undefined db-only
   # version of itunesadvisory. 1 == Explicit, 2 == Clean
   advisory: int
   # 1 == explicit album (contains at least one explicit track)
   albumadvisory: int
+
+  # set_fields
+  reimported: int
 
   # Default values for the above
   e_advisory: int
