@@ -33,6 +33,8 @@ class ReimportSkippedFieldsPlugin(BeetsPlugin):
                 old_items = list(session.lib.items(
                     dbcore.query.BytesQuery('path', item.path)
                 ))
+                if not old_items:
+                    continue
                 item = old_items[0]
 
             if task.is_album:
