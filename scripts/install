@@ -4,6 +4,7 @@ PATH="$(dirname "$0"):$PATH"
 
 for url in https://github.com/beetbox/beets \
            https://github.com/unrblt/beets-bandcamp \
+           https://github.com/kergoth/beets-kergoth \
            https://github.com/edk0/beets-join-albums \
            https://github.com/steven-murray/beet-summarize \
            https://github.com/wisp3rwind/beets-alternatives \
