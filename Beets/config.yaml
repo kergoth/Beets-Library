@@ -87,29 +87,31 @@ plugins:
   - abcalc
   # Define beet command aliases, much like you can with git
   - alias
-  # Define saved format strings by storing them in fields
-  - savedformats
+  # Named queries and query prefixes from the Beets source. 'any:', @ prefix
+  # for exact match, and ^ prefix for a None value.
+  - existingqueries
   # Query whether an item has embedded art
   - hasart
   # Inspect candidate changes when importing
   - importinspect
-  # Define hooks via inline python
-  - inlinehook
   # Keep track of the most recently imported items, useful in hooks
   - last_import
-  # Add `replace` format function for applying specific sets of replacements
-  - replaceformat
-  # Define named/saved queries, and define fields using those queries
-  - savedqueries
-  # Named queries and query prefixes from the Beets source. 'any:', @ prefix
-  # for exact match, and ^ prefix for a None value.
-  - existingqueries
+  # Modify fields with formats/templates
+  - modifytmpl
+  # Expect source to be set
+  - musicsource
   # % prefix for non-NULL/non-None
   - otherqueries
   # Prompt choice to launch picard when importing
   - picard
   # Allow certain set_fields to apply to skipped items on reimport
   - reimportskipfields
+  # Add `replace` format function for applying specific sets of replacements
+  - replaceformat
+  # Define saved format strings by storing them in fields
+  - savedformats
+  # Define named/saved queries, and define fields using those queries
+  - savedqueries
   # List tracks spotify identifies as explicit/parental advisory
   - spotifyexplicit
 
@@ -221,7 +223,7 @@ hook:
     - event: import
       command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
 
-import_inspect:
+importinspect:
   ignored_new:
     # When inspecting candidates, it's a given that release fields will
     # be added, and a number of these are shown already by the import interface,
@@ -249,27 +251,6 @@ import_inspect:
     - releasecountry
     - releasestatus
     - script
-
-inline_hook:
-  hooks:
-    - event: import_task_files
-      handler: |
-        if task.is_album:
-          item = task.album
-          if not item.get('source'):
-            item['source'] = 'Unknown'
-        else:
-          for item in task.imported_items():
-            if not item.get('source'):
-              item['source'] = 'Unknown'
-
-    - event: import_task_created
-      handler: |
-        from beets import config, ui
-        if not config['import']['library'].get():
-          set_fields = config['import']['set_fields']
-          if 'source' not in set_fields.keys():
-            raise ui.UserError('No source specified, please include --set=source=SOURCE')
 
 playlist:
   auto: true
