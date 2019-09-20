@@ -225,6 +225,11 @@ hook:
       command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
 
 importinspect:
+  ignored:
+    - day
+    - month
+    - original_day
+    - original_month
   ignored_new:
     # When inspecting candidates, it's a given that release fields will
     # be added, and a number of these are shown already by the import interface,
