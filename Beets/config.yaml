@@ -74,6 +74,7 @@ plugins:
   - spotify
   - the
   - types
+  - zero
 
   # 3rd party plugins
   - alternatives
@@ -295,6 +296,11 @@ types:
 
   # Item inline and format fields
   excess_tracks: bool
+
+zero:
+    fields: month day original_month original_day comments
+    comments: [EAC, LAME, from.+collection, 'ripped by']
+    update_database: true
 
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
