@@ -131,7 +131,7 @@ alias:
   aliases:
     # Utilities
     # $ beet get-config alias.aliases.reimport
-    get-config: '!sh -c "beet config | yq -r \".$1\"" -'
+    get-config: '!sh -c "for arg; do beet config | yq -r \".$arg\"; done" -'
     # $ beet get-config-path library
     get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
