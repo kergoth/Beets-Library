@@ -563,7 +563,7 @@ adjust_artist:
 # These replacements improve the visuals and navigation on the media player
 dap_replace:
   # Marks I don't care about
-  ' *[™®©]': ''
+  ' *[™®©](?![a-zA-Z])': ''
 
   # Visual cleanup
   '[\x00-\x1f]': _
