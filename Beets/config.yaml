@@ -297,7 +297,7 @@ types:
 
 zero:
     fields: month day original_month original_day comments
-    comments: [EAC, LAME, from.+collection, 'ripped by']
+    comments: [EAC, LAME]
     update_database: true
 
 # It's irritating that we can't reference other inline fields to avoid this
