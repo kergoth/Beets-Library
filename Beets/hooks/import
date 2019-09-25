@@ -7,6 +7,11 @@ beet extractart -a last_import:1 "artpath:^"
 # Save comments.txt if set
 beet-export-album-comments last_import:1
 
+# Check for red flags and potential concerns
+beet ls -f '$id' -a last_import:1 | while read -r album_id; do
+    beet-check-sanity "album_id:$album_id"
+done
+beet-check-sanity last_import:1
 
 beet ls -a -f '$path' last_import:1
 beet ls -f '$path' last_import:1
