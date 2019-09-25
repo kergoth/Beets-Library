@@ -99,6 +99,8 @@ plugins:
   - importinspect
   # Keep track of the most recently imported items, useful in hooks
   - last_import
+  # Modify fields in imported items
+  - modifyonimport
   # Modify fields with formats/templates
   - modifytmpl
   # Expect source to be set
@@ -224,7 +226,7 @@ fetchart:
 hook:
   hooks:
     - event: import
-      command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\" \"$@\"' - \"{lib.path}\" \"{lib.directory}\" \"{paths}\""
+      command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\"'"
 
 importinspect:
   ignored:
@@ -259,6 +261,24 @@ importinspect:
     - releasecountry
     - releasestatus
     - script
+
+modifyonimport:
+  modify_album:
+    # Sane default for albumartist_sort
+    'albumartist_sort::"^$" albumartist::"^The "': 'albumartist_sort=%the{$albumartist}'
+    # Likely a single
+    'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single'
+    # 'Various Artists' albums not flagged as compilations
+    'album_query:is_various_not_comp': 'comp=1'
+  modify_album_items:
+    '':
+      # Sane default for artist_sort
+      'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
+  modify_singleton:
+    # Sane default for artist_sort
+    'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
+    # Clear out the album field for imported singletons
+    'album::.': 'album='
 
 playlist:
   auto: true
