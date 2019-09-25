@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for cmd in empty-artist empty-album book-not-audiobook unknown-source excess-tracks; do
+    beet "$cmd" | sed -e "s#^#Warning: $cmd: #"
+done | python3 -c "import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))" >&2
