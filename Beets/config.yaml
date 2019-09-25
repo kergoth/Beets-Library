@@ -280,9 +280,6 @@ types:
   albumtotal: int
   bpm: int
 
-  # Deal with `missing` going negative
-  e_missing: int
-
   # Album inline and format fields
   album_id: int
   existing: int
@@ -446,8 +443,6 @@ album_formats:
   albumartistdir: '$_albumartistdir'
 
   # Deal with undefined values for queries
-  # This isn't undefined, but is negative when tracktotal/albumtotal is 0
-  e_missing: '%if{$albumtotal,$missing,0}'
   e_albumadvisory: '%ifdef{albumadvisory}'
   e_data_source: '%ifdef{data_source}'
 
