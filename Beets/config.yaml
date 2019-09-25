@@ -592,5 +592,3 @@ dap_replace:
 
 include:
   - config.d/smartplaylist.yaml
-
-#  vim: set et sts=2 sw=2 :
