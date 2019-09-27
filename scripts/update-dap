@@ -6,20 +6,23 @@
 set -e
 
 if [ "$1" = "-f" ]; then
-    bgrm DAP
+    rm -rf DAP/*
 else
     find DAP -type l \
         | while read -r fn; do test -e "$fn" || echo "$fn"; done \
         | tr '\n' '\0' \
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
+    # Ensure we remove remnants of removed albums
+    find DAP -name cover.jpg -print0 | xargs -0 rm -f
 fi
 beet alt update dap --create
-# Ensure we remove remnants of removed albums
-find DAP -name cover.jpg -print0 | xargs -0 rm -f
 "$(dirname "$0")/update-dap-covers"
 
 cd DAP || exit 1
 # Update rockuefort playlists
 rockuefort scan
 ../scripts/update-playlists
+if [ -e .git ]; then
+    git add . && git commit -m "Update"
+fi
