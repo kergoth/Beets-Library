@@ -144,7 +144,8 @@ alias:
     # $ beet get-config-path library
     get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
-    reimport-mb: reimport mb_albumid:@
+    # Reimport unidentified items
+    reimport-mb: import -L mb_albumid:@
 
     # Strip release-specific tags. Useful in cases where the precise release
     # is unknown, or is not in MusicBrainz yet.
