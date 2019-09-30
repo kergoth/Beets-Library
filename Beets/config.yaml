@@ -144,6 +144,11 @@ alias:
     # $ beet get-config-path library
     get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
+    # Latest additions
+    recent: ls -a -f '$added $format_album' 'added+'
+    last-week: ls -f '$added $format_item' 'added+' 'added:-7d..'
+    last-month: ls -f '$added $format_item' 'added+' 'added:-30d..'
+
     # Reimport unidentified items
     reimport-mb: import -L mb_albumid:@
 
@@ -204,8 +209,6 @@ alias:
     # producer, cases where there are featuring artist, etc.
     multiartist-not-comp: ls -a comp:0 multiartist:1
     has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0
-
-    recent: ls -a 'added+' -f '$added $format_album'
 
 bandcamp:
   art: true
