@@ -266,6 +266,9 @@ importinspect:
     - releasestatus
     - script
 
+inconsistentalbumtracks:
+  ignored_fields: added genre language r128_album_gain r128_album_peak rg_album_gain rg_album_peak
+
 modifyonimport:
   modify_album:
     # Sane default for albumartist_sort
