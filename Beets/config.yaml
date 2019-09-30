@@ -271,6 +271,8 @@ inconsistentalbumtracks:
 
 modifyonimport:
   modify_album:
+    # The `zero` plugin clears the fields on the tracks, but not the album
+    '': 'month= day= original_month= original_day='
     # Sane default for albumartist_sort
     'albumartist_sort::"^$" albumartist::"^The "': 'albumartist_sort=%the{$albumartist}'
     # Likely a single
