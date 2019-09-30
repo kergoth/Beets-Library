@@ -97,6 +97,8 @@ plugins:
   - hasart
   # Inspect candidate changes when importing
   - importinspect
+  # Identify albums whose tracks have inconsistent album fields
+  - inconsistentalbumtracks
   # Keep track of the most recently imported items, useful in hooks
   - last_import
   # Modify fields in imported items
