@@ -2,6 +2,7 @@
 __pycache__
 .mypy_cache
 /.vscode/
+.workspace
 /Session.vim
 
 # Music
