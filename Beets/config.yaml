@@ -44,9 +44,17 @@ match:
     countries: ['US', 'XW', 'GB|UK']
     media: ['Digital Media|File', 'CD']
     original_year: yes
-  ignored: unmatched_tracks
+  strong_rec_thresh: 0.075
+  medium_rec_thresh: 0.125
+  max_rec:
+    album: low
+    artist: low
+    unmatched_tracks: low
+    missing_tracks: medium
+    tracks: medium
+    year: medium
   ignored_media: ['Data CD', 'DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD',
-                  'VCD', 'SVCD', 'UMD', 'VHS', '12" Vinyl', 'Vinyl']
+                  'VCD', 'SVCD', 'UMD', 'VHS']
 
 plugins:
   # Stock plugins
