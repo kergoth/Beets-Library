@@ -2,7 +2,7 @@
 # shellcheck disable=SC2016
 
 # Extract embedded album art if needed
-beet extractart -a last_import:1 "artpath:^"
+beet extractart -a last_import:1 "artpath:^" >/dev/null 2>&1
 
 # Save comments.txt if set
 beet-export-album-comments last_import:1
