@@ -47,12 +47,14 @@ match:
   strong_rec_thresh: 0.075
   medium_rec_thresh: 0.125
   max_rec:
-    album: low
-    artist: low
     unmatched_tracks: low
-    missing_tracks: medium
-    tracks: medium
-    year: medium
+    missing_tracks: strong
+  # Bump artist/album matches higher in the candidate list
+  distance_weights:
+    # Default: 3.0
+    album: 6.0
+    # Default: 3.0
+    artist: 5.0
   ignored_media: ['Data CD', 'DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD',
                   'VCD', 'SVCD', 'UMD', 'VHS']
 
