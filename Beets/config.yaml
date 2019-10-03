@@ -55,6 +55,8 @@ match:
     album: 6.0
     # Default: 3.0
     artist: 5.0
+    # Missing tracks should still match for all the single tracks. Default: 0.9
+    missing_tracks: 1.0
   ignored_media: ['Data CD', 'DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD',
                   'VCD', 'SVCD', 'UMD', 'VHS']
 
