@@ -43,7 +43,6 @@ match:
   preferred:
     countries: ['US', 'XW', 'GB|UK']
     media: ['Digital Media|File', 'CD']
-    original_year: yes
   strong_rec_thresh: 0.075
   medium_rec_thresh: 0.125
   max_rec:
