@@ -305,6 +305,9 @@ modifyonimport:
     # Clear out the album field for imported singletons
     'album::.': 'album='
 
+musicbrainz:
+  searchlimit: 10
+
 playlist:
   auto: true
   relative_to: ..
