@@ -122,7 +122,7 @@ plugins:
   # % prefix for non-NULL/non-None
   - otherqueries
   # Lets you query items whose albums match a sub-query
-  - queryalbum
+  - crossquery
   # Prompt choice to launch picard when importing
   - picard
   # Allow certain set_fields to apply to skipped items on reimport
@@ -135,6 +135,8 @@ plugins:
   - savedqueries
   # List tracks spotify identifies as explicit/parental advisory
   - spotifyexplicit
+  # Clear fields in albums in the database, obeying the 'zero' plugin configuration.
+  - zeroalbum
 
 acousticbrainz:
   tags:
@@ -285,10 +287,12 @@ importinspect:
 inconsistentalbumtracks:
   ignored_fields: added genre language r128_album_gain r128_album_peak rg_album_gain rg_album_peak
 
+lastgenre:
+  auto: false
+  force: no
+
 modifyonimport:
   modify_album:
-    # The `zero` plugin clears the fields on the tracks, but not the album
-    '': 'month= day= original_month= original_day='
     # Sane default for albumartist_sort
     'albumartist_sort::"^$" albumartist::"^The "': 'albumartist_sort=%the{$albumartist}'
     # Likely a single
