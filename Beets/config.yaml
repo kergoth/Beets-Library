@@ -48,14 +48,19 @@ match:
   max_rec:
     unmatched_tracks: low
     missing_tracks: strong
-  # Bump artist/album matches higher in the candidate list
+  # The higher the weight, the lower the items go in the candidate list (greater
+  # distance) when this penalty is applied.
   distance_weights:
     # Default: 3.0
     album: 6.0
     # Default: 3.0
-    artist: 5.0
-    # Missing tracks should still match for all the single tracks. Default: 0.9
+    artist: 7.0
+    # Default: 2.0
+    totaltracks: 4.0
+    # Default: 0.9
     missing_tracks: 1.0
+    # Default: 0.6
+    unmatched_tracks: 10.0
   ignored_media: ['DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD', 'VCD',
                   'SVCD', 'UMD', 'VHS']
 
