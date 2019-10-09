@@ -1,2 +1,3 @@
 #!/bin/sh
-mkdir -p Library/Playlists Beets/Library/Playlists
+
+mkdir -p Library/Playlists "$(dirname "$(dirname "$0")")"/Library/Playlists

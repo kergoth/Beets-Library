@@ -1,4 +1,0 @@
-#!/bin/sh
-
-./init
-tmx beets "${SHELL:-/bin/bash}" vimsession 'sh -c "cd \"$(git-get https://github.com/beetbox/beets)\" && exec $SHELL"'

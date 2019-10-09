@@ -27,7 +27,7 @@ abs_readlink() {
 set -e
 
 scriptdir="$(cd "$(dirname "$0")" && pwd)"
-PATH="$scriptdir/../scripts:$PATH"
+PATH="$scriptdir:$PATH"
 
 usage() {
     cat >&2 <<END
@@ -80,7 +80,7 @@ list_playlists() {
 }
 
 if [ $# -eq 0 ]; then
-    playlist_root=../Rockuefort\ Playlists
+    playlist_root="$scriptdir/../Rockuefort Playlists"
 elif [ $# -eq 1 ] && [ -d "$1" ]; then
     playlist_root="$1"
     shift
