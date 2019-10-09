@@ -10,24 +10,33 @@ sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
 
 paths:
-  default: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
-  singleton: '$source/$artist/[non-album tracks]/$path_filename'
-  comp: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  default: '%replace_path{replace_nas,$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename}'
+  singleton: '%replace_path{replace_nas,$source/$artist/[non-album tracks]/$path_filename}'
+  comp: '%replace_path{replace_nas,$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename}'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album
 
 # For unicode lookalikes, see:
 # http://www.unicode.org/Public/security/latest/confusables.txt
 replace:
+  # Zero-width space
+  '​': ''
+
+  # Colon in paths is often unsupported
   ' *:': '∶'
 
   # Remove a leading period that would make it hidden on unix/mac systems
   '^\.': ''
 
+  # Causes problems on the NAS, and isn't working with %replace_path
+  '\s+$': ''
+
+# This could be in replace, but then it'd affect the DAP as well
+replace_nas:
   # Synology NAS hates trailing periods and whitespace
   ' E\.P\.': ' EP'
-  '[ ​]*(\.\.\.|.​.​.)$': '…'
-  '[\. ​]*$': ''
+  '[ ]*(\.\.\.)$': '…'
+  '\.+$': ''
 
 path_sep_replace: ／
 
