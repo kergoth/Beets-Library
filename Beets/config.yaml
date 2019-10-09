@@ -28,6 +28,11 @@ replace:
   # Remove a leading period that would make it hidden on unix/mac systems
   '^\.': ''
 
+  # Synology NAS hates trailing periods and whitespace
+  ' E\.P\.': ' EP'
+  '[ ​]*(\.\.\.|.​.​.)$': '…'
+  '[\. ​]*$': ''
+
 path_sep_replace: ／
 
 import:
