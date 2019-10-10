@@ -529,8 +529,10 @@ item_formats:
   # Deal with undefined values for queries. This lets me do ls e_advisory:0,
   # instead of having to check for advisory:@.
   e_advisory: '%ifdef{advisory}'
-  e_alt_dap: '%ifdef{alt.dap}'
   e_data_source: '%ifdef{data_source}'
+
+  # alternatives
+  alt_dap: '%ifdef{alt.dap}'
 
 album_queries:
   # This is used both in an alias command and an import hook
