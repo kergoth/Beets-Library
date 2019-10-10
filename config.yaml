@@ -328,9 +328,9 @@ musicbrainz:
   searchlimit: 10
 
 playlist:
-  auto: true
-  relative_to: ..
-  playlist_dir: Library/Playlists
+  auto: false
+  relative_to: Library/Playlists/Manual
+  playlist_dir: ../Library/Playlists/Manual
 
 reimportskipfields:
   set_fields: reimported
