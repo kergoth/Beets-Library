@@ -240,6 +240,12 @@ alias:
     multiartist-not-comp: ls -a comp:0 multiartist:1
     has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0
 
+alternativesplaylist:
+  auto: True
+  is_relative: true
+  relative_to: playlist
+  playlist_dir: _Playlists
+
 bandcamp:
   art: true
   lyrics: true
