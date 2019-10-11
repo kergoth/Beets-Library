@@ -114,6 +114,8 @@ plugins:
   - abcalc
   # Define beet command aliases, much like you can with git
   - alias
+  # Write playlists to the alternatives
+  - alternativesplaylist
   # Set 'advisory' and 'albumadvisory' fields on import based on 'itunesadvisory'
   - advisory
   # Named queries and query prefixes from the Beets source. 'any:', @ prefix
