@@ -5,7 +5,9 @@
 
 set -e
 
-cd DAP || exit 1
+dap_dir="$(beet get-config-path alternatives.dap.directory)"
+
+cd "$dap_dir" || exit 1
 
 # Copy album art files
 find . -type l -not -name \*.m3u8 \
