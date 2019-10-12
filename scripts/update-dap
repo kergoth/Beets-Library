@@ -5,24 +5,24 @@
 
 set -e
 
+dap_dir="$(beet get-config-path alternatives.dap.directory)"
+
 if [ "$1" = "-f" ]; then
-    rm -rf DAP/*
+    rm -rf "$dap_dir"/*
 else
-    find DAP -type l \
+    find "$dap_dir" -type l \
         | while read -r fn; do test -e "$fn" || echo "$fn"; done \
         | tr '\n' '\0' \
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
     # Ensure we remove remnants of removed albums
-    find DAP -name cover.jpg -print0 | xargs -0 rm -f
+    find "$dap_dir" -name cover.jpg -print0 | xargs -0 rm -f
+    rm -rf "$dap_dir"/_Playlists
 fi
 beet alt update dap --create
 "$(dirname "$0")/update-dap-covers"
 
-cd DAP || exit 1
-# Update rockuefort playlists
-rockuefort scan
-"$(dirname "$0")/update-playlists"
+cd "$dap_dir" || exit 1
 if [ -e .git ]; then
     git add . && git commit -m "Update"
 fi
