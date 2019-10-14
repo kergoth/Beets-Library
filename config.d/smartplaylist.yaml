@@ -25,6 +25,14 @@ smartplaylist:
     - name: Genre/Steampunk.m3u
       album_query: 'genre:Steampunk'
       query: 'genre:Steampunk'
+    - name: Chill Music.m3u
+      album_query:
+        - 'album:journey albumartist:"austin wintory"'
+        - album:transistor
+        - albumartist:aphex twin
+        - albumartist:ben prunty
+        - albumartist:jim guthrie
+        - genre:ambient
     - name: OverClocked ReMix.m3u
       album_query:
         - 'album:"Heroes vs. Villains"'
