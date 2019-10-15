@@ -96,6 +96,7 @@ plugins:
   - mbsync
   - missing
   - playlist
+  - random
   - smartplaylist
   - spotify
   - the
