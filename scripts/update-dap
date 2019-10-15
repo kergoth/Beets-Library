@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# shellcheck source=./common-music.sh
-. "$(dirname "$0")"/common-music.sh
-
 set -e
 
 dap_dir="$(beet get-config-path alternatives.dap.directory)"
