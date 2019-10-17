@@ -28,6 +28,7 @@ smartplaylist:
     - name: Chill Music.m3u
       album_query:
         - 'album:journey albumartist:"austin wintory"'
+        - 'album:"evening light" albumartist:"austin haynes"'
         - album:transistor
         - albumartist:aphex twin
         - albumartist:ben prunty
