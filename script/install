@@ -37,4 +37,3 @@ for url in https://github.com/beetbox/beets \
 done
 
 pipx-install -n beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport
-pipx-install -n rockuefort git+https://github.com/kalgynirae/rockuefort
