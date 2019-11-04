@@ -35,8 +35,10 @@ replace:
 replace_nas:
   # Synology NAS hates trailing periods and whitespace
   ' E\.P\.': ' EP'
-  '[ ]*(\.\.\.)$': '…'
-  '\.+$': ''
+  # This is applied before the default replacements, so do this here too
+  '​': ''
+  ' *(\.\.\.)$': '…'
+  '\.*$': ''
 
 path_sep_replace: ／
 
