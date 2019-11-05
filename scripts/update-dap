@@ -16,6 +16,7 @@ else
     find "$dap_dir" -name cover.jpg -print0 | xargs -0 rm -f
     rm -rf "$dap_dir"/_Playlists
 fi
+beet splupdate
 beet alt update dap --create
 beet random -f '$alt_dap' -n 999999999 alt_dap:/Single\ Tracks/ \
     | sed -e 's#.*/DAP/#../#' >"$dap_dir/_Playlists/Random Single Tracks.m3u"
