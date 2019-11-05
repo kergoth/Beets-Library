@@ -33,10 +33,10 @@ replace:
 
 # This could be in replace, but then it'd affect the DAP as well
 replace_nas:
-  # Synology NAS hates trailing periods and whitespace
-  ' E\.P\.': ' EP'
   # This is applied before the default replacements, so do this here too
   '​': ''
+  # Synology NAS hates trailing periods and whitespace
+  ' E\.P\.': ' EP'
   ' *(\.\.\.)$': '…'
   '\.*$': ''
 
