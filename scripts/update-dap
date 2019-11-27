@@ -3,6 +3,10 @@
 set -e
 
 dap_dir="$(beet get-config-path alternatives.dap.directory)"
+if [ -z "$dap_dir" ]; then
+    echo >&2 "Error looking up alternatives.dap.directory in beets config"
+    exit 1
+fi
 
 if [ "$1" = "-f" ]; then
     rm -rf "$dap_dir"/*
