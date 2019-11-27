@@ -34,6 +34,7 @@ smartplaylist:
         - albumartist:ben prunty
         - albumartist:jim guthrie
         - genre:ambient
+        - 'artist:moby album:ambients'
     - name: OverClocked ReMix.m3u
       album_query:
         - 'album:"Heroes vs. Villains"'
