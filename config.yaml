@@ -95,6 +95,7 @@ plugins:
   - hook
   - info
   - inline
+  - lastgenre
   - mbsync
   - missing
   - playlist
