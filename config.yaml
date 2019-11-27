@@ -49,7 +49,7 @@ import:
   default_action: skip
 
 # files matching these patterns are deleted from source after import
-clutter: ["Thumbs.DB", ".DS_Store", "*.m3u"]
+clutter: ['Thumbs.DB', '.DS_Store', '*.m3u']
 
 match:
   preferred:
@@ -73,8 +73,8 @@ match:
     missing_tracks: 1.0
     # Default: 0.6
     unmatched_tracks: 10.0
-  ignored_media: ['DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD', 'VCD',
-                  'SVCD', 'UMD', 'VHS']
+  ignored_media:
+    ['DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD', 'VCD', 'SVCD', 'UMD', 'VHS']
 
 plugins:
   # Stock plugins
@@ -275,7 +275,7 @@ fetchart:
 hook:
   hooks:
     - event: import
-      command: "sh -c '[ -z \"$BEETS_NO_HOOKS\" ] && \"${{BEETSDIR:-~/.config/beets}}/hooks/import\"'"
+      command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/import"'''
 
 importinspect:
   ignored:
@@ -375,9 +375,9 @@ types:
   excess_tracks: bool
 
 zero:
-    fields: month day original_month original_day comments
-    comments: [EAC, LAME]
-    update_database: true
+  fields: month day original_month original_day comments
+  comments: [EAC, LAME]
+  update_database: true
 
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
@@ -574,19 +574,19 @@ alternatives:
     directory: ../DAP
     formats: link
     paths:
-      query:is_non_music : '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
-      query:is_mfp       : '%replace_path{dap_replace,Albums/$label/$label/$full_title}'
-      query:is_christmas : '%replace_path{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
-      query:is_ocremix   : '%replace_path{dap_replace,Game Music/$label/$albumdir/$comp_filename}'
+      query:is_non_music: '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
+      query:is_mfp: '%replace_path{dap_replace,Albums/$label/$label/$full_title}'
+      query:is_christmas: '%replace_path{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
+      query:is_ocremix: '%replace_path{dap_replace,Game Music/$label/$albumdir/$comp_filename}'
       query:dap_game_extra: '%replace_path{dap_replace,Game Music/$albumartistdir/$albumdir/$comp_filename}'
-      query:dap_game      : '%replace_path{dap_replace,Game Soundtracks/$albumdir/$comp_filename}'
-      query:dap_classical : '%replace_path{dap_replace,Classical Music/$albumartistdir/%replace_path{adjust_classical_album,$albumdir}/$comp_filename}'
-      singleton          : '%replace_path{dap_replace,Single Tracks/$artist_title}'
-      query:is_sampler   : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
-      query:is_single    : '%replace_path{dap_replace,Singles/$albumartistdir/$albumdir/$comp_filename}'
+      query:dap_game: '%replace_path{dap_replace,Game Soundtracks/$albumdir/$comp_filename}'
+      query:dap_classical: '%replace_path{dap_replace,Classical Music/$albumartistdir/%replace_path{adjust_classical_album,$albumdir}/$comp_filename}'
+      singleton: '%replace_path{dap_replace,Single Tracks/$artist_title}'
+      query:is_sampler: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
+      query:is_single: '%replace_path{dap_replace,Singles/$albumartistdir/$albumdir/$comp_filename}'
       query:is_soundtrack: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
-      comp:1             : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Compilations/$albumdir/$comp_filename}}'
-      default            : '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
+      comp:1: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Compilations/$albumdir/$comp_filename}}'
+      default: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
 
 adjust_album:
   # Consistency
