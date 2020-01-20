@@ -14,10 +14,18 @@ abs_script() {
 }
 
 run_wrapped() {
-    # Remove scriptdir from the PATH and locate the next script
-    NO_SCRIPTDIR_PATH="$(printf '%s\n' "$PATH" | tr ':' '\n' | grep -Fvx "$scriptdir" | tr '\n' ':')"
-    wrapped="$(PATH="$NO_SCRIPTDIR_PATH" command -v "${0##*/}")"
-    cd "$scriptdir/../.." && "$wrapped" "$@"
+    (
+        OIFS="$IFS"
+        IFS=:
+        for _path in $PATH; do
+            if [ -x "$_path/beet" ] && [ -n "$(sed -ne '1{/python/p;}' "$_path/beet")" ]; then
+                cd "$scriptdir/../.." && "$_path/beet" "$@"
+                exit $?
+            fi
+        done
+        echo >&2 "Error: 'beet' not found, please install beets."
+        exit 1
+    )
 }
 
 script="$(abs_script)"
