@@ -25,6 +25,10 @@ smartplaylist:
     - name: Genre/Steampunk.m3u
       album_query: 'genre:Steampunk'
       query: 'genre:Steampunk'
+    - name: Genre/Synthwave.m3u
+      album_query: 'genre:Synthwave , genre:Retrowave'
+      query: 'genre:Steampunk , genre:Retrowave'
+
     - name: Chill Music.m3u
       album_query:
         - 'album:journey albumartist:"austin wintory"'
