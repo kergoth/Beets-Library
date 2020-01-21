@@ -40,6 +40,13 @@ smartplaylist:
         - albumartist:jim guthrie
         - genre:ambient
         - 'artist:moby album:ambients'
+    - name: Coding Music.m3u
+      album_query:
+        - album:quixotica
+        - album:necrodancer
+      query:
+        - "music for programming"
+
     - name: OverClocked ReMix.m3u
       album_query:
         - 'album:"Heroes vs. Villains"'
