@@ -174,9 +174,9 @@ alias:
   aliases:
     # Utilities
     # $ beet get-config alias.aliases.reimport
-    get-config: '!sh -c "for arg; do beet config | yq -r \".$arg\"; done" -'
+    get-config: '!sh -c "for arg; do beet config | yq r - \"$arg\"; done" -'
     # $ beet get-config-path library
-    get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
+    get-config-path: '!sh -c "p=\"$(beet config | yq r - \"$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
     # Latest additions
     recent: ls -a -f '$added $format_album' 'added-'
