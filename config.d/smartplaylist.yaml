@@ -27,7 +27,7 @@ smartplaylist:
       query: 'genre:Steampunk'
     - name: Genre/Synthwave.m3u
       album_query: 'genre:Synthwave , genre:Retrowave'
-      query: 'genre:Steampunk , genre:Retrowave'
+      query: 'genre:Synthwave , genre:Retrowave'
 
     - name: Chill Music.m3u
       album_query:
