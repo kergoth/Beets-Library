@@ -70,14 +70,6 @@ smartplaylist:
         - 'albumartist:"Trent Reznor" album:"Quake"'
         - 'albumartist:"Oakenfold" album:"Bunkka"'
         - 'albumartist:"MDFMK" album:"MDFMK"'
-    - name: 'Matthew.m3u'
-      query:
-        - 'artist:"Kindermusik"'
-        - 'artist:"Crazy Frog" title:"Axel F"'
-        - 'artist:"Pharrell Williams" title:"Happy"'
-        - 'artist:"Best Coast" title:"Thank You"'
-        - 'artist:"They Might Be Giants" title:"Hot Dog"'
-        - 'artist:"Elmo" title:"Elmo''s Song"'
     - name: 'Dad.m3u'
       query:
         - 'artist:"Stabbing Westward" title:"Save Yourself"'
