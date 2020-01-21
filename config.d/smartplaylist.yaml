@@ -37,9 +37,8 @@ smartplaylist:
         - album:transistor
         - albumartist:aphex twin
         - albumartist:ben prunty
-        - albumartist:jim guthrie
+        - 'albumartist:"jim guthrie" album:"space babies"'
         - genre:ambient
-        - 'artist:moby album:ambients'
     - name: Coding Music.m3u
       album_query:
         - album:quixotica
