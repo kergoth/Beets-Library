@@ -31,6 +31,7 @@ smartplaylist:
 
     - name: Chill Music.m3u
       album_query:
+        - artist:"steve roach"
         - 'album:journey albumartist:"austin wintory"'
         - 'album:"evening light" albumartist:"austin haynes"'
         - album:transistor
