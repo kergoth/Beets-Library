@@ -24,6 +24,8 @@ beet splupdate
 beet alt update dap --create
 beet random -f '$alt_dap' -n 999999999 alt_dap:/Single\ Tracks/ \
     | sed -e 's#.*/DAP/#../#' >"$dap_dir/_Playlists/Random Single Tracks.m3u"
+beet random -f '$alt_dap' -n 999999999 alt_dap:/Singles/ \
+    | sed -e 's#.*/DAP/#../#' >"$dap_dir/_Playlists/Random Singles.m3u"
 "$(dirname "$0")/update-dap-covers"
 
 cd "$dap_dir" || exit 1
