@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+dap_dir="$(beet get-config-path alternatives.dap.directory)"
+if [ -z "$dap_dir" ]; then
+    echo >&2 "Error looking up alternatives.dap.directory in beets config"
+    exit 1
+fi
+library_dir="$(dirname "$dap_dir")"
+
+if ! [ -e /Volumes/DAP ]; then
+    echo >&2 "Error locating DAP, please ensure it's mounted."
+    exit 3
+fi
+
+rsync -avLP --exclude .Trashes --exclude .fseventsd --exclude .DS_Store --exclude ._\* --exclude .Spotlight-V100 --exclude .git --delete "$dap_dir/" "$library_dir/Manual Additions/" /Volumes/DAP/
