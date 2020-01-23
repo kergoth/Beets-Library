@@ -2,6 +2,9 @@
 
 set -e
 
+# shellcheck source=./common-music.sh
+. "$(dirname "$0")/common-music.sh"
+
 dap_dir="$(beet get-config-path alternatives.dap.directory)"
 if [ -z "$dap_dir" ]; then
     echo >&2 "Error looking up alternatives.dap.directory in beets config"
@@ -17,7 +20,13 @@ else
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
     # Ensure we remove remnants of removed albums
-    find "$dap_dir" -name cover.jpg -print0 | xargs -0 rm -f
+    find "$dap_dir" -name cover.jpg -printf '%h' \
+        | sed -e 's#/cover\.jpg$##' \
+        | while read -r album_dir; do
+            if [ -z "$(music_find "$album_dir")" ]; then
+                rm -f "$album_dir/cover.jpg"
+            fi
+        done
     rm -rf "$dap_dir"/_Playlists
 fi
 beet splupdate
