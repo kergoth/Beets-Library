@@ -11,12 +11,10 @@ cd "$dap_dir" || exit 1
 
 TAB="$(printf '\t')"
 beet ls -f '$artpath'"$TAB"'$alt_dap' singleton:false \^alt_dap:/Single\ Tracks/ \^alt_dap:non-album alt_dap- \
+    | grep -v "^None$TAB" \
     | sed -e 's#/[^/]*$##' \
     | uniq \
     | while IFS="$TAB" read -r artpath destdir; do
-        if [ "$artpath" = None ]; then
-            continue
-        fi
         base="${artpath##*/}"
         destname="$(echo "$base" | sed -e 's/\.[0-9]\././')"
         if [ -n "$(find "$destdir" -name "$destname" -newer "$artpath")" ]; then
