@@ -10,6 +10,7 @@ if [ -z "$dap_dir" ]; then
     echo >&2 "Error looking up alternatives.dap.directory in beets config"
     exit 1
 fi
+dap_dir="$(cd "$dap_dir" && pwd -P)"
 
 if [ "$1" = "-f" ]; then
     rm -rf "$dap_dir"/*
