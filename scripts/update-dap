@@ -20,14 +20,26 @@ else
         | tr '\n' '\0' \
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
-    # Ensure we remove remnants of removed albums
-    find "$dap_dir" -iname cover\*.jpg -o -iname cover\*.png \
+
+    # Ensure we remove remnant covers of removed albums
+    tmpfile=$(mktemp -t "${0##*/}.XXXX")
+    trap 'rm -f "$tmpfile"' EXIT INT TERM
+    beet ls -f '$artpath'"$TAB"'$alt_dap' singleton:false \^alt_dap:/Single\ Tracks/ \^alt_dap:non-album alt_dap- \
+        | grep -v "^None$TAB" \
         | sed -e 's#/[^/]*$##' \
-        | while read -r album_dir; do
-            if [ -z "$(music_find "$album_dir")" ]; then
-                rm -f "$album_dir/cover.jpg" "$album_dir/cover.png" "$album_dir/cover.1.jpg"
-            fi
-        done
+        | uniq \
+        | while IFS="$TAB" read -r artpath destdir; do
+            base="${artpath##*/}"
+            destname="$(echo "$base" | sed -e 's/\.[0-9]\././')"
+            echo "$destdir/$destname"
+        done \
+        | sort -u >"$tmpfile"
+    find "$dap_dir" -iname cover\*.\* \
+        | sort -u \
+        | comm -i13 "$tmpfile" - \
+        | tr '\n' '\0' \
+        | xargs -0 rm -fv
+
     rm -rf "$dap_dir"/_Playlists
 fi
 beet splupdate
