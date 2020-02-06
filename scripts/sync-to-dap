@@ -7,6 +7,7 @@ if [ -z "$dap_dir" ]; then
     echo >&2 "Error looking up alternatives.dap.directory in beets config"
     exit 1
 fi
+dap_dir="$(cd "$dap_dir" && pwd -P)"
 library_dir="$(dirname "$dap_dir")"
 
 if ! [ -e /Volumes/DAP ]; then
