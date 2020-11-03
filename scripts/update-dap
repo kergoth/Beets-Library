@@ -36,7 +36,7 @@ else
         | sort -u >"$tmpfile"
     find "$dap_dir" -iname cover\*.\* \
         | sort -u \
-        | comm -i13 "$tmpfile" - \
+        | comm -13 "$tmpfile" - \
         | tr '\n' '\0' \
         | xargs -0 rm -fv
 
