@@ -35,7 +35,6 @@ smartplaylist:
         - 'album:journey albumartist:"austin wintory"'
         - 'album:"evening light" albumartist:"austin haynes"'
         - album:transistor
-        - albumartist:aphex twin
         - albumartist:ben prunty
         - 'albumartist:"jim guthrie" album:"space babies"'
         - genre:ambient
