@@ -47,26 +47,16 @@ smartplaylist:
       query:
         - "music for programming"
 
-    - name: OverClocked ReMix.m3u
-      album_query:
-        - 'album:"Heroes vs. Villains"'
-        - 'album:"DooM: The Dark Side of Phobos"'
-        - 'album:"Doom II: Delta‐Q‐Delta"'
-        - 'album:"Castlevania: Sonata of the Damned"'
-        - 'album:"Chronopolis: Music Inspired by Chrono Cross"'
-      query:
-        - 'title::OC ReMix'
-        - 'artist::OverClocked ReMix'
-        - 'artist:Mazedude'
     - name: 'Loved Albums.m3u'
       album_query:
         - 'albumartist:"GUNSHIP" album:"Dark All Day"'
+        - 'albumartist:"Jason Barty" album:"Simple Day"'
         - 'album:"Mortal Kombat: Original Motion Picture Soundtrack"'
         - 'album:"Hackers"'
-        - 'albumartist:"Nine Inch Nails" album:"Pretty Hate Machine"'
         - 'albumartist:"Ramin Djawadi" album:"Medal of Honor"'
         - 'albumartist:"Massive Attack" album:"Mezzanine"'
         - 'albumartist:"Danger Mouse & Daniele Luppi" album:"Rome"'
+        - 'albumartist:"Nine Inch Nails" album:"Pretty Hate Machine"'
         - 'albumartist:"Trent Reznor" album:"Quake"'
         - 'albumartist:"Oakenfold" album:"Bunkka"'
         - 'albumartist:"MDFMK" album:"MDFMK"'
