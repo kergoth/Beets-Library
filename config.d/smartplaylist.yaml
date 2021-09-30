@@ -37,7 +37,9 @@ smartplaylist:
         - album:transistor
         - albumartist:ben prunty
         - 'albumartist:"jim guthrie" album:"space babies"'
+        - albumartist:jason barty
         - genre:ambient
+
     - name: Coding Music.m3u
       album_query:
         - album:quixotica
