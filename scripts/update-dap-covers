@@ -17,8 +17,10 @@ beet ls -f '$artpath'"$TAB"'$alt_dap' singleton:false \^alt_dap:/Single\ Tracks/
     | while IFS="$TAB" read -r artpath destdir; do
         base="${artpath##*/}"
         destname="$(echo "$base" | sed -e 's/\.[0-9]\././')"
-        if [ -n "$(find "$destdir" -name "$destname" -newer "$artpath")" ]; then
-            continue
+        if [ -e "$base/$destname" ]; then
+            if [ -n "$(find "$destdir" -name "$destname" -newer "$artpath")" ]; then
+                continue
+            fi
+            convert "$artpath" -resize 220x220 -bordercolor black -border 10x10 "$destdir/$destname"
         fi
-        convert "$artpath" -resize 220x220 -bordercolor black -border 10x10 "$destdir/$destname"
     done
