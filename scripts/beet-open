@@ -1,5 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 # Open or reveal the files from a `beet ls` query
+
+set -euo pipefail
 
 usage() {
     cat >&2 <<END
@@ -35,19 +37,16 @@ nlxargs () {
     tr '\n' '\0' | xargs -0 "$@"
 }
 
+open=open
 # shellcheck disable=SC2039
-case "$OSTYPE" in
+case "${OSTYPE:-}" in
     darwin*)
         ;;
     *)
         if command -v xdg-open >/dev/null 2>&1; then
-            open () {
-                xdg-open "$@"
-            }
+            open=xdg-open
         elif command -v wsl-open >/dev/null 2>&1; then
-            open () {
-                wsl-open "$@"
-            }
+            open=wsl-open
         else
             echo >&2 "Error: no xdg-open or wsl-open found"
             exit 1
@@ -63,4 +62,4 @@ beet ls -f '$path' "$@" \
         cat
     fi \
     | sort -u \
-    | ( eval set -- ${open_args:+$open_args}; nlxargs open "$@"; )
+    | ( eval set -- ${open_args:+$open_args}; nlxargs "$open" "$@"; )
