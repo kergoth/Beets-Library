@@ -3,6 +3,7 @@
 
 get_query () {
     album_id="$1"
+    shift
     for track; do
         echo "album_id:$album_id track:$track , "
     done | tr -d '\n' | sed -e "s/ , $//"
