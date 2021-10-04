@@ -11,35 +11,34 @@ sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
 
 paths:
-  default: '%replace_path{replace_nas,$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename}'
-  singleton: '%replace_path{replace_nas,$source/$artist/[non-album tracks]/$path_filename}'
-  comp: '%replace_path{replace_nas,$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename}'
+  default: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  singleton: '$source/$artist/[non-album tracks]/$path_filename'
+  comp: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album
 
 # For unicode lookalikes, see:
 # http://www.unicode.org/Public/security/latest/confusables.txt
 replace:
+  # Avoid trailing periods, invalid on Windows
+  ' E\.P\.': ' EP'
+  ' *(\.\.\.)$': '…'
+  '\.+$': ''
+
   # Zero-width space
   '​': ''
 
-  # Colon in paths is often unsupported
+  # Colon in paths is often unsupported. Use a unicode lookalike.
   ' *:': '∶'
 
-  # Remove a leading period that would make it hidden on unix/mac systems
-  '^\.': ''
-
-  # Causes problems on the NAS, and isn't working with %replace_path
+  # Remaining default configuration for portability
+  '[\\/]': _
+  '^\.+': _
+  '[\x00-\x1f]': _
+  # '[<>"\?\*\|]': _
   '\s+$': ''
-
-# This could be in replace, but then it'd affect the DAP as well
-replace_nas:
-  # This is applied before the default replacements, so do this here too
-  '​': ''
-  # Synology NAS hates trailing periods and whitespace
-  ' E\.P\.': ' EP'
-  ' *(\.\.\.)$': '…'
-  '\.*$': ''
+  '^\s+': ''
+  '^-': _
 
 path_sep_replace: ／
 
@@ -279,6 +278,15 @@ hook:
   hooks:
     - event: import
       command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/import"'''
+
+# Also ignore @eaDir from the Synology NAS
+ignore:
+  - '@eaDir'
+  # Default ignores:
+  - .*
+  - '*~'
+  - System Volume Information
+  - lost+found
 
 importinspect:
   ignored:
