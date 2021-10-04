@@ -1,20 +1,34 @@
 #!/bin/sh
+# shellcheck disable=SC2016,SC2115
 
 set -e
+
+abspath() {
+    # Return an absolute path for the specified argument
+    _path="$1"
+    if [ -n "${_path##/*}" ]; then
+        _path="${2:-$(pwd -P)}/$1"
+    fi
+    echo "$_path"
+}
 
 # shellcheck source=./common-music.sh
 . "$(dirname "$0")/common-music.sh"
 
-dap_dir="$(beet get-config-path alternatives.dap.directory)"
+library_dir="$(beet get-config-path directory)"
+dap_dir="$(beet get-config alternatives.dap.directory)"
 if [ -z "$dap_dir" ]; then
     echo >&2 "Error looking up alternatives.dap.directory in beets config"
     exit 1
 fi
-dap_dir="$(cd "$dap_dir" && pwd -P)"
+dap_dir="$(abspath "$dap_dir" "$library_dir")"
+if [ -z "$dap_dir" ]; then
+    exit 1
+fi
 
 if [ "$1" = "-f" ]; then
     rm -rf "$dap_dir"/*
-else
+elif [ -d "$dap_dir" ]; then
     find "$dap_dir" -type l \
         | while read -r fn; do test -e "$fn" || echo "$fn"; done \
         | tr '\n' '\0' \

@@ -1,11 +1,26 @@
 #!/bin/sh
 
+abspath() {
+    # Return an absolute path for the specified argument
+    _path="$1"
+    if [ -n "${_path##/*}" ]; then
+        _path="${2:-$(pwd -P)}/$1"
+    fi
+    echo "$_path"
+}
+
 # shellcheck source=./common-music.sh
 . "$(dirname "$0")"/common-music.sh
 
 set -e
 
+library_dir="$(beet get-config-path library)"
 dap_dir="$(beet get-config-path alternatives.dap.directory)"
+if [ -z "$dap_dir" ]; then
+    echo >&2 "Error looking up alternatives.dap.directory in beets config"
+    exit 1
+fi
+dap_dir="$(abspath "$dap_dir" "$library_dir")"
 
 cd "$dap_dir" || exit 1
 

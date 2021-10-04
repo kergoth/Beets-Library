@@ -1,6 +1,6 @@
-directory: ../Library
-library: ../Library/library.db
-statefile: ../Library/state.pickle
+directory: Library
+library: Library/library.db
+statefile: Library/state.pickle
 
 per_disc_numbering: true
 id3v23: true
@@ -43,7 +43,7 @@ replace_nas:
 path_sep_replace: ／
 
 import:
-  log: ../Library/import.log
+  log: Library/import.log
   timid: true
   incremental: true
   default_action: skip
@@ -342,7 +342,7 @@ musicbrainz:
 playlist:
   auto: false
   relative_to: playlist
-  playlist_dir: ../Library/Playlists
+  playlist_dir: Library/Playlists
 
 reimportskipfields:
   set_fields: reimported
