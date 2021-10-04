@@ -85,10 +85,8 @@ match:
 
 plugins:
   # Stock plugins
-  - absubmit
   - acousticbrainz
   - badfiles
-  - beatport
   - convert
   - chroma
   - discogs
