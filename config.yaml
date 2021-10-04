@@ -120,9 +120,6 @@ plugins:
   - join_albums
 
   # My local plugins
-  # Calculate acoustic fingerprint, only against non-musicbrainz tracks, and
-  # save the values rather than submitting them.
-  - abcalc
   # Define beet command aliases, much like you can with git
   - alias
   # Write playlists to the alternatives
