@@ -351,6 +351,7 @@ modifyonimport:
     'album::.': 'album='
 
 musicbrainz:
+  extra_tags: [year, catalognum, country, media, label]
   searchlimit: 10
 
 playlist:
