@@ -51,8 +51,12 @@ import:
   incremental: true
   default_action: skip
 
-# files matching these patterns are deleted from source after import
-clutter: ['Thumbs.DB', '.DS_Store', '*.m3u']
+# Files matching these patterns are deleted from source after import
+clutter:
+  - '*.m3u'
+  # Default:
+  - Thumbs.DB
+  - .DS_Store
 
 match:
   preferred:
