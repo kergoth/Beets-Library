@@ -355,7 +355,7 @@ musicbrainz:
   searchlimit: 10
 
 playlist:
-  auto: false
+  auto: true
   relative_to: playlist
   playlist_dir: Library/Playlists
 
