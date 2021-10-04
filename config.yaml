@@ -183,7 +183,8 @@ alias:
     get-config-path: '!sh -c "p=\"$(beet config | yq e \".$1\" -)\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
     # Latest additions
-    recent: ls -a -f '$added $format_album' 'added-'
+    recent-albums: ls -a -f '$added $format_album' 'added-'
+    recent: ls -f '$added $format_item' 'added-'
     last-week: ls -f '$added $format_item' 'added-' 'added:-7d..'
     last-month: ls -f '$added $format_item' 'added-' 'added:-30d..'
 
