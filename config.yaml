@@ -1,6 +1,9 @@
 directory: Library
 library: Library/library.db
 statefile: Library/state.pickle
+pluginpath:
+  - ./plugins
+  - ./plugins/beets-kergoth/beetsplug
 
 per_disc_numbering: true
 id3v23: true
