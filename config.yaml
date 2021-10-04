@@ -340,15 +340,21 @@ modifyonimport:
     'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single'
     # 'Various Artists' albums not flagged as compilations
     'album_query:is_various_not_comp': 'comp=1'
+    # Genre
+    'genre:Holiday': 'genre=Christmas'
   modify_album_items:
     '':
       # Sane default for artist_sort
       'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
+      # Genre
+      'genre:Holiday': 'genre=Christmas'
   modify_singleton:
     # Sane default for artist_sort
     'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
     # Clear out the album field for imported singletons
     'album::.': 'album='
+    # Genre
+    'genre:Holiday': 'genre=Christmas'
 
 musicbrainz:
   extra_tags: [year, catalognum, country, media, label]
@@ -566,7 +572,7 @@ item_queries:
   is_complete: 'incomplete:0'
 
   is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview'
-  is_christmas: 'genre:Christmas , genre:Holiday'
+  is_christmas: 'genre:Christmas'
   is_classical: 'genre:Classical'
   is_live: 'albumtype:live'
   is_game: 'genre:game'
