@@ -113,7 +113,7 @@ plugins:
 
   # 3rd party plugins
   - alternatives
-  # - bandcamp
+  - bandcamp
   - copyartifacts
   - join_albums
 
