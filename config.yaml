@@ -338,7 +338,7 @@ modifyonimport:
     # Sane default for albumartist_sort
     'albumartist_sort::"^$" albumartist::"^The "': 'albumartist_sort=%the{$albumartist}'
     # Likely a single
-    'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single'
+    'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single albumtypes=$single_albumtypes'
     # 'Various Artists' albums not flagged as compilations
     'album_query:is_various_not_comp': 'comp=1'
     # Genre
@@ -519,6 +519,15 @@ item_fields:
       return ''
 
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
+  single_albumtypes: |
+    if 'albumtypes' in globals():
+      types = [t.strip() for t in albumtypes.split(';')]
+      for t in ['other', 'album', 'ep']:
+        if t in types:
+          types.remove(t)
+      types.insert(0, 'single')
+      return '; '.join(types)
+    return 'single'
 
 album_formats:
   # Convenience
