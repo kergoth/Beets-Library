@@ -8,7 +8,7 @@ pluginpath:
 per_disc_numbering: true
 id3v23: true
 format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$atypes, $atypes}%aunique{}%if{$e_albumadvisory, (Explicit)}'
-format_item: '%ifdef{id,[$id] }%if{$album,$album - $disc_and_track_pre}$artist - $full_title'
+format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$atypes, $atypes}%aunique{}%if{$e_albumadvisory, (Explicit)} - $disc_and_track_pre}$artist - $full_title'
 
 sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
