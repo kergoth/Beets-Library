@@ -538,7 +538,7 @@ album_formats:
   comp_albumartist_credit: '%if{$comp,Compilations,%if{$albumartist_credit,$albumartist_credit,$albumartist}}'
   comp_albumartist: '%if{$comp,Compilations,$albumartist}'
   albumsdir: '%if{$incomplete,Incomplete }Albums'
-  _albumdir: '%the{%replace{adjust_album,$album%aunique{}}}%if{$e_albumadvisory, (Explicit)}'
+  _albumdir: '%the{%replace{adjust_album,$album%aunique{}%if{$e_albumadvisory, (Explicit)}}}'
   _albumartistdir: '%the{%asciify{%replace{adjust_artist,$comp_albumartist}}}'
 
   # Fallbacks from item fields
