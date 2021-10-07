@@ -14,13 +14,16 @@ abspath() {
 
 set -e
 
-library_dir="$(beet get-config-path library)"
-dap_dir="$(beet get-config-path alternatives.dap.directory)"
+library_dir="$(beet get-config-path directory)"
+dap_dir="$(beet get-config alternatives.dap.directory)"
 if [ -z "$dap_dir" ]; then
     echo >&2 "Error looking up alternatives.dap.directory in beets config"
     exit 1
 fi
 dap_dir="$(abspath "$dap_dir" "$library_dir")"
+if [ -z "$dap_dir" ]; then
+    exit 1
+fi
 
 cd "$dap_dir" || exit 1
 
