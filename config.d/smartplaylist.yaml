@@ -8,24 +8,15 @@ smartplaylist:
     - name: High-Res.m3u
       query: 'samplerate:96000..'
 
-    - name: Recent/Last Day.m3u
-      album_query: 'added- added:-1d..'
-      query: 'added- added:-1d.. singleton:true'
     - name: Recent/Last 3 Days.m3u
       album_query: 'added- added:-3d..'
       query: 'added- added:-3d.. singleton:true'
     - name: Recent/Last 7 Days.m3u
       album_query: 'added- added:-7d..'
       query: 'added- added:-7d.. singleton:true'
-    - name: Recent/Last 14 Days.m3u
-      album_query: 'added- added:-14d..'
-      query: 'added- added:-14d.. singleton:true'
     - name: Recent/Last 30 Days.m3u
       album_query: 'added- added:-30d..'
       query: 'added- added:-30d.. singleton:true'
-    - name: Recent/Last 45 Days.m3u
-      album_query: 'added- added:-45d..'
-      query: 'added- added:-45d.. singleton:true'
     - name: Recent/Last 60 Days.m3u
       album_query: 'added- added:-60d..'
       query: 'added- added:-60d.. singleton:true'
