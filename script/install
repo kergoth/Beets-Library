@@ -3,12 +3,18 @@
 PATH="$(dirname "$0"):$PATH"
 
 for url in https://github.com/beetbox/beets \
-           https://github.com/unrblt/beets-bandcamp \
+           https://github.com/snejus/beetcamp \
            https://github.com/kergoth/beets-kergoth \
            https://github.com/edk0/beets-join-albums \
            https://github.com/steven-murray/beet-summarize \
            https://github.com/wisp3rwind/beets-alternatives \
-           https://github.com/ssssam/beets-copyartifacts; do
+           https://github.com/adammillerio/beets-copyartifacts \
+           https://github.com/adamjakab/BeetsPluginDescribe \
+           https://github.com/adamjakab/BeetsPluginXtractor \
+           https://github.com/adamjakab/BeetsPluginAutofix \
+           https://github.com/adamjakab/BeetsPluginYearFixer \
+           https://github.com/phirestalker/beets-musicintegrity \
+           https://github.com/geigerzaehler/beets-check; do
 
     case "$url" in
         *copyartifacts*)
@@ -20,20 +26,42 @@ for url in https://github.com/beetbox/beets \
     esac
 
     spec="git+$url"
-    if command -v git-get >/dev/null 2>&1; then
-        git_get_path="$(git-get "$url" 2>/dev/null)"
-        if [ -d "$git_get_path" ]; then
-            spec="$git_get_path"
-            if [ "$branch" != master ]; then
-                ( cd "$git_get_path" && git checkout devel )
-            fi
+    if [ -d plugins ]; then
+        name="$(basename "$url")"
+        if [ -d "plugins/$name" ]; then
+        ( cd "plugins/$name" && git checkout "$branch" && git pull )
+        spec="plugins/$name"
         fi
     else
         if [ "$branch" != master ]; then
             spec="$spec@$branch"
         fi
     fi
+    # if [ -d plugins ]; then
+    #     name="$(basename "$url")"
+    #     if ! [ -d "plugins/$name" ]; then
+    #         git clone --depth 1 "$url" "plugins/$name"
+    #     fi
+    #     ( cd "plugins/$name" && git checkout "$branch" && git pull )
+    #     spec="plugins/$name"
+    # elif command -v git-get >/dev/null 2>&1; then
+    #     git_get_path="$(git-get "$url" 2>/dev/null)"
+    #     if [ -d "$git_get_path" ]; then
+    #         spec="$git_get_path"
+    #         if [ "$branch" != master ]; then
+    #             ( cd "$git_get_path" && git checkout devel )
+    #         fi
+    #     fi
+    # else
+    #     if [ "$branch" != master ]; then
+    #         spec="$spec@$branch"
+    #     fi
+    # fi
     set -- "$@" "$spec"
 done
 
-pipx-install -n beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport
+beets="$1"
+shift
+pipx install -f "$beets"
+pipx inject beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport requests_oauthlib pylast
+#pipx-install -n beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport requests_oauthlib pylast
