@@ -15,11 +15,10 @@ abs_script() {
 
 run_wrapped() {
     (
-        OIFS="$IFS"
         IFS=:
         for _path in $PATH; do
             if [ -x "$_path/beet" ] && [ -n "$(sed -ne '1{/python/p;}' "$_path/beet")" ]; then
-                cd "$scriptdir/../.." && "$_path/beet" "$@"
+                "$_path/beet" "$@"
                 exit $?
             fi
         done
@@ -29,7 +28,6 @@ run_wrapped() {
 }
 
 script="$(abs_script)"
-scriptdir="$(dirname "$script")"
 
 # Set up the pipe to filter out the messages I don't want without merging
 # stdout and stderr
