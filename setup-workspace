@@ -1,7 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
-topdir="${topdir:-$PWD/..}"
-case "$OSTYPE" in
+topdir="$(cd "$(dirname "$0")" && pwd -P)"
+
+case "${OSTYPE:-}" in
     darwin*)
         if command -v gcp >/dev/null 2>&1; then
             copy () {
@@ -19,33 +20,22 @@ case "$OSTYPE" in
         }
 esac
 
-if [ ! -e "$topdir/Beets" ]; then
-    topdir="${topdir%/*}"
-    if [ ! -e "$topdir/Beets" ]; then
-        echo >&2 "Error: unable to locate Beets folder, aborting"
-        exit 1
-    fi
-fi
-
-mkdir -p Beets
-cd Beets || exit 1
 git init
-copy "$topdir"/Beets/.git/objects/. .git/objects/
-git remote add origin "$topdir/Beets"
+copy "$topdir"/.git/objects/. .git/objects/
+git remote add origin "$topdir"
 git fetch --tags origin
 git fetch origin
-git remote set-url origin "$(cd "$topdir/Beets" && git config remote.origin.url)"
+git remote set-url origin "$(cd "$topdir" && git config remote.origin.url)"
 git fetch origin || :
 git checkout -f -b master origin/master
-cd - >/dev/null || exit 1
 
 cp "$topdir/.envrc" .
-./Beets/script/init
+./script/init
 cp -a "$topdir/Library/library.db" Library/
-cp -a "$topdir/Beets/"*_token.json Beets/
+cp -a "$topdir/"*_token.json .
 
-sed -i.bak -e '/^ *# - nowrite/s/# //' Beets/config.yaml
-rm -f Beets/config.yaml.bak
+sed -i.bak -e '/^ *# - nowrite/s/# //' config.yaml
+rm -f config.yaml.bak
 
 direnv allow
 
