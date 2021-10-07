@@ -25,7 +25,7 @@ dap_dir="$(abspath "$dap_dir" "$library_dir")"
 if [ -z "$dap_dir" ]; then
     exit 1
 fi
-
+echo >&2 "DAP: $dap_dir"
 if [ "$1" = "-f" ]; then
     rm -rf "$dap_dir"/*
 elif [ -d "$dap_dir" ]; then
@@ -38,7 +38,7 @@ elif [ -d "$dap_dir" ]; then
     # Ensure we remove remnant covers of removed albums
     tmpfile=$(mktemp -t "${0##*/}.XXXX")
     trap 'rm -f "$tmpfile"' EXIT INT TERM
-    beet ls -f '$artpath'"$TAB"'$alt_dap' singleton:false \^alt_dap:/Single\ Tracks/ \^alt_dap:non-album alt_dap- \
+    beet ls -f '$artpath'"$TAB"'$alt_dap' singleton:false ^alt_dap:/Single\ Tracks/ ^alt_dap:non-album alt_dap- \
         | grep -v "^None$TAB" \
         | sed -e 's#/[^/]*$##' \
         | uniq \
@@ -58,17 +58,21 @@ elif [ -d "$dap_dir" ]; then
 fi
 beet splupdate
 beet alt update dap --create
+if ! [ -e "$dap_dir/_Playlists" ]; then
+    echo >&2 "Warning: alternativesplaylist did not do its job, aborting"
+    beet altplaylistupdate dap
+fi
 beet random -f '$alt_dap' -n 999999999 alt_dap:/Single\ Tracks/ \
     | sed -e 's#.*/DAP/#../#' >"$dap_dir/_Playlists/Random Single Tracks.m3u"
 beet random -f '$alt_dap' -n 999999999 alt_dap:/Singles/ \
     | sed -e 's#.*/DAP/#../#' >"$dap_dir/_Playlists/Random Singles.m3u"
 find "$dap_dir" -type l \
-    | while read l; do
-    if [ -e "$l" ]; then
-        target="$(realpath "$l")"
-        ln -fs "$(realpath --relative-to="$(dirname "$(realpath -s "$l")")" "$target")" "$l"
-    fi
-done
+    | while read -r l; do
+        if [ -e "$l" ]; then
+            target="$(realpath "$l")"
+            ln -fs "$(realpath --relative-to="$(dirname "$(realpath -s "$l")")" "$target")" "$l"
+        fi
+    done
 "$(dirname "$0")/update-dap-covers"
 
 cd "$dap_dir" || exit 1
