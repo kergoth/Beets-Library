@@ -1,0 +1,43 @@
+#!/bin/sh
+# shellcheck disable=SC2016,SC2115
+
+set -e
+
+msg() {
+    printf >&2 "%s: %s\n" "$alternative" "$@"
+}
+
+alternative="$1"
+directory="$2"
+
+if [ -n "$BEETS_SKIP_HOOKS" ]; then
+    exit 0
+fi
+
+# FIXME: don't hardcode this path
+if [ -d "$directory/_Playlists" ]; then
+    msg "Generating random single tracks playlist"
+    beet random -f '$alt_'"$alternative" -n 999999999 alt_"$alternative":/Single\ Tracks/ \
+        | sed -e "s#^$directory/#../#" >"$directory/_Playlists/Random Single Tracks.m3u"
+fi
+
+msg "Converting symbolic links to relative"
+find "$directory" -type l \
+    | while read -r l; do
+        if [ -e "$l" ]; then
+            target="$(realpath "$l")"
+            ln -fs "$(realpath --relative-to="$(dirname "$(realpath -s "$l")")" "$target")" "$l"
+        fi
+    done
+
+msg "Removing empty directories"
+remove-empty-dirs "$directory"
+
+# msg "Updating/converting covers"
+# "$(dirname "$0")/../scripts/update-alternative-covers" "$@"
+
+cd "$directory" || exit 1
+if [ -e .git ]; then
+    msg "Updating git"
+    git add . && git commit -m "Update" >/dev/null 2>&1
+fi

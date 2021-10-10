@@ -1,20 +1,24 @@
 #!/bin/sh
 # shellcheck disable=SC2016
 
-# Extract embedded album art if needed
+if [ -n "$BEETS_SKIP_HOOKS" ]; then
+    exit 0
+fi
+
+echo >&2 "Extracting any embedded album art if needed"
 beet extractart -a last_import:1 "artpath:^" >/dev/null 2>&1
 
-# Save comments.txt if set
+echo >&2 "Savings comments.txt if set"
 beet-export-album-comments last_import:1
 
-# Check for red flags and potential concerns
-beet ls -f '$id' -a last_import:1 | while read -r album_id; do
-    beet-check-sanity "album_id:$album_id"
-done
+echo >&2 "Checking for red flags"
 beet-check-sanity last_import:1
 
+echo >&2 "Generating par2 files"
+beet -p musicintegrity par2create last_import:1 2>/dev/null
+
 beet ls -a -f '$path' last_import:1
-beet ls -f '$path' last_import:1
+beet ls -f '$path' last_import:1 singleton:true
 
 has_open=0
 if command -v xdg-open >/dev/null 2>&1; then
@@ -32,5 +36,5 @@ if [ -z "$BEETS_NO_REVEAL" ] && [ "$has_open" -eq 1 ]; then
     beet open -- -a last_import:1
 
     # Reveal singleton files
-    beet reveal last_import:1
+    beet reveal last_import:1 singleton:true
 fi

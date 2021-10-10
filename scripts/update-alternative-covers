@@ -1,0 +1,46 @@
+#!/bin/sh
+
+set -e
+
+msg() {
+    printf >&2 "%s: %s\n" "$alternative" "$@"
+}
+
+PATH="$(dirname "$0"):$PATH"
+alternative="$1"
+directory="$2"
+
+TAB="$(printf '\t')"
+
+tmpfile="$(mktemp -t "${0##*/}.XXXXXX")"
+trap 'rm -rf "$tmpfile"' EXIT INT TERM
+
+(
+    beet export -l -i "artpath,alt.$alternative" -f jsonlines singleton:false "^alt.$alternative:^"
+) \
+    | while read -r jsonobject; do
+        eval "$(printf "%s\n" "$jsonobject" | jq -r '. | to_entries | .[] | .key + "=" + (.value | @sh)' | sed -e 's/^alt\./alt_/')"
+        destdir="$(dirname "$(eval echo "\$alt_$alternative")")"
+        printf '%s\t%s\n' "$destdir" "$artpath"
+    done \
+    | sort -u >"$tmpfile"
+
+cut -d"$TAB" -f1 "$tmpfile" \
+    | sort -u \
+    | while read -r destdir; do
+        # shellcheck disable=SC2046
+        if [ $(startswith -F "$TAB" -n 1 "$destdir" "$tmpfile" | wc -l) -eq 1 ]; then
+            startswith -F "$TAB" -n 1 "$destdir" "$tmpfile"
+        fi
+    done \
+    | while IFS="$TAB" read -r destdir artpath; do
+        base="${artpath##*/}"
+        destname="$(echo "$base" | sed -e 's/\.[0-9]\././')"
+        if [ -e "$artpath" ]; then
+            if [ -n "$(find "$destdir" -name "$destname" -newer "$artpath")" ]; then
+                continue
+            fi
+            msg "Writing $destdir/$destname"
+            convert "$artpath" -resize 220x220 -bordercolor black -border 10x10 "$destdir/$destname"
+        fi
+    done
