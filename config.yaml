@@ -7,16 +7,16 @@ pluginpath:
 
 per_disc_numbering: true
 id3v23: true
-format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$atypes, $atypes}%aunique{}%if{$e_albumadvisory, (Explicit)}'
-format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$atypes, $atypes}%aunique{}%if{$e_albumadvisory, (Explicit)} - $disc_and_track_pre}$artist - $full_title'
+format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$albumtypes, $atypes}%aunique{}%if{$e_albumadvisory, (Explicit)}'
+format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$albumtypes, $atypes}%aunique{}%if{$e_albumadvisory, (Explicit)} - $disc_and_track_pre}$artist - $full_title'
 
 sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
 
 paths:
-  default: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  default: '$source/$if_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   singleton: '$source/$artist/[non-album tracks]/$path_filename'
-  comp: '$source/$comp_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  comp: '$source/Compilations/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album
 
@@ -89,6 +89,7 @@ plugins:
   - albumtypes
   - badfiles
   - bareasc
+  - bucket
   - convert
   - chroma
   - discogs
@@ -101,6 +102,7 @@ plugins:
   - fuzzy
   - hook
   - info
+  - importfeeds
   - inline
   - lastgenre
   - mbsync
@@ -111,6 +113,7 @@ plugins:
   - spotify
   - the
   - types
+  - unimported
   - zero
 
   # 3rd party plugins
@@ -119,7 +122,7 @@ plugins:
   - copyartifacts
   - join_albums
 
-  # My local plugins
+  # My plugins
   # Define beet command aliases, much like you can with git
   - alias
   # Write playlists to the alternatives
@@ -133,6 +136,8 @@ plugins:
   - existingqueries
   # Query whether an item has embedded art
   - hasart
+  # Run external scripts on hook events
+  - hookscripts
   # Inspect candidate changes when importing
   - importinspect
   # Identify albums whose tracks have inconsistent album fields
@@ -164,6 +169,18 @@ plugins:
   - spotifyexplicit
   # Clear fields in albums in the database, obeying the 'zero' plugin configuration.
   - zeroalbum
+
+hookscripts:
+  hookspath:
+    - 'hooks'
+    - '../hooks'
+  hooks:
+    - alternatives_before_update
+    - alternatives_after_update
+    - import
+  args:
+    'alternatives_before_update': 'alternative.name, alternative.directory'
+    'alternatives_after_update': 'alternative.name, alternative.directory'
 
 acousticbrainz:
   tags:
@@ -204,19 +221,18 @@ alias:
     clearart-albums: clearart album_id::. ^artpath:^
 
     missing-art: fetchart -q
-    reveal: open -R --
 
-    # Mac-specific alias
+    # Mac-specific
+    reveal: open -R --
     picard: 'open -A "-a MusicBrainz\ Picard" --'
     vlc: 'open -A "-a VLC" --'
 
-    dup-albums: dup -aF
-
     # Complete non-game/non-christmas albums with more than one track
-    non-game-albums: complete single_track:0 ^query:is_game ^query:is_christmas
+    non-game-albums: ls -a existing:2.. missing:0 ^query:is_game ^query:is_christmas
 
     # Very basic dupe check for albums lacking musicbrainz data, primarily
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
+    dup-albums: dup -aF
 
     music: ls \^query:is_non_music
     singletons: ls singleton:true
@@ -224,7 +240,7 @@ alias:
     high-res: albums-for samplerate:96000..
 
     # Show incomplete albums, skipping any albums where I only have one track
-    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1 \^query:is_game single_track:0'
+    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1.. \^query:is_game single_track:0'
     incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:0 query:is_game'
 
     # Red flags
@@ -236,7 +252,6 @@ alias:
     red-flags: '!sh -c "(set -x; beet empty-artist; beet empty-album; beet book-not-audiobook; beet unknown-source; beet excess-tracks) | python3 -c \"import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))\""'
 
     # Potential concerns
-    unknown-soundtracks: albums-for albumtype:soundtrack \^genre:soundtrack \^genre:game \^genre:videogame \^genre:vgm
     missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal:0'
     # This is automatically corrected in my import hook
     various-not-comp: ls -a album_query:is_various_not_comp
@@ -263,6 +278,11 @@ bandcamp:
   description: comments
   split_artist_title: true
 
+bucket:
+  bucket_alpha: ['A - D', 'E - L', 'M - R', 'S - Z']
+  bucket_alpha_regex:
+    'A - D': ^[0-9a-dA-D…äÄ]
+
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
 
@@ -279,10 +299,9 @@ fetchart:
   # Set art_source field
   store_source: true
 
-hook:
-  hooks:
-    - event: import
-      command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/import"'''
+importfeeds:
+  formats: m3u_multi
+  dir: Playlists/Imports
 
 # Also ignore @eaDir from the Synology NAS
 ignore:
@@ -371,9 +390,6 @@ reimportskipfields:
   set_fields: reimported
 
 types:
-  # set_fields
-  reimported: int
-
   # Default values
   e_advisory: int
   e_albumadvisory: int
@@ -391,11 +407,21 @@ types:
   multiartist: bool
   multidisc: bool
   single_track: bool
+  potential_single_track: bool
   incomplete: bool
   average_bpm: int
 
   # Item inline and format fields
   excess_tracks: bool
+
+  # Flexible fields
+  #franchise: string
+  #game: string
+  #gamedisambig: string
+  loved: bool
+
+  ## set_fields
+  reimported: bool
 
 zero:
   fields: month day original_month original_day comments
@@ -492,6 +518,8 @@ album_fields:
     else:
       return 0
 
+  excess_tracks: bool(albumtotal and existing > albumtotal)
+
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
@@ -535,7 +563,7 @@ album_formats:
   album_id: '$id'
 
   # Used in path formats
-  comp_albumartist_credit: '%if{$comp,Compilations,%if{$albumartist_credit,$albumartist_credit,$albumartist}}'
+  if_albumartist_credit: '%if{$albumartist_credit,$albumartist_credit,$albumartist}'
   comp_albumartist: '%if{$comp,Compilations,$albumartist}'
   albumsdir: '%if{$incomplete,Incomplete }Albums'
   _albumdir: '%the{%replace{adjust_album,$album%aunique{}%if{$e_albumadvisory, (Explicit)}}}'
@@ -554,6 +582,7 @@ item_formats:
   artist_title: '%the{$path_artist} - $full_title'
   albumdir: '%if{$album,$_albumdir,[non-album tracks]}'
   albumartistdir: '%if{$album,$_albumartistdir,$path_artist}'
+  artistdir: '%the{$path_artist}'
   path_artist: '%asciify{%replace{adjust_artist,$artist}}'
   full_title: '$title%if{$e_advisory,$explicit_or_clean}'
   comp_filename: '%if{$album,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
@@ -567,6 +596,12 @@ item_formats:
 
   # alternatives
   alt_dap: '%ifdef{alt.dap}'
+  alt_testdap: '%ifdef{alt.testdap}'
+
+  # Like albumdir, but uses Single Tracks rather than [non-album tracks]
+  dap_albumdir: '%if{$album,$_albumdir,Single Tracks}'
+  gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
+  game_albumdir: '%ifdef{game,$gamedir,$dap_albumdir}'
 
 album_queries:
   # This is used both in an alias command and an import hook
@@ -587,28 +622,39 @@ item_queries:
   is_ocremix: 'label:"OverClocked ReMix"'
   is_sampler: 'albumtype:sampler , album:sampler'
 
-  dap_classical: 'genre:Classical ^artist:"Christopher Tin"'
-  dap_game: 'query:is_game query:is_soundtrack'
-  dap_game_extra: 'query:is_game ^query:is_soundtrack'
+  potential_single_track: 'singleton:true , single_track:true'
+  dap_maybe_single_track: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_sampler \^query:is_game'
+
+  type_soundtrack: 'albumtype:soundtrack , albumtypes:soundtrack'
+  dap_classical: 'genre:Classical loved:false'
+  dap_game: '^game:^ , query:type_soundtrack query:is_game'
+  dap_game_extra: '^query:type_soundtrack query:is_game'
+  dap_loved_single_tracks: 'playlist:Loved query:potential_single_track'
+  dap_single_tracks: '\^playlist:"Loved" playlist:"Single Tracks"'
 
 alternatives:
   dap:
-    directory: ../DAP
+    directory: '../DAP'
     formats: link
+    query: ^userrating:0
     paths:
-      query:is_non_music: '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$albumdir/$comp_filename}'
-      query:is_mfp: '%replace_path{dap_replace,Albums/$label/$label/$full_title}'
-      query:is_christmas: '%replace_path{dap_replace,Christmas Music/$albumartistdir/$albumdir/$comp_filename}'
-      query:is_ocremix: '%replace_path{dap_replace,Game Music/$label/$albumdir/$comp_filename}'
-      query:dap_game_extra: '%replace_path{dap_replace,Game Music/$albumartistdir/$albumdir/$comp_filename}'
-      query:dap_game: '%replace_path{dap_replace,Game Soundtracks/$albumdir/$comp_filename}'
-      query:dap_classical: '%replace_path{dap_replace,Classical Music/$albumartistdir/%replace_path{adjust_classical_album,$albumdir}/$comp_filename}'
-      singleton: '%replace_path{dap_replace,Single Tracks/$artist_title}'
-      query:is_sampler: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Samplers/$albumdir/$comp_filename}}'
-      query:is_single: '%replace_path{dap_replace,Singles/$albumartistdir/$albumdir/$comp_filename}'
-      query:is_soundtrack: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Soundtracks/$albumdir/$comp_filename}}'
-      comp:1: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,Compilations/$albumdir/$comp_filename}}'
-      default: '%replace_path{dap_replace,%if{$single_track,Single Tracks/$artist_title,$albumsdir/$albumartistdir/$albumdir/$comp_filename}}'
+      query:is_non_music: '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$dap_albumdir/$comp_filename}'
+      query:is_mfp: '%replace_path{dap_replace,Music/$label/$full_title}'
+      'query:dap_single_tracks query:is_christmas': '%replace_path{dap_replace,Christmas Music/Single Tracks/$artist_title}'
+      query:is_christmas: '%replace_path{dap_replace,Christmas Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
+      query:is_ocremix: '%replace_path{dap_replace,Game Music/$label/%if{$potential_single_track,Single Tracks/$artist_title,$dap_albumdir/$comp_filename}}'
+      query:dap_game: '%replace_path{dap_replace,%ifdef{loved,Loved Game Music/,Game Music/%ifdef{franchise,$franchise/}}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      query:is_game: '%replace_path{dap_replace,Game Extras/%ifdef{franchise,$franchise/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:dap_single_tracks query:dap_classical': '%replace_path{dap_replace,Classical Music/Single Tracks/$artist_title}'
+      query:dap_classical: '%replace_path{dap_replace,Classical Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/%replace_path{adjust_classical_album,$dap_albumdir}/$comp_filename}}'
+      query:dap_loved_single_tracks: '%replace_path{dap_replace,Loved Single Tracks/$artist_title}'
+      query:dap_single_tracks: '%replace_path{dap_replace,Single Tracks/$source/$artist_title}'
+      'loved:true albumtype:soundtrack': '%replace_path{dap_replace,Loved Soundtracks/$dap_albumdir/$comp_filename}'
+      query:is_soundtrack: '%replace_path{dap_replace,%if{$potential_single_track,Soundtracks/Single Tracks/$artist_title,Soundtracks/$dap_albumdir/$comp_filename}}'
+      loved:true: '%replace_path{dap_replace,Loved Albums/$dap_albumdir/$comp_filename}'
+      query:is_sampler: '%replace_path{dap_replace,%if{$potential_single_track,Samplers/Single Tracks/$artist_title,Samplers/$dap_albumdir/$comp_filename}}'
+      comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
+      default: '%replace_path{dap_replace,%if{$potential_single_track,Music/$artistdir/Single Tracks/$full_title,Music/$albumartistdir/$dap_albumdir/$comp_filename}}'
 
 adjust_album:
   # Consistency
@@ -617,10 +663,11 @@ adjust_album:
   'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
   'HGTV / Paste': 'HGTV & Paste'
   # Shorten album length
-  'Ultima V: Warriors of Destiny - The Lazarus Project Official Soundtrack': 'Ultima V: Lazarus Soundtrack'
-  'Monument Valley Official Game Soundtrack Volumes 1 & 2': 'Monument Valley Soundtrack'
-  "Broken Sword: Shadow of the Templars – Director's Cut": 'Broken Sword'
-  'Incredible Adventures of Van Helsing': 'Van Helsing'
+  'The Incredible Adventures of Van Helsing': 'Van Helsing'
+  'The Chronicles of Riddick: Assault on Dark Athena': 'Riddick'
+  'The Elder Scrolls IV: Morrowind': 'Morrowind'
+  'The Elder Scrolls V: Skyrim': 'Skyrim'
+  'Command & Conquer∶ Red Alert': 'Red Alert'
   # Easier to locate by game name
   'Sogno di Volare \(Civilization VI Main Theme\)': 'Civilization VI'
   # Add missing # in the series
@@ -642,6 +689,7 @@ adjust_artist:
   # Multi-artist
   ' / .*': ''
   ' *[,;](?! *Jr).*': ''
+  'Chris Ballew and .*': 'Chris Ballew'
 
   # Consistency
   'George Alistair Sanger': 'George Sanger'
