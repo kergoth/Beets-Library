@@ -21,6 +21,10 @@ smartplaylist:
       album_query: 'added- added:-60d..'
       query: 'added- added:-60d.. singleton:true'
 
+    - name: Genre/Christmas.m3u
+      query: 'genre:Christmas, genre:Holiday'
+    - name: Genre/Classical.m3u
+      query: 'genre:Classical'
     - name: Genre/Steampunk.m3u
       query: genre:Steampunk
     - name: Genre/Synthwave.m3u
