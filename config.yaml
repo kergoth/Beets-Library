@@ -170,6 +170,13 @@ plugins:
   # Clear fields in albums in the database, obeying the 'zero' plugin configuration.
   - zeroalbum
 
+  # - autofix
+  # - check
+  # - describe
+  # - musicintegrity
+  # - xtractor
+  # - yearfixer
+
 hookscripts:
   hookspath:
     - 'hooks'
@@ -286,6 +293,19 @@ bucket:
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
 
+extrafiles:
+  patterns:
+    cue: '*.cue'
+    log: '*.log'
+    art:
+      - '*.jpg'
+      - '*.png'
+    docs:
+      - '*.pdf'
+      - '*.txt'
+      - '*.doc'
+      - '*.rtf'
+
 edit:
   itemfields: track title artist album albumdisambig tracktotal year
   albumfields: album albumartist
@@ -302,6 +322,15 @@ fetchart:
 importfeeds:
   formats: m3u_multi
   dir: Playlists/Imports
+
+# hook:
+#   hooks:
+#     - event: import
+#       command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/import"'''
+#     # - event: alternatives_before_update
+#     #   command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/alternatives_before_update"'''
+#     # - event: alternatives_before_update
+#     #   command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/alternatives_after_update"'''
 
 # Also ignore @eaDir from the Synology NAS
 ignore:
@@ -358,7 +387,7 @@ modifyonimport:
     # Sane default for albumartist_sort
     'albumartist_sort::"^$" albumartist::"^The "': 'albumartist_sort=%the{$albumartist}'
     # Likely a single
-    'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single albumtypes=$single_albumtypes'
+    # 'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single albumtypes=$single_albumtypes'
     # 'Various Artists' albums not flagged as compilations
     'album_query:is_various_not_comp': 'comp=1'
     # Genre
@@ -393,6 +422,7 @@ types:
   # Default values
   e_advisory: int
   e_albumadvisory: int
+  e_loved: bool
 
   # Built-in or Plugin fields
   albumtotal: int
@@ -400,6 +430,7 @@ types:
 
   # Album inline and format fields
   album_id: int
+  album_loved: bool
   existing: int
   is_comp_same_artists: bool
   has_explicit_track: bool
@@ -508,6 +539,9 @@ album_fields:
 
   all_same_genres: all(item.genre == items[0].genre for item in items)
 
+  album_all_genre: items[0].genre if all(item.genre == items[0].genre for item in items) else ''
+  album_all_composer: items[0].composer if all(item.composer == items[0].composer for item in items) else ''
+
   album_genres: "','.join(sorted(set(item.genre for item in items)))"
 
   # For albums with bpm tags on all their tracks, give us the mean
@@ -534,7 +568,7 @@ item_fields:
     else:
       return u'%02i - ' % track
 
-  # Strip the leading zero
+  # Avoid the leading zero
   trim_track: str(track)
   trim_disc: str(disc)
 
@@ -561,6 +595,7 @@ item_fields:
 album_formats:
   # Convenience
   album_id: '$id'
+  album_loved: '%ifdef{loved,$loved}'
 
   # Used in path formats
   if_albumartist_credit: '%if{$albumartist_credit,$albumartist_credit,$albumartist}'
@@ -574,7 +609,7 @@ album_formats:
   albumartistdir: '$_albumartistdir'
 
   # Deal with undefined values for queries
-  e_albumadvisory: '%ifdef{albumadvisory}'
+  e_albumadvisory: '%ifdef{albumadvisory,$albumadvisory,0}'
   e_data_source: '%ifdef{data_source}'
 
 item_formats:
@@ -591,8 +626,9 @@ item_formats:
 
   # Deal with undefined values for queries. This lets me do ls e_advisory:0,
   # instead of having to check for advisory:@.
-  e_advisory: '%ifdef{advisory}'
+  e_advisory: '%ifdef{advisory,$advisory,0}'
   e_data_source: '%ifdef{data_source}'
+  e_loved: '%ifdef{loved,$loved,false}'
 
   # alternatives
   alt_dap: '%ifdef{alt.dap}'
@@ -626,7 +662,7 @@ item_queries:
   dap_maybe_single_track: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_sampler \^query:is_game'
 
   type_soundtrack: 'albumtype:soundtrack , albumtypes:soundtrack'
-  dap_classical: 'genre:Classical loved:false'
+  dap_classical: 'genre:Classical ^loved:true ^composer:"Christopher Tin"'
   dap_game: '^game:^ , query:type_soundtrack query:is_game'
   dap_game_extra: '^query:type_soundtrack query:is_game'
   dap_loved_single_tracks: 'playlist:Loved query:potential_single_track'
@@ -640,10 +676,37 @@ alternatives:
     paths:
       query:is_non_music: '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$dap_albumdir/$comp_filename}'
       query:is_mfp: '%replace_path{dap_replace,Music/$label/$full_title}'
+      'query:dap_single_tracks query:dap_classical': '%replace_path{dap_replace,Classical Music/Single Tracks/$artist_title}'
+      query:dap_classical: '%replace_path{dap_replace,Classical Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
       'query:dap_single_tracks query:is_christmas': '%replace_path{dap_replace,Christmas Music/Single Tracks/$artist_title}'
       query:is_christmas: '%replace_path{dap_replace,Christmas Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
-      query:is_ocremix: '%replace_path{dap_replace,Game Music/$label/%if{$potential_single_track,Single Tracks/$artist_title,$dap_albumdir/$comp_filename}}'
-      query:dap_game: '%replace_path{dap_replace,%ifdef{loved,Loved Game Music/,Game Music/%ifdef{franchise,$franchise/}}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:is_game loved:true': '%replace_path{dap_replace,Loved Game Music/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:dap_game potential_single_track:true': '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/}Single Tracks/$artist_title}'
+      query:dap_game: '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
+      query:is_game: '%replace_path{dap_replace,Game Extras/%ifdef{franchise,$franchise/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      query:dap_loved_single_tracks: '%replace_path{dap_replace,Loved Single Tracks/$artist_title}'
+      query:dap_single_tracks: '%replace_path{dap_replace,Single Tracks/$source/$artist_title}'
+      'loved:true albumtype:soundtrack': '%replace_path{dap_replace,Loved Soundtracks/$dap_albumdir/$comp_filename}'
+      query:is_soundtrack: '%replace_path{dap_replace,%if{$potential_single_track,Soundtracks/Single Tracks/$artist_title,Soundtracks/$dap_albumdir/$comp_filename}}'
+      loved:true: '%replace_path{dap_replace,Loved Albums/$dap_albumdir/$comp_filename}'
+      query:is_sampler: '%replace_path{dap_replace,%if{$potential_single_track,Samplers/Single Tracks/$artist_title,Samplers/$dap_albumdir/$comp_filename}}'
+      comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
+      default: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
+
+  testdap:
+    directory: '../Test'
+    formats: link
+    query: query:dap_game ^userrating:0
+    playlists: false
+    paths:
+      query:is_non_music: '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$dap_albumdir/$comp_filename}'
+      query:is_mfp: '%replace_path{dap_replace,Music/$label/$full_title}'
+      'query:dap_single_tracks query:is_christmas': '%replace_path{dap_replace,Christmas Music/Single Tracks/$artist_title}'
+      query:is_christmas: '%replace_path{dap_replace,Christmas Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
+      # query:is_ocremix: '%replace_path{dap_replace,Game Music/$label/%if{$potential_single_track,Single Tracks/$artist_title,$dap_albumdir/$comp_filename}}'
+      'query:is_game loved:true': '%replace_path{dap_replace,Loved Game Music/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:dap_game potential_single_track:true': '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/}Single Tracks/$artist_title}'
+      query:dap_game: '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
       query:is_game: '%replace_path{dap_replace,Game Extras/%ifdef{franchise,$franchise/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
       'query:dap_single_tracks query:dap_classical': '%replace_path{dap_replace,Classical Music/Single Tracks/$artist_title}'
       query:dap_classical: '%replace_path{dap_replace,Classical Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/%replace_path{adjust_classical_album,$dap_albumdir}/$comp_filename}}'
@@ -653,8 +716,8 @@ alternatives:
       query:is_soundtrack: '%replace_path{dap_replace,%if{$potential_single_track,Soundtracks/Single Tracks/$artist_title,Soundtracks/$dap_albumdir/$comp_filename}}'
       loved:true: '%replace_path{dap_replace,Loved Albums/$dap_albumdir/$comp_filename}'
       query:is_sampler: '%replace_path{dap_replace,%if{$potential_single_track,Samplers/Single Tracks/$artist_title,Samplers/$dap_albumdir/$comp_filename}}'
-      comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
-      default: '%replace_path{dap_replace,%if{$potential_single_track,Music/$artistdir/Single Tracks/$full_title,Music/$albumartistdir/$dap_albumdir/$comp_filename}}'
+      comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
+      default: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
 
 adjust_album:
   # Consistency
@@ -723,3 +786,4 @@ dap_replace:
 
 include:
   - config.d/smartplaylist.yaml
+  - config.d/xtractor.yaml
