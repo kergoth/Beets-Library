@@ -1,0 +1,75 @@
+#!/bin/bash
+# This script identifies the files that will end up in my Single Tracks folder and checks whether I have any other tracks by that artist.
+
+TAB=$'\t'
+
+quote_args() {
+    for arg in "$@"; do
+        printf "%s\n" "$(quote "$arg")"
+    done | tr '\n' ' '
+}
+
+quote() {
+    sed -e "s,','\\\\'',g; 1s,^,',; \$s,\$,',;" <<EOF
+$1
+EOF
+}
+
+save() {
+    case "$1" in
+        # when a string contains a "'" we have to escape it
+        *\'*)
+            saved="$saved $(quote "$1")"
+            ;;
+        # otherwise just quote the variable
+        *)
+            saved="$saved '$1'"
+            ;;
+    esac
+}
+
+beet() {
+    command beet 2>/dev/null "$@"
+}
+
+singletracks() {
+    saved=
+    for arg; do
+        save "$arg"
+    done
+
+    (
+        beet export -l -i 'artist,albumartist,artist_credit,path,source' -f jsonlines singleton:true query:dap_maybe_single_track "$@" artist+
+        beet export -l -i 'artist,albumartist,artist_credit,path,source' -f jsonlines "$@" query:dap_maybe_single_track single_track:true artist+
+    ) \
+        | while read -r jsonobject; do
+            eval "$(printf "%s\n" "$jsonobject" | jq -r '. | to_entries | .[] | .key + "=" + (.value | @sh)')"
+
+            eval set -- "$saved"
+
+            # shellcheck disable=SC2154
+            # Avoid duplicate queries
+            if grep -qxF "$artist$TAB$albumartist$TAB$artist_credit$TAB$*" "$cache"; then
+                echo >&2 "Skipping $path"
+                continue
+            fi
+            printf '%s\t%s\t%s\t%s\n' "$artist" "$albumartist" "$artist_credit" "$*" >>"$cache"
+
+            # shellcheck disable=SC2140
+            set -- "artist:@$artist" query:dap_maybe_single_track ^comp:1 ^albumtype:compilation "$@" ${albumartist:+ , "albumartist:@$albumartist" query:dap_maybe_single_track ^comp:1 ^albumtype:compilation "$@"} ${artist_credit:+ , "artist_credit:@$artist_credit" query:dap_maybe_single_track ^comp:1 ^albumtype:compilation "$@"}
+
+            # printf '> %s\n' "$(quote_args beet ls "$@")" >&2
+            # shellcheck disable=SC2046,SC2154
+            if [ $(beet ls "$@" 2>/dev/null | wc -l) -le 1 ]; then
+                echo "$source: $path"
+            fi
+        done
+}
+
+
+cache="$(mktemp -t "${0##*/}.XXXXXX")" || exit 1
+trap 'rm -f "$cache"' EXIT INT TERM
+
+singletracks "$@" query:is_classical ^query:is_christmas
+singletracks "$@" query:is_christmas ^query:is_classical
+singletracks "$@" ^query:is_christmas ^query:is_classical
