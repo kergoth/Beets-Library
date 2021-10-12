@@ -55,6 +55,8 @@ directory="$(abspath "$directory" "$library_dir")"
 if [ -z "$directory" ]; then
     exit 1
 fi
+mkdir -p "$directory"
+directory="$(cd "$directory" && pwd)"
 
 tmpdir="$(mktemp -d -t "${0##*/}.XXXXXX")"
 trap 'rm -rf "$tmpdir"' EXIT INT TERM
