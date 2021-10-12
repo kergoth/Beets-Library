@@ -467,6 +467,7 @@ sort_tracks() {
         | sed -e 's#\(.*\)	\([^	]*\)$#\1/\2#'
 }
 
+if command -v tput >/dev/null 2>&1; then
 # shellcheck disable=SC2183
 preparebar() {
 # $1 - bar length
@@ -498,4 +499,5 @@ progressbar() {
         printf "\r%s[%.${barch}s%.${barsp}s]%s\r" "${3:+$3 }" "$barchars" "$barspaces" "${4:+ $4}"
     fi
 }
+fi
 
