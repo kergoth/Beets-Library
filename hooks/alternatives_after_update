@@ -47,3 +47,11 @@ fi
 
 msg "Removing empty directories"
 remove-empty-dirs "$directory"/*/ >/dev/null || :
+
+if [ -d "$directory/.git" ]; then
+    (
+        cd "$directory" || exit 1
+        git add -A .
+        git commit -m "Update"
+    )
+fi
