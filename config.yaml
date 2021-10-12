@@ -185,8 +185,9 @@ hookscripts:
     - alternatives_after_update
     - import
   args:
-    'alternatives_before_update': 'alternative.name, alternative.directory'
-    'alternatives_after_update': 'alternative.name, alternative.directory'
+    alternatives_before_update: 'alternative.name, alternative.directory'
+    alternatives_after_update: 'alternative.name, alternative.directory'
+    import: '*paths'
 
 acousticbrainz:
   tags:
