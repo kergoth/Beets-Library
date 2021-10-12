@@ -682,32 +682,6 @@ alternatives:
       comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
       default: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
 
-  testdap:
-    directory: '../Test'
-    formats: link
-    query: query:dap_game ^userrating:0
-    playlists: false
-    paths:
-      query:is_non_music: '%replace_path{dap_replace,Non-Music/$genre/$albumartistdir/$dap_albumdir/$comp_filename}'
-      query:is_mfp: '%replace_path{dap_replace,Music/$label/$full_title}'
-      'query:dap_single_tracks query:is_christmas': '%replace_path{dap_replace,Christmas Music/Single Tracks/$artist_title}'
-      query:is_christmas: '%replace_path{dap_replace,Christmas Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
-      # query:is_ocremix: '%replace_path{dap_replace,Game Music/$label/%if{$potential_single_track,Single Tracks/$artist_title,$dap_albumdir/$comp_filename}}'
-      'query:is_game loved:true': '%replace_path{dap_replace,Loved Game Music/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      'query:dap_game potential_single_track:true': '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/}Single Tracks/$artist_title}'
-      query:dap_game: '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
-      query:is_game: '%replace_path{dap_replace,Game Extras/%ifdef{franchise,$franchise/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      'query:dap_single_tracks query:dap_classical': '%replace_path{dap_replace,Classical Music/Single Tracks/$artist_title}'
-      query:dap_classical: '%replace_path{dap_replace,Classical Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/%replace_path{adjust_classical_album,$dap_albumdir}/$comp_filename}}'
-      query:dap_loved_single_tracks: '%replace_path{dap_replace,Loved Single Tracks/$artist_title}'
-      query:dap_single_tracks: '%replace_path{dap_replace,Single Tracks/$source/$artist_title}'
-      'loved:true albumtype:soundtrack': '%replace_path{dap_replace,Loved Soundtracks/$dap_albumdir/$comp_filename}'
-      query:is_soundtrack: '%replace_path{dap_replace,%if{$potential_single_track,Soundtracks/Single Tracks/$artist_title,Soundtracks/$dap_albumdir/$comp_filename}}'
-      loved:true: '%replace_path{dap_replace,Loved Albums/$dap_albumdir/$comp_filename}'
-      query:is_sampler: '%replace_path{dap_replace,%if{$potential_single_track,Samplers/Single Tracks/$artist_title,Samplers/$dap_albumdir/$comp_filename}}'
-      comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
-      default: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
-
 adjust_album:
   # Consistency
   'Video Games Live, Volume One': 'Video Games Live: Level 1'
