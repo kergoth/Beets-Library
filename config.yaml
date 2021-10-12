@@ -626,6 +626,7 @@ item_formats:
   dap_albumdir: '%if{$album,$_albumdir,Single Tracks}'
   gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
   game_albumdir: '%ifdef{game,$gamedir,$dap_albumdir}'
+  franchisedir: '%the{%replace{adjust_franchise,$franchise}}'
 
 album_queries:
   # This is used both in an alias command and an import hook
@@ -670,9 +671,9 @@ alternatives:
       'query:dap_single_tracks query:is_christmas': '%replace_path{dap_replace,Christmas Music/Single Tracks/$artist_title}'
       query:is_christmas: '%replace_path{dap_replace,Christmas Music/%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
       'query:is_game loved:true': '%replace_path{dap_replace,Loved Game Music/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      'query:dap_game potential_single_track:true': '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/}Single Tracks/$artist_title}'
-      query:dap_game: '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchise,alpha}/$franchise/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
-      query:is_game: '%replace_path{dap_replace,Game Extras/%ifdef{franchise,$franchise/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:dap_game potential_single_track:true': '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/}Single Tracks/$artist_title}'
+      query:dap_game: '%replace_path{dap_replace,Game Music/%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
+      query:is_game: '%replace_path{dap_replace,Game Extras/%ifdef{franchise,$franchisedir/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
       query:dap_loved_single_tracks: '%replace_path{dap_replace,Loved Single Tracks/$artist_title}'
       query:dap_single_tracks: '%replace_path{dap_replace,Single Tracks/$source/$artist_title}'
       'loved:true albumtype:soundtrack': '%replace_path{dap_replace,Loved Soundtracks/$dap_albumdir/$comp_filename}'
@@ -681,6 +682,9 @@ alternatives:
       query:is_sampler: '%replace_path{dap_replace,%if{$potential_single_track,Samplers/Single Tracks/$artist_title,Samplers/$dap_albumdir/$comp_filename}}'
       comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
       default: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
+
+adjust_franchise:
+  'The Legend of Zelda': 'Zelda'
 
 adjust_album:
   # Consistency
