@@ -32,13 +32,13 @@ smartplaylist:
 
     - name: Chill Music.m3u
       album_query:
+        - albumartist:jason barty
         - artist:"steve roach"
         - 'album:journey albumartist:"austin wintory"'
         - 'album:"evening light" albumartist:"austin haynes"'
         - album:transistor
         - albumartist:ben prunty
         - 'albumartist:"jim guthrie" album:"space babies"'
-        - albumartist:jason barty
         - genre:ambient
 
     - name: Coding Music.m3u
@@ -49,18 +49,8 @@ smartplaylist:
         - "music for programming"
 
     - name: 'Loved Albums.m3u'
-      album_query:
-        - 'albumartist:"GUNSHIP" album:"Dark All Day"'
-        - 'albumartist:"Jason Barty" album:"Simple Day"'
-        - 'album:"Mortal Kombat: Original Motion Picture Soundtrack"'
-        - 'album:"Hackers"'
-        - 'albumartist:"Ramin Djawadi" album:"Medal of Honor"'
-        - 'albumartist:"Massive Attack" album:"Mezzanine"'
-        - 'albumartist:"Danger Mouse & Daniele Luppi" album:"Rome"'
-        - 'albumartist:"Nine Inch Nails" album:"Pretty Hate Machine"'
-        - 'albumartist:"Trent Reznor" album:"Quake"'
-        - 'albumartist:"Oakenfold" album:"Bunkka"'
-        - 'albumartist:"MDFMK" album:"MDFMK"'
+      album_query: loved:true
+
     - name: 'Dad.m3u'
       query:
         - 'artist:"Stabbing Westward" title:"Save Yourself"'
@@ -70,8 +60,10 @@ smartplaylist:
         - 'artist:"Denis Leary" title:"A✱✱✱✱✱e"'
         - 'artist:"Nine Inch Nails" title:"Closer"'
         - 'artist:"Yello" title:"Oh Yeah"'
+
     - name: 'Morning.m3u'
       query: 'artist:"C+C Music Factory" title:"Gonna Make You Sweat"'
+
     - name: 'Workout.m3u'
       album_query: 'album:"Workout Mix"'
 
