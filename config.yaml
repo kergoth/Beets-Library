@@ -102,7 +102,6 @@ plugins:
   - fuzzy
   - hook
   - info
-  - importfeeds
   - inline
   - lastgenre
   - mbsync
@@ -318,19 +317,6 @@ fetchart:
   sources: filesystem coverart itunes amazon albumart
   # Set art_source field
   store_source: true
-
-importfeeds:
-  formats: m3u_multi
-  dir: Playlists/Imports
-
-# hook:
-#   hooks:
-#     - event: import
-#       command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/import"'''
-#     # - event: alternatives_before_update
-#     #   command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/alternatives_before_update"'''
-#     # - event: alternatives_before_update
-#     #   command: 'sh -c ''[ -z "$BEETS_NO_HOOKS" ] && "${{BEETSDIR:-~/.config/beets}}/hooks/alternatives_after_update"'''
 
 # Also ignore @eaDir from the Synology NAS
 ignore:
