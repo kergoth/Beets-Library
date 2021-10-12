@@ -19,22 +19,3 @@ beet -p musicintegrity par2create last_import:1 2>/dev/null
 
 beet ls -a -f '$path' last_import:1
 beet ls -f '$path' last_import:1 singleton:true
-
-has_open=0
-if command -v xdg-open >/dev/null 2>&1; then
-    has_open=1
-elif command -v wsl-open >/dev/null 2>&1; then
-    case "$(uname -r)" in
-        *-Microsoft|*-microsoft-*)
-            has_open=1
-            ;;
-    esac
-fi
-
-if [ -z "$BEETS_NO_REVEAL" ] && [ "$has_open" -eq 1 ]; then
-    # Open the album folder
-    beet open -- -a last_import:1
-
-    # Reveal singleton files
-    beet reveal last_import:1 singleton:true
-fi
