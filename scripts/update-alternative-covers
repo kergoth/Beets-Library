@@ -2,45 +2,107 @@
 
 set -e
 
+TAB="$(printf '\t')"
+PATH="$(dirname "$0"):$PATH"
+
+usage() {
+    cat <<END >&2
+${0##*/} [options..] ALTNAME ALTDIRECTORY [QUERY..]
+
+Convert/create cover art from library into the alternative named ALTNAME
+which resides in ALTDIRECTORY.
+
+Options:
+  -h   Show usage
+END
+    exit 2
+}
+
 msg() {
     printf >&2 "%s: %s\n" "$alternative" "$@"
 }
 
-PATH="$(dirname "$0"):$PATH"
+abspath() {
+    # Return an absolute path for the specified argument
+    _path="$1"
+    if [ -n "${_path##/*}" ]; then
+        _path="${2:-$(pwd -P)}/$1"
+    fi
+    echo "$_path"
+}
+
+while getopts h opt; do
+    case "$opt" in
+        \? | h)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -lt 2 ]; then
+    usage
+fi
+
 alternative="$1"
-directory="$2"
+shift
+directory="$(abspath "$1")"
+shift
 
-TAB="$(printf '\t')"
 
-tmpfile="$(mktemp -t "${0##*/}.XXXXXX")"
-trap 'rm -rf "$tmpfile"' EXIT INT TERM
+library_dir="$(beet get-config-path directory)"
+directory="$(abspath "$directory" "$library_dir")"
+if [ -z "$directory" ]; then
+    exit 1
+fi
 
-(
-    beet export -l -i "artpath,alt.$alternative" -f jsonlines singleton:false "^alt.$alternative:^"
-) \
-    | while read -r jsonobject; do
-        eval "$(printf "%s\n" "$jsonobject" | jq -r '. | to_entries | .[] | .key + "=" + (.value | @sh)' | sed -e 's/^alt\./alt_/')"
-        destdir="$(dirname "$(eval echo "\$alt_$alternative")")"
-        printf '%s\t%s\n' "$destdir" "$artpath"
-    done \
-    | sort -u >"$tmpfile"
+tmpdir="$(mktemp -d -t "${0##*/}.XXXXXX")"
+trap 'rm -rf "$tmpdir"' EXIT INT TERM
+artfiles="$tmpdir/artfiles"
+covers="$tmpdir/covers"
+existingcovers="$tmpdir/existingcovers"
 
-cut -d"$TAB" -f1 "$tmpfile" \
+
+msg "Gathering album art for conversion"
+beet-ls-fields -i "alt.$alternative" -i artpath "^alt.$alternative:^" "$@" \
+    | grep -v "^$TAB" \
+    | sed -e "s#/[^/]*$TAB#$TAB#" \
+    | awk '!visited[$0]++' >"$artfiles"
+
+if ! [ -s "$artfiles" ]; then
+    echo >&2 "Error: no results returned for alternative $alternative"
+    exit 1
+fi
+
+msg "Converting album art"
+touch "$covers"
+# Gather up destdirs with only a single source of art (one album), then convert for those
+cut -d"$TAB" -f1 "$artfiles" \
     | sort -u \
     | while read -r destdir; do
-        # shellcheck disable=SC2046
-        if [ $(startswith -F "$TAB" -n 1 "$destdir" "$tmpfile" | wc -l) -eq 1 ]; then
-            startswith -F "$TAB" -n 1 "$destdir" "$tmpfile"
+        escaped="$(python3 -c 'import re,sys; print(re.escape(sys.argv[1]))' "$destdir")"
+        if [ "$(grep -c "^$escaped$TAB" "$artfiles")" -eq 1 ]; then
+            grep "^$escaped$TAB" "$artfiles"
         fi
     done \
     | while IFS="$TAB" read -r destdir artpath; do
         base="${artpath##*/}"
         destname="$(echo "$base" | sed -e 's/\.[0-9]\././')"
         if [ -e "$artpath" ]; then
+            echo "$destdir/$destname" >>"$covers"
             if [ -n "$(find "$destdir" -name "$destname" -newer "$artpath")" ]; then
                 continue
             fi
-            msg "Writing $destdir/$destname"
+            # msg "Writing $destdir/$destname"
             convert "$artpath" -resize 220x220 -bordercolor black -border 10x10 "$destdir/$destname"
         fi
     done
+
+msg "Removing remnant album art"
+find "$directory" -iname cover\*.jpg -o -iname cover\*.png \
+    | sort -u >"$existingcovers"
+sort -u "$covers" >"$covers.new" \
+    && mv "$covers.new" "$covers"
+comm -23 "$existingcovers" "$covers" \
+    | tr '\n' '\0' \
+    | xargs -0 rm -fv
