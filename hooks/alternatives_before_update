@@ -44,3 +44,5 @@ if [ -d "$directory" ] || [ -z "${BEETS_ALT_SKIP_SPL:-}" ]; then
         fi
     fi
 fi
+
+msg Updating
