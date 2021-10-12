@@ -1,16 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 # shellcheck disable=SC2016,SC2115
 
-set -e
+set -euo pipefail
 
 msg() {
     printf >&2 "%s: %s\n" "$alternative" "$@"
 }
 
+scriptdir="$(cd "$(dirname "$0")" && pwd -P)"
+# shellcheck source=common.sh
+. "$scriptdir/common.sh"
+
 alternative="$1"
 directory="$2"
 
-if [ -n "$BEETS_SKIP_HOOKS" ]; then
+if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
     exit 0
 fi
 
@@ -21,22 +25,22 @@ if [ -d "$directory" ]; then
         | tr '\n' '\0' \
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
-
-    msg "Removing playlists for re-generation"
-    playlistdir="$(beet get-config alternativesplaylist.playlist_dir)" || :
-    if [ "$playlistdir" = "null" ]; then
-        playlistdir="$(beet get-config playlist.playlist_dir)" || :
-        if [ "$playlistdir" = null ]; then
-            playlistdir=Playlists
-        else
-            # FIXME: get a relative path to the library directory
-            playlistdir="$(basename "$playlistdir")"
-        fi
-    fi
-    rm -rf "$directory/$playlistdir"
 fi
 
-if [ -z "$BEETS_ALT_SKIP_SPL" ]; then
-    msg "Updating smart playlists"
-    beet splupdate
+if [ -d "$directory" ] || [ -z "${BEETS_ALT_SKIP_SPL:-}" ]; then
+    if config_true "alternatives.$alternative.playlists" true && config_true alternativesplaylist.auto true; then
+        if [ -d "$directory" ]; then
+            msg "Removing playlists for re-generation"
+            playlistdir="$(config_value 'alternativesplaylist.playlist_dir' || config_value 'playlist.playlist_dir' Playlists)"
+            playlistdir="$(basename "$playlistdir")"
+            if [ -n "$playlistdir" ]; then
+                rm -rf "$directory/$playlistdir"
+            fi
+        fi
+
+        if [ -z "${BEETS_ALT_SKIP_SPL:-}" ]; then
+            msg "Updating smart playlists"
+            beet splupdate
+        fi
+    fi
 fi
