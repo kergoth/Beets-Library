@@ -651,7 +651,7 @@ item_queries:
 
   type_soundtrack: 'albumtype:soundtrack , albumtypes:soundtrack'
   dap_classical: 'genre:Classical ^loved:true ^composer:"Christopher Tin"'
-  dap_game: '^game:^ , query:type_soundtrack query:is_game'
+  dap_game: '^game:^ , ^franchise:^ , query:type_soundtrack query:is_game'
   dap_game_extra: '^query:type_soundtrack query:is_game'
   dap_loved_single_tracks: 'playlist:Loved query:potential_single_track'
   dap_single_tracks: '\^playlist:"Loved" playlist:"Single Tracks"'
