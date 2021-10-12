@@ -14,8 +14,18 @@ if [ -n "$BEETS_SKIP_HOOKS" ]; then
     exit 0
 fi
 
-# FIXME: don't hardcode this path
-if [ -d "$directory/_Playlists" ]; then
+playlistdir="$(beet get-config alternativesplaylist.playlist_dir)" || :
+if [ "$playlistdir" = "null" ]; then
+    playlistdir="$(beet get-config playlist.playlist_dir)" || :
+    if [ "$playlistdir" = null ]; then
+        playlistdir=Playlists
+    else
+        # FIXME: get a relative path to the library directory
+        playlistdir="$(basename "$playlistdir")"
+    fi
+fi
+
+if [ -d "$directory/$playlistdir" ]; then
     msg "Generating random single tracks playlist"
     beet random -f '$alt_'"$alternative" -n 999999999 alt_"$alternative":/Single\ Tracks/ \
         | sed -e "s#^$directory/#../#" >"$directory/_Playlists/Random Single Tracks.m3u"
@@ -31,13 +41,9 @@ find "$directory" -type l \
     done
 
 msg "Removing empty directories"
-remove-empty-dirs "$directory"
+remove-empty-dirs "$directory"/*/ >/dev/null || :
 
-# msg "Updating/converting covers"
-# "$(dirname "$0")/../scripts/update-alternative-covers" "$@"
-
-cd "$directory" || exit 1
-if [ -e .git ]; then
-    msg "Updating git"
-    git add . && git commit -m "Update" >/dev/null 2>&1
+if [ -z "$BEETS_ALT_SKIP_COVERS" ]; then
+    msg "Updating/converting covers"
+    "$(dirname "$0")/../scripts/update-alternative-covers" "$alternative" "$directory"
 fi

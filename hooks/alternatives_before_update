@@ -14,35 +14,27 @@ if [ -n "$BEETS_SKIP_HOOKS" ]; then
     exit 0
 fi
 
-msg "Removing dead symlinks"
-find "$directory" -type l \
-    | while read -r fn; do test -e "$fn" || echo "$fn"; done \
-    | tr '\n' '\0' \
-    | xargs -0 rm -fv \
-    | sed -e 's,^,-,'
+if [ -d "$directory" ]; then
+    msg "Removing dead symlinks"
+    find "$directory" -type l \
+        | while read -r fn; do test -e "$fn" || echo "$fn"; done \
+        | tr '\n' '\0' \
+        | xargs -0 rm -fv \
+        | sed -e 's,^,-,'
 
-# Ensure we remove remnant covers of removed albums
-msg "Removing remnant covers of removed albums"
-tmpfile=$(mktemp -t "${0##*/}.XXXX")
-trap 'rm -f "$tmpfile"' EXIT INT TERM
-beet ls -f '$artpath'"$TAB"'$alt_'"$alternative" singleton:false ^alt_"$alternative":/Single\ Tracks/ ^alt_"$alternative":non-album alt_"$alternative"- \
-    | grep -v "^None$TAB" \
-    | sed -e 's#/[^/]*$##' \
-    | uniq \
-    | while IFS="$TAB" read -r artpath destdir; do
-        base="${artpath##*/}"
-        destname="$(echo "$base" | sed -e 's/\.[0-9]\././')"
-        echo "$destdir/$destname"
-    done \
-    | sort -u >"$tmpfile"
-find "$directory" -iname cover\*.\* \
-    | sort -u \
-    | comm -13 "$tmpfile" - \
-    | tr '\n' '\0' \
-    | xargs -0 rm -fv
-
-msg "Removing playlists for re-generation"
-rm -rf "$directory"/_Playlists
+    msg "Removing playlists for re-generation"
+    playlistdir="$(beet get-config alternativesplaylist.playlist_dir)" || :
+    if [ "$playlistdir" = "null" ]; then
+        playlistdir="$(beet get-config playlist.playlist_dir)" || :
+        if [ "$playlistdir" = null ]; then
+            playlistdir=Playlists
+        else
+            # FIXME: get a relative path to the library directory
+            playlistdir="$(basename "$playlistdir")"
+        fi
+    fi
+    rm -rf "$directory/$playlistdir"
+fi
 
 if [ -z "$BEETS_ALT_SKIP_SPL" ]; then
     msg "Updating smart playlists"
