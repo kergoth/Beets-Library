@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if [ $# -eq 0 ]; then
-    set -- Library
-fi
-
-find "$@" -name cover\*.\* | sed -e 's#[^/]*$##' | sort -u | while read -r d; do if [ $(find "$d" -type f -o -type l | grep -v '/cover' | wc -l) -eq 0 ]; then echo "$d"; fi; done
