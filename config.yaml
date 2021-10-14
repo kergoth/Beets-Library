@@ -104,6 +104,7 @@ plugins:
   - info
   - inline
   - lastgenre
+  - lyrics
   - mbsync
   - missing
   - playlist
