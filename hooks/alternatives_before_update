@@ -30,10 +30,10 @@ fi
 if [ -d "$directory" ] || [ -z "${BEETS_ALT_SKIP_SPL:-}" ]; then
     if config_true "alternatives.$alternative.playlists" true && config_true alternativesplaylist.auto true; then
         if [ -d "$directory" ]; then
-            msg "Removing playlists for re-generation"
             playlistdir="$(config_value 'alternativesplaylist.playlist_dir' || config_value 'playlist.playlist_dir' Playlists)"
             playlistdir="$(basename "$playlistdir")"
-            if [ -n "$playlistdir" ]; then
+            if [ -n "$playlistdir" ] && [ -d "$directory/$playlistdir" ]; then
+                msg "Removing playlists for re-generation"
                 rm -rf "$directory/$playlistdir"
             fi
         fi
