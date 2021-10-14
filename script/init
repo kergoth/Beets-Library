@@ -1,4 +1,4 @@
 #!/bin/sh
 
-mkdir -p Library/Playlists Beets/Library/Playlists
+mkdir -p Library/Playlists
 ln -sf Beets/setup-workspace Beets/.envrc Beets/scripts .
