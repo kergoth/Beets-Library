@@ -332,6 +332,14 @@ ignore:
   - System Volume Information
   - lost+found
 
+lastgenre:
+  auto: no
+  force: no
+  prefer_specific: no
+  whitelist: genre-whitelist.txt
+  canonical: genres-tree.yaml
+  source: album
+
 importinspect:
   ignored:
     - day
@@ -367,11 +375,7 @@ importinspect:
     - script
 
 inconsistentalbumtracks:
-  ignored_fields: added genre language r128_album_gain r128_album_peak rg_album_gain rg_album_peak
-
-lastgenre:
-  auto: false
-  force: no
+  ignored_fields: added genre language r128_album_gain r128_album_peak rg_album_gain rg_album_peak original_year
 
 modifyonimport:
   modify_album:
