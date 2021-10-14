@@ -697,18 +697,22 @@ adjust_album:
   'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
   'HGTV / Paste': 'HGTV & Paste'
   # Shorten album length
-  'The Incredible Adventures of Van Helsing': 'Van Helsing'
+  'Command & Conquer: Red Alert': 'Red Alert'
+  'Firefly: Original Television Soundtrack': 'Firefly'
+  'Forrest Gump: The Soundtrack': 'Forrest Gump'
+  'Game of Thrones: Music From the HBO Series': 'Game of Thrones'
+  'Gladiator: Music From the Motion Picture': 'Gladiator'
+  'Indie Game: The Movie (soundtrack)': 'Indie Game: The Movie'
+  'Moana: Original Motion Picture Soundtrack': 'Moana'
+  'Mortal Kombat: Original Motion Picture Soundtrack': 'Mortal Kombat'
+  'O Brother, Where Art Thou? Music From a Film by Joel Coen & Ethan Coen': 'O Brother, Where Art Thou?'
+  'Office Space: Motion Picture Soundtrack': 'Office Space'
   'The Chronicles of Riddick: Assault on Dark Athena': 'Riddick'
   'The Elder Scrolls IV: Morrowind': 'Morrowind'
   'The Elder Scrolls V: Skyrim': 'Skyrim'
-  'Command & Conquer∶ Red Alert': 'Red Alert'
-  # Easier to locate by game name
-  'Sogno di Volare \(Civilization VI Main Theme\)': 'Civilization VI'
+  'The Incredible Adventures of Van Helsing': 'Van Helsing'
   # Add missing # in the series
-  'Quest for Glory: Shadows of Darkness (official soundtrack)': 'Quest for Glory IV: Shadows of Darkness'
-
-adjust_classical_album:
-  ' *[,;/／].*': ''
+  'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV: Shadows of Darkness'
 
 adjust_artist:
   # Deal with non-alphanumeric sort issues when browsing
