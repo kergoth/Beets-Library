@@ -320,6 +320,8 @@ fetchart:
   sources: filesystem coverart itunes amazon albumart
   # Set art_source field
   store_source: true
+  # Prefer higher resolution art
+  high_resolution: true
 
 # Also ignore @eaDir from the Synology NAS
 ignore:
