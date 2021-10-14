@@ -1,6 +1,6 @@
 #!/bin/bash
 
-topdir="$(cd "$(dirname "$0")" && pwd -P)"
+topdir="$(cd "$(dirname "$0")/.." && pwd -P)"
 
 case "${OSTYPE:-}" in
     darwin*)
@@ -27,15 +27,18 @@ git fetch --tags origin
 git fetch origin
 git remote set-url origin "$(cd "$topdir" && git config remote.origin.url)"
 git fetch origin || :
-git checkout -f -b master origin/master
+git checkout -f -b main origin/main
 
-cp "$topdir/.envrc" .
-./script/init
-cp -a "$topdir/Library/library.db" Library/
-cp -a "$topdir/"*_token.json .
-
+cp -a "$topdir/"*.nix "$topdir/nix" .
+for i in .envrc scripts config.yaml config.d hooks plugins; do
+    cp -av "$topdir/$i" .
+done
 sed -i.bak -e '/^ *# - nowrite/s/# //' config.yaml
 rm -f config.yaml.bak
+cp -a "$topdir/"*_token.json .
+mkdir -p Library
+cp -a "$topdir/Library/library.db" Library/
+../script/init
 
 direnv allow
 
