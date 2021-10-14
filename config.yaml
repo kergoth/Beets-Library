@@ -534,7 +534,7 @@ album_fields:
   album_all_genre: items[0].genre if all(item.genre == items[0].genre for item in items) else ''
   album_all_composer: items[0].composer if all(item.composer == items[0].composer for item in items) else ''
 
-  album_genres: "','.join(sorted(set(item.genre for item in items)))"
+  album_genres: "','.join(sorted(set(filter(None, (item.genre for item in items)))))"
 
   # For albums with bpm tags on all their tracks, give us the mean
   average_bpm: |
