@@ -291,7 +291,7 @@ bucket:
     'A - D': ^[0-9a-dA-D…äÄ]
 
 copyartifacts:
-  extensions: .cue .log .jpg .png .txt .pdf .doc .rtf
+  extensions: .cue .log .jpg .png .txt .pdf .doc .rtf .par2
 
 extrafiles:
   patterns:
