@@ -37,26 +37,7 @@ for url in https://github.com/beetbox/beets \
             spec="$spec@$branch"
         fi
     fi
-    # if [ -d plugins ]; then
-    #     name="$(basename "$url")"
-    #     if ! [ -d "plugins/$name" ]; then
-    #         git clone --depth 1 "$url" "plugins/$name"
-    #     fi
-    #     ( cd "plugins/$name" && git checkout "$branch" && git pull )
-    #     spec="plugins/$name"
-    # elif command -v git-get >/dev/null 2>&1; then
-    #     git_get_path="$(git-get "$url" 2>/dev/null)"
-    #     if [ -d "$git_get_path" ]; then
-    #         spec="$git_get_path"
-    #         if [ "$branch" != master ]; then
-    #             ( cd "$git_get_path" && git checkout devel )
-    #         fi
-    #     fi
-    # else
-    #     if [ "$branch" != master ]; then
-    #         spec="$spec@$branch"
-    #     fi
-    # fi
+
     set -- "$@" "$spec"
 done
 
@@ -64,4 +45,3 @@ beets="$1"
 shift
 pipx install -f "$beets"
 pipx inject beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport requests_oauthlib pylast
-#pipx-install -n beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport requests_oauthlib pylast
