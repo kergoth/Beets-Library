@@ -1,8 +1,6 @@
 #!/bin/bash
 # This script identifies the files that will end up in my Single Tracks folder and checks whether I have any other tracks by that artist.
 
-TAB=$'\t'
-
 quote_args() {
     for arg in "$@"; do
         printf "%s\n" "$(quote "$arg")"
