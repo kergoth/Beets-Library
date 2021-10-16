@@ -47,15 +47,7 @@ singletracks() {
 
             eval set -- "$saved"
 
-            # shellcheck disable=SC2154
-            # Avoid duplicate queries
-            if grep -qxF "$artist$TAB$albumartist$TAB$artist_credit$TAB$*" "$cache"; then
-                echo >&2 "Skipping $path"
-                continue
-            fi
-            printf '%s\t%s\t%s\t%s\n' "$artist" "$albumartist" "$artist_credit" "$*" >>"$cache"
-
-            # shellcheck disable=SC2140
+            # shellcheck disable=SC2140,SC2154
             set -- "artist:@$artist" query:sole_track_candidates ^comp:1 ^albumtype:compilation "$@" ${albumartist:+ , "albumartist:@$albumartist" query:sole_track_candidates ^comp:1 ^albumtype:compilation "$@"} ${artist_credit:+ , "artist_credit:@$artist_credit" query:sole_track_candidates ^comp:1 ^albumtype:compilation "$@"}
 
             # printf '> %s\n' "$(quote_args beet ls "$@")" >&2
@@ -66,9 +58,6 @@ singletracks() {
         done
 }
 
-
-cache="$(mktemp -t "${0##*/}.XXXXXX")" || exit 1
-trap 'rm -f "$cache"' EXIT INT TERM
 
 singletracks "$@" query:is_classical ^query:is_christmas
 singletracks "$@" query:is_christmas ^query:is_classical
