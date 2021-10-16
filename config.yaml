@@ -103,7 +103,6 @@ plugins:
   - hook
   - info
   - inline
-  - lastgenre
   - lyrics
   - mbsync
   - missing
@@ -331,14 +330,6 @@ ignore:
   - '*~'
   - System Volume Information
   - lost+found
-
-lastgenre:
-  auto: no
-  force: no
-  prefer_specific: no
-  whitelist: genre-whitelist.txt
-  canonical: genres-tree.yaml
-  source: album
 
 importinspect:
   ignored:
