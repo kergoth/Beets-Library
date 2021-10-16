@@ -524,6 +524,8 @@ album_fields:
               return True
     return False
 
+  album_loved: loved if 'loved' in globals() else False
+
   # This is flagged as a compilation, but all the track artists are the same.
   # Consider setting albumartist instead. This only works when missing:0 at
   # the moment, as I can't get to the list of *available* tracks, only the
@@ -590,7 +592,6 @@ item_fields:
 album_formats:
   # Convenience
   album_id: '$id'
-  album_loved: '%ifdef{loved,$loved}'
 
   # Used in path formats
   if_albumartist_credit: '%if{$albumartist_credit,$albumartist_credit,$albumartist}'
