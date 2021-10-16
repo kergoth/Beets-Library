@@ -14,7 +14,8 @@ for url in https://github.com/beetbox/beets \
            https://github.com/adamjakab/BeetsPluginAutofix \
            https://github.com/adamjakab/BeetsPluginYearFixer \
            https://github.com/phirestalker/beets-musicintegrity \
-           https://github.com/geigerzaehler/beets-check; do
+           https://github.com/geigerzaehler/beets-check \
+           https://github.com/tandy-1000/whatlastgenre@patch-1; do
 
     case "$url" in
         *copyartifacts*)
@@ -27,7 +28,7 @@ for url in https://github.com/beetbox/beets \
 
     spec="git+$url"
     if [ -d plugins ]; then
-        name="$(basename "$url")"
+        name="$(basename "${url%@*}")"
         if [ -d "plugins/$name" ]; then
         ( cd "plugins/$name" && git checkout "$branch" && git pull )
         spec="plugins/$name"

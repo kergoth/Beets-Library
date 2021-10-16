@@ -120,6 +120,7 @@ plugins:
   - bandcamp
   - copyartifacts
   - join_albums
+  - wlg
 
   # My plugins
   # Define beet command aliases, much like you can with git
@@ -403,6 +404,13 @@ playlist:
 
 reimportskipfields:
   set_fields: reimported
+
+wlg:
+    auto: no
+    force: no
+    count: 4
+    separator: ' / '
+    whitelist: wlg
 
 types:
   # Default values
