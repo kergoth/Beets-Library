@@ -29,18 +29,17 @@ fi
 
 if [ -d "$directory" ] || [ -z "${BEETS_ALT_SKIP_SPL:-}" ]; then
     if config_true "alternatives.$alternative.playlists" true && config_true alternativesplaylist.auto true; then
+        if [ -z "${BEETS_ALT_SKIP_SPL:-}" ]; then
+            msg "Updating smart playlists"
+            beet splupdate
+        fi
         if [ -d "$directory" ]; then
             playlistdir="$(config_value 'alternativesplaylist.playlist_dir' || config_value 'playlist.playlist_dir' Playlists)"
             playlistdir="$(basename "$playlistdir")"
             if [ -n "$playlistdir" ] && [ -d "$directory/$playlistdir" ]; then
-                msg "Removing playlists for re-generation"
+                msg "Removing playlists for update"
                 rm -rf "$directory/$playlistdir"
             fi
-        fi
-
-        if [ -z "${BEETS_ALT_SKIP_SPL:-}" ]; then
-            msg "Updating smart playlists"
-            beet splupdate
         fi
     fi
 fi

@@ -18,17 +18,6 @@ if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
     exit 0
 fi
 
-if config_true "alternatives.$alternative.playlists" true && config_true alternativesplaylist.auto true; then
-    playlistdir="$(config_value 'alternativesplaylist.playlist_dir' || config_value 'playlist.playlist_dir' Playlists)"
-    playlistdir="$(basename "$playlistdir")"
-    if [ -n "$playlistdir" ]; then
-        msg "Generating random single tracks playlist"
-        mkdir -p "$directory/$playlistdir"
-        beet random -f '$alt_'"$alternative" -n 999999999 ^alt_"$alternative":^ potential_single_track:true \
-            | sed -e "s#^$directory/#../#" >"$directory/_Playlists/Random Single Tracks.m3u"
-    fi
-fi
-
 msg "Converting symbolic links to relative"
 find "$directory" -type l \
     | while read -r l; do
