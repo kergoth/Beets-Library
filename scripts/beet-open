@@ -37,10 +37,10 @@ nlxargs () {
     tr '\n' '\0' | xargs -0 "$@"
 }
 
-open=open
 # shellcheck disable=SC2039
 case "${OSTYPE:-}" in
     darwin*)
+        open=open
         ;;
     *)
         if command -v xdg-open >/dev/null 2>&1; then
@@ -54,12 +54,18 @@ case "${OSTYPE:-}" in
         ;;
 esac
 
+tmpfile="$(mktemp -t "${0##*/}.XXXXXX")" || exit 1
+trap 'rm -f "$tmpfile"' EXIT INT TERM
+
 # shellcheck disable=SC2016
-beet ls -f '$path' "$@" \
+beet ls -p "$@" \
     | if [ "$reveal" -eq 1 ]; then
         nlxargs -n 1 dirname
     else
         cat
     fi \
-    | sort -u \
-    | ( eval set -- ${open_args:+$open_args}; nlxargs "$open" "$@"; )
+    | awk '!visited[$0]++' >"$tmpfile"
+
+if [ -s "$tmpfile" ]; then
+    cat "$tmpfile" | ( eval set -- ${open_args:+$open_args}; nlxargs "$open" "$@"; )
+fi
