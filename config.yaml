@@ -258,7 +258,8 @@ alias:
     book-not-audiobook: ls genre:book ^albumtype:audiobook
     unknown-source: ls source:Unknown , source:@
     excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
-    red-flags: '!sh -c "(set -x; beet empty-artist; beet empty-album; beet book-not-audiobook; beet unknown-source; beet excess-tracks) | python3 -c \"import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))\""'
+    negative-missing: 'ls -a -f "$missing - $format_album" missing:..-1'
+    red-flags: '!sh -c "(set -x; beet empty-artist; beet empty-album; beet book-not-audiobook; beet unknown-source; beet excess-tracks; beet negative-missing; ) | python3 -c \"import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))\""'
 
     # Potential concerns
     missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" single_track:0 albumtotal:0'
