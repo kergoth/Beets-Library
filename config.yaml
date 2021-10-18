@@ -7,8 +7,8 @@ pluginpath:
 
 per_disc_numbering: true
 id3v23: true
-format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%if{$e_albumadvisory, (Explicit)}'
-format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%if{$e_albumadvisory, (Explicit)} - $disc_and_track_pre}$artist - $full_title'
+format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}'
+format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}} - $disc_and_track_pre}$artist - $full_title'
 
 sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
@@ -597,7 +597,7 @@ album_formats:
   if_albumartist_credit: '%if{$albumartist_credit,$albumartist_credit,$albumartist}'
   comp_albumartist: '%if{$comp,Compilations,$albumartist}'
   albumsdir: '%if{$incomplete,Incomplete }Albums'
-  _albumdir: '%the{%replace{adjust_album,$album%aunique{}%if{$e_albumadvisory, (Explicit)}}}'
+  _albumdir: '%the{%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
   _albumartistdir: '%the{%asciify{%replace{adjust_artist,$comp_albumartist}}}'
 
   # Fallbacks from item fields
