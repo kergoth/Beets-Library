@@ -11,4 +11,5 @@ run_beet() {
     done
     run_beet ls -a genre:soundtrack ^albumtypes:soundtrack ^albumtype:soundtrack "$@"
     run_beet ls -a albumtype::. albumtypes::'^$' "$@"
+    run_beet ls -a needs_album_genre:1 "$@"
 ) | python3 -c "import sys; d=sys.stdin.read(); print(d); sys.exit(bool(d))" >&2
