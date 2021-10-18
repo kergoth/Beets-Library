@@ -691,11 +691,11 @@ alternatives:
       'query:dap_sole_tracks query:dap_classical': '%replace_path{dap_replace,Classical Music/Single Tracks/$artist_title}'
       query:dap_classical: 'Classical Music/%replace_path{dap_replace,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
-      'genre:Chiptune loved:true': 'Loved Chiptune Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'genre:Chiptune album_loved:true': 'Loved Chiptune Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
       'genre:Chiptune query:is_game ^loved:true': 'Chiptune Game Music/%replace_path{dap_replace,%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
       'genre:Chiptune ^loved:true': 'Chiptune Music/%replace_path{dap_replace,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
-      'query:is_game loved:true': 'Loved Game Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:is_game album_loved:true': 'Loved Game Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
       'query:dap_game ^franchise:^': 'Game Music/%replace_path{dap_replace,%bucket{$franchisedir,alpha}/$franchisedir/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
       query:dap_game: 'Game Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
       query:is_game: 'Game Extras/%replace_path{dap_replace,%ifdef{franchise,$franchisedir/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
@@ -706,10 +706,10 @@ alternatives:
       query:dap_loved_single_tracks: 'Loved Single Tracks/%replace_path{dap_replace,$artist_title}'
       query:dap_sole_tracks: 'Single Tracks/%replace_path{dap_replace,$source/$artist_title}'
 
-      'loved:true query:dap_soundtrack': 'Loved Soundtracks/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
+      'album_loved:true query:dap_soundtrack': 'Loved Soundtracks/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
       query:dap_soundtrack: 'Soundtracks/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
 
-      loved:true: 'Loved Albums/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
+      album_loved:true: 'Loved Albums/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
       query:dap_sampler: 'Samplers/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
 
       comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
