@@ -678,43 +678,65 @@ item_queries:
   dap_soundtrack: 'query:is_soundtrack ^query:potential_single_track'
   dap_sampler: 'query:is_sampler ^query:potential_single_track'
 
+  for_single_tracks: 'singleton:true , albumtotal:1 , missing:2..'
+  is_loved: album_loved:true , loved:true query:for_single_tracks
+  is_sole_track: 'playlist:"Sole Tracks"'
+
+  # Categories
+  to_listen: 'to_listen:true'
+  non_music: 'genre:meditation , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
+  by_label: 'label:"Music for Programming"'
+  chiptune_game_music: 'genre:chiptune query:dap_game'
+  chiptune_game_extras: 'genre:chiptune query:is_game'
+  chiptune_music: 'genre:chiptune'
+  christmas_sole_tracks: 'genre:Christmas query:is_sole_track'
+  christmas: 'genre:christmas'
+  classical_sole_tracks: 'genre:classical query:is_sole_track'
+  classical: 'genre:classical ^query:is_soundtrack'
+  # These have their 'Single Tracks' placed in with regular Music.
+  soundtrack: 'query:is_soundtrack ^query:for_single_tracks'
+  sampler: 'query:is_sampler ^query:for_single_tracks'
+
+  loved_chiptunes: 'query:is_loved genre:chiptune'
+  loved_game_music: 'query:is_loved query:is_game'
+
 alternatives:
   dap:
     directory: '../DAP'
     formats: link
     query: ^disliked:true ^userrating:0
     paths:
-      to_listen:true: 'To Listen/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      to_listen:true: 'To Listen/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
 
-      query:is_non_music: 'Non-Music/%replace_path{dap_replace,$genre/$albumartistdir/$dap_albumdir/$comp_filename}'
-      query:is_mfp: 'Music/%bucket{$label,alpha}/%replace_path{dap_replace,$label/$full_title}'
+      query:is_non_music: 'Non-Music/%replace_path{adjust_dap,$genre/$albumartistdir/$dap_albumdir/$comp_filename}'
+      query:is_mfp: 'Music/%bucket{$label,alpha}/%replace_path{adjust_dap,$label/$full_title}'
 
-      'query:dap_sole_tracks query:dap_classical': '%replace_path{dap_replace,Classical Music/Single Tracks/$artist_title}'
-      query:dap_classical: 'Classical Music/%replace_path{dap_replace,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
+      'query:dap_sole_tracks query:dap_classical': '%replace_path{adjust_dap,Classical Music/Single Tracks/$artist_title}'
+      query:dap_classical: 'Classical Music/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
-      'genre:Chiptune album_loved:true': 'Loved Chiptune Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      'genre:Chiptune query:is_game ^loved:true': 'Chiptune Game Music/%replace_path{dap_replace,%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
-      'genre:Chiptune ^loved:true': 'Chiptune Music/%replace_path{dap_replace,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
+      'genre:Chiptune album_loved:true': 'Loved Chiptune Music/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'genre:Chiptune query:is_game ^loved:true': 'Chiptune Game Music/%replace_path{adjust_dap,%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
+      'genre:Chiptune ^loved:true': 'Chiptune Music/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
-      'query:is_game album_loved:true': 'Loved Game Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      'query:dap_game ^franchise:^': 'Game Music/%replace_path{dap_replace,%bucket{$franchisedir,alpha}/$franchisedir/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      query:dap_game: 'Game Music/%replace_path{dap_replace,%if{$potential_single_track,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
-      query:is_game: 'Game Extras/%replace_path{dap_replace,%ifdef{franchise,$franchisedir/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:is_game album_loved:true': 'Loved Game Music/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:dap_game ^franchise:^': 'Game Music/%replace_path{adjust_dap,%bucket{$franchisedir,alpha}/$franchisedir/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      query:dap_game: 'Game Music/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
+      query:is_game: 'Game Extras/%replace_path{adjust_dap,%ifdef{franchise,$franchisedir/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
 
-      'query:dap_sole_tracks query:is_christmas': 'Christmas Music/%replace_path{dap_replace,Single Tracks/$artist_title}'
-      query:is_christmas: 'Christmas Music/%replace_path{dap_replace,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
+      'query:dap_sole_tracks query:is_christmas': 'Christmas Music/%replace_path{adjust_dap,Single Tracks/$artist_title}'
+      query:is_christmas: 'Christmas Music/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
-      query:dap_loved_single_tracks: 'Loved Single Tracks/%replace_path{dap_replace,$artist_title}'
-      query:dap_sole_tracks: 'Single Tracks/%replace_path{dap_replace,$source/$artist_title}'
+      query:dap_loved_single_tracks: 'Loved Single Tracks/%replace_path{adjust_dap,$artist_title}'
+      query:dap_sole_tracks: 'Single Tracks/%replace_path{adjust_dap,$source/$artist_title}'
 
-      'album_loved:true query:dap_soundtrack': 'Loved Soundtracks/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
-      query:dap_soundtrack: 'Soundtracks/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
+      'album_loved:true query:dap_soundtrack': 'Loved Soundtracks/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
+      query:dap_soundtrack: 'Soundtracks/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
 
-      album_loved:true: 'Loved Albums/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
-      query:dap_sampler: 'Samplers/%replace_path{dap_replace,$dap_albumdir/$comp_filename}'
+      album_loved:true: 'Loved Albums/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
+      query:dap_sampler: 'Samplers/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
 
-      comp:1: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
-      default: '%replace_path{dap_replace,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
+      comp:1: '%replace_path{adjust_dap,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
+      default: '%replace_path{adjust_dap,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
 
 adjust_franchise:
   'The Legend of Zelda': 'Zelda'
@@ -771,7 +793,7 @@ adjust_artist:
   'Stafford Bawler + Todd Baker': 'Stafford Bawler'
 
 # These replacements improve the visuals and navigation on the media player
-dap_replace:
+adjust_dap:
   # Marks I don't care about
   ' *[™®©](?![a-zA-Z])': ''
 
