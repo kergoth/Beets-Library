@@ -4,6 +4,7 @@ statefile: Library/state.pickle
 pluginpath:
   - ./plugins
   - ./plugins/beets-kergoth/beetsplug
+  - ./plugins/whatlastgenre/plugin/beets/beetsplug
 
 per_disc_numbering: true
 id3v23: true
