@@ -9,8 +9,10 @@ if [ -n "$(beet ls -a last_import:1)" ] || [ -n "$(beet ls singleton:true last_i
     echo >&2 "Extracting any embedded album art if needed"
     beet extractart -a last_import:1 "artpath:^" >/dev/null 2>&1
 
-    echo >&2 "Savings comments.txt if set"
-    beet-export-album-comments last_import:1
+    if [ -n "$(beet ls -a last_import:1 comments::.)" ]; then
+        echo >&2 "Exporting album comments to comments.txt in album folder"
+        beet-export-album-comments last_import:1
+    fi
 
     echo >&2 "Checking for red flags"
     beet-check-sanity last_import:1
