@@ -38,6 +38,7 @@ rm -f config.yaml.bak
 cp -a "$topdir/"*_token.json .
 mkdir -p Library
 cp -a "$topdir/Library/library.db" Library/
+cp -a "$topdir/Library/Playlists/." Library/Playlists/
 ../script/init
 
 direnv allow
