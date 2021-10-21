@@ -783,6 +783,8 @@ adjust_album:
   'Computec Edition Vol. 1': 'Computec Edition, Vol. 1'
   'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
   'HGTV / Paste': 'HGTV & Paste'
+  # Add missing # in the series
+  'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV: Shadows of Darkness'
   # Shorten album length
   'Command & Conquer∶ Red Alert': 'Red Alert'
   'Command & Conquer: Red Alert': 'Red Alert'
@@ -799,8 +801,7 @@ adjust_album:
   'The Elder Scrolls IV: Morrowind': 'Morrowind'
   'The Elder Scrolls V: Skyrim': 'Skyrim'
   'The Incredible Adventures of Van Helsing': 'Van Helsing'
-  # Add missing # in the series
-  'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV: Shadows of Darkness'
+  'Quest for Glory IV: Shadows of Darkness': 'Quest for Glory IV'
 
 adjust_artist:
   # Deal with non-alphanumeric sort issues when browsing
