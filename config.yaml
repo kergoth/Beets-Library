@@ -671,10 +671,6 @@ item_formats:
   e_data_source: '%ifdef{data_source}'
   e_loved: '%ifdef{loved,$loved,false}'
 
-  # alternatives
-  alt_dap: '%ifdef{alt.dap}'
-  alt_testdap: '%ifdef{alt.testdap}'
-
   # Like albumdir, but uses Single Tracks rather than [non-album tracks]
   dap_albumdir: '%if{$album,$_albumdir,Single Tracks}'
   gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
