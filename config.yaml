@@ -709,28 +709,6 @@ item_queries:
   dap_soundtrack: 'query:is_soundtrack ^query:potential_single_track'
   dap_sampler: 'query:is_sampler ^query:potential_single_track'
 
-  for_single_tracks: 'singleton:true , albumtotal:1 , missing:2..'
-  is_loved: album_loved:true , loved:true query:for_single_tracks
-  is_sole_track: 'playlist:"Sole Tracks"'
-
-  # Categories
-  to_listen: 'to_listen:true'
-  non_music: 'genre:meditation , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
-  by_label: 'label:"Music for Programming"'
-  chiptune_game_music: 'genre:chiptune query:dap_game'
-  chiptune_game_extras: 'genre:chiptune query:is_game'
-  chiptune_music: 'genre:chiptune'
-  christmas_sole_tracks: 'genre:Christmas query:is_sole_track'
-  christmas: 'genre:christmas'
-  classical_sole_tracks: 'genre:classical query:is_sole_track'
-  classical: 'genre:classical ^query:is_soundtrack'
-  # These have their 'Single Tracks' placed in with regular Music.
-  soundtrack: 'query:is_soundtrack ^query:for_single_tracks'
-  sampler: 'query:is_sampler ^query:for_single_tracks'
-
-  loved_chiptunes: 'query:is_loved genre:chiptune'
-  loved_game_music: 'query:is_loved query:is_game'
-
 alternatives:
   dap:
     directory: '../DAP'
