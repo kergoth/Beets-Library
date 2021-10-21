@@ -1,0 +1,8 @@
+#!/bin/sh
+
+id="$1"
+
+echo >&2 "Generating par2 files"
+beet -p musicintegrity par2create id:"$id" 2>/dev/null
+
+beet ls -p id:"$id"

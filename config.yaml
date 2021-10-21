@@ -143,6 +143,8 @@ plugins:
   - importinspect
   # Identify albums whose tracks have inconsistent album fields
   - inconsistentalbumtracks
+  # Run inline python on events
+  - inlinehook
   # Keep track of the most recently imported items, useful in hooks
   - last_import
   # Modify fields in imported items
@@ -185,10 +187,14 @@ hookscripts:
   hooks:
     - alternatives_before_update
     - alternatives_after_update
-    - import
+    - album_imported
+    - item_imported
   args:
     alternatives_before_update: 'alternative.name, alternative.directory'
     alternatives_after_update: 'alternative.name, alternative.directory'
+    album_imported: 'str(album.id)'
+    item_imported: 'str(item.id)'
+    # Unused
     import: '*paths'
 
 acousticbrainz:
@@ -455,6 +461,36 @@ zero:
   fields: month day original_month original_day comments
   comments: [EAC, LAME]
   update_database: true
+
+inlinehook:
+  hooks:
+    - event: 'album_imported'
+      handler: |
+        from beets.ui import UserError, log
+
+        log.info(f'Running sanity checks on album {album}')
+
+        items = album.items()
+        if not album.albumtotal:
+          log.warning(f'No track total found for {album}')
+        elif len(items) > album.albumtotal:
+          log.warning(f'Excess items ({len(items)} > {album.albumtotal}) for {album}')
+
+        for item in items:
+          if not item.artist:
+            log.warning(f'Artist not set for {item}')
+          if item.genre.lower() == 'book' and 'audiobook' not in item.albumtypes:
+            log.warning(f'Genre is `book`, but `albumtypes` does not include `audiobook` for {item}')
+
+    - event: 'item_imported'
+      handler: |
+        from beets.ui import UserError, log
+
+        log.info(f'Running sanity checks on item {item}')
+
+        if not item.artist:
+          log.warning(f'Artist not set for {item}')
+
 
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
