@@ -255,8 +255,8 @@ alias:
     high-res: albums-for samplerate:96000..
 
     # Show incomplete albums, skipping any albums where I only have one track
-    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1.. \^query:is_game single_track:0'
-    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. single_track:0 query:is_game'
+    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1.. \^query:is_game one_track:0'
+    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. one_track:0 query:is_game'
 
     # Red flags
     empty-artist: ls artist:@
@@ -439,7 +439,7 @@ types:
   all_same_genres: bool
   multiartist: bool
   multidisc: bool
-  single_track: bool
+  one_track: bool
   potential_single_track: bool
   average_bpm: int
 
@@ -544,7 +544,7 @@ album_fields:
     discs = sorted(set(i.disc for i in items if i.disc))
     return ','.join(str(d) for d in discs)
 
-  single_track: len(items) == 1
+  one_track: len(items) == 1
 
   multidisc: disctotal > 1
   # Let me search for albums that may be a compilation but aren't flagged
