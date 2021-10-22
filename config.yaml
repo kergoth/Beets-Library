@@ -688,6 +688,7 @@ album_formats:
   # Deal with undefined values for queries
   e_albumadvisory: '%ifdef{albumadvisory,$albumadvisory,0}'
   e_data_source: '%ifdef{data_source}'
+  e_loved: '%ifdef{loved,$loved,false}'
 
 item_formats:
   # Used in path formats
