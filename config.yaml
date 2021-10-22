@@ -171,13 +171,6 @@ plugins:
   # Clear fields in albums in the database, obeying the 'zero' plugin configuration.
   - zeroalbum
 
-  # - autofix
-  # - check
-  # - describe
-  # - musicintegrity
-  # - xtractor
-  # - yearfixer
-
 hookscripts:
   hookspath:
     - '../hooks'
