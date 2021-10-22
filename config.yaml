@@ -492,6 +492,37 @@ inlinehook:
         if not item.artist:
           log.warning(f'Artist not set for {item}')
 
+album_queries:
+  # This is used both in an alias command and an import hook
+  is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
+
+item_queries:
+  is_music: '^query:is_non_music'
+  is_complete: 'incomplete:0'
+  is_single: 'albumtypes:single'
+  is_live: 'albumtypes:live'
+
+  type_soundtrack: 'albumtypes:soundtrack'
+
+  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
+  is_sampler: 'albumtypes:sampler , album:sampler'
+  is_christmas: 'genre:Christmas'
+  is_classical: 'genre:Classical'
+  is_game: '^game:^ , ^franchise:^ , genre:game ^query:is_sampler'
+  is_soundtrack: 'query:type_soundtrack , genre:soundtrack ^query:is_sampler'
+  is_mfp: 'label:"Music for Programming"'
+  is_ocremix: 'label:"OverClocked ReMix"'
+
+  potential_single_track: 'singleton:true , single_track:true'
+  sole_track_candidates: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_game'
+
+  dap_classical: 'query:is_classical ^loved:true ^composer:"Christopher Tin" ^query:is_game ^query:is_sampler ^query:is_soundtrack'
+  dap_game: '^game:^ , ^franchise:^ , query:type_soundtrack query:is_game'
+  dap_game_extra: '^query:type_soundtrack query:is_game'
+  dap_loved_single_tracks: 'playlist:Loved query:potential_single_track'
+  dap_sole_tracks: 'playlist:"Sole Tracks"'
+  dap_soundtrack: 'query:is_soundtrack ^query:potential_single_track'
+  dap_sampler: 'query:is_sampler ^query:potential_single_track'
 
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
@@ -681,38 +712,6 @@ item_formats:
   gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
   game_albumdir: '%ifdef{game,$gamedir,$dap_albumdir}'
   franchisedir: '%the{%replace{adjust_franchise,$franchise}}'
-
-album_queries:
-  # This is used both in an alias command and an import hook
-  is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
-
-item_queries:
-  is_music: '^query:is_non_music'
-  is_complete: 'incomplete:0'
-  is_single: 'albumtypes:single'
-  is_live: 'albumtypes:live'
-
-  type_soundtrack: 'albumtypes:soundtrack'
-
-  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
-  is_sampler: 'albumtypes:sampler , album:sampler'
-  is_christmas: 'genre:Christmas'
-  is_classical: 'genre:Classical'
-  is_game: '^game:^ , ^franchise:^ , genre:game ^query:is_sampler'
-  is_soundtrack: 'query:type_soundtrack , genre:soundtrack ^query:is_sampler'
-  is_mfp: 'label:"Music for Programming"'
-  is_ocremix: 'label:"OverClocked ReMix"'
-
-  potential_single_track: 'singleton:true , single_track:true'
-  sole_track_candidates: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_game'
-
-  dap_classical: 'query:is_classical ^loved:true ^composer:"Christopher Tin" ^query:is_game ^query:is_sampler ^query:is_soundtrack'
-  dap_game: '^game:^ , ^franchise:^ , query:type_soundtrack query:is_game'
-  dap_game_extra: '^query:type_soundtrack query:is_game'
-  dap_loved_single_tracks: 'playlist:Loved query:potential_single_track'
-  dap_sole_tracks: 'playlist:"Sole Tracks"'
-  dap_soundtrack: 'query:is_soundtrack ^query:potential_single_track'
-  dap_sampler: 'query:is_sampler ^query:potential_single_track'
 
 alternatives:
   dap:
