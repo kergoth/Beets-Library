@@ -156,8 +156,6 @@ plugins:
   # - nowrite
   # % prefix for non-NULL/non-None
   - otherqueries
-  # Lets you query items whose albums match a sub-query
-  - crossquery
   # Prompt choice to launch picard when importing
   - picard
   # Allow certain set_fields to apply to skipped items on reimport
