@@ -251,7 +251,7 @@ alias:
 
     music: ls \^query:is_non_music
     singletons: ls singleton:true
-    complete: ls -a incomplete:0
+    complete: ls -a missing:0
     high-res: albums-for samplerate:96000..
 
     # Show incomplete albums, skipping any albums where I only have one track
@@ -274,7 +274,7 @@ alias:
     # Informative
     non-mb-albums: ls -a mb_albumid:@
     possible-singles: ls -a albumtotal:1 albumtypes::'^(|other)$'
-    possible-not-comp: ls -a comp:1 incomplete:0 is_comp_same_artists:1
+    possible-not-comp: ls -a comp:1 missing:0 is_comp_same_artists:1
     # These are often not an issue, just albums which feature multiple
     # artists, but aren't compilations. Cases where the album artist is the
     # producer, cases where there are featuring artist, etc.
@@ -441,7 +441,6 @@ types:
   multidisc: bool
   single_track: bool
   potential_single_track: bool
-  incomplete: bool
   average_bpm: int
 
   # Item inline and format fields
@@ -550,48 +549,6 @@ album_fields:
   multidisc: disctotal > 1
   # Let me search for albums that may be a compilation but aren't flagged
   multiartist: not bool(all(item.artist == items[0].artist for item in items))
-
-  # Heuristic based approach to determining whether an album is incomplete. If
-  # we have tracktotals, then we can take the naive approach, but if not, we
-  # can assume that if the # of tracks is less than the highest track number,
-  # this is an incomplete album. For example, an album with a single track
-  # whose track number is 9, we can assume it's incomplete.
-  #
-  # This is needed as the `missing` plugin gives a negative value for any
-  # album lacking tracktotal.
-  incomplete: |
-    from beets import config
-
-    per_disc = config['per_disc_numbering'].get(bool)
-    if per_disc:
-      from itertools import groupby
-      def keyfunc(i):
-        return i.disc or 1
-      grouped = groupby(sorted(items, key=keyfunc), keyfunc)
-      by_disc = dict((k, list(v)) for k, v in grouped)
-    else:
-      by_disc = {1: items}
-
-    for disc, disc_items in by_disc.items():
-      tracktotal = disc_items[0].tracktotal
-      if tracktotal:
-        if (tracktotal - len(disc_items)) > 0:
-          return True
-      else:
-        # Lacking tracktotals, the best we can do is make some assumptions
-        # based on the track numbers. If we have a single track 9, clearly
-        # tracks 1 through 8 are missing.
-        tracknumbers = [item.track for item in disc_items]
-        highest = max(tracknumbers)
-        if highest:
-          existing = len(disc_items)
-          if highest != existing:
-            return True
-          else:
-            tracknumbers.sort()
-            if tracknumbers != list(range(1, highest+1)):
-              return True
-    return False
 
   album_loved: loved if 'loved' in globals() else False
   album_composer: composer if 'composer' in globals() else False
