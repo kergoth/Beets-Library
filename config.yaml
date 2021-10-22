@@ -381,7 +381,7 @@ modifyonimport:
     # Sane default for albumartist_sort
     'albumartist_sort::"^$" albumartist::"^The "': 'albumartist_sort=%the{$albumartist}'
     # Likely a single
-    # 'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single albumtypes=$single_albumtypes'
+    'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single albumtypes=$single_albumtypes'
     # 'Various Artists' albums not flagged as compilations
     'album_query:is_various_not_comp': 'comp=1'
     # Genre
