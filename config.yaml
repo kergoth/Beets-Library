@@ -496,7 +496,7 @@ album_queries:
 
 item_queries:
   is_music: '^query:is_non_music'
-  is_complete: 'incomplete:0'
+  is_complete: 'missing:0'
   is_single: 'albumtypes:single'
   is_live: 'albumtypes:live'
 
@@ -633,7 +633,7 @@ album_formats:
   # Used in path formats
   if_albumartist_credit: '%if{$albumartist_credit,$albumartist_credit,$albumartist}'
   comp_albumartist: '%if{$comp,Compilations,$albumartist}'
-  albumsdir: '%if{$incomplete,Incomplete }Albums'
+  albumsdir: '%if{$missing,Incomplete }Albums'
   _albumdir: '%the{%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
   _albumartistdir: '%the{%asciify{%replace{adjust_artist,$comp_albumartist}}}'
 
