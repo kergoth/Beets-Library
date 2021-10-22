@@ -564,6 +564,7 @@ album_fields:
     return False
 
   album_loved: loved if 'loved' in globals() else False
+  album_composer: composer if 'composer' in globals() else False
 
   # This is flagged as a compilation, but all the track artists are the same.
   # Consider setting albumartist instead. This only works when missing:0 at
