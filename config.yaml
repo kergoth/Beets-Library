@@ -182,7 +182,6 @@ plugins:
 
 hookscripts:
   hookspath:
-    - 'hooks'
     - '../hooks'
   hooks:
     - alternatives_before_update
