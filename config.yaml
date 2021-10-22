@@ -262,7 +262,7 @@ alias:
     # Red flags
     empty-artist: ls artist:@
     empty-album: ls album:@ singleton:false
-    book-not-audiobook: ls genre:book ^albumtype:audiobook
+    book-not-audiobook: ls genre:book ^albumtypes:audiobook
     unknown-source: ls source:Unknown , source:@
     excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
     negative-missing: 'ls -a -f "$missing - $format_album" missing:..-1'
@@ -274,7 +274,7 @@ alias:
 
     # Informative
     non-mb-albums: ls -a mb_albumid:@
-    possible-singles: ls -a albumtotal:1 albumtype::'^(|other)$'
+    possible-singles: ls -a albumtotal:1 albumtypes::'^(|other)$'
     possible-not-comp: ls -a comp:1 incomplete:0 is_comp_same_artists:1
     # These are often not an issue, just albums which feature multiple
     # artists, but aren't compilations. Cases where the album artist is the
@@ -627,6 +627,8 @@ item_fields:
       return ''
 
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
+
+  # Used by modifyonimport rules
   single_albumtypes: |
     if 'albumtypes' in globals():
       types = [t.strip() for t in albumtypes.split(';')]
@@ -687,13 +689,13 @@ album_queries:
 item_queries:
   is_music: '^query:is_non_music'
   is_complete: 'incomplete:0'
-  is_single: 'albumtype:single , albumtypes:single'
-  is_live: 'albumtype:live , albumtypes:live'
+  is_single: 'albumtypes:single'
+  is_live: 'albumtypes:live'
 
-  type_soundtrack: 'albumtype:soundtrack , albumtypes:soundtrack'
+  type_soundtrack: 'albumtypes:soundtrack'
 
-  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtype:spokenword , albumtype:audiobook , albumtype:"audio drama" , albumtype:interview , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
-  is_sampler: 'albumtype:sampler , albumtypes:sampler , album:sampler'
+  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
+  is_sampler: 'albumtypes:sampler , album:sampler'
   is_christmas: 'genre:Christmas'
   is_classical: 'genre:Classical'
   is_game: '^game:^ , ^franchise:^ , genre:game ^query:is_sampler'
