@@ -4,15 +4,15 @@ dbfile="$(mktemp -t "${0##*/}.XXXXXX")" || exit 1
 diskfile="$(mktemp -t "${0##*/}.XXXXXX")" || exit 1
 trap 'rm -f "$dbfile" "$diskfile"' EXIT INT TERM
 
+export LC_ALL=C
+
 (
     beet ls -f '$path'
     beet ls -f '$artpath'
 ) \
-    | tr '[:upper:]' '[:lower:]' \
-    | sort >"$dbfile"
+    | sort -f >"$dbfile"
 find "$PWD/Library" -type f \
-    | grep -Ev '\.DS_Store|state\.pickle|library\.db|import\.log|\.cue|\.log' \
-    | tr '[:upper:]' '[:lower:]' \
-    | sort >"$diskfile"
+    | grep -iEv '\.DS_Store|state\.pickle|library\.db|import\.log|\.cue|\.log|\.par2|/Playlists/' \
+    | sort -f >"$diskfile"
 touch "$diskfile"
-comm -13 "$dbfile" "$diskfile"
+comm -i13 "$dbfile" "$diskfile"
