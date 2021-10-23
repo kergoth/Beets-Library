@@ -666,7 +666,7 @@ alternatives:
   dap:
     directory: '../DAP'
     formats: link
-    query: ^disliked:true ^userrating:0
+    query: ^disliked:true
     paths:
       to_listen:true: 'To Listen/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
 
