@@ -441,6 +441,7 @@ types:
   #franchise: string
   #game: string
   #gamedisambig: string
+  disliked: bool
   loved: bool
   to_listen: bool
 
