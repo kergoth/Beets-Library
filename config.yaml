@@ -445,6 +445,11 @@ types:
   loved: bool
   to_listen: bool
 
+  # These are essentially set as cached values, to speed up path formats
+  incomplete: bool
+  single_track: bool
+  sole_track: bool
+
   ## set_fields
   reimported: bool
 
