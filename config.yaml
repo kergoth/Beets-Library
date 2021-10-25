@@ -488,6 +488,10 @@ inlinehook:
           log.warning(f'Artist not set for {item}')
 
 album_queries:
+  is_game: '^game:^ , ^franchise:^ , genre:game ^album_query:is_sampler'
+  is_sampler: 'albumtypes:sampler , album:sampler'
+  is_incomplete_album: 'album_query:is_game missing:2.. , ^album_query:is_game missing:1..'
+
   # This is used both in an alias command and an import hook
   is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
 
