@@ -691,9 +691,9 @@ alternatives:
       'genre:Chiptune ^loved:true': 'Chiptune Music/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
       'query:is_game album_loved:true': 'Loved/Games/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      'query:dap_game ^franchise:^': 'Game Music/%replace_path{adjust_dap,%bucket{$franchisedir,alpha}/$franchisedir/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      query:dap_game: 'Game Music/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
-      query:is_game: 'Game Extras/%replace_path{adjust_dap,%ifdef{franchise,$franchisedir/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:dap_game ^franchise:^': 'Games/%replace_path{adjust_dap,%bucket{$franchisedir,alpha}/$franchisedir/%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      query:dap_game: 'Games/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
+      query:is_game: 'Games/Extras/%replace_path{adjust_dap,%ifdef{franchise,$franchisedir/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
 
       'query:dap_sole_tracks query:is_christmas': 'Christmas Music/%replace_path{adjust_dap,Single Tracks/$artist_title}'
       query:is_christmas: 'Christmas Music/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
