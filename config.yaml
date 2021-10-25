@@ -124,6 +124,7 @@ plugins:
   - wlg
 
   # My plugins
+  - crossquery
   # Define beet command aliases, much like you can with git
   - alias
   # Write playlists to the alternatives
