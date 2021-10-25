@@ -670,7 +670,7 @@ item_formats:
   dap_albumdir: '%if{$album,$_albumdir,Single Tracks}'
   gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
   game_albumdir: '%ifdef{game,$gamedir,$dap_albumdir}'
-  franchisedir: '%the{%replace{adjust_franchise,$franchise}}'
+  franchisedir: '%the{%replace{adjust_franchise,$franchise Franchise}}'
 
 alternatives:
   dap:
