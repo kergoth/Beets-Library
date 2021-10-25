@@ -124,13 +124,14 @@ plugins:
   - wlg
 
   # My plugins
-  - crossquery
   # Define beet command aliases, much like you can with git
   - alias
   # Write playlists to the alternatives
   - alternativesplaylist
   # Set 'advisory' and 'albumadvisory' fields on import based on 'itunesadvisory'
   - advisory
+  # Query albums/items whose items/album match a sub-query.
+  - crossquery
   # Define format strings for the default list formats, format_album and format_item.
   - defaultformats
   # Named queries and query prefixes from the Beets source. 'any:', @ prefix
@@ -146,8 +147,6 @@ plugins:
   - inconsistentalbumtracks
   # Run inline python on events
   - inlinehook
-  # Keep track of the most recently imported items, useful in hooks
-  - last_import
   # Modify fields in imported items
   - modifyonimport
   # Modify fields with formats/templates
