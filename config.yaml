@@ -518,8 +518,8 @@ item_queries:
   dap_classical: 'query:is_classical ^loved:true ^composer:"Christopher Tin" ^query:is_game ^query:is_sampler ^query:is_soundtrack'
   dap_game: '^game:^ , ^franchise:^ , query:type_soundtrack query:is_game'
   dap_game_extra: '^query:type_soundtrack query:is_game'
-  dap_loved_single_tracks: 'playlist:Loved query:potential_single_track'
-  dap_sole_tracks: 'playlist:"Sole Tracks"'
+  dap_loved_single_tracks: 'loved:true query:potential_single_track'
+  dap_sole_tracks: 'sole_track:true'
   dap_soundtrack: 'query:is_soundtrack ^query:potential_single_track'
   dap_sampler: 'query:is_sampler ^query:potential_single_track'
 
