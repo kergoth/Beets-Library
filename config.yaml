@@ -513,7 +513,7 @@ item_queries:
   is_soundtrack: 'query:type_soundtrack , genre:soundtrack ^query:is_sampler'
   is_mfp: 'label:"Music for Programming"'
   is_ocremix: 'label:"OverClocked ReMix"'
-
+  is_sole_track: 'sole_track:true'
   potential_single_track: 'singleton:true , single_track:true'
   sole_track_candidates: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_game'
 
@@ -521,7 +521,6 @@ item_queries:
   dap_game: '^game:^ , ^franchise:^ , query:type_soundtrack query:is_game'
   dap_game_extra: '^query:type_soundtrack query:is_game'
   dap_loved_single_tracks: 'loved:true query:potential_single_track'
-  dap_sole_tracks: 'sole_track:true'
   dap_soundtrack: 'query:is_soundtrack ^query:potential_single_track'
   dap_sampler: 'query:is_sampler ^query:potential_single_track'
 
@@ -685,7 +684,7 @@ alternatives:
       query:is_non_music: 'Non-Music/%replace_path{adjust_dap,$genre/$albumartistdir/$dap_albumdir/$comp_filename}'
       query:is_mfp: 'Music/%bucket{$label,alpha}/%replace_path{adjust_dap,$label/$full_title}'
 
-      'query:dap_sole_tracks query:dap_classical': '%replace_path{adjust_dap,Classical/Single Tracks/$artist_title}'
+      'query:is_sole_track query:dap_classical': '%replace_path{adjust_dap,Classical/Single Tracks/$artist_title}'
       query:dap_classical: 'Classical/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
       'genre:Chiptune album_loved:true': 'Loved/Chiptunes/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
@@ -697,11 +696,11 @@ alternatives:
       query:dap_game: 'Games/%replace_path{adjust_dap,%if{$potential_single_track,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
       query:is_game: 'Games/Extras/%replace_path{adjust_dap,%ifdef{franchise,$franchisedir/}%if{$potential_single_track,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
 
-      'query:dap_sole_tracks query:is_christmas': 'Christmas/%replace_path{adjust_dap,Single Tracks/$artist_title}'
+      'query:is_sole_track query:is_christmas': 'Christmas/%replace_path{adjust_dap,Single Tracks/$artist_title}'
       query:is_christmas: 'Christmas/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
       query:dap_loved_single_tracks: 'Loved/Single Tracks/%replace_path{adjust_dap,$artist_title}'
-      query:dap_sole_tracks: 'Music/Single Tracks/%replace_path{adjust_dap,$source/$artist_title}'
+      query:is_sole_track: 'Music/Single Tracks/%replace_path{adjust_dap,$source/$artist_title}'
 
       'album_loved:true query:dap_soundtrack': 'Loved/Soundtracks/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
       query:dap_soundtrack: 'Soundtracks/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
