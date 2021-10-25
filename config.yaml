@@ -156,6 +156,8 @@ plugins:
   # - nowrite
   # % prefix for non-NULL/non-None
   - otherqueries
+  # Add template functions for working with paths via fields.
+  - pathfield
   # Prompt choice to launch picard when importing
   - picard
   # Allow certain set_fields to apply to skipped items on reimport
