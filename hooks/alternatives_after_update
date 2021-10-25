@@ -18,15 +18,6 @@ if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
     exit 0
 fi
 
-msg "Converting symbolic links to relative"
-find "$directory" -type l \
-    | while read -r l; do
-        if [ -e "$l" ]; then
-            target="$(realpath "$l")"
-            ln -fs "$(realpath --relative-to="$(dirname "$(realpath -s "$l")")" "$target")" "$l"
-        fi
-    done
-
 if [ -z "${BEETS_ALT_SKIP_COVERS:-}" ]; then
     msg "Updating/converting covers"
     "$(dirname "$0")/../scripts/update-alternative-covers" "$alternative" "$directory"
