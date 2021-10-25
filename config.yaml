@@ -649,28 +649,29 @@ album_formats:
   e_loved: '%ifdef{loved,$loved,false}'
 
 item_formats:
-  # Used in path formats
-  artist_title: '%the{$path_artist} - $full_title'
-  albumdir: '%if{$album,$_albumdir,[non-album tracks]}'
-  albumartistdir: '%if{$album,$_albumartistdir,$path_artist}'
-  artistdir: '%the{$path_artist}'
-  path_artist: '%asciify{%replace{adjust_artist,$artist}}'
-  full_title: '$title%if{$e_advisory,$explicit_or_clean}'
-  comp_filename: '%if{$album,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
-  # Unasciified, credited artist
-  path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
-
   # Deal with undefined values for queries. This lets me do ls e_advisory:0,
   # instead of having to check for advisory:@.
   e_advisory: '%ifdef{advisory,$advisory,0}'
   e_data_source: '%ifdef{data_source}'
   e_loved: '%ifdef{loved,$loved,false}'
 
-  # Like albumdir, but uses Single Tracks rather than [non-album tracks]
+  # Unasciified, credited artist
+  path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
+
+  # Path format components
+  artist_title: '%the{$path_artist} - $full_title'
+  path_artist: '%asciify{%replace{adjust_artist,$artist}}'
+  full_title: '$title%if{$e_advisory,$explicit_or_clean}'
+  comp_filename: '%if{$album,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
+
+  # Directories
+  franchisedir: '%the{%replace{adjust_franchise,$franchise Franchise}}'
+  albumartistdir: '%if{$album,$_albumartistdir,$path_artist}'
+  artistdir: '%the{$path_artist}'
+  albumdir: '%if{$album,$_albumdir,[non-album tracks]}'
   dap_albumdir: '%if{$album,$_albumdir,Single Tracks}'
   gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
   game_albumdir: '%ifdef{game,$gamedir,$dap_albumdir}'
-  franchisedir: '%the{%replace{adjust_franchise,$franchise Franchise}}'
 
 alternatives:
   dap:
