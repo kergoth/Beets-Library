@@ -699,7 +699,7 @@ alternatives:
       query:is_christmas: 'Christmas Music/%replace_path{adjust_dap,%if{$potential_single_track,$artistdir/Single Tracks/$full_title,$albumartistdir/$dap_albumdir/$comp_filename}}'
 
       query:dap_loved_single_tracks: 'Loved Single Tracks/%replace_path{adjust_dap,$artist_title}'
-      query:dap_sole_tracks: 'Single Tracks/%replace_path{adjust_dap,$source/$artist_title}'
+      query:dap_sole_tracks: 'Music/Single Tracks/%replace_path{adjust_dap,$source/$artist_title}'
 
       'album_loved:true query:dap_soundtrack': 'Loved Soundtracks/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
       query:dap_soundtrack: 'Soundtracks/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
@@ -707,7 +707,7 @@ alternatives:
       album_loved:true: 'Loved Albums/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
       query:dap_sampler: 'Samplers/%replace_path{adjust_dap,$dap_albumdir/$comp_filename}'
 
-      comp:1: '%replace_path{adjust_dap,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Compilations/$dap_albumdir/$comp_filename}}'
+      comp:1: '%replace_path{adjust_dap,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/Compilations/$dap_albumdir/$comp_filename}}'
       default: '%replace_path{adjust_dap,%if{$potential_single_track,Music/%bucket{$artistdir,alpha}/$artistdir/Single Tracks/$full_title,Music/%bucket{$albumartistdir,alpha}/$albumartistdir/$dap_albumdir/$comp_filename}}'
 
 adjust_franchise:
