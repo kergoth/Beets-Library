@@ -371,7 +371,7 @@ inconsistentalbumtracks:
 modifyonimport:
   modify_album:
     # Sane default for albumartist_sort
-    'albumartist_sort::"^$" albumartist::"^The "': 'albumartist_sort=%the{$albumartist}'
+    'albumartist_sort::"^$" albumartist::.': 'albumartist_sort=%the{$albumartist}'
     # Need albumtypes
     'albumtype::. albumtypes::"^$"': 'albumtypes=$albumtype'
     # Likely a single
@@ -388,7 +388,7 @@ modifyonimport:
       'genre:Holiday': 'genre=Christmas'
   modify_singleton:
     # Sane default for artist_sort
-    'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
+    'artist_sort::"^$" artist::.': 'artist_sort=%the{$artist}'
     # Clear out the album field for imported singletons
     'album::.': 'album='
     # Genre
