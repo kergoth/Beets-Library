@@ -292,19 +292,6 @@ bucket:
 copyartifacts:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf .par2
 
-extrafiles:
-  patterns:
-    cue: '*.cue'
-    log: '*.log'
-    art:
-      - '*.jpg'
-      - '*.png'
-    docs:
-      - '*.pdf'
-      - '*.txt'
-      - '*.doc'
-      - '*.rtf'
-
 edit:
   itemfields: track title artist album albumdisambig tracktotal year
   albumfields: album albumartist
