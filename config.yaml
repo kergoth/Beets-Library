@@ -506,8 +506,8 @@ item_queries:
 
   # Categories
   classical: 'query:is_classical ^loved:true ^composer:"Christopher Tin" ^query:is_game ^query:is_sampler ^query:is_soundtrack'
-  alt_game: '^game:^ , ^franchise:^ , query:type_soundtrack query:is_game'
-  alt_game_extra: '^query:type_soundtrack query:is_game'
+  alt_game: '^game:^ , ^franchise:^ , albumtypes:soundtrack query:is_game'
+  alt_game_extra: '^albumtypes:soundtrack query:is_game'
   loved_single_tracks: 'loved:true query:for_single_tracks'
   soundtrack: 'query:is_soundtrack ^query:for_single_tracks'
   sampler: 'query:is_sampler ^query:for_single_tracks'
@@ -623,7 +623,6 @@ album_formats:
   # Used in path formats
   if_albumartist_credit: '%if{$albumartist_credit,$albumartist_credit,$albumartist}'
   comp_albumartist: '%if{$comp,Compilations,$albumartist}'
-  albumsdir: '%if{$missing,Incomplete }Albums'
   _albumdir: '%the{%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
   _albumartistdir: '%the{%asciify{%replace{adjust_artist,$comp_albumartist}}}'
 
