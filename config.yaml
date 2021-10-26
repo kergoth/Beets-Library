@@ -227,8 +227,6 @@ alias:
     # Clear embedded art from albums that have an artpath
     clearart-albums: clearart album_id::. ^artpath:^
 
-    missing-art: fetchart -q
-
     # Mac-specific
     reveal: open -R --
     picard: 'open -A "-a MusicBrainz\ Picard" --'
