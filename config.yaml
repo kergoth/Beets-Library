@@ -519,14 +519,19 @@ album_fields:
   e_albumadvisory: albumadvisory if 'albumadvisory' in globals() else 0
   e_loved: loved if 'loved' in globals() else False
 
+  # Album fields masked by the item, renamed for use from that context
   album_composer: composer if 'composer' in globals() else False
   album_id: id
   album_loved: loved if 'loved' in globals() else False
 
-  # Number of existing tracks in this album
+  # Album vs item genre
+  album_genres: "','.join(sorted(set(filter(None, (item.genre for item in items)))))"
+  all_same_genres: all(item.genre == items[0].genre for item in items)
+
+  # Number of existing tracks in the library in this album
   existing: len(items)
 
-  # Used by the missing-albumtotal alias
+  # How many tracks exist in the library for each disc of an album
   existing_by_disc: |
     from itertools import groupby
     def keyfunc(i):
@@ -535,16 +540,8 @@ album_fields:
     by_disc = [(k, len(list(v))) for k, v in grouped]
     return ','.join(str(v[1]) for v in sorted(by_disc))
 
-  # Not used at this time, only made available
-  existing_discs: |
-    discs = sorted(set(i.disc for i in items if i.disc))
-    return ','.join(str(d) for d in discs)
-
+  # Albums with one existing track in the library
   one_track: len(items) == 1
-
-  multidisc: disctotal > 1
-  # Let me search for albums that may be a compilation but aren't flagged
-  multiartist: not bool(all(item.artist == items[0].artist for item in items))
 
   # This is flagged as a compilation, but all the track artists are the same.
   # Consider setting albumartist instead. This only works when missing:0 at
@@ -552,8 +549,10 @@ album_fields:
   # existing ones.
   is_comp_same_artists: comp and all(item.artist == items[0].artist for item in items)
 
-  has_explicit_track: any(getattr(item, 'advisory', 0) == 1 for item in items)
+  # Album with items whose artists differ
+  multiartist: not bool(all(item.artist == items[0].artist for item in items))
 
+  # Album with no genre set, whose items have differing genre
   needs_album_genre: |
     genres = [i.genre for i in items]
     if not genre and any(g for g in genres):
@@ -562,13 +561,9 @@ album_fields:
         return 1
     return 0
 
-  all_same_genres: all(item.genre == items[0].genre for item in items)
-
+  # Not used at this time, only made available
   album_all_genre: items[0].genre if all(item.genre == items[0].genre for item in items) else ''
   album_all_composer: items[0].composer if all(item.composer == items[0].composer for item in items) else ''
-
-  album_genres: "','.join(sorted(set(filter(None, (item.genre for item in items)))))"
-
   # For albums with bpm tags on all their tracks, give us the mean
   average_bpm: |
     item_bpms = [getattr(i, 'bpm', 0) for i in items]
@@ -576,6 +571,11 @@ album_fields:
       return int(sum(item_bpms) / len(items))
     else:
       return 0
+  existing_discs: |
+    discs = sorted(set(i.disc for i in items if i.disc))
+    return ','.join(str(d) for d in discs)
+  has_explicit_track: any(getattr(item, 'advisory', 0) == 1 for item in items)
+  multidisc: disctotal > 1
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
@@ -583,8 +583,6 @@ item_fields:
   # Deal with undefined values for queries
   e_advisory: advisory if 'advisory' in globals() else 0
   e_loved: loved if 'loved' in globals() else False
-
-  excess_tracks: bool(tracktotal and track and track > tracktotal)
 
   # disc and track prefix with ' - ' sep. Returns '' if track == 0 or this is the only track.
   disc_and_track_pre: |
@@ -595,10 +593,10 @@ item_fields:
     else:
       return u'%02i - ' % track
 
-  # Avoid the leading zero
-  trim_track: str(track)
-  trim_disc: str(disc)
+  # Do we have more tracks than we should for this album?
+  excess_tracks: bool(tracktotal and track and track > tracktotal)
 
+  # Clean or Explicit tracks
   explicit_or_clean: |
     if 'advisory' in globals():
       if advisory == 1:
@@ -608,9 +606,7 @@ item_fields:
     else:
       return ''
 
-  definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
-
-  # Used by modifyonimport rules
+  # Alter 'albumtypes' to add 'single' and drop other/album/ep.
   single_albumtypes: |
     if 'albumtypes' in globals():
       types = [t.strip() for t in albumtypes.split(';')]
@@ -620,6 +616,12 @@ item_fields:
       types.insert(0, 'single')
       return '; '.join(types)
     return 'single'
+
+  # Not used at this time, only made available
+  definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
+  # Avoid the leading zero
+  trim_track: str(track)
+  trim_disc: str(disc)
 
 album_formats:
   # Used in both album and item formats
