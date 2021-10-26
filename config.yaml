@@ -90,6 +90,7 @@ plugins:
   - albumtypes
   - badfiles
   - bareasc
+  - beatport
   - bucket
   - convert
   - chroma
