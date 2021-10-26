@@ -670,8 +670,8 @@ alternatives:
       'query:is_sole_track query:classical': '%replace_path{adjust_dap,Classical/Single Tracks/$artist_title}'
       query:classical: 'Classical/%replace_path{adjust_dap,%if{$for_single_tracks,$artistdir/Single Tracks/$full_title,$albumartistdir/$albumdir/$comp_filename}}'
 
-      'genre:Chiptune query:is_game ^loved:true': 'Chiptunes/Games/%replace_path{adjust_dap,%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
-      'genre:Chiptune ^loved:true': 'Chiptunes/Music/%replace_path{adjust_dap,%if{$for_single_tracks,$artistdir/Single Tracks/$full_title,$albumartistdir/$albumdir/$comp_filename}}'
+      'genre:chiptune query:alt_game': 'Chiptunes/Games/%replace_path{adjust_dap,%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
+      'genre:chiptune': 'Chiptunes/Music/%replace_path{adjust_dap,%if{$for_single_tracks,$artistdir/Single Tracks/$full_title,$albumartistdir/$albumdir/$comp_filename}}'
 
       'query:alt_game ^franchise:^': 'Games/%replace_path{adjust_dap,%bucket{$franchisedir,alpha}/$franchisedir/%if{$for_single_tracks,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
       query:alt_game: 'Games/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
