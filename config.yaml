@@ -624,15 +624,6 @@ item_fields:
   trim_track: str(track)
   trim_disc: str(disc)
 
-album_formats:
-  # Used in both album and item formats
-  _albumdir: '%the{%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
-  _albumartistdir: '%the{%asciify{%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}}}'
-
-  # Fallbacks from item fields
-  albumdir: '$_albumdir'
-  albumartistdir: '$_albumartistdir'
-
 item_formats:
   # Unasciified, credited artist
   path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
@@ -643,11 +634,14 @@ item_formats:
   full_title: '$title%if{$e_advisory,$explicit_or_clean}'
   comp_filename: '%if{$album,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
 
+  albumname: '%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
+  albumartistname: '%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}}}'
+
   # Directories
-  franchisedir: '%the{%replace{adjust_franchise,$franchise Franchise}}'
-  albumartistdir: '%if{$album,$_albumartistdir,$path_artist}'
+  albumdir: '%if{$album,%the{$albumname},Single Tracks}'
+  albumartistdir: '%if{$album,%the{%asciify{$albumartistname}},$artistdir}}}'
   artistdir: '%the{$path_artist}'
-  albumdir: '%if{$album,$_albumdir,Single Tracks}'
+  franchisedir: '%the{%replace{adjust_franchise,$franchise Franchise}}'
   gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
   game_albumdir: '%ifdef{game,$gamedir,$albumdir}'
 
