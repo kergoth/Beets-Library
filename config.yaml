@@ -634,15 +634,18 @@ item_formats:
   full_title: '$title%if{$e_advisory,$explicit_or_clean}'
   comp_filename: '%if{$album,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
 
-  albumname: '%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
-  albumartistname: '%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}}}'
+  albumsuffix: '%if{$e_albumadvisory, (Explicit)}'
+  albumname: '%replace{adjust_album,$album%aunique{}$albumsuffix}'
+  albumartistname: '%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}'
+  franchisename: '%replace{adjust_franchise,$franchise Franchise}'
+  gamename: '%replace{adjust_album,$game}%ifdef{gamedisambig, [$gamedisambig]}%if{$album,$albumsuffix}'
 
   # Directories
   albumdir: '%if{$album,%the{$albumname},Single Tracks}'
-  albumartistdir: '%if{$album,%the{%asciify{$albumartistname}},$artistdir}}}'
+  albumartistdir: '%if{$album,%the{%asciify{$albumartistname}},$artistdir}'
   artistdir: '%the{$path_artist}'
-  franchisedir: '%the{%replace{adjust_franchise,$franchise Franchise}}'
-  gamedir: '%the{%replace{adjust_album,$game%ifdef{gamedisambig, [$gamedisambig]}}}'
+  franchisedir: '%the{$frachisename}'
+  gamedir: '%the{$gamename}'
   game_albumdir: '%ifdef{game,$gamedir,$albumdir}'
 
 alternatives:
