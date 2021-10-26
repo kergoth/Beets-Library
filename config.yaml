@@ -521,6 +521,10 @@ album_fields:
   e_albumadvisory: albumadvisory if 'albumadvisory' in globals() else 0
   e_loved: loved if 'loved' in globals() else False
 
+  album_composer: composer if 'composer' in globals() else False
+  album_id: id
+  album_loved: loved if 'loved' in globals() else False
+
   # Number of existing tracks in this album
   existing: len(items)
 
@@ -543,9 +547,6 @@ album_fields:
   multidisc: disctotal > 1
   # Let me search for albums that may be a compilation but aren't flagged
   multiartist: not bool(all(item.artist == items[0].artist for item in items))
-
-  album_loved: loved if 'loved' in globals() else False
-  album_composer: composer if 'composer' in globals() else False
 
   # This is flagged as a compilation, but all the track artists are the same.
   # Consider setting albumartist instead. This only works when missing:0 at
@@ -625,9 +626,6 @@ item_fields:
     return 'single'
 
 album_formats:
-  # Convenience
-  album_id: '$id'
-
   # Used in both album and item formats
   _albumdir: '%the{%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
   _albumartistdir: '%the{%asciify{%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}}}'
