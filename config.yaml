@@ -577,8 +577,6 @@ album_fields:
     else:
       return 0
 
-  excess_tracks: bool(albumtotal and existing > albumtotal)
-
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
