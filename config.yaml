@@ -399,16 +399,12 @@ wlg:
     whitelist: wlg
 
 types:
-  # Default values
-  e_advisory: int
-  e_albumadvisory: int
-  e_loved: bool
-
   # Built-in or Plugin fields
   albumtotal: int
   bpm: int
 
   # Album inline and format fields
+  e_albumadvisory: int
   album_id: int
   album_loved: bool
   existing: int
@@ -422,6 +418,8 @@ types:
   average_bpm: int
 
   # Item inline and format fields
+  e_advisory: int
+  e_loved: bool
   excess_tracks: bool
 
   # Flexible fields
@@ -437,7 +435,7 @@ types:
   single_track: bool
   sole_track: bool
 
-  ## set_fields
+  # set_fields
   reimported: bool
 
 zero:
