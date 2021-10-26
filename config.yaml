@@ -15,7 +15,7 @@ sort_album: albumartist+ album+
 sort_item: albumartist+ album+ disc+ track+ artist+
 
 paths:
-  default: '$source/$if_albumartist_credit/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  default: '$source/%if{$albumartist_credit,$albumartist_credit,$albumartist}/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   singleton: '$source/$artist/[non-album tracks]/$path_filename'
   comp: '$source/Compilations/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   ext:log: $albumpath/$album
@@ -620,11 +620,9 @@ album_formats:
   # Convenience
   album_id: '$id'
 
-  # Used in path formats
-  if_albumartist_credit: '%if{$albumartist_credit,$albumartist_credit,$albumartist}'
-  comp_albumartist: '%if{$comp,Compilations,$albumartist}'
+  # Used in both album and item formats
   _albumdir: '%the{%replace{adjust_album,$album%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}}}'
-  _albumartistdir: '%the{%asciify{%replace{adjust_artist,$comp_albumartist}}}'
+  _albumartistdir: '%the{%asciify{%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}}}'
 
   # Fallbacks from item fields
   albumdir: '$_albumdir'
