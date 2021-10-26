@@ -517,6 +517,10 @@ item_queries:
 album_fields:
   album_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
+  # Deal with undefined values for queries
+  e_albumadvisory: albumadvisory if 'albumadvisory' in globals() else 0
+  e_loved: loved if 'loved' in globals() else False
+
   # Number of existing tracks in this album
   existing: len(items)
 
@@ -579,6 +583,10 @@ album_fields:
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
+  # Deal with undefined values for queries
+  e_advisory: advisory if 'advisory' in globals() else 0
+  e_loved: loved if 'loved' in globals() else False
+
   excess_tracks: bool(tracktotal and track and track > tracktotal)
 
   # disc and track prefix with ' - ' sep. Returns '' if track == 0 or this is the only track.
@@ -628,18 +636,7 @@ album_formats:
   albumdir: '$_albumdir'
   albumartistdir: '$_albumartistdir'
 
-  # Deal with undefined values for queries
-  e_albumadvisory: '%ifdef{albumadvisory,$albumadvisory,0}'
-  e_data_source: '%ifdef{data_source}'
-  e_loved: '%ifdef{loved,$loved,false}'
-
 item_formats:
-  # Deal with undefined values for queries. This lets me do ls e_advisory:0,
-  # instead of having to check for advisory:@.
-  e_advisory: '%ifdef{advisory,$advisory,0}'
-  e_data_source: '%ifdef{data_source}'
-  e_loved: '%ifdef{loved,$loved,false}'
-
   # Unasciified, credited artist
   path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
 
