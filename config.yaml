@@ -404,18 +404,18 @@ types:
   bpm: int
 
   # Album inline and format fields
-  e_albumadvisory: int
   album_id: int
   album_loved: bool
-  existing: int
-  is_comp_same_artists: bool
-  has_explicit_track: bool
   all_same_genres: bool
+  average_bpm: int
+  e_albumadvisory: int
+  existing: int
+  for_single_tracks: bool
+  has_explicit_track: bool
+  is_comp_same_artists: bool
   multiartist: bool
   multidisc: bool
   one_track: bool
-  for_single_tracks: bool
-  average_bpm: int
 
   # Item inline and format fields
   e_advisory: int
