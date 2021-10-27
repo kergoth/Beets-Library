@@ -90,7 +90,6 @@ plugins:
   - albumtypes
   - badfiles
   - bareasc
-  - beatport
   - bucket
   - convert
   - chroma
@@ -637,14 +636,14 @@ item_formats:
   albumsuffix: '%if{$e_albumadvisory, (Explicit)}'
   albumname: '%replace{adjust_album,$album%aunique{}$albumsuffix}'
   albumartistname: '%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}'
-  franchisename: '%replace{adjust_franchise,$franchise Franchise}'
+  franchisename: '%replace{adjust_franchise,$franchise} Franchise'
   gamename: '%replace{adjust_album,$game}%ifdef{gamedisambig, [$gamedisambig]}%if{$album,$albumsuffix}'
 
   # Directories
   albumdir: '%if{$album,%the{$albumname},Single Tracks}'
   albumartistdir: '%if{$album,%the{%asciify{$albumartistname}},$artistdir}'
   artistdir: '%the{$path_artist}'
-  franchisedir: '%the{$frachisename}'
+  franchisedir: '%the{$franchisename}'
   gamedir: '%the{$gamename}'
   game_albumdir: '%ifdef{game,$gamedir,$albumdir}'
 
