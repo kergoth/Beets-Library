@@ -19,14 +19,9 @@ I use a number of manually set flexible fields in my library.
 
 The `loved` field is used at both item and track level to bring those items up to the toplevel in my media player path formats for easier navigation to the songs and albums I listen to most often. I may rename this field to `favorite` or `liked` or similar, I have not decided. I may also introduce a separate `liked` field for items which I don't listen to all the time, but nonetheless stand out to me compared to some of the other contents of the library. Further, I may introduce a field to indicate what I have an haven't listened to, in a project aiming to listen to the entire library and either rate things or flag them as liked or not.
 
-### Track Fields
-
 - loved: See above for the description.
-
-### Album Fields
-
-- game: The name of the game this music is about. This may be for a soundtrack, but could also be for albums inspired by that game.
-- gamedisambig: This string disambiguates cases where multiple albums reference the same game. In-game, orchestral, inspired by, etc.
-- franchise: The media franchise this media belongs to, most commonly the game franchise or series in my gaming music, but this will be expanded upon further in some cases, as there are soundtracks which also apply.
-- loved: See above for the description.
+- mediatitle: The name of the media this music is about. This may be for a soundtrack, but could also be for albums inspired by that game.
+- mediatitledisambig: This string disambiguates cases where multiple albums reference the same media. In-game, score, orchestral, inspired by, etc.
+- franchise: The media franchise this music references.
 - to_listen: Music I'd like to listen to next.
+- disliked: Music I actively dislike but don't yet want to remove from the library.

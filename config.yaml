@@ -238,7 +238,7 @@ alias:
     # Very basic dupe check for albums lacking musicbrainz data, primarily
     simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
     dup-albums: dup -aF
-    dup-games: dup -f '$franchise - $game - $gamedisambig | $format_album' -F -k franchise -k game -k gamedisambig ^game:^
+    dup-games: dup -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -F -k franchise -k mediatitle -k mediatitledisambig query:is_game
 
     music: ls \^query:is_non_music
     singletons: ls singleton:true
@@ -424,8 +424,8 @@ types:
 
   # Flexible fields
   #franchise: string
-  #game: string
-  #gamedisambig: string
+  #mediatitle: string
+  #mediatitledisambig: string
   disliked: bool
   loved: bool
   to_listen: bool
@@ -473,7 +473,7 @@ inlinehook:
           log.warning(f'Artist not set for {item}')
 
 album_queries:
-  is_game: '^game:^ , ^franchise:^ , genre:game ^album_query:is_sampler'
+  is_game: 'avmedia:"Video Games"'
   is_sampler: 'albumtypes:sampler , album:sampler'
   is_incomplete_album: 'album_query:is_game missing:2.. , ^album_query:is_game missing:1..'
 
@@ -497,14 +497,14 @@ item_queries:
   is_sampler: 'albumtypes:sampler , album:sampler'
   is_christmas: 'genre:Christmas'
   is_classical: 'genre:Classical'
-  is_game: '^game:^ , ^franchise:^ , genre:game ^query:is_sampler'
+  is_game: 'avmedia:"Video Games"'
   is_soundtrack: 'albumtypes:soundtrack , genre:soundtrack ^query:is_sampler'
   is_sole_track: 'sole_track:true'
   for_single_tracks: 'singleton:true , albumtypes:single albumtotal:1 , single_track:true'
 
   # Categories
   classical: 'query:is_classical ^loved:true ^composer:"Christopher Tin" ^query:is_game ^query:is_sampler ^query:is_soundtrack'
-  alt_game: '^game:^ , ^franchise:^ , albumtypes:soundtrack query:is_game'
+  alt_game: 'albumtypes:soundtrack query:is_game'
   alt_game_extra: '^albumtypes:soundtrack query:is_game'
   loved_single_tracks: 'loved:true query:for_single_tracks'
   soundtrack: 'query:is_soundtrack ^query:for_single_tracks'
@@ -637,15 +637,15 @@ item_formats:
   albumname: '%replace{adjust_album,$album%aunique{}$albumsuffix}'
   albumartistname: '%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}'
   franchisename: '%replace{adjust_franchise,$franchise} Franchise'
-  gamename: '%replace{adjust_album,$game}%ifdef{gamedisambig, [$gamedisambig]}%if{$album,$albumsuffix}'
+  medianame: '%replace{adjust_album,$mediatitle}%ifdef{mediatitledisambig, [$mediatitledisambig]}%if{$album,$albumsuffix}'
 
   # Directories
   albumdir: '%if{$album,%the{$albumname},Single Tracks}'
   albumartistdir: '%if{$album,%the{%asciify{$albumartistname}},$artistdir}'
   artistdir: '%the{$path_artist}'
   franchisedir: '%the{$franchisename}'
-  gamedir: '%the{$gamename}'
-  game_albumdir: '%ifdef{game,$gamedir,$albumdir}'
+  mediadir: '%the{$medianame}'
+  media_albumdir: '%ifdef{mediatitle,$mediadir,$albumdir}'
 
 alternatives:
   dap:
@@ -654,12 +654,12 @@ alternatives:
     query: ^disliked:true
     paths:
       query:loved_single_tracks: 'Loved/Single Tracks/%replace_path{adjust_dap,$artist_title}'
-      'genre:Chiptune album_loved:true': 'Loved/Chiptunes/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      'query:is_game album_loved:true': 'Loved/Games/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'genre:Chiptune album_loved:true': 'Loved/Chiptunes/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,$media_albumdir/$comp_filename}}'
+      'query:is_game album_loved:true': 'Loved/Games/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,$media_albumdir/$comp_filename}}'
       'album_loved:true query:soundtrack': 'Loved/Soundtracks/%replace_path{adjust_dap,$albumdir/$comp_filename}'
       album_loved:true: 'Loved/Albums/%replace_path{adjust_dap,$albumdir/$comp_filename}'
 
-      to_listen:true: 'To Listen/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      to_listen:true: 'To Listen/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,$media_albumdir/$comp_filename}}'
 
       query:is_non_music: 'Non-Music/%replace_path{adjust_dap,$genre/$albumartistdir/$albumdir/$comp_filename}'
       query:is_mfp: 'Music/%bucket{$label,alpha}/%replace_path{adjust_dap,$label/$full_title}'
@@ -667,12 +667,12 @@ alternatives:
       'query:is_sole_track query:classical': '%replace_path{adjust_dap,Classical/Single Tracks/$artist_title}'
       query:classical: 'Classical/%replace_path{adjust_dap,%if{$for_single_tracks,$artistdir/Single Tracks/$full_title,$albumartistdir/$albumdir/$comp_filename}}'
 
-      'genre:chiptune query:alt_game': 'Chiptunes/Games/%replace_path{adjust_dap,%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$game_albumdir,alpha}/}$game_albumdir/$comp_filename}'
+      'genre:chiptune query:alt_game': 'Chiptunes/Games/%replace_path{adjust_dap,%ifdef{franchise,%bucket{$franchisedir,alpha}/$franchisedir/,%bucket{$media_albumdir,alpha}/}$media_albumdir/$comp_filename}'
       'genre:chiptune': 'Chiptunes/Music/%replace_path{adjust_dap,%if{$for_single_tracks,$artistdir/Single Tracks/$full_title,$albumartistdir/$albumdir/$comp_filename}}'
 
-      'query:alt_game ^franchise:^': 'Games/%replace_path{adjust_dap,%bucket{$franchisedir,alpha}/$franchisedir/%if{$for_single_tracks,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
-      query:alt_game: 'Games/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,%bucket{$game_albumdir,alpha}/$game_albumdir/$comp_filename}}'
-      query:is_game: 'Games/Extras/%replace_path{adjust_dap,%ifdef{franchise,$franchisedir/}%if{$for_single_tracks,Single Tracks/$artist_title,$game_albumdir/$comp_filename}}'
+      'query:alt_game ^franchise:^': 'Games/%replace_path{adjust_dap,%bucket{$franchisedir,alpha}/$franchisedir/%if{$for_single_tracks,Single Tracks/$artist_title,$media_albumdir/$comp_filename}}'
+      query:alt_game: 'Games/%replace_path{adjust_dap,%if{$for_single_tracks,Single Tracks/$artist_title,%bucket{$media_albumdir,alpha}/$media_albumdir/$comp_filename}}'
+      query:is_game: 'Games/Extras/%replace_path{adjust_dap,%ifdef{franchise,$franchisedir/}%if{$for_single_tracks,Single Tracks/$artist_title,$media_albumdir/$comp_filename}}'
 
       'query:is_sole_track query:is_christmas': 'Christmas/%replace_path{adjust_dap,Single Tracks/$artist_title}'
       query:is_christmas: 'Christmas/%replace_path{adjust_dap,%if{$for_single_tracks,$artistdir/Single Tracks/$full_title,$albumartistdir/$albumdir/$comp_filename}}'
