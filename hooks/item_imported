@@ -1,8 +1,14 @@
 #!/bin/sh
 
+if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
+    exit 0
+fi
+
 id="$1"
 
-echo >&2 "Generating par2 files"
-beet -p musicintegrity par2create id:"$id" 2>/dev/null
+if [ -z "${BEETS_SKIP_IMPORT_PAR2:-}" ]; then
+    echo >&2 "Generating par2 files"
+    beet -p musicintegrity par2create id:"$id" 2>/dev/null
+fi
 
 beet ls -p id:"$id"

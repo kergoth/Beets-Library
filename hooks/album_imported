@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
+    exit 0
+fi
+
 id="$1"
 
 if [ -n "$(beet ls id:"$id" artpath::'^$')" ]; then
@@ -19,7 +23,9 @@ if [ -n "$(beet ls -a id:"$id" comments::.)" ]; then
     beet-export-album-comments id:"$id"
 fi
 
-echo >&2 "Generating par2 files"
-beet -p musicintegrity par2create id:"$id" 2>/dev/null
+if [ -z "${BEETS_SKIP_IMPORT_PAR2:-}" ]; then
+    echo >&2 "Generating par2 files"
+    beet -p musicintegrity par2create id:"$id" 2>/dev/null
+fi
 
 beet ls -ap id:"$id"
