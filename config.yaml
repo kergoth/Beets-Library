@@ -763,3 +763,4 @@ adjust_dap:
 include:
   - config.d/smartplaylist.yaml
   - config.d/xtractor.yaml
+  - config.d/local.yaml
