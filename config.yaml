@@ -365,12 +365,14 @@ modifyonimport:
     'album_query:is_various_not_comp': 'comp=1'
     # Genre
     'genre:Holiday': 'genre=Christmas'
+    'genre:game': 'avmedia="Video Games"'
   modify_album_items:
     '':
       # Sane default for artist_sort
       'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
       # Genre
       'genre:Holiday': 'genre=Christmas'
+      'genre:game': 'avmedia="Video Games"'
   modify_singleton:
     # Sane default for artist_sort
     'artist_sort::"^$" artist::.': 'artist_sort=%the{$artist}'
@@ -378,6 +380,7 @@ modifyonimport:
     'album::.': 'album='
     # Genre
     'genre:Holiday': 'genre=Christmas'
+    'genre:game': 'avmedia="Video Games"'
 
 musicbrainz:
   extra_tags: [year, catalognum, country, media, label]
