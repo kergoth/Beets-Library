@@ -67,42 +67,20 @@ modifyonimport:
     'genre:game': 'avmedia="Video Games"'
 
 ## Path Formats and Fields
-# Replacements for replaceformat. To be replaced by rewrite support in the `alternatives` plugin.
-adjust_franchise:
-  'The Legend of Zelda': 'Zelda'
-
+# Replacements for replaceformat. These are being used by the `kergoth` plugin for $navigation_path.
 adjust_album:
   # Consistency
-  'Video Games Live, Volume One': 'Video Games Live: Level 1'
   'Computec Edition Vol. 1': 'Computec Edition, Vol. 1'
-  'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
   'HGTV / Paste': 'HGTV & Paste'
-  # Add missing # in the series
-  'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV: Shadows of Darkness'
-  # Shorten album length
-  'Command & Conquer∶ Red Alert': 'Red Alert'
-  'Command & Conquer: Red Alert': 'Red Alert'
-  'Firefly: Original Television Soundtrack': 'Firefly'
-  'Forrest Gump: The Soundtrack': 'Forrest Gump'
-  'Game of Thrones: Music From the HBO Series': 'Game of Thrones'
-  'Gladiator: Music From the Motion Picture': 'Gladiator'
-  'Indie Game: The Movie \(soundtrack\)': 'Indie Game: The Movie'
-  'Moana: Original Motion Picture Soundtrack': 'Moana'
-  'Mortal Kombat: Original Motion Picture Soundtrack': 'Mortal Kombat'
-  'O Brother, Where Art Thou\? Music From a Film by Joel Coen & Ethan Coen': 'O Brother, Where Art Thou?'
-  'Office Space: Motion Picture Soundtrack': 'Office Space'
-  'The Chronicles of Riddick: Assault on Dark Athena': 'Riddick'
-  'The Elder Scrolls IV: Morrowind': 'Morrowind'
-  'The Elder Scrolls V: Skyrim': 'Skyrim'
-  'The Incredible Adventures of Van Helsing': 'Van Helsing'
-  'Quest for Glory IV: Shadows of Darkness': 'Quest for Glory IV'
+  'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
+  'Video Games Live, Volume One': 'Video Games Live: Level 1'
 
 adjust_artist:
   # Deal with non-alphanumeric sort issues when browsing
-  ':wumpscut:': 'wumpscut'
-  '\.mpegasus': 'mpegasus'
   '_ensnare_': 'ensnare'
+  ':wumpscut:': 'wumpscut'
   '“Weird Al” Yankovic': 'Weird Al Yankovic'
+  '\.mpegasus': 'mpegasus'
 
   # Remove featuring artists for navigation
   ' ([fF]([eE][aA])?[tT]\.|w[/／]) .*': ''
@@ -122,6 +100,16 @@ adjust_artist:
   'Ben Harper With Charlie Musselwhite': 'Ben Harper'
   'Bob Marley & The Wailers': 'Bob Marley'
   'Stafford Bawler + Todd Baker': 'Stafford Bawler'
+
+adjust_franchise:
+  'The Legend of Zelda': 'Zelda'
+
+adjust_media:
+  'Command & Conquer: Red Alert': 'Red Alert'
+  'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV'
+  'The Chronicles of Riddick: Assault on Dark Athena': 'Riddick'
+  'The Elder Scrolls V: Skyrim': 'Skyrim'
+  'The Incredible Adventures of Van Helsing': 'Van Helsing'
 
 # These replacements improve the visuals and navigation on the media player
 adjust_dap:
@@ -143,28 +131,8 @@ adjust_dap:
   '’': "'"
 
 item_formats:
-  # Unasciified, credited artist
   path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
-
-  # Path format components
-  artist_title: '%the{$path_artist} - $full_title'
-  path_artist: '%asciify{%replace{adjust_artist,$artist}}'
   full_title: '$title%if{$e_advisory,$explicit_or_clean}'
-  comp_filename: '%if{$album,$disc_and_track_pre}%if{$comp,$path_artist - }$full_title'
-
-  albumsuffix: '%if{$e_albumadvisory, (Explicit)}'
-  albumname: '%replace{adjust_album,$album%aunique{}$albumsuffix}'
-  albumartistname: '%replace{adjust_artist,%if{$comp,Compilations,$albumartist}}'
-  franchisename: '%replace{adjust_franchise,$franchise} Franchise'
-  medianame: '%replace{adjust_album,$mediatitle}%ifdef{mediatitledisambig, [$mediatitledisambig]}%if{$album,$albumsuffix}'
-
-  # Directories
-  albumdir: '%if{$album,%the{$albumname},Single Tracks}'
-  albumartistdir: '%if{$album,%the{%asciify{$albumartistname}},$artistdir}'
-  artistdir: '%the{$path_artist}'
-  franchisedir: '%the{$franchisename}'
-  mediadir: '%the{$medianame}'
-  media_albumdir: '%ifdef{media,$mediadir,$albumdir}'
 
 ## Interoperability
 
@@ -295,41 +263,47 @@ inlinehook:
 
 album_queries:
   is_game: 'avmedia:"Video Games"'
-  is_sampler: 'albumtypes:sampler , album:sampler'
   is_incomplete_album: 'album_query:is_game missing:2.. , ^album_query:is_game missing:1..'
-
+  is_sampler: 'albumtypes:sampler , album:sampler'
   # This is used both in an alias command and modifyonimport
   is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
 
 item_queries:
   # Used by the sole-tracks script
-  sole_track_candidates: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_game'
   is_mfp: 'label:"Music for Programming"'
   is_ocremix: 'label:"OverClocked ReMix"'
+  sole_track_candidates: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_game'
 
   # As-needed
-  is_incomplete_album: 'query:is_game missing:2.. , ^query:is_game missing:1..'
   albums_to_split_up: 'query:is_incomplete_album existing:..4'
+  is_incomplete_album: 'query:is_game missing:2.. , ^query:is_game missing:1..'
   is_loved: album_loved:true , loved:true query:for_single_tracks
 
-  # General and Path Formats
-  is_music: '^query:is_non_music'
-  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
-  is_sampler: 'albumtypes:sampler , album:sampler'
+  # General and Path Formats. A number of these are used by the `kergoth` plugin for $navigation_path.
+  for_single_tracks: 'singleton:true , single_track:true'
   is_christmas: 'genre:Christmas'
   is_classical: 'genre:Classical'
   is_game: 'avmedia:"Video Games"'
-  is_soundtrack: 'albumtypes:soundtrack , genre:soundtrack ^query:is_sampler'
+  is_music: '^query:is_non_music'
+  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
+  is_sampler: 'albumtypes:sampler , album:sampler'
   is_sole_track: 'sole_track:true'
-  for_single_tracks: 'singleton:true , albumtypes:single albumtotal:1 , single_track:true'
+  is_soundtrack: 'albumtypes:soundtrack , genre:soundtrack ^query:is_sampler'
 
   # Categories
-  classical: 'query:is_classical ^loved:true ^composer:"Christopher Tin" ^query:is_game ^query:is_sampler ^query:is_soundtrack'
-  alt_game: 'query:is_game albumtypes:soundtrack , query:is_game ^mediatitle:^'
   alt_game_extra: '^albumtypes:soundtrack query:is_game'
-  loved_single_tracks: 'loved:true query:for_single_tracks'
-  soundtrack: 'query:is_soundtrack ^query:for_single_tracks'
+  alt_game: 'query:is_game albumtypes:soundtrack , query:is_game ^mediatitle:^'
+  alt_to_listen: 'to_listen:true'
+  by_label_flat: 'label:"Music for Programming"'
+  chiptune_game: 'genre:chiptune query:is_game query:is_soundtrack , genre:chiptune ^mediatitle:^'
+  chiptune: 'genre:chiptune'
+  christmas_sole_tracks: 'genre:Christmas query:is_sole_track'
+  christmas: 'query:is_christmas'
+  classical_sole_tracks: 'genre:classical query:is_sole_track'
+  classical: 'query:is_classical ^query:is_soundtrack'
+  non_music: 'genre:meditation , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
   sampler: 'query:is_sampler ^query:for_single_tracks'
+  soundtrack: 'query:is_soundtrack ^query:for_single_tracks'
 
 ## Config-Specific
 

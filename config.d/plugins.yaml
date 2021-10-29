@@ -193,6 +193,9 @@ plugins:
   - savedqueries
 
   ## Config-Specific
+  #  kergoth: add template field for use with my media player
+  #    Template Field (navigation_path).
+  - kergoth
   #  musicsource: expect the `source` field to be set on import
   #    Passive (import).
   - musicsource
