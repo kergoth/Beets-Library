@@ -298,7 +298,7 @@ item_queries:
   alt_game: 'query:is_game albumtypes:soundtrack , query:is_game ^mediatitle:^'
   alt_to_listen: 'to_listen:true'
   by_label_flat: 'label:"Music for Programming"'
-  chiptune_game: 'genre:chiptune query:is_game query:is_soundtrack , genre:chiptune ^mediatitle:^'
+  chiptune_game: 'genre:chiptune query:is_game query:is_soundtrack'
   chiptune: 'genre:chiptune'
   christmas_sole_tracks: 'genre:Christmas query:is_sole_track'
   christmas: 'query:is_christmas'
