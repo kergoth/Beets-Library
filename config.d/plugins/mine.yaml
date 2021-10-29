@@ -171,6 +171,9 @@ alias:
     # Clear embedded art from albums that have an artpath
     clearart-albums: clearart album_id::. ^artpath:^
 
+    # Edit 'media' fields
+    edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
+
     # Mac-specific
     reveal: open -R --
     picard: 'open -A "-a MusicBrainz\ Picard" --'
