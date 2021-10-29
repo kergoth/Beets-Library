@@ -504,7 +504,7 @@ item_queries:
   is_game: 'avmedia:"Video Games"'
   is_soundtrack: 'albumtypes:soundtrack , genre:soundtrack ^query:is_sampler'
   is_sole_track: 'sole_track:true'
-  for_single_tracks: 'singleton:true , albumtypes:single albumtotal:1 , single_track:true'
+  for_single_tracks: 'singleton:true , single_track:true'
 
   # Categories
   classical: 'query:is_classical ^loved:true ^composer:"Christopher Tin" ^query:is_game ^query:is_sampler ^query:is_soundtrack'
