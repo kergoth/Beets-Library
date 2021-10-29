@@ -4,6 +4,7 @@ statefile: Library/state.pickle
 pluginpath:
   - ./plugins
   - ./plugins/beets-kergoth/beetsplug
+  - ./plugins/beets-alternatives/beetsplug
   - ./plugins/whatlastgenre/plugin/beets/beetsplug
 
 per_disc_numbering: true
