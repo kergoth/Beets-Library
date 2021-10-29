@@ -151,9 +151,9 @@ plugins:
   #  pathfield: add template functions for working with paths via fields
   #    Template Functions (%path, %pathfield).
   - pathfield
-  #  replaceformat: add template function for applying specific sets of replacements
-  #    Template Function (%replace, %replace_path).
-  - replaceformat
+  #  replacefunc: add template function for applying selective replacement rules
+  #    Template Function (%replace).
+  - replacefunc
   #  savedformats: define saved format strings by storing them in fields
   #    Template Fields (as defined).
   - savedformats

@@ -67,68 +67,69 @@ modifyonimport:
     'genre:game': 'avmedia="Video Games"'
 
 ## Path Formats and Fields
-# Replacements for replaceformat. These are being used by the `kergoth` plugin for $navigation_path.
-adjust_album:
-  # Consistency
-  'Computec Edition Vol. 1': 'Computec Edition, Vol. 1'
-  'HGTV / Paste': 'HGTV & Paste'
-  'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
-  'Video Games Live, Volume One': 'Video Games Live: Level 1'
 
-adjust_artist:
-  # Deal with non-alphanumeric sort issues when browsing
-  '_ensnare_': 'ensnare'
-  ':wumpscut:': 'wumpscut'
-  '“Weird Al” Yankovic': 'Weird Al Yankovic'
-  '\.mpegasus': 'mpegasus'
+replacefunc:
+  # These replacements improve the visuals and navigation on the media player
+  alt:
+    # Marks I don't care about
+    ' *[™®©](?![a-zA-Z])': ''
 
-  # Remove featuring artists for navigation
-  ' ([fF]([eE][aA])?[tT]\.|w[/／]) .*': ''
+    # Visual cleanup
+    '[\x00-\x1f]': _
+    '^\s+': ''
+    '\s+$': ''
 
-  # Multi-artist
-  ' / .*': ''
-  ' *[,;](?! *Jr).*': ''
-  'Chris Ballew and .*': 'Chris Ballew'
+    # Revert asciify for certain chars
+    '\.\.\.': '…'
 
-  # Consistency
-  'George Alistair Sanger': 'George Sanger'
+    # Bad font rendering for these characters on the Shanling M0 DAP
+    '“': '"'
+    '”': '"'
+    '‘': "'"
+    '’': "'"
 
-  # Ease navigation
-  'Amanda Palmer \+ The Grand Theft Orchestra': 'Amanda Palmer'
-  'Amanda Palmer & The Grand Theft Orchestra': 'Amanda Palmer'
-  'Bob Seger & the Silver Bullet Band': 'Bob Seger'
-  'Ben Harper With Charlie Musselwhite': 'Ben Harper'
-  'Bob Marley & The Wailers': 'Bob Marley'
-  'Stafford Bawler + Todd Baker': 'Stafford Bawler'
+  album:
+    # Consistency
+    'Computec Edition Vol. 1': 'Computec Edition, Vol. 1'
+    'HGTV / Paste': 'HGTV & Paste'
+    'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
+    'Video Games Live, Volume One': 'Video Games Live: Level 1'
 
-adjust_franchise:
-  'The Legend of Zelda': 'Zelda'
+  artist:
+    # Deal with non-alphanumeric sort issues when browsing
+    '_ensnare_': 'ensnare'
+    ':wumpscut:': 'wumpscut'
+    '“Weird Al” Yankovic': 'Weird Al Yankovic'
+    '\.mpegasus': 'mpegasus'
 
-adjust_media:
-  'Command & Conquer: Red Alert': 'Red Alert'
-  'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV'
-  'The Chronicles of Riddick: Assault on Dark Athena': 'Riddick'
-  'The Elder Scrolls V: Skyrim': 'Skyrim'
-  'The Incredible Adventures of Van Helsing': 'Van Helsing'
+    # Remove featuring artists for navigation
+    ' ([fF]([eE][aA])?[tT]\.|w[/／]) .*': ''
 
-# These replacements improve the visuals and navigation on the media player
-adjust_dap:
-  # Marks I don't care about
-  ' *[™®©](?![a-zA-Z])': ''
+    # Multi-artist
+    ' / .*': ''
+    ' *[,;](?! *Jr).*': ''
+    'Chris Ballew and .*': 'Chris Ballew'
 
-  # Visual cleanup
-  '[\x00-\x1f]': _
-  '^\s+': ''
-  '\s+$': ''
+    # Consistency
+    'George Alistair Sanger': 'George Sanger'
 
-  # Revert asciify for certain chars
-  '\.\.\.': '…'
+    # Ease navigation
+    'Amanda Palmer \+ The Grand Theft Orchestra': 'Amanda Palmer'
+    'Amanda Palmer & The Grand Theft Orchestra': 'Amanda Palmer'
+    'Bob Seger & the Silver Bullet Band': 'Bob Seger'
+    'Ben Harper With Charlie Musselwhite': 'Ben Harper'
+    'Bob Marley & The Wailers': 'Bob Marley'
+    'Stafford Bawler + Todd Baker': 'Stafford Bawler'
 
-  # Bad font rendering for these characters on the Shanling M0 DAP
-  '“': '"'
-  '”': '"'
-  '‘': "'"
-  '’': "'"
+  franchise:
+    'The Legend of Zelda': 'Zelda'
+
+  media:
+    'Command & Conquer: Red Alert': 'Red Alert'
+    'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV'
+    'The Chronicles of Riddick: Assault on Dark Athena': 'Riddick'
+    'The Elder Scrolls V: Skyrim': 'Skyrim'
+    'The Incredible Adventures of Van Helsing': 'Van Helsing'
 
 item_formats:
   path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
