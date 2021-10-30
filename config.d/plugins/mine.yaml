@@ -151,10 +151,10 @@ alias:
     get-config-path: '!sh -c "p=\"$(beet config | yq e \".$1\" -)\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
     # Latest additions
-    recent-albums: ls -a -f '$added $format_album' 'added-'
-    recent: ls -f '$added $format_item' 'added-'
-    last-week: ls -f '$added $format_item' 'added-' 'added:-7d..'
-    last-month: ls -f '$added $format_item' 'added-' 'added:-30d..'
+    recent-albums: ls -a -f '$added $format_album via $source' 'added-'
+    recent: ls -f '$added $format_item via $source' 'added-'
+    last-week: ls -f '$added $format_item via $source' 'added-' 'added:-7d..'
+    last-month: ls -f '$added $format_item via $source' 'added-' 'added:-30d..'
 
     # Reimport unidentified items
     reimport-mb: import -L mb_albumid:@
