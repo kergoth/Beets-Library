@@ -51,7 +51,6 @@ clutter: ['*.m3u', 'Thumbs.DB', '.DS_Store']
 id3v23: yes
 
 import:
-  reflink: auto
   incremental: true
   timid: true
   log: Library/import.log
