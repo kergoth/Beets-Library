@@ -172,6 +172,9 @@ alias:
     # Edit 'media' fields
     edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
 
+    # Alternatives
+    ls-alt: ls -f '%pathfield{${navigation_path}}'
+
     # Mac-specific
     reveal: open -R --
     picard: 'open -A "-a MusicBrainz\ Picard" --'
