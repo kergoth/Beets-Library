@@ -266,6 +266,8 @@ class KergothPlugin(BeetsPlugin):
         elif self.query('by_label_flat', item):
             # query:by_label_flat: 'Music/%pathfield{$bucket_by_label_flat}'
             return self.path(f'Music/{self.bucket_by_label_flat(item)}')
+        elif item.comp and not item.get('single_track', False):
+            return self.path(f'Music/Compilations/{self.by_album(item,  media=False)}')
         else:
             # default: 'Music/%pathfield{$bucket_by_artist}'
             return self.path(f'Music/{self.bucket_by_artist(item,  media=False)}')
@@ -306,3 +308,6 @@ class FormattedItem:
 
     def _template_funcs(self):
         return self.item._template_funcs()
+
+    def get(self, field, default=None):
+        return getattr(self, field, default)
