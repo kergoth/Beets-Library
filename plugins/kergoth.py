@@ -174,8 +174,10 @@ class KergothPlugin(BeetsPlugin):
     def by_album(self, item, media=True):
         return f"{self.albumdir(item, media)}/{self.comp_filename(item)}"
 
-    def by_artist(self, item, media=True):
-        if self.query("for_single_tracks", item):
+    def by_artist(self, item, media=True, split_samplers=False):
+        if self.query("for_single_tracks", item) or (
+            split_samplers and self.query("is_sampler", item)
+        ):
             return f"{self.artistdir(item)}/Single Tracks/{self.full_title(item)}"
         else:
             return f"{self.albumartistdir(item)}/{self.by_album(item, media)}"
@@ -193,13 +195,15 @@ class KergothPlugin(BeetsPlugin):
         item = FormattedItem(item)
         if self.query("non_music", item):
             return self.path(
-                f"Non-Music/{item.genre}/{self.by_artist(item,  media=False)}"
+                f"Non-Music/{item.genre}/{self.by_artist(item, media=False)}"
             )
         elif self.query("alt_to_listen", item):
             return self.path(f"To Listen/{self.by_album(item)}")
         elif self.is_loved(item):
-            if self.query("is_sole_track", item) or self.query(
-                "for_single_tracks", item
+            if (
+                self.query("is_sole_track", item)
+                or self.query("for_single_tracks", item)
+                or self.query("is_sampler", item)
             ):
                 return self.path(f"Loved/Single Tracks/{self.artist_title(item)}")
             else:
@@ -215,15 +219,15 @@ class KergothPlugin(BeetsPlugin):
         elif self.query("christmas_sole_tracks", item):
             return self.path(f"Christmas/Single Tracks/{self.artist_title(item)}")
         elif self.query("christmas", item):
-            return self.path(f"Christmas/{self.by_artist(item,  media=False)}")
+            return self.path(f"Christmas/{self.by_artist(item, media=False)}")
         elif self.query("classical_sole_tracks", item):
             return self.path(f"Classical/Single Tracks/{self.artist_title(item)}")
         elif self.query("classical", item):
-            return self.path(f"Classical/{self.by_artist(item,  media=False)}")
+            return self.path(f"Classical/{self.by_artist(item, media=False)}")
         elif self.query("chiptune_game", item):
             return self.path(f"Chiptunes/Games/{self.bucket_by_album(item)}")
         elif self.query("chiptune", item):
-            return self.path(f"Chiptunes/Music/{self.by_artist(item,  media=False)}")
+            return self.path(f"Chiptunes/Music/{self.by_artist(item, media=False)}")
         elif self.query("alt_game", item):
             return self.path(f"Games/{self.bucket_by_album(item)}")
         elif self.query("alt_game_extra", item):
@@ -231,7 +235,7 @@ class KergothPlugin(BeetsPlugin):
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
         elif self.query("sampler", item):
-            return self.path(f"Samplers/{self.by_album(item,  media=False)}")
+            return self.path(f"Samplers/{self.by_album(item, media=False)}")
         elif self.query("is_sole_track", item):
             return self.path(
                 f"Music/Single Tracks/{item.source}/{self.artist_title(item)}"
@@ -239,9 +243,9 @@ class KergothPlugin(BeetsPlugin):
         elif self.query("by_label_flat", item):
             return self.path(f"Music/{self.bucket_by_label_flat(item)}")
         elif item.comp and not item.get("single_track", False):
-            return self.path(f"Music/Compilations/{self.by_album(item,  media=False)}")
+            return self.path(f"Music/Compilations/{self.by_album(item, media=False)}")
         else:
-            return self.path(f"Music/{self.bucket_by_artist(item,  media=False)}")
+            return self.path(f"Music/{self.bucket_by_artist(item, media=False)}")
 
 
 class FactoryDict(dict):
