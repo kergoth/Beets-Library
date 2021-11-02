@@ -1,16 +1,5 @@
 ## Metadata
 
-acousticbrainz:
-  tags:
-    - bpm
-    - mood_acoustic
-    - mood_aggressive
-    - mood_electronic
-    - mood_happy
-    - mood_party
-    - mood_relaxed
-    - mood_sad
-
 edit:
   itemfields: track title artist album albumdisambig tracktotal year
   albumfields: album albumartist
