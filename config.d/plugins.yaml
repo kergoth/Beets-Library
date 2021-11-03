@@ -131,6 +131,9 @@ plugins:
   #  inconsistentalbumtracks: identify albums whose tracks have inconsistent album fields
   #    Command (inconsistent-album-tracks).
   - inconsistentalbumtracks
+  #  last_import: record the most recent import via a flexible field
+  #    Passive (import)
+  - last_import
   #  modifyonimport: modify fields in imported items
   #    Passive (import, as defined).
   - modifyonimport
