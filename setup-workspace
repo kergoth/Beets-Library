@@ -30,7 +30,7 @@ git fetch origin || :
 git checkout -f -b main origin/main
 
 cp -a "$topdir/"*.nix "$topdir/nix" .
-for i in .envrc scripts config.yaml config.d hooks plugins; do
+for i in .envrc .vscode scripts config.yaml config.d hooks plugins; do
     cp -av "$topdir/$i" .
 done
 sed -i.bak -e '/^ *# - nowrite/s/# //' config.yaml
