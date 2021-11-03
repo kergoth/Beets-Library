@@ -95,7 +95,9 @@ cut -d"$TAB" -f1 "$artfiles" \
             if [ -n "$(find "$destdir" -name "$destname" -newer "$artpath")" ]; then
                 continue
             fi
-            # msg "Writing $destdir/$destname"
+            if [ -n "${BEETS_VERBOSE:-}" ]; then
+                msg "Writing $destdir/$destname"
+            fi
             convert "$artpath" -resize 220x220 -bordercolor black -border 10x10 "$destdir/$destname"
         fi
     done
