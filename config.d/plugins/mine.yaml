@@ -301,6 +301,7 @@ item_queries:
   alt_to_listen: 'to_listen:true'
   by_label_flat: 'label:"Music for Programming"'
   chiptune_game: 'genre:chiptune query:is_game query:is_soundtrack'
+  chiptune_game_extra: 'genre:chiptune query:is_game ^query:is_soundtrack'
   chiptune: 'genre:chiptune'
   christmas_sole_tracks: 'genre:Christmas query:is_sole_track'
   christmas: 'query:is_christmas'

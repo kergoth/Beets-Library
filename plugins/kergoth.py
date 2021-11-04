@@ -227,6 +227,8 @@ class KergothPlugin(BeetsPlugin):
             return self.path(f"Classical/{self.by_artist(item, media=False)}")
         elif self.query("chiptune_game", item):
             return self.path(f"Chiptunes/Games/{self.bucket_by_album(item)}")
+        elif self.query("chiptune_game_extra", item):
+            return self.path(f"Chiptunes/Games/Extras/{self.by_album(item)}")
         elif self.query("chiptune", item):
             return self.path(f"Chiptunes/Music/{self.by_artist(item, media=False)}")
         elif self.query("alt_game", item):
