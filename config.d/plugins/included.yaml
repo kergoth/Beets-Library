@@ -2,7 +2,7 @@
 
 edit:
   itemfields: track title artist album albumdisambig tracktotal year
-  albumfields: album albumartist
+  albumfields: album albumartist tracktotal year
 
 embedart:
   auto: false
