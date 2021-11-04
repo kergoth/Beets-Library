@@ -155,7 +155,7 @@ class KergothPlugin(BeetsPlugin):
 
     def albumdir(self, item, media=True):
         if "franchise" in item and item.franchise:
-            return self.the(f"{self.franchisedir(item)}/{self.albumonlydir(item)}")
+            return f"{self.the(self.franchisedir(item))}/{self.the(self.albumonlydir(item))}"
         else:
             return self.the(self.albumonlydir(item, media))
 
