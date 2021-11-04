@@ -191,7 +191,8 @@ alias:
     music: ls \^query:is_non_music
     singletons: ls singleton:true
     complete: ls -a missing:0
-    high-res: albums-for samplerate:96000..
+    high-res: ls -a any_track_has:samplerate:96000..
+    ls-format: ls -f '$format | $samplerate | $format_item'
 
     # Show incomplete albums, skipping any albums where I only have one track
     incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1.. \^query:is_game one_track:0'
