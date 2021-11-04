@@ -114,6 +114,9 @@ plugins:
   - alternatives
 
   ## Miscellaneous
+  #  check: automatically checksum your files to detect corruption
+  #    Passive (import, modify, write) and Command (check).
+  - check
   #  copyartifacts: move non-music files during the import process
   #    Passive (import).
   - copyartifacts
