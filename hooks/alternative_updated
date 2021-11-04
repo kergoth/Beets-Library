@@ -43,11 +43,6 @@ elif [ -d "${BEETS_LIBRARY:-}" ]; then
     fi
 fi
 
-if [ -z "${BEETS_ALT_SKIP_COVERS:-}" ]; then
-    msg "Updating/converting covers"
-    "$(dirname "$0")/../scripts/update-alternative-covers" "$alternative" "$directory" "$@"
-fi
-
 msg "Removing empty directories"
 remove-empty-dirs "$directory"/*/ >/dev/null || :
 

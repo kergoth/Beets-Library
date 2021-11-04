@@ -17,13 +17,17 @@ if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
     exit 0
 fi
 
-if [ -d "$directory" ]; then
+if [ -n "$directory" ] && [ -d "$directory" ]; then
     msg "Removing dead symlinks"
     find "$directory" -type l \
         | while read -r fn; do test -e "$fn" || echo "$fn"; done \
         | tr '\n' '\0' \
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
+
+    msg "Removing album art to avoid remnants"
+    find "$directory" \( -iname cover\*.jpg -o -iname cover\*.png \) -print0 \
+        | xargs -0 rm -f
 fi
 
 msg Updating
