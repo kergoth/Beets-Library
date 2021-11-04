@@ -147,6 +147,13 @@ playlist:
 
 ## Miscellaneous
 
+badfiles:
+    check_on_import: yes
+    commands:
+        m4a: ffmpeg -v error -f null - -i
+        mp4: ffmpeg -v error -f null - -i
+        ogg: oggz-validate
+
 types:
   # Built-in or Plugin fields
   albumtotal: int
