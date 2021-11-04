@@ -144,7 +144,8 @@ class KergothPlugin(BeetsPlugin):
         else:
             if item.album:
                 aunique = item._template_funcs()["aunique"]
-                return f"{item.album}{aunique()}{self.albumsuffix(item)}"
+                album = self.replace("album", item.album)
+                return f"{album}{aunique()}{self.albumsuffix(item)}"
             else:
                 return "Single Tracks"
 
