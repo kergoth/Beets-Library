@@ -8,6 +8,7 @@ for url in https://github.com/beetbox/beets \
            https://github.com/edk0/beets-join-albums \
            https://github.com/kergoth/beets-alternatives \
            https://github.com/adammillerio/beets-copyartifacts \
+           https://github.com/geigerzaehler/beets-check \
            https://github.com/adamjakab/BeetsPluginXtractor \
            https://github.com/adamjakab/BeetsPluginYearFixer \
            https://github.com/phirestalker/beets-musicintegrity \
