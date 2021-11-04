@@ -12,7 +12,9 @@ scriptdir="$(cd "$(dirname "$0")" && pwd -P)"
 . "$scriptdir/common.sh"
 
 alternative="$1"
-directory="$2"
+shift
+directory="$1"
+shift
 
 if ! [ -d "$directory" ]; then
     echo >&2 "Error: $directory does not exist after alternative update"
@@ -43,7 +45,7 @@ fi
 
 if [ -z "${BEETS_ALT_SKIP_COVERS:-}" ]; then
     msg "Updating/converting covers"
-    "$(dirname "$0")/../scripts/update-alternative-covers" "$alternative" "$directory"
+    "$(dirname "$0")/../scripts/update-alternative-covers" "$alternative" "$directory" "$@"
 fi
 
 msg "Removing empty directories"
