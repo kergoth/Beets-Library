@@ -135,12 +135,12 @@ class KergothPlugin(BeetsPlugin):
 
     def albumonlydir(self, item, media=True):
         if media and "mediatitle" in item and item.mediatitle:
-            media = f"{item.mediatitle}"
+            media = self.replace("media", item.mediatitle)
             if "mediatitledisambig" in item:
                 media += f" [{item.mediatitledisambig}]"
             if item.album:
                 media += self.albumsuffix(item)
-            return self.replace("media", media)
+            return media
         else:
             if item.album:
                 aunique = item._template_funcs()["aunique"]
