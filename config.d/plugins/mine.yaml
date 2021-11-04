@@ -293,7 +293,7 @@ item_queries:
   is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
   is_sampler: 'albumtypes:sampler , album:sampler'
   is_sole_track: 'sole_track:true'
-  is_soundtrack: 'albumtypes:soundtrack , genre:soundtrack ^query:is_sampler'
+  is_soundtrack: 'albumtypes:soundtrack'
 
   # Categories
   alt_game_extra: '^albumtypes:soundtrack query:is_game'
