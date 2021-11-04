@@ -12,7 +12,10 @@ scriptdir="$(cd "$(dirname "$0")" && pwd -P)"
 . "$scriptdir/common.sh"
 
 alternative="$1"
-directory="$2"
+shift
+directory="$1"
+shift
+
 if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
     exit 0
 fi
@@ -25,9 +28,11 @@ if [ -n "$directory" ] && [ -d "$directory" ]; then
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
 
-    msg "Removing album art to avoid remnants"
-    find "$directory" \( -iname cover\*.jpg -o -iname cover\*.png \) -print0 \
-        | xargs -0 rm -f
+    if [ $# -eq 0 ]; then
+        msg "Removing album art to avoid remnants"
+        find "$directory" \( -iname cover\*.jpg -o -iname cover\*.png \) -print0 \
+            | xargs -0 rm -f
+    fi
 fi
 
 msg Updating
