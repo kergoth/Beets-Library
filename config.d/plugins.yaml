@@ -168,6 +168,9 @@ plugins:
   #  alternativesplaylist: write playlists to the alternatives
   #    Passive (alternative update) and Command (altplaylistupdate).
   - alternativesplaylist
+  ## quietthe: quiet the verbose messages from the 'the' plugin
+  #    Passive.
+  - quietthe
 
   ## Miscellaneous
   #  alias: define beet command aliases
