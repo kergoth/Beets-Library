@@ -229,8 +229,8 @@ hookscripts:
     - album_imported
     - item_imported
   args:
-    alternative_before_update: 'alternative.name, syspath(alternative.directory)'
-    alternative_updated: 'alternative.name, syspath(alternative.directory)'
+    alternative_before_update: 'alternative.name, syspath(alternative.directory), options.query'
+    alternative_updated: 'alternative.name, syspath(alternative.directory), options.query'
     album_imported: 'str(album.id)'
     item_imported: 'str(item.id)'
     # Unused
