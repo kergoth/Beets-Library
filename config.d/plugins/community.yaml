@@ -21,6 +21,9 @@ alternatives:
   dap:
     directory: '../DAP'
     formats: link
+    link_type: relative
+    copy_album_art: yes
+    copy_album_art_pp: shrink-art-dap
     query: ^disliked:true
     paths:
       # navigation_path is defined in plugins/kergoth.py
