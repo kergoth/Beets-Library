@@ -6,7 +6,7 @@ for url in https://github.com/beetbox/beets \
            https://github.com/snejus/beetcamp \
            https://github.com/kergoth/beets-kergoth \
            https://github.com/edk0/beets-join-albums \
-           https://github.com/wisp3rwind/beets-alternatives \
+           https://github.com/kergoth/beets-alternatives \
            https://github.com/adammillerio/beets-copyartifacts \
            https://github.com/adamjakab/BeetsPluginXtractor \
            https://github.com/adamjakab/BeetsPluginYearFixer \
