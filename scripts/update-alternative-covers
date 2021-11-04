@@ -102,11 +102,13 @@ cut -d"$TAB" -f1 "$artfiles" \
         fi
     done
 
-msg "Removing remnant album art"
-find "$directory" -iname cover\*.jpg -o -iname cover\*.png \
-    | sort -u >"$existingcovers"
-sort -u "$covers" >"$covers.new" \
-    && mv "$covers.new" "$covers"
-comm -23 "$existingcovers" "$covers" \
-    | tr '\n' '\0' \
-    | xargs -0 rm -fv
+if [ $# -eq 0 ]; then
+    msg "Removing remnant album art"
+    find "$directory" -iname cover\*.jpg -o -iname cover\*.png \
+        | sort -u >"$existingcovers"
+    sort -u "$covers" >"$covers.new" \
+        && mv "$covers.new" "$covers"
+    comm -23 "$existingcovers" "$covers" \
+        | tr '\n' '\0' \
+        | xargs -0 rm -fv
+fi
