@@ -28,7 +28,7 @@ if [ -n "$directory" ] && [ -d "$directory" ]; then
         | xargs -0 rm -fv \
         | sed -e 's,^,-,'
 
-    if [ $# -eq 0 ]; then
+    if [ -z "${BEETS_ALT_SKIP_REMOVE_ART:-}" ] && [ $# -eq 0 ]; then
         msg "Removing album art to avoid remnants"
         find "$directory" \( -iname cover\*.jpg -o -iname cover\*.png \) -print0 \
             | xargs -0 rm -f
