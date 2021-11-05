@@ -11,8 +11,9 @@ include:
 
 pluginpath:
   - ./plugins
-  - ./plugins/beets-kergoth/beetsplug
-  - ./plugins/whatlastgenre/plugin/beets/beetsplug
+  - ./src/beets-kergoth/beetsplug
+  - ./src/beets-alternatives/beetsplug
+  - ./src/whatlastgenre/plugin/beets/beetsplug
 
 ignore: ['@eaDir', '.*', '*~', 'System Volume Information', 'lost+found']
 
