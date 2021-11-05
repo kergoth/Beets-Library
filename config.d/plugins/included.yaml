@@ -193,3 +193,7 @@ types:
 
   # set_fields
   reimported: bool
+
+unimported:
+    ignore_extensions: jpg png pdf txt log cue html nfo rtf doc m3u DS_Store par2
+    ignore_subdirectories: ''
