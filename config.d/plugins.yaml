@@ -104,9 +104,9 @@ plugins:
   #  join_albums: merge albums
   #    Command (join).
   - join_albums
-  #  wlg: fetch genre based on tags from various music sites
+  #  whatlastgenre: fetch genre based on tags from various music sites
   #    Command (wlg).
-  - wlg
+  - whatlastgenre
 
   ## Interoperability
   #  alternatives: manage external files
