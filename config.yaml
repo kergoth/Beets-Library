@@ -15,7 +15,7 @@ pluginpath:
   - ./src/beets-alternatives/beetsplug
   - ./src/whatlastgenre/plugin/beets/beetsplug
 
-ignore: ['@eaDir', '.*', '*~', 'System Volume Information', 'lost+found']
+ignore: ['.DS_Store', '@eaDir', '.*', '*~', 'System Volume Information', 'lost+found']
 
 # For unicode lookalikes, see:
 # http://www.unicode.org/Public/security/latest/confusables.txt
