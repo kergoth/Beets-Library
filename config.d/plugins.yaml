@@ -208,6 +208,9 @@ plugins:
   #  musicsource: expect the `source` field to be set on import
   #    Passive (import).
   - musicsource
+  #  soletracks: identify tracks which are the only ones we have by that artist.
+  #    Command (list-sole-tracks)
+  - soletracks
   #  reimportskipfields: allow certain set_fields to apply to skipped items on reimport
   #    Passive (import, as defined).
   - reimportskipfields

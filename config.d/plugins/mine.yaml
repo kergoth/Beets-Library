@@ -315,3 +315,13 @@ item_queries:
 
 reimportskipfields:
   set_fields: reimported
+
+soletracks:
+  query: single_track:yes query:sole_track_candidates
+  check_query: query:sole_track_candidates ^comp:1
+  # I don't need to check_single_track, as I already use a flexible field `single_track`
+  check_single_track: no
+  sections:
+    - query:is_classical ^query:is_christmas
+    - query:is_christmas ^query:is_classical
+    - ^query:is_christmas ^query:is_classical
