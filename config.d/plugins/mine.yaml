@@ -106,6 +106,7 @@ replacefunc:
     ' / .*': ''
     ' *[,;](?! *Jr).*': ''
     'Chris Ballew and .*': 'Chris Ballew'
+    ' with .*': ''
 
     # Consistency
     'George Alistair Sanger': 'George Sanger'
