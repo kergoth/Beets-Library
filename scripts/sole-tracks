@@ -1,5 +1,12 @@
 #!/bin/bash
 # This script identifies the files that will end up in my Single Tracks folder and checks whether I have any other tracks by that artist.
+#
+# Expects:
+#   - one_track is defined in `inline` as `len(items) == 1`
+#   - one_track has a type of bool
+#   - sole_track_candidates is defined in savedqueries, usual value of ``
+
+exclusive_categories="classical christmas music"
 
 quote_args() {
     for arg in "$@"; do
