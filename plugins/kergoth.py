@@ -173,7 +173,10 @@ class KergothPlugin(BeetsPlugin):
         return f"{bucket}/{item.label}/{self.artist_title(item)}"
 
     def by_album(self, item, media=True):
-        return f"{self.albumdir(item, media)}/{self.comp_filename(item)}"
+        if self.query("for_single_tracks", item):
+            return f"Single Tracks/{self.artist_title(item)}"
+        else:
+            return f"{self.albumdir(item, media)}/{self.comp_filename(item)}"
 
     def by_artist(self, item, media=True, split_samplers=False):
         if self.query("for_single_tracks", item) or (
