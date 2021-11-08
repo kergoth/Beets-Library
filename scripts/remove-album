@@ -31,8 +31,7 @@ for album_id in $albums; do
     destdir="$remove_dest/$relpath"
     if [ -d "$destdir" ]; then
         echo >&2 "Exporting album fields"
-        first_id="$(beet ls -f '$id' "album_id:$album_id" | head -n 1)"
-        beet export -l -i "$album_flexible_fields" "id:$first_id" | jq '.[0]' >"$destdir/album.json"
+        beet export -l -i "$album_flexible_fields" -a "id:$album_id" | jq . >"$destdir/album.json"
         echo >&2 "Exporting album item fields"
         beet export -l -i "path,$item_flexible_fields" "album_id:$album_id" | jq . >"$destdir/items.json"
     fi
