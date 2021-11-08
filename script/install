@@ -24,11 +24,11 @@ for url in https://github.com/beetbox/beets \
     esac
 
     spec="git+$url"
-    if [ -d plugins ]; then
+    if [ -d src ]; then
         name="$(basename "${url%@*}")"
-        if [ -d "plugins/$name" ]; then
-        ( cd "plugins/$name" && git checkout "$branch" && git pull )
-        spec="plugins/$name"
+        if [ -d "src/$name" ]; then
+        ( cd "src/$name" && git checkout "$branch" && git pull )
+        spec="src/$name"
         fi
     else
         if [ "$branch" != master ]; then
