@@ -40,7 +40,7 @@ class KergothPlugin(BeetsPlugin):
 
         self.funcs = beets.plugins.template_funcs()
         self.the = self.funcs["the"]
-        self.replace = self.funcs["replace"]
+        self.replacefunc = self.funcs["replace"]
         self.bucket = self.funcs["bucket"]
         self.asciify = DefaultTemplateFunctions.tmpl_asciify
 
@@ -50,7 +50,7 @@ class KergothPlugin(BeetsPlugin):
         return self.savedqueries[name].match(formatteditem.item)
 
     def path(self, string):
-        return self.replace("alt", string).replace("/", "\0")
+        return self.replacefunc("alt", string).replace("/", "\0")
 
     def album_loved(self, item):
         return getattr(item._cached_album, "loved", False)
@@ -96,7 +96,7 @@ class KergothPlugin(BeetsPlugin):
             return ""
 
     def path_artist(self, item):
-        return self.asciify(self.replace("artist", item.artist))
+        return self.asciify(self.replacefunc("artist", item.artist))
 
     def full_title(self, item):
         return f"{item.title}{self.tracksuffix(item)}"
@@ -127,15 +127,15 @@ class KergothPlugin(BeetsPlugin):
 
     def albumartistdir(self, item):
         return self.the(
-            self.asciify(self.replace("artist", self.albumartistname(item)))
+            self.asciify(self.replacefunc("artist", self.albumartistname(item)))
         )
 
     def artistdir(self, item):
-        return self.the(self.asciify(self.replace("artist", self.artistname(item))))
+        return self.the(self.asciify(self.replacefunc("artist", self.artistname(item))))
 
     def albumonlydir(self, item, media=True):
         if media and "mediatitle" in item and item.mediatitle:
-            media = self.replace("media", item.mediatitle)
+            media = self.replacefunc("media", item.mediatitle)
             if "mediatitledisambig" in item:
                 media += f" [{item.mediatitledisambig}]"
             if item.album:
@@ -144,13 +144,13 @@ class KergothPlugin(BeetsPlugin):
         else:
             if item.album:
                 aunique = item._template_funcs()["aunique"]
-                album = self.replace("album", item.album)
+                album = self.replacefunc("album", item.album)
                 return f"{album}{aunique()}{self.albumsuffix(item)}"
             else:
                 return "Single Tracks"
 
     def franchisedir(self, item):
-        franchise = self.replace("franchise", item.franchise)
+        franchise = self.replacefunc("franchise", item.franchise)
         return self.the(f"{franchise} Franchise")
 
     def albumdir(self, item, media=True):
