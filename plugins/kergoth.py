@@ -53,10 +53,12 @@ class KergothPlugin(BeetsPlugin):
         return self.replacefunc("alt", string).replace("/", "\0")
 
     def album_loved(self, item):
-        return getattr(item._cached_album, "loved", False)
+        if item.album and item._cached_album:
+            return item._cached_album.get("loved", False)
+        return False
 
     def is_loved(self, item):
-        return (item.album_id and self.album_loved(item)) or (
+        return self.album_loved(item) or (
             item.get("loved", False) and self.query("for_single_tracks", item)
         )
 
