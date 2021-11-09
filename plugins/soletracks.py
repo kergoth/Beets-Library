@@ -5,9 +5,10 @@ acquired over the years out of the artist/album structure, as seeing thousands
 of "albums" with one track each is not useful.
 """
 
+import collections
+import re
 from beets import library, plugins, ui
 from beets.dbcore import types
-from beets.dbcore.query import AndQuery, MatchQuery, OrQuery
 
 
 class SoleTracks(plugins.BeetsPlugin):
@@ -27,6 +28,12 @@ class SoleTracks(plugins.BeetsPlugin):
                 "sections": "",
             }
         )
+
+        self.feat_tokens = re.compile(
+            plugins.feat_tokens(for_artist=True).replace("|and", "").replace("|\&", "")
+        )
+        self.artist_tokens = re.compile(r"(?<=\s)(?:and|\&|,)(?=\s)")
+        self.asciify = library.DefaultTemplateFunctions.tmpl_asciify
 
     def commands(self):
         list_cmd = ui.Subcommand(
@@ -51,33 +58,38 @@ class SoleTracks(plugins.BeetsPlugin):
             "modify-sole-tracks",
             help='Modify "sole_track" flexible field on tracks based on whether they are the only tracks by that artist.',
         )
-        modify_cmd.parser.add_path_option()
-        modify_cmd.parser.add_format_option()
+        modify_cmd.parser.add_option(
+            "-p",
+            "--pretend",
+            action="store_true",
+            help="show all changes but do nothing",
+        )
         modify_cmd.func = self.modify_command
         return [list_cmd, modify_cmd]
 
     def list_command(self, lib, opts, args):
         self.handle_common_args(opts, args)
 
-        for sole_track, items in self.list_sole_tracks(lib, self.base_query):
-            if opts.non_matching and not sole_track:
-                for item in items:
-                    ui.print_(format(item))
-            elif sole_track:
-                ui.print_(format(items))
+        for sole_track, item in self.list_sole_tracks(lib):
+            if sole_track:
+                ui.print_(format(item))
+            elif opts.non_matching and not sole_track and self.base_query.match(item):
+                ui.print_(format(item))
 
     def modify_command(self, lib, opts, args):
         self.handle_common_args(opts, args)
 
-        for sole_track, item in self.list_sole_tracks(lib, self.base_query):
+        for sole_track, item in self.list_sole_tracks(lib):
             existing_sole_track = item.get("sole_track", False)
             if existing_sole_track != sole_track:
                 if not sole_track:
                     del item["sole_track"]
                 else:
                     item["sole_track"] = True
+
                 ui.show_model_changes(item, fields=("sole_track",))
-                item.store()
+                if not opts.pretend:
+                    item.store()
 
     def handle_common_args(self, opts, args):
         self.config.set_args(opts)
@@ -92,44 +104,55 @@ class SoleTracks(plugins.BeetsPlugin):
             base_query, _ = library.parse_query_string(query, library.Item)
         self.base_query = base_query
 
-    def list_sole_tracks(self, lib, base_query):
+    def list_sole_tracks(self, lib):
         check_single_track = self.config["check_single_track"].get(True)
         artist_fields = self.config["artist_fields"].as_str_seq()
         check_fields = self.config["check_fields"].as_str_seq()
+        sections = self.config["sections"].as_str_seq()
 
         base_check_query = self.config["check_query"].as_str()
         self._log.debug(f"Using check query {base_check_query}")
         base_check_query, _ = library.parse_query_string(base_check_query, library.Item)
 
-        seen_items = set()
-        for section in self.config["sections"].as_str_seq():
-            section_query, _ = library.parse_query_string(section, library.Item)
+        candidates_by_section = collections.defaultdict(set)
+        check_by_section = collections.defaultdict(set)
+        artists = collections.defaultdict(lambda: collections.defaultdict(set))
 
+        self._log.debug("Gathering item artist information")
+        for item in lib.items():
+            base_match = self.base_query.match(item)
+            check_match = base_check_query.match(item)
+            if not base_match and not check_match:
+                continue
+
+            for section in sections:
+                section_query, _ = library.parse_query_string(section, library.Item)
+                if section_query.match(item):
+                    if base_match:
+                        candidates_by_section[section].add(item)
+                    if check_match:
+                        check_by_section[section].add(item)
+                        for artist in self.artists(item, check_fields):
+                            artists[section][artist].add(item)
+
+        for section in sections:
             self._log.info(f"Checking section: {section}")
-
-            for item in lib.items(AndQuery([base_query, section_query])):
+            for item in candidates_by_section[section]:
                 if check_single_track:
                     if item.album and item._cached_album:
                         if len(item._cached_album.items()) > 1:
                             # Not a single track
                             continue
 
-                if item.id in seen_items:
-                    continue
-                seen_items.add(item.id)
-
-                artists = [getattr(item, a, None) for a in artist_fields]
-                artists = sorted(set(a for a in artists if a))
-                matches = []
-                for artist in artists:
-                    matches.extend(MatchQuery(field, artist) for field in check_fields)
-
-                check_query = AndQuery(
-                    [base_check_query, section_query, OrQuery(matches)]
-                )
-                self._log.debug(f'Checking for artists ({", ".join(artists)})')
-                other_items = lib.items(check_query)
-                other_items = [i for i in other_items if i.id != item.id]
+                item_artists = self.artists(item, artist_fields)
+                self._log.debug(f'Checking for artists ({", ".join(item_artists)})')
+                other_items = set()
+                for artist in item_artists:
+                    other_items |= set(
+                        other_item
+                        for other_item in artists[section][artist]
+                        if other_item != item
+                    )
 
                 if other_items:
                     yield False, item
@@ -137,3 +160,25 @@ class SoleTracks(plugins.BeetsPlugin):
                         yield False, other
                 else:
                     yield True, item
+
+    def artists(self, item, artist_fields):
+        artists = set()
+        for field in artist_fields:
+            if field in item:
+                value = item.get(field)
+                if value:
+                    artists.add(value.strip().lower())
+
+                    value = self.feat_tokens.split(value, 1)[0]
+                    artists.add(value.strip().lower())
+
+                    field_artists = [
+                        a.strip().lower() for a in self.artist_tokens.split(value)
+                    ]
+                    field_artists = [a for a in field_artists if a]
+                    artists |= set(field_artists)
+
+        if artists:
+            artists |= set(self.asciify(artist) for artist in artists)
+
+        return artists
