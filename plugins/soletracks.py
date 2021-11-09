@@ -20,8 +20,8 @@ class SoleTracks(plugins.BeetsPlugin):
 
         self.config.add(
             {
-                "artist_fields": "artist artist_credit",
-                "check_fields": "artist artist_credit albumartist albumartist_credit",
+                "artist_fields": "artist artist_credit artists",
+                "check_fields": "artist artist_credit artists albumartist albumartist_credit",
                 "check_query": "^comp:1",
                 "check_single_track": True,
                 "sections": "",
