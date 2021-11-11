@@ -70,16 +70,22 @@ class SoleTracks(plugins.BeetsPlugin):
     def list_command(self, lib, opts, args):
         self.handle_common_args(opts, args)
 
-        for sole_track, item in self.list_sole_tracks(lib):
-            if sole_track:
+        for item, is_sole_track in self.list_sole_tracks(lib):
+            if is_sole_track:
                 ui.print_(format(item))
-            elif opts.non_matching and not sole_track and self.base_query.match(item):
+            elif opts.non_matching and not is_sole_track:
                 ui.print_(format(item))
 
     def modify_command(self, lib, opts, args):
         self.handle_common_args(opts, args)
 
-        for sole_track, item in self.list_sole_tracks(lib):
+        sole_tracks = set(
+            item.id
+            for item, is_sole_track in self.list_sole_tracks(lib)
+            if is_sole_track
+        )
+        for item in lib.items():
+            sole_track = item.id in sole_tracks
             existing_sole_track = item.get("sole_track", False)
             if existing_sole_track != sole_track:
                 if not sole_track:
@@ -115,8 +121,7 @@ class SoleTracks(plugins.BeetsPlugin):
         base_check_query, _ = library.parse_query_string(base_check_query, library.Item)
 
         candidates_by_section = collections.defaultdict(set)
-        check_by_section = collections.defaultdict(set)
-        artists = collections.defaultdict(lambda: collections.defaultdict(set))
+        checked_by_artist = collections.defaultdict(lambda: collections.defaultdict(set))
 
         self._log.debug("Gathering item artist information")
         for item in lib.items():
@@ -131,13 +136,17 @@ class SoleTracks(plugins.BeetsPlugin):
                     if base_match:
                         candidates_by_section[section].add(item)
                     if check_match:
-                        check_by_section[section].add(item)
                         for artist in self.artists(item, check_fields):
-                            artists[section][artist].add(item)
+                            checked_by_artist[section][artist].add(item)
 
+        seen = set()
         for section in sections:
             self._log.info(f"Checking section: {section}")
             for item in candidates_by_section[section]:
+                if item in seen:
+                    continue
+                seen.add(item)
+
                 if check_single_track:
                     if item.album and item._cached_album:
                         if len(item._cached_album.items()) > 1:
@@ -146,20 +155,13 @@ class SoleTracks(plugins.BeetsPlugin):
 
                 item_artists = self.artists(item, artist_fields)
                 self._log.debug(f'Checking for artists ({", ".join(item_artists)})')
-                other_items = set()
                 for artist in item_artists:
-                    other_items |= set(
-                        other_item
-                        for other_item in artists[section][artist]
-                        if other_item != item
-                    )
-
-                if other_items:
-                    yield False, item
-                    for other in other_items:
-                        yield False, other
+                    other_items = [i for i in checked_by_artist[section][artist] if i != item]
+                    if other_items:
+                        yield item, False
+                        break
                 else:
-                    yield True, item
+                    yield item, True
 
     def artists(self, item, artist_fields):
         artists = set()
@@ -172,11 +174,9 @@ class SoleTracks(plugins.BeetsPlugin):
                     value = self.feat_tokens.split(value, 1)[0]
                     artists.add(value.strip().lower())
 
-                    field_artists = [
-                        a.strip().lower() for a in self.artist_tokens.split(value)
-                    ]
-                    field_artists = [a for a in field_artists if a]
-                    artists |= set(field_artists)
+                    split_artist = self.artist_tokens.split(value)[0]
+                    if split_artist:
+                        artists.add(split_artist)
 
         if artists:
             artists |= set(self.asciify(artist) for artist in artists)
