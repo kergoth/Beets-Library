@@ -90,7 +90,7 @@ match:
 
 paths:
   default: '$source/%if{$albumartist_credit,$albumartist_credit,$albumartist}/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
-  singleton: '$source/$artist/[non-album tracks]/$path_filename'
+  singleton: '$source/%if{$artist_credit,$artist_credit,$artist}/[non-album tracks]/$path_filename'
   comp: '$source/Compilations/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album
