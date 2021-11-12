@@ -216,6 +216,7 @@ class KergothPlugin(BeetsPlugin):
                 if self.query("chiptune", item):
                     subdir = "Chiptunes"
                 elif self.query("alt_game", item):
+                    item.comp = False
                     subdir = "Games"
                 elif self.query("soundtrack", item):
                     subdir = "Soundtracks"
@@ -231,14 +232,18 @@ class KergothPlugin(BeetsPlugin):
         elif self.query("classical", item):
             return self.path(f"Classical/{self.by_artist(item, media=False)}")
         elif self.query("chiptune_game", item):
+            item.comp = False
             return self.path(f"Chiptunes/Games/{self.bucket_by_album(item)}")
         elif self.query("chiptune_game_extra", item):
+            item.comp = False
             return self.path(f"Chiptunes/Games/Extras/{self.by_album(item)}")
         elif self.query("chiptune", item):
             return self.path(f"Chiptunes/Music/{self.by_artist(item, media=False)}")
         elif self.query("alt_game", item):
+            item.comp = False
             return self.path(f"Games/{self.bucket_by_album(item)}")
         elif self.query("alt_game_extra", item):
+            item.comp = False
             return self.path(f"Games/Extras/{self.by_album(item)}")
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
