@@ -65,7 +65,7 @@ class KergothPlugin(BeetsPlugin):
     # Path Components
 
     def artist_title(self, item):
-        return f"{self.the(self.path_artist(item))} - {self.full_title(item)}"
+        return f"{self.the(self.filename_artist(item))} - {self.full_title(item)}"
 
     def disc_and_track_pre(self, item):
         if not item.track or (item.tracktotal and item.tracktotal == 1):
@@ -82,7 +82,7 @@ class KergothPlugin(BeetsPlugin):
             prefix = ""
 
         if item.comp:
-            prefix = f"{prefix}{self.path_artist(item)} - "
+            prefix = f"{prefix}{self.filename_artist(item)} - "
 
         return f"{prefix}{self.full_title(item)}"
 
@@ -97,8 +97,9 @@ class KergothPlugin(BeetsPlugin):
         else:
             return ""
 
-    def path_artist(self, item):
-        return self.asciify(self.replacefunc("artist", item.artist))
+    def filename_artist(self, item):
+        artist = item.artist_credit or item.artist
+        return self.asciify(self.replacefunc("artist", artist))
 
     def full_title(self, item):
         return f"{item.title}{self.tracksuffix(item)}"
