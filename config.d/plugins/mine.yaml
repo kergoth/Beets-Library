@@ -143,84 +143,85 @@ alternativesplaylist:
 
 ## Miscellaneous
 
-alias:
-  aliases:
-    # Utilities
-    # $ beet get-config alias.aliases.reimport
-    get-config: '!sh -c "for arg; do beet config | yq e \".$arg\" -; done" -'
-    # $ beet get-config-path library
-    get-config-path: '!sh -c "p=\"$(beet config | yq e \".$1\" -)\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
+aliases:
+  # Utilities
+  # $ beet get-config alias.aliases.reimport
+  get-config: '!sh -c "for arg; do beet config | yq e \".$arg\" -; done" -'
+  # $ beet get-config-path library
+  get-config-path: '!sh -c "p=\"$(beet config | yq e \".$1\" -)\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
-    # Latest additions
-    recent-albums: ls -a -f '$added $format_album via $source' 'added-'
-    recent: ls -f '$added $format_item via $source' 'added-'
-    last-week: ls -f '$added $format_item via $source' 'added-' 'added:-7d..'
-    last-month: ls -f '$added $format_item via $source' 'added-' 'added:-30d..'
+  recent-albums:
+    help: Show recently added albums
+    command: ls -a -f '$added $format_album via $source' 'added-'
 
-    # Reimport unidentified items
-    reimport-mb: import -L mb_albumid:@
+  recent:
+    help: Show recently added items
+    command: ls -f '$added $format_item via $source' 'added-'
 
-    # Strip release-specific tags. Useful in cases where the precise release
-    # is unknown, or is not in MusicBrainz yet.
-    norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
+  # Reimport unidentified items
+  reimport-mb: import -L mb_albumid:@
 
-    # Extract embedded art only for albums missing a cover art file
-    extract-missing-art: extractart -a artpath:^
+  # Strip release-specific tags. Useful in cases where the precise release
+  # is unknown, or is not in MusicBrainz yet.
+  norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
 
-    # Clear embedded art from albums that have an artpath
-    clearart-albums: clearart album_id::. ^artpath:^
+  # Extract embedded art only for albums missing a cover art file
+  extract-missing-art: extractart -a artpath:^
 
-    # Edit 'media' fields
-    edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
+  # Clear embedded art from albums that have an artpath
+  clearart-albums: clearart album_id::. ^artpath:^
 
-    # Alternatives
-    ls-alt: ls -f '%pathfield{${navigation_path}}'
+  # Edit 'media' fields
+  edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
 
-    # Mac-specific
-    reveal: open -R --
-    picard: 'open -A "-a MusicBrainz\ Picard" --'
-    vlc: 'open -A "-a VLC" --'
+  # Alternatives
+  ls-alt: ls -f '%pathfield{${navigation_path}}'
 
-    # Complete non-game/non-christmas albums with more than one track
-    non-game-albums: ls -a existing:2.. missing:0 ^query:is_game ^query:is_christmas
+  # Mac-specific
+  reveal: open -R --
+  picard: 'open -A "-a MusicBrainz\ Picard" --'
+  vlc: 'open -A "-a VLC" --'
 
-    # Very basic dupe check for albums lacking musicbrainz data, primarily
-    simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
-    dup-albums: dup -aF
-    dup-games: dup -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -F -k franchise -k mediatitle -k mediatitledisambig query:is_game ^mediatitle:^
+  # Complete non-game/non-christmas albums with more than one track
+  non-game-albums: ls -a existing:2.. missing:0 ^query:is_game ^query:is_christmas
 
-    music: ls \^query:is_non_music
-    singletons: ls singleton:true
-    complete: ls -a missing:0
-    high-res: ls -a any_track_has:samplerate:96000..
-    ls-format: ls -f '$format | $samplerate | $format_item'
+  # Very basic dupe check for albums lacking musicbrainz data, primarily
+  simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
+  dup-albums: dup -aF
+  dup-games: dup -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -F -k franchise -k mediatitle -k mediatitledisambig query:is_game ^mediatitle:^
 
-    # Show incomplete albums, skipping any albums where I only have one track
-    incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1.. \^query:is_game one_track:0'
-    incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. one_track:0 query:is_game'
+  music: ls \^query:is_non_music
+  singletons: ls singleton:true
+  complete: ls -a missing:0
+  high-res: ls -a any_track_has:samplerate:96000..
+  ls-format: ls -f '$format | $samplerate | $format_item'
 
-    # Red flags
-    empty-artist: ls artist:@
-    empty-album: ls album:@ singleton:false
-    book-not-audiobook: ls genre:book ^albumtypes:audiobook
-    unknown-source: ls source:Unknown , source:@
-    excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
-    negative-missing: 'ls -a -f "$missing - $format_album" missing:..-1'
+  # Show incomplete albums, skipping any albums where I only have one track
+  incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1.. \^query:is_game one_track:0'
+  incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. one_track:0 query:is_game'
 
-    # Potential concerns
-    missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" one_track:false albumtotal:0'
-    # This is automatically corrected in modifyonimport
-    various-not-comp: ls -a album_query:is_various_not_comp
+  # Red flags
+  empty-artist: ls artist:@
+  empty-album: ls album:@ singleton:false
+  book-not-audiobook: ls genre:book ^albumtypes:audiobook
+  unknown-source: ls source:Unknown , source:@
+  excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
+  negative-missing: 'ls -a -f "$missing - $format_album" missing:..-1'
 
-    # Informative
-    non-mb-albums: ls -a mb_albumid:@
-    possible-singles: ls -a albumtotal:1 albumtypes::'^(|other)$'
-    possible-not-comp: ls -a comp:1 missing:0 is_comp_same_artists:1
-    # These are often not an issue, just albums which feature multiple
-    # artists, but aren't compilations. Cases where the album artist is the
-    # producer, cases where there are featuring artist, etc.
-    multiartist-not-comp: ls -a comp:0 multiartist:1
-    has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0s
+  # Potential concerns
+  missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" one_track:false albumtotal:0'
+  # This is automatically corrected in modifyonimport
+  various-not-comp: ls -a album_query:is_various_not_comp
+
+  # Informative
+  non-mb-albums: ls -a mb_albumid:@
+  possible-singles: ls -a albumtotal:1 albumtypes::'^(|other)$'
+  possible-not-comp: ls -a comp:1 missing:0 is_comp_same_artists:1
+  # These are often not an issue, just albums which feature multiple
+  # artists, but aren't compilations. Cases where the album artist is the
+  # producer, cases where there are featuring artist, etc.
+  multiartist-not-comp: ls -a comp:0 multiartist:1
+  has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0s
 
 hookscripts:
   hookspath:
