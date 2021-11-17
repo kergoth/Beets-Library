@@ -18,6 +18,8 @@ Avoid use of tracktotal, as it's affected by `per_disc_numbering`, instead use t
 
     To replace tracktotal as an album-level field, there is a new albumtotal computed attribute that provides the total number of tracks on the album. (The per_disc_numbering option has no influence on this field.)
 
+It's faster to do a `album_id:^` query than to do a `singleton:true`, as the former is a fast query, the latter is a computed field. Queries against computed fields will always be slower. In my library, the latter is 20 seconds, the former is 1.
+
 ## Issues of note
 
 Discogs and MusicBrainz differ in their use of the albumtype field. Discogs has 'Single, Promo' for example, whereas MusicBrainz is lowercase and uses a semicolon separator. The standard query style `albumtype:single` matches both, but use of it in inline fields could be more irritating. Further, the separator can be / in some cases as well. I need to resolve the inconsistency in tags with multiple values.

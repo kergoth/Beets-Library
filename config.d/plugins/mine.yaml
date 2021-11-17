@@ -287,7 +287,7 @@ item_queries:
   is_loved: album_loved:true , loved:true query:for_single_tracks
 
   # General and Path Formats. A number of these are used by the `kergoth` plugin for $navigation_path.
-  for_single_tracks: 'singleton:true , single_track:true'
+  for_single_tracks: 'album_id:^ , single_track:true'
   is_christmas: 'genre:Christmas'
   is_classical: 'genre:Classical'
   is_game: 'avmedia:"Video Games"'
