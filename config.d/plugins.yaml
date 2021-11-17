@@ -190,6 +190,9 @@ plugins:
   - hookscripts
   #  inlinehook: run inline python on events
   - inlinehook
+  #  open: open media paths with external applications
+  #    Command (open).
+  - open
   #  otherqueries: % prefix for non-NULL/non-None
   #    Query Prefix (%).
   - otherqueries
