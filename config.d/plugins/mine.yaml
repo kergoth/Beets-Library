@@ -169,7 +169,7 @@ aliases:
   extract-missing-art: extractart -a artpath:^
 
   # Clear embedded art from albums that have an artpath
-  clearart-albums: clearart album_id::. ^artpath:^
+  clearart-albums: clearart album_id::. artpath:%
 
   # Edit 'media' fields
   edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
@@ -188,7 +188,7 @@ aliases:
   # Very basic dupe check for albums lacking musicbrainz data, primarily
   simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
   dup-albums: dup -aF
-  dup-games: dup -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -F -k franchise -k mediatitle -k mediatitledisambig query:is_game ^mediatitle:^
+  dup-games: dup -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -F -k franchise -k mediatitle -k mediatitledisambig query:is_game mediatitle:%
 
   music: ls \^query:is_non_music
   singletons: ls singleton:true
@@ -300,7 +300,7 @@ item_queries:
 
   # Categories
   alt_game_extra: '^albumtypes:soundtrack query:is_game'
-  alt_game: 'query:is_game albumtypes:soundtrack , query:is_game ^mediatitle:^'
+  alt_game: 'query:is_game albumtypes:soundtrack , query:is_game mediatitle:%'
   alt_to_listen: 'to_listen:true'
   by_label_flat: 'label:"Music for Programming"'
   chiptune_game: 'query:is_chiptune query:is_game query:is_soundtrack'
