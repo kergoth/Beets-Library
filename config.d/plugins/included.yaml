@@ -92,6 +92,17 @@ album_fields:
   has_explicit_track: any(getattr(item, 'advisory', 0) == 1 for item in items)
   multidisc: disctotal > 1
 
+  # Alter 'albumtypes' to add 'single' and drop other/album/ep.
+  single_albumtypes: |
+    if globals().get('albumtypes'):
+      types = [t.strip() for t in albumtypes.split(';')]
+      for t in ['other', 'album', 'ep']:
+        if t in types:
+          types.remove(t)
+      types.insert(0, 'single')
+      return '; '.join(t for t in types if t)
+    return 'single'
+
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
@@ -120,17 +131,6 @@ item_fields:
         return ' (Clean)'
     else:
       return ''
-
-  # Alter 'albumtypes' to add 'single' and drop other/album/ep.
-  single_albumtypes: |
-    if 'albumtypes' in globals():
-      types = [t.strip() for t in albumtypes.split(';')]
-      for t in ['other', 'album', 'ep']:
-        if t in types:
-          types.remove(t)
-      types.insert(0, 'single')
-      return '; '.join(types)
-    return 'single'
 
   # Not used at this time, only made available
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
