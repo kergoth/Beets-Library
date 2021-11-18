@@ -221,7 +221,7 @@ aliases:
   # artists, but aren't compilations. Cases where the album artist is the
   # producer, cases where there are featuring artist, etc.
   multiartist-not-comp: ls -a comp:0 multiartist:1
-  has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0s
+  has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0
 
 hookscripts:
   hookspath:
