@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 topdir="$(cd "$(dirname "$0")/.." && pwd -P)"
 
 case "${OSTYPE:-}" in
@@ -25,17 +27,40 @@ copy "$topdir"/.git/objects/. .git/objects/
 git remote add origin "$topdir"
 git fetch --tags origin
 git fetch origin
+git checkout -f -b main origin/main
 git remote set-url origin "$(cd "$topdir" && git config remote.origin.url)"
 git fetch origin || :
-git checkout -f -b main origin/main
 
-cp -a "$topdir/"*.nix "$topdir/nix" .
-for i in .envrc .vscode scripts config.yaml config.d hooks plugins; do
-    cp -av "$topdir/$i" .
-done
-sed -i.bak -e '/^ *# - nowrite/s/# //' config.yaml
-rm -f config.yaml.bak
-cp -a "$topdir/"*_token.json .
+workspace="$(pwd -P)"
+( cd "$topdir" && git ls -mo ) \
+    | while read -r fn; do
+        if [ "$topdir/$fn" = "$workspace/" ]; then
+            continue
+        fi
+        mkdir -p "$(dirname "$fn")"
+        case "$fn" in
+            */)
+                cp -a "$topdir/$fn." "$fn"
+                ;;
+            *)
+                cp -a "$topdir/$fn" "$fn"
+                ;;
+        esac
+    done
+
+if command -v yq >/dev/null 2>&1; then
+    {
+        echo
+        echo "plugins:"
+        ( cd "$topdir" && beet config ) | yq e .plugins - | sed -e 's/^/  /'
+        echo
+        echo '# Local'
+        echo '  - nowrite'
+    } >>config.d/local.yaml
+else
+    sed -i.bak -e '/^ *# - nowrite/s/# //' config.yaml
+    rm -f config.yaml.bak
+fi
 mkdir -p Library
 cp -a "$topdir/Library/library.db" Library/
 cp -a "$topdir/Library/Playlists/." Library/Playlists/
