@@ -82,6 +82,9 @@ plugins:
   #  info: print music files’ tags to the console.
   #    Command (info).
   - info
+  #  limit: add head/tail functionality to list/ls
+  #    Command (lslimit), Query Prefix (<)
+  - limit
   #  random: randomly choose albums and tracks from your library.
   #    Command (random).
   - random
