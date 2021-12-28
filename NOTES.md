@@ -34,6 +34,18 @@ discogs import should compare `name` vs `adv` to attempt to set `artist_credit` 
 
 For the future, remember that copying a library from the NAS over SMB *will* hose file paths for certain characters that SMB dislikes, but which are nonetheless valid on the filesystems I actually put the files on. Doing an rsync over ssh will get past this.
 
+## Reference
+
+- <https://github.com/beetbox/beets/issues/1598> Shows how to change the library paths hardcoded in the library db after the fact:
+
+```sql
+UPDATE items
+SET "path" = CAST(REPLACE(CAST("path" AS TEXT), '/Volumes/SD/Music Library/Library/', '/Volumes/Data/Music Library/Library/') AS BLOB);
+
+UPDATE albums
+SET "artpath" = CAST(REPLACE(CAST("artpath" AS TEXT), '/Volumes/SD/Music Library/Library/', '/Volumes/Data/Music Library/Library/') AS BLOB);
+```
+
 ## Bugs to report
 
 ### Bugs in Plugins
