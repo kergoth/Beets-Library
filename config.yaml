@@ -8,6 +8,7 @@ include:
   - config.d/plugins/mine.yaml
   - config.d/plugins/smartplaylist.yaml
   - config.d/plugins/xtractor.yaml
+  - config.d/local.yaml
 
 pluginpath:
   - ./plugins
