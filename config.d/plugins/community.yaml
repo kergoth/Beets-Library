@@ -3,8 +3,6 @@
 bandcamp:
   art: true
   lyrics: true
-  description: comments
-  split_artist_title: true
 
 ## Metadata
 
