@@ -42,4 +42,4 @@ done
 beets="$1"
 shift
 pipx install -f "$beets"
-pipx inject beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport requests_oauthlib pylast
+pipx inject beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport requests_oauthlib pylast beautifulsoup4
