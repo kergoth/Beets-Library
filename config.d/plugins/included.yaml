@@ -13,6 +13,10 @@ fetchart:
   # Prefer higher resolution art
   high_resolution: true
 
+lyrics:
+  auto: true
+  sources: bandcamp genius musixmatch
+
 zero:
   fields: month day original_month original_day comments
   comments: [EAC, LAME]
