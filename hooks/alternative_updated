@@ -25,6 +25,8 @@ if [ -n "${BEETS_SKIP_HOOKS:-}" ]; then
     exit 0
 fi
 
+PATH="$scriptdir:$scriptdir/../scripts:$PATH"
+
 if [ -z "${BEETS_LIBRARY:-}" ]; then
     msg "Warning: BEETS_LIBRARY not set, skipping playlist clean up."
 elif [ -d "${BEETS_LIBRARY:-}" ]; then
@@ -42,6 +44,10 @@ elif [ -d "${BEETS_LIBRARY:-}" ]; then
             done
     fi
 fi
+
+find "$directory" -type l \
+    | while read -r fn; do test -e "$fn" || echo "$fn"; done \
+    | ifne sh -c '"echo >&2 Warning: dead symbolic links exist in alternative \"$alternative\":"; cat'
 
 msg "Removing empty directories"
 remove-empty-dirs "$directory"/*/ >/dev/null || :
