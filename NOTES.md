@@ -8,8 +8,6 @@ Sadly, inline python can't access fields of other plugins at this time, so I can
 
 %ifdef{albumadvisory} was resulting in a boolean True even when it wasn't defined, so I had to switch it back to an int. Dealing with default values of flexible fields is a pain in the ass, due to how field references are left unexpanded when undefined. %if{$albumadvisory,1,0} is always 1 if albumadvisory is undefined, so you *have* to use ifdef everywhere you reference the field. It'd be nice if there was an analogue to `set_fields` to define a default value when a field is None.
 
-I need a query for a field being None or the empty string or False or 0. *Not* this field. I currently have exact match with no argument for empty string, or the None match for None, but that doesn't match the other cases. I want it to convert to the type, then convert to boolean, and check for true/false. Can we do that in sql or just python?
-
 The alternatives paths are relative to the library directory, not the beets directory.
 
 Avoid use of tracktotal, as it's affected by `per_disc_numbering`, instead use the `albumtotal` computed field. I used to have to use tracktotal when working at the track level, as album fields were previously not available to the item, but this is no longer the case. Per the docs:
@@ -18,7 +16,9 @@ Avoid use of tracktotal, as it's affected by `per_disc_numbering`, instead use t
 
     To replace tracktotal as an album-level field, there is a new albumtotal computed attribute that provides the total number of tracks on the album. (The per_disc_numbering option has no influence on this field.)
 
-It's faster to do a `album_id:^` query than to do a `singleton:true`, as the former is a fast query, the latter is a computed field. Queries against computed fields will always be slower. In my library, the latter is 20 seconds, the former is 1.
+Do note that albumtotal is slower than tracktotal due to being a computed field.
+
+It's faster to do a `album_id:^` query than to do a `singleton:true`, as the former is a fast query, the latter is a computed field. Queries against computed fields will always be slower. In my library, the latter is 20 seconds, the former is 1. That said, `album_id` against an album rather than item is much slower than `id` due to the indirection.
 
 ## Issues of note
 
