@@ -13,6 +13,22 @@ A `single track` is a case where I only have one track from that album.
 - `beet wlg` to set genre from discogs, etc. This still requires review.
 - `beet mbsync` will update from musicbrainz, but often requires manual review to correct bits that were fixed at import time. I should fix `modifyonimport` to also apply on `mbsync`.
 
+### Query Prefixes
+
+### Fields
+
+- `=` is for a case-sensitive exact match
+- `~` is for a case-insensitive exact match
+- `:` is for a regular expression match
+- `#` is for a bare ASCII match
+- `*` is for a fuzzy match
+- `%` is for a set/non-NULL match
+- `^` is for an unset/NULL match
+
+### Global
+
+- `<` is limit to N entries. I.e. `<10` gives you ten entries
+
 ## Flexible Fields
 
 I use a number of manually set flexible fields in my library.
