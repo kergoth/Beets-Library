@@ -158,6 +158,10 @@ badfiles:
         mp4: ffmpeg -v error -f null - -i
         ogg: oggz-validate
 
+fuzzy:
+  # Default ~ prefix conflicts with case-insensitive exact match prefix
+  prefix: '*'
+
 types:
   # Built-in or Plugin fields
   albumtotal: int
