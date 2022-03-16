@@ -285,6 +285,7 @@ item_queries:
   albums_to_split_up: 'query:is_incomplete_album existing:..4'
   is_incomplete_album: 'query:is_game missing:2.. , ^query:is_game missing:1..'
   is_loved: album_loved:true , loved:true query:for_single_tracks
+  has_lyrics: lyrics::. ^lyrics:=[Instrumental] ^lyrics:=XXX
 
   # General and Path Formats. A number of these are used by the `kergoth` plugin for $navigation_path.
   for_single_tracks: 'album_id:^ , single_track:true'
