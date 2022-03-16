@@ -169,6 +169,7 @@ types:
   all_same_genres: bool
   average_bpm: int
   e_albumadvisory: int
+  albumadvisory: int
   existing: int
   for_single_tracks: bool
   has_explicit_track: bool
@@ -179,6 +180,7 @@ types:
 
   # Item inline and format fields
   e_advisory: int
+  advisory: int
   e_loved: bool
   excess_tracks: bool
 
