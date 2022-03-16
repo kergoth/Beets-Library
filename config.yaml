@@ -42,8 +42,8 @@ replace:
   '^-': _
 path_sep_replace: ／
 
-format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}} - $disc_and_track_pre}$artist - $full_title'
-format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%ifdef{albumadvisory,%if{$e_albumadvisory, (Explicit)}}'
+format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%if{$e_albumadvisory, (Explicit)} - $disc_and_track_pre}$artist - $full_title'
+format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%if{$e_albumadvisory, (Explicit)}'
 sort_item: albumartist+ album+ disc+ track+ artist+
 sort_album: albumartist+ album+
 per_disc_numbering: yes
