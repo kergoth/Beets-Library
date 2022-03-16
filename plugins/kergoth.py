@@ -5,7 +5,7 @@ from __future__ import division, absolute_import, print_function
 import beets
 from beets.library import DefaultTemplateFunctions
 from beets.plugins import BeetsPlugin, find_plugins
-from beets.ui import UserError, show_model_changes
+from beets.ui import UserError
 
 
 class KergothPlugin(BeetsPlugin):
@@ -17,20 +17,6 @@ class KergothPlugin(BeetsPlugin):
         super().__init__()
 
         self.register_listener("pluginload", self.loaded)
-        self.register_listener("spotify_explicit_track", self.spotify_explicit_track)
-
-    def spotify_explicit_track(self, lib, track, item):
-        if 'advisory' not in item:
-            item['advisory'] = 1
-            if show_model_changes(item):
-                item.store()
-
-        if item.album and item._cached_album:
-            album = item._cached_album
-            if 'albumadvisory' not in album:
-                album['albumadvisory'] = 1
-                if show_model_changes(album):
-                    album.store()
 
     def loaded(self):
         found_plugins = set()
@@ -59,7 +45,6 @@ class KergothPlugin(BeetsPlugin):
         self.asciify = DefaultTemplateFunctions.tmpl_asciify
 
     # Utility functions
-
     def query(self, name, formatteditem):
         return self.savedqueries[name].match(formatteditem.item)
 
