@@ -47,6 +47,8 @@ modifyonimport:
     # Genre
     'genre:Holiday': 'genre=Christmas'
     'genre:game': 'avmedia="Video Games"'
+    'source:GOG': 'avmedia="Video Games"'
+    'source:Steam': 'avmedia="Video Games"'
   modify_album_items:
     '':
       # Sane default for artist_sort
@@ -62,6 +64,8 @@ modifyonimport:
     # Genre
     'genre:Holiday': 'genre=Christmas'
     'genre:game': 'avmedia="Video Games"'
+    'source:GOG': 'avmedia="Video Games"'
+    'source:Steam': 'avmedia="Video Games"'
 
 ## Path Formats and Fields
 
