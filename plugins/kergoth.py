@@ -204,7 +204,13 @@ class KergothPlugin(BeetsPlugin):
                 f"Non-Music/{item.genre}/{self.by_artist(item, media=False)}"
             )
         elif self.query("alt_to_listen", item):
-            return self.path(f"To Listen/{self.by_album(item)}")
+            if (
+                self.query("is_sole_track", item)
+                or self.query("for_single_tracks", item)
+            ):
+                return self.path(f"To Listen/Single Tracks/{self.artist_title(item)}")
+            else:
+                return self.path(f"To Listen/{self.by_album(item)}")
         elif self.is_loved(item):
             if (
                 self.query("is_sole_track", item)
