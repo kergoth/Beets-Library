@@ -238,6 +238,9 @@ class KergothPlugin(BeetsPlugin):
                 elif self.query("alt_game", item):
                     item.comp = False
                     subdir = "Games"
+                elif self.query("alt_game_extra", item):
+                    item.comp = False
+                    subdir = "Game Extras"
                 elif self.query("soundtrack", item):
                     subdir = "Soundtracks"
                 else:
