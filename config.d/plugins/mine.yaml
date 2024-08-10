@@ -96,6 +96,9 @@ replacefunc:
     'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
     'Video Games Live, Volume One': 'Video Games Live: Level 1'
 
+    # Ease navigation
+    'Calling All Dawns: A Song Cycle': 'Calling All Dawns'
+
   artist:
     # Deal with non-alphanumeric sort issues when browsing
     '_ensnare_': 'ensnare'
@@ -122,6 +125,7 @@ replacefunc:
     'Ben Harper With Charlie Musselwhite': 'Ben Harper'
     'Bob Marley & The Wailers': 'Bob Marley'
     'Stafford Bawler + Todd Baker': 'Stafford Bawler'
+    'Christopher Tin & Voces8': 'Christopher Tin'
 
   franchise:
     'The Legend of Zelda': 'Zelda'
