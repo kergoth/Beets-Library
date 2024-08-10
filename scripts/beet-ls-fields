@@ -46,7 +46,14 @@ fi
 
 case "${OSTYPE:-}" in
     darwin*)
-        sed=gsed
+        case "$(command -v sed)" in
+            /nix/*)
+                sed=sed
+                ;;
+            *)
+                sed=gsed
+                ;;
+        esac
         ;;
     *)
         sed=sed
