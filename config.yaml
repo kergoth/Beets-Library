@@ -90,8 +90,8 @@ match:
     ['DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD', 'VCD', 'SVCD', 'UMD', 'VHS']
 
 paths:
-  default: '$source/%if{$albumartist_credit,$albumartist_credit,$albumartist}/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
-  singleton: '$source/%if{$artist_credit,$artist_credit,$artist}/[non-album tracks]/$path_filename'
+  default: '$source/%if{$albumartist_credit,%if{$albumartist_credit_case_only,$albumartist,$albumartist_credit},$albumartist}/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  singleton: '$source/%if{$artist_credit,%if{$artist_credit_case_only,$artist,$artist_credit},$artist}/[non-album tracks]/$path_filename'
   comp: '$source/Compilations/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album

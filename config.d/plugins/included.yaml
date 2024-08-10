@@ -47,6 +47,13 @@ album_fields:
   album_genres: "','.join(sorted(set(filter(None, (item.genre for item in items)))))"
   all_same_genres: all(item.genre == items[0].genre for item in items)
 
+  albumartist_credit_case: |
+    return albumartist_credit and albumartist != albumartist_credit and albumartist.lower() == albumartist_credit.lower()
+
+  albumartist_credit_case_only: |
+    albumartist_credit = globals().get('albumartist_credit')
+    return albumartist_credit and albumartist != albumartist_credit and albumartist.lower() == albumartist_credit.lower()
+
   # Number of existing tracks in the library in this album
   existing: len(items)
 
@@ -109,6 +116,13 @@ album_fields:
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
+
+  artist_credit_case:
+    return artist_credit and artist != artist_credit and artist.lower() == artist_credit.lower()
+
+  artist_credit_case_only: |
+    artist_credit = globals().get('artist_credit')
+    return artist_credit and artist != artist_credit and artist.lower() == artist_credit.lower()
 
   # Deal with undefined values for queries
   e_advisory: advisory if 'advisory' in globals() else 0
@@ -183,12 +197,14 @@ types:
   multiartist: bool
   multidisc: bool
   one_track: bool
+  albumartist_credit_case: bool
 
   # Item inline and format fields
   e_advisory: int
   advisory: int
   e_loved: bool
   excess_tracks: bool
+  artist_credit_case: bool
 
   # Flexible fields
   #franchise: string
