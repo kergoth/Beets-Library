@@ -27,7 +27,7 @@ class KergothPlugin(BeetsPlugin):
                 found_plugins.add(plugin.name)
 
             if plugin.name == "savedqueries":
-                self.queryfunc = plugin.item_queries["query"]
+                self.queryfunc = plugin.item_query
 
         for plugin_name in self.needed_plugins:
             if plugin_name not in found_plugins:
@@ -35,7 +35,7 @@ class KergothPlugin(BeetsPlugin):
                     f"`{plugin_name}` plugin is required to use the `{self.name}` plugin"
                 )
 
-        self.savedqueries = FactoryDict(lambda name: self.queryfunc(name))
+        self.savedqueries = FactoryDict(lambda name: self.queryfunc('query', name))
         self.template_fields = {
             "extension": self.extension,
             "navigation_path": self.navigation_path,
@@ -94,10 +94,7 @@ class KergothPlugin(BeetsPlugin):
                 return " (Explicit)"
             elif item.advisory == 2:
                 return " (Clean)"
-            else:
-                return ""
-        else:
-            return ""
+        return ""
 
     def filename_artist(self, item):
         artist = item.artist_credit or item.artist
