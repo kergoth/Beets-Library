@@ -1,6 +1,8 @@
 """Bits for my personal configuration and layout."""
 
 from __future__ import division, absolute_import, print_function
+import os
+from pathlib import Path
 
 import beets
 from beets.library import DefaultTemplateFunctions
@@ -35,6 +37,7 @@ class KergothPlugin(BeetsPlugin):
 
         self.savedqueries = FactoryDict(lambda name: self.queryfunc(name))
         self.template_fields = {
+            "extension": self.extension,
             "navigation_path": self.navigation_path,
         }
 
@@ -196,6 +199,8 @@ class KergothPlugin(BeetsPlugin):
         return f'{self.bucket(bucketed, "alpha")}/{self.by_artist(item, media)}'
 
     # Full path
+    def extension(self, item):
+        return Path(os.fsdecode(item.path)).suffix
 
     def navigation_path(self, item):
         item = FormattedItem(item)

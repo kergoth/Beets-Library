@@ -179,7 +179,7 @@ aliases:
   edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
 
   # Alternatives
-  ls-alt: ls -f '%pathfield{${navigation_path}}'
+  ls-alt: ls -f '%pathfield{${navigation_path}}$extension'
 
   # Mac-specific
   reveal: open -R --
