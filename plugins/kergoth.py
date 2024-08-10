@@ -159,29 +159,38 @@ class KergothPlugin(BeetsPlugin):
         return self.the(f"{franchise} Franchise")
 
     def albumdir(self, item, media=True):
-        if "franchise" in item and item.franchise:
-            return f"{self.the(self.franchisedir(item))}/{self.the(self.albumonlydir(item))}"
-        else:
-            return self.the(self.albumonlydir(item, media))
+        return self.the(self.albumonlydir(item, media))
 
     # Filesystem Layouts
-
-    def bucket_by_album(self, item):
+    def bucket_by_album(self, item, franchise=False):
         if self.query("for_single_tracks", item):
             return f"Single Tracks/{self.artist_title(item)}"
         else:
-            bucket = self.bucket(self.albumdir(item), "alpha")
-            return f"{bucket}/{self.by_album(item)}"
+            if franchise and "franchise" in item and item.franchise:
+                bucket = self.bucket(self.franchisedir(item), "alpha")
+                return f"{bucket}/{self.by_album(item, franchise=True)}"
+            else:
+                bucket = self.bucket(self.albumdir(item), "alpha")
+                return f"{bucket}/{self.by_album(item)}"
 
     def bucket_by_label_flat(self, item):
         bucket = self.bucket(item.label, "alpha")
         return f"{bucket}/{item.label}/{self.artist_title(item)}"
 
-    def by_album(self, item, media=True):
+    def by_album(self, item, media=True, franchise=False):
         if self.query("for_single_tracks", item):
             return f"Single Tracks/{self.artist_title(item)}"
         else:
-            return f"{self.albumdir(item, media)}/{self.comp_filename(item)}"
+            if franchise:
+                return f"{self.franchise_albumdir(item, media)}/{self.comp_filename(item)}"
+            else:
+                return f"{self.albumdir(item, media)}/{self.comp_filename(item)}"
+
+    def franchise_albumdir(self, item, media=True):
+        if "franchise" in item and item.franchise:
+            return f"{self.the(self.franchisedir(item))}/{self.the(self.albumonlydir(item))}"
+        else:
+            return self.the(self.albumonlydir(item, media))
 
     def by_artist(self, item, media=True, split_samplers=False):
         if self.query("for_single_tracks", item) or (
@@ -252,7 +261,7 @@ class KergothPlugin(BeetsPlugin):
             return self.path(f"Chiptunes/Music/{self.by_artist(item, media=False)}")
         elif self.query("alt_game", item):
             item.comp = False
-            return self.path(f"Games/{self.bucket_by_album(item)}")
+            return self.path(f"Games/{self.bucket_by_album(item, franchise=True)}")
         elif self.query("alt_game_extra", item):
             item.comp = False
             return self.path(f"Games/Extras/{self.by_album(item)}")
