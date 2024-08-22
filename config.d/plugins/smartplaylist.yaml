@@ -82,14 +82,18 @@ smartplaylist:
       query: source:"Amazon"
     - name: By Source/Bandcamp.m3u
       query: source:"Bandcamp"
+    - name: By Source/Beatport.m3u
+      query: source:"Beatport"
     - name: By Source/CD Baby.m3u
       query: source:"CD Baby"
     - name: By Source/Digital Game Rips.m3u
       query: source:"Digital Game Rips"
-    - name: By Source/GOG.m3u
-      query: source:"GOG"
+    - name: By Source/Free.m3u
+      query: source:"Free"
     - name: By Source/Game Rips.m3u
       query: source:"Game Rips"
+    - name: By Source/GOG.m3u
+      query: source:"GOG"
     - name: By Source/Google.m3u
       query: source:"Google"
     - name: By Source/Groupees.m3u
@@ -100,6 +104,8 @@ smartplaylist:
       query: source:"Humble"
     - name: By Source/Indie Royale.m3u
       query: source:"Indie Royale"
+    - name: By Source/iTunes.m3u
+      query: source:"iTunes"
     - name: By Source/Kickstarter.m3u
       query: source:"Kickstarter"
     - name: By Source/NativeDSD.m3u
@@ -110,6 +116,10 @@ smartplaylist:
       query: source:"Other"
     - name: By Source/OverClocked ReMix.m3u
       query: source:"OverClocked ReMix"
+    - name: By Source/Paste Magazine.m3u
+      query: source:"Paste Magazine"
+    - name: By Source/Patreon.m3u
+      query: source:"Patreon"
     - name: By Source/Replay Games.m3u
       query: source:"Replay Games"
     - name: By Source/Rips.m3u
@@ -126,8 +136,6 @@ smartplaylist:
       query: source:"Unpurchased"
     - name: By Source/Youtube.m3u
       query: source:"Youtube"
-    - name: By Source/iTunes.m3u
-      query: source:"iTunes"
 
     - name: 'Artists/Ramin Djawadi.m3u'
       query: 'artist:"Ramin Djawadi" , albumartist:"Ramin Djawadi" , composer:"Ramin Djawadi"'
