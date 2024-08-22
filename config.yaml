@@ -48,6 +48,10 @@ sort_item: albumartist+ album+ disc+ track+ artist+
 sort_album: albumartist+ album+
 per_disc_numbering: yes
 
+convert:
+  copy_album_art: yes
+  threads: 1
+
 clutter: ['*.m3u', 'Thumbs.DB', '.DS_Store']
 
 id3v23: yes
