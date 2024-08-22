@@ -192,7 +192,7 @@ aliases:
   vlc: 'open -A "-a VLC" --'
 
   # Complete non-game/non-christmas albums with more than one track
-  non-game-albums: ls -a existing:2.. missing:0 ^query:is_game ^genre:Christmas
+  non-game-albums: ls -a existing:2.. missing:0 ^album_query:is_game ^genre:Christmas
 
   # Very basic dupe check for albums lacking musicbrainz data, primarily
   simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
