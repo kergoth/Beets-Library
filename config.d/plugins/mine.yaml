@@ -199,7 +199,7 @@ aliases:
   # Very basic dupe check for albums lacking musicbrainz data, primarily
   simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
   dup-albums: dup -aF
-  dup-games: dup -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -F -k franchise -k mediatitle -k mediatitledisambig query:is_game mediatitle:%
+  dup-games: dup -aF -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -k franchise -k mediatitle -k mediatitledisambig query:is_game mediatitle:%
 
   music: ls \^query:is_non_music
   singletons: ls singleton:true
