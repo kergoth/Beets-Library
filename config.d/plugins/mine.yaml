@@ -23,8 +23,10 @@ importinspect:
     - label
     - language
     - mb_albumartistid
+    - mb_albumartistids
     - mb_albumid
     - mb_artistid
+    - mb_artistids
     - mb_releasegroupid
     - mb_releasetrackid
     - mb_trackid
