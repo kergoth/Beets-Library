@@ -150,9 +150,6 @@ plugins:
   #  modifyonimport: modify fields in imported items
   #    Passive (import, as defined).
   - modifyonimport
-  #  modifytmpl: modify fields with formats/templates. TODO: Remove when #4095 is merged in beets
-  #    Command (modifytmpl).
-  - modifytmpl
   #  spotifyexplicit: list tracks spotify identifies as explicit/parental advisory
   #    Command (spotify-explicit).
   - spotifyexplicit
