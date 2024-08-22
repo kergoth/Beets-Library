@@ -135,6 +135,9 @@ class KergothPlugin(BeetsPlugin):
     def artistdir(self, item):
         return self.the(self.asciify(self.replacefunc("artist", self.artistname(item))))
 
+    def labeldir(self, item):
+        return self.the(self.asciify(item.label))
+
     def albumonlydir(self, item, media=True):
         if media and "mediatitle" in item and item.mediatitle:
             media = self.replacefunc("media", item.mediatitle)
@@ -189,13 +192,21 @@ class KergothPlugin(BeetsPlugin):
         else:
             return self.the(self.albumonlydir(item, media))
 
-    def by_artist(self, item, media=True, split_samplers=False):
+    def by_artist(self, item, media=True, split_samplers=False, label=False):
         if self.query("for_single_tracks", item) or (
             split_samplers and self.query("is_sampler", item)
         ):
-            return f"{self.artistdir(item)}/Single Tracks/{self.full_title(item)}"
+            if label:
+                dirname = self.labeldir(item)
+            else:
+                dirname = self.artistdir(item)
+            return f"{dirname}/Single Tracks/{self.full_title(item)}"
         else:
-            return f"{self.albumartistdir(item)}/{self.by_album(item, media)}"
+            if label:
+                dirname = self.labeldir(item)
+            else:
+                dirname = self.albumartistdir(item)
+            return f"{dirname}/{self.by_album(item, media)}"
 
     def bucket_by_artist(self, item, media=True):
         if self.query("for_single_tracks", item):
@@ -263,8 +274,19 @@ class KergothPlugin(BeetsPlugin):
             item.comp = False
             return self.path(f"Games/{self.bucket_by_album(item, franchise=True)}")
         elif self.query("alt_game_extra", item):
-            item.comp = False
-            return self.path(f"Games/Extras/{self.by_album(item)}")
+            # Consider: if mediatitle is set, use that by_album, if not, break down further by artist.
+            if self.query("by_label", item):
+                return self.path(
+                    f"Games/Extras/{self.by_artist(item, media=False, label=True)}"
+                )
+            elif self.query("is_sole_track", item) or self.query(
+                "for_single_tracks", item
+            ):
+                return self.path(
+                    f"Games/Extras/Single Tracks/{self.artist_title(item)}"
+                )
+            else:
+                return self.path(f"Games/Extras/{self.by_artist(item, media=False)}")
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
         elif self.query("sampler", item):

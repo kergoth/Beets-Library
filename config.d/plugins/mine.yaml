@@ -282,6 +282,7 @@ album_queries:
   is_sampler: 'albumtypes:sampler , album:sampler'
   # This is used both in an alias command and modifyonimport
   is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
+  by_label: 'label:"OverClocked ReMix"'
 
 item_queries:
   # Used by the sole-tracks script
@@ -312,6 +313,7 @@ item_queries:
   alt_game: 'query:is_game albumtypes:soundtrack , query:is_game mediatitle:%'
   alt_to_listen: 'to_listen:true'
   by_label_flat: 'label:"Music for Programming"'
+  by_label: 'label:"OverClocked ReMix"'
   chiptune_game: 'query:is_chiptune query:is_game query:is_soundtrack'
   chiptune_game_extra: 'query:is_chiptune query:is_game ^query:is_soundtrack'
   chiptune: 'query:is_chiptune'
