@@ -153,6 +153,9 @@ plugins:
   #  spotifyexplicit: list tracks spotify identifies as explicit/parental advisory
   #    Command (spotify-explicit).
   - spotifyexplicit
+  #  tablelist: list albums and tracks in a table format
+  #    Command (tablelist/tls).
+  - tablelist
   #  zeroalbum: clear fields in albums in the database, obeying the 'zero' plugin configuration
   #    Passive.
   - zeroalbum
