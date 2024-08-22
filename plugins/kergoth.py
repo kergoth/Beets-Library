@@ -274,10 +274,9 @@ class KergothPlugin(BeetsPlugin):
             item.comp = False
             return self.path(f"Games/{self.bucket_by_album(item, franchise=True)}")
         elif self.query("alt_game_extra", item):
-            # Consider: if mediatitle is set, use that by_album, if not, break down further by artist.
             if self.query("by_label", item):
                 return self.path(
-                    f"Games/Extras/{self.by_artist(item, media=False, label=True)}"
+                    f"Games/Extras/{self.by_artist(item, media=True, label=True)}"
                 )
             elif self.query("is_sole_track", item) or self.query(
                 "for_single_tracks", item
@@ -286,7 +285,14 @@ class KergothPlugin(BeetsPlugin):
                     f"Games/Extras/Single Tracks/{self.artist_title(item)}"
                 )
             else:
-                return self.path(f"Games/Extras/{self.by_artist(item, media=False)}")
+                if "mediatitle" in item and item.mediatitle:
+                    return self.path(
+                        f"Games/Extras/{self.by_album(item, media=True, franchise=False)}"
+                    )
+                else:
+                    return self.path(
+                        f"Games/Extras/{self.by_artist(item, media=False)}"
+                    )
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
         elif self.query("sampler", item):
