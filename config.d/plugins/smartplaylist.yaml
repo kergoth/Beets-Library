@@ -179,5 +179,8 @@ smartplaylist:
         - 'composer:"Trent Reznor"'
         - 'artist:"Nine Inch Nails"'
         - 'artist:"How to Destroy Angels"'
+    - name: 'Artists/twenty one pilots.m3u'
+      album_query: 'albumartist:"twenty one pilots"'
+      query: 'artist:"twenty one pilots" ^albumartist:"twenty one pilots"'
     - name: 'Artists/WASD.m3u'
       query: 'artist:"WASD" , artist:"Stroggos Rising"'
