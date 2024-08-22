@@ -213,6 +213,10 @@ plugins:
   #    Named Queries (as defined).
   #    Template Fields (as defined).
   - savedqueries
+  #  stylize: define stylized output for fields
+  #    Template Functions (stylize, isatty, notatty).
+  #    Command (stylize).
+  - stylize
 
   ## Config-Specific
   #  kergoth: add template field for use with my media player
