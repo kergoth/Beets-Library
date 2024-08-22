@@ -10,6 +10,9 @@ plugins:
   - fromfilename
 
   ### Metadata Source Plugins
+  #  beatport: include matches from Beatport.
+  #    Passive (import).
+  #- beatport
   #  discogs: include matches from the Discogs database.
   #    Passive (import).
   #- discogs
