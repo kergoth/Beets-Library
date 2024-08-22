@@ -19,7 +19,8 @@ alternatives:
   dap:
     directory: '../DAP'
     formats: link
-    link_type: relative
+    link_type: hardlink
+    embed: no
     copy_album_art: yes
     copy_album_art_pp: shrink-art-dap
     query: ^disliked:true
