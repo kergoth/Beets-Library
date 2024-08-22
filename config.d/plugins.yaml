@@ -12,7 +12,7 @@ plugins:
   ### Metadata Source Plugins
   #  discogs: include matches from the Discogs database.
   #    Passive (import).
-  - discogs
+  #- discogs
   #  spotify: include matches from Spotify.
   #    Passive (import).
   - spotify
