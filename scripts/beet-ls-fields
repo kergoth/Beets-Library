@@ -60,7 +60,7 @@ case "${OSTYPE:-}" in
         ;;
 esac
 
-beet export -l -i "${fields/ /,}" -f jsonlines "$@" \
+beet export -l -i "${fields// /,}" -f jsonlines "$@" \
     | while read -r jsonobject; do
         eval "$(printf "%s\n" "$jsonobject" | jq -r '. | to_entries | .[] | .key + "=" + (.value | @sh)' | $sed -e 's/^\([^=.]*\)\.\([^=.]*\)/\1\2/g')"
         for field in $fields; do
