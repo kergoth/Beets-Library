@@ -169,14 +169,17 @@ class SoleTracks(plugins.BeetsPlugin):
             if field in item:
                 value = item.get(field)
                 if value:
-                    artists.add(value.strip().lower())
+                    if isinstance(value, str):
+                        artists.add(value.strip().lower())
 
-                    value = self.feat_tokens.split(value, 1)[0]
-                    artists.add(value.strip().lower())
+                        value = self.feat_tokens.split(value, 1)[0]
+                        artists.add(value.strip().lower())
 
-                    split_artist = self.artist_tokens.split(value)[0]
-                    if split_artist:
-                        artists.add(split_artist)
+                        split_artist = self.artist_tokens.split(value)[0]
+                        if split_artist:
+                            artists.add(split_artist)
+                    else:
+                        artists |= set(value)
 
         if artists:
             artists |= set(self.asciify(artist) for artist in artists)
