@@ -104,7 +104,7 @@ class KergothPlugin(BeetsPlugin):
         return f"{item.title}{self.tracksuffix(item)}"
 
     def albumsuffix(self, item):
-        if "albumadvisory" in item and item.albumadvisory:
+        if "albumadvisory" in item and item.albumadvisory == 1:
             return " (Explicit)"
         else:
             return ""
