@@ -113,6 +113,10 @@ plugins:
   #  wlg: fetch genre based on tags from various music sites
   #    Command (wlg).
   - wlg
+  # xtractor: extract musical information from your songs
+  #    Passive (import).
+  #    Command (xtractor).
+  - xtractor
 
   ## Interoperability
   #  alternatives: manage external files
