@@ -15,8 +15,9 @@ Example:
         done
 
 Options:
-  -i FIELDS      Specify a field to include. Cumulative. Required.
+  -i FIELDS     Specify a field to include. Cumulative. Required.
   -s SEPARATOR  Specify field separator for output. Default: '\\t' (Tab character)
+  -a            Export album fields instead of track fields
   -h   Show usage
 END
     exit 2
@@ -24,13 +25,17 @@ END
 
 fields=
 separator=$'\t'
-while getopts i:s:h opt; do
+album=
+while getopts i:s:ah opt; do
     case "$opt" in
         i)
             fields="$fields $OPTARG"
             ;;
         s)
             separator="$OPTARG"
+            ;;
+        a)
+            album=1
             ;;
         \? | h)
             usage
@@ -60,7 +65,7 @@ case "${OSTYPE:-}" in
         ;;
 esac
 
-beet export -l -i "${fields// /,}" -f jsonlines "$@" \
+beet export ${album:+-a} -l -i "${fields// /,}" -f jsonlines "$@" \
     | while read -r jsonobject; do
         eval "$(printf "%s\n" "$jsonobject" | jq -r '. | to_entries | .[] | .key + "=" + (.value | @sh)' | $sed -e 's/^\([^=.]*\)\.\([^=.]*\)/\1\2/g')"
         for field in $fields; do
