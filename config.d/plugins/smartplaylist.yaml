@@ -120,6 +120,8 @@ smartplaylist:
       query: source:"Paste Magazine"
     - name: By Source/Patreon.m3u
       query: source:"Patreon"
+    - name: By Source/ProStudioMasters.m3u
+      query: source:"ProStudioMasters"
     - name: By Source/Replay Games.m3u
       query: source:"Replay Games"
     - name: By Source/Rips.m3u
