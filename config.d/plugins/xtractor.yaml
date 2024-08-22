@@ -7,20 +7,61 @@ xtractor:
   quiet: no
   keep_output: yes
   keep_profiles: no
-  output_path: "/Volumes/Data/Music Library/Xtractor/Data"
-  essentia_extractor: "/Volumes/Data/Music Library/Xtractor/streaming_extractor_music"
+  output_path: "/Volumes/Libraries/Music Library/Xtractor/Data"
+    #essentia_extractor: "/Volumes/Libraries/Music Library/Xtractor/streaming_extractor_music"
+  essentia_extractor: "/Volumes/Libraries/Music Library/Xtractor/streaming_extractor_music_docker"
+  high_level_targets:
+    genre_rosamerica_probability: # 0..1
+      path: "highlevel.genre_rosamerica.probability"
+      type: float
+    genre_electronic:
+      path: "highlevel.genre_electronic.value"
+      type: string
+    genre_electronic_probability: # 0..1
+      path: "highlevel.genre_electronic.probability"
+      type: float
+    timbre: # "dark" or "bright"
+      path: "highlevel.timbre.value"
+      type: string
+    tonal_atonal: # "tonal" or "atonal"
+      path: "highlevel.tonal_atonal.value"
+      type: string
+    key_edma: # e.g. "C#"
+      path: "tonal.key_edma.key"
+      type: string
+    key_edma_scale: # e.g. "minor"
+      path: "tonal.key_edma.scale"
+      type: string
   extractor_profile:
     highlevel:
       svm_models:
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/danceability.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/gender.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/genre_rosamerica.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/mood_acoustic.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/mood_aggressive.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/mood_electronic.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/mood_happy.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/mood_sad.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/mood_party.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/mood_relaxed.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/voice_instrumental.history"
-        - "/Volumes/Data/Music Library/Xtractor/SVM_Models/moods_mirex.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/danceability.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/gender.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/genre_rosamerica.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/genre_electronic.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_acoustic.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_aggressive.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_electronic.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_happy.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_sad.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_party.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_relaxed.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/moods_mirex.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/voice_instrumental.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/tonal_atonal.history"
+        - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/timbre.history"
+  # extractor_profile:
+  #   highlevel:
+  #     svm_models:
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/danceability.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/gender.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/genre_rosamerica.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_acoustic.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_aggressive.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_electronic.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_happy.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_sad.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_party.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/mood_relaxed.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/voice_instrumental.history"
+  #       - "/Volumes/Libraries/Music Library/Xtractor/SVM_Models/moods_mirex.history"
