@@ -1,10 +1,13 @@
 """Bits for my personal configuration and layout."""
 
-from __future__ import division, absolute_import, print_function
+from __future__ import absolute_import, division, print_function
+
 import os
+import sys
 from pathlib import Path
 
 import beets
+from beets import config
 from beets.library import DefaultTemplateFunctions
 from beets.plugins import BeetsPlugin, find_plugins
 from beets.ui import UserError
@@ -117,13 +120,21 @@ class KergothPlugin(BeetsPlugin):
                 album = item._cached_album
                 if "composer" in album and album.composer:
                     return album.composer
-            return item.albumartist
+
+            if "albumartists" in item and item.albumartists:
+                return item.albumartists[0]
+            else:
+                return item.albumartist
 
     def artistname(self, item):
         if self.query("classical", item):
             if "composer" in item and item.composer:
                 return item.composer
-        return item.artist
+
+        if "artists" in item and item.artists:
+            return item.artists[0]
+        else:
+            return item.artist
 
     # Directories
 
