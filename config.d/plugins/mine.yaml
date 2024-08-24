@@ -210,7 +210,7 @@ aliases:
   non-game-albums: ls -a existing:2.. missing:0 ^album_query:is_game ^genre:Christmas
 
   # Very basic dupe check for albums lacking musicbrainz data, primarily
-  simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "[$id] $albumartist - $album - $existing/$albumtotal via $source"'
+  simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "$format_album %nocolor{- }%stylize{track,$existing/$albumtotal} %nocolor{via }%stylize{source,$source}"'
   dup-albums: dup -aF
   dup-games: dup -aF -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -k franchise -k mediatitle -k mediatitledisambig query:is_game mediatitle:%
 
@@ -221,19 +221,19 @@ aliases:
   ls-format: ls -f '$format | $samplerate | $format_item'
 
   # Show incomplete albums, skipping any albums where I only have one track
-  incomplete-albums: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:1.. \^album_query:is_game one_track:0'
-  incomplete-games: 'ls -a -f "[$id] $albumartist - $album $existing/$albumtotal" missing:2.. one_track:0 album_query:is_game'
+  incomplete-albums: 'ls -a -f "$format_album %stylize{track,$existing/$albumtotal}" missing:1.. \^album_query:is_game one_track:0'
+  incomplete-games: 'ls -a -f "$format_album %stylize{track,$existing/$albumtotal}" missing:2.. one_track:0 album_query:is_game'
 
   # Red flags
   empty-artist: ls artist:@
   empty-album: ls album:@ singleton:false
   book-not-audiobook: ls genre:book ^albumtypes:audiobook
   unknown-source: ls source:Unknown , source:@
-  excess-tracks: 'ls -f "$format_item $track/$tracktotal via $source" excess_tracks:1'
+  excess-tracks: 'ls -f "$format_item %stylize{track,$track/$tracktotal} %nocolor{via }%stylize{source,$source}" excess_tracks:1'
   negative-missing: 'ls -a -f "$missing - $format_album" missing:..-1'
 
   # Potential concerns
-  missing-albumtotal: 'ls -a -f "$format_album $existing_by_disc" one_track:false albumtotal:0'
+  missing-albumtotal: 'ls -a -f "$format_album %stylize{track,$existing_by_disc}" one_track:false albumtotal:0'
   # This is automatically corrected in modifyonimport
   various-not-comp: ls -a album_query:is_various_not_comp
 
@@ -245,7 +245,7 @@ aliases:
   # artists, but aren't compilations. Cases where the album artist is the
   # producer, cases where there are featuring artist, etc.
   multiartist-not-comp: ls -a comp:0 multiartist:1
-  has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0
+  has-multiple-genres: ls -a -f '%if{$album_genres,%stylize{genre,$album_genres} }$format_album' all_same_genres:0
 
 inlinehook:
   hooks:
