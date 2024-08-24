@@ -39,7 +39,7 @@ importinspect:
 modifyonimport:
   modify_album:
     # Sane default for albumartist_sort
-    'albumartist_sort::"^$" albumartist::.': 'albumartist_sort=%the{$albumartist}'
+    'albumartist_sort::"^$" albumartist::. \^albumartist:& \^albumartist:feat': 'albumartist_sort=%the{$albumartist}'
     # Need albumtypes
     'albumtype::. albumtypes::"^$"': 'albumtypes=$albumtype'
     # Likely a single
