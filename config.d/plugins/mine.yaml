@@ -247,22 +247,6 @@ aliases:
   multiartist-not-comp: ls -a comp:0 multiartist:1
   has-multiple-genres: ls -a -f '$album_genres $format_album' all_same_genres:0
 
-hookscripts:
-  hookspath:
-    - '../hooks'
-  hooks:
-    - alternative_before_update
-    - alternative_updated
-    - album_imported
-    - item_imported
-  args:
-    alternative_before_update: 'alternative.name, syspath(alternative.directory), options.query'
-    alternative_updated: 'alternative.name, syspath(alternative.directory), options.query'
-    album_imported: 'str(album.id)'
-    item_imported: 'str(item.id)'
-    # Unused
-    import: '*paths'
-
 inlinehook:
   hooks:
     - event: 'album_imported'

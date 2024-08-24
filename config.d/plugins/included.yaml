@@ -186,6 +186,15 @@ fuzzy:
   # Default ~ prefix conflicts with case-insensitive exact match prefix
   prefix: '*'
 
+hook:
+  hooks:
+    - event: alternative_before_update
+      command: ./hooks/alternative_before_update "{alternative}" "{directory}"
+    - event: alternative_updated
+      command: ./hooks/alternative_updated "{alternative}" "{directory}"
+    - event: import
+      command: ./hooks/import
+
 types:
   # Built-in or Plugin fields
   albumtotal: int

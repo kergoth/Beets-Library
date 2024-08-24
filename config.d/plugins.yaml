@@ -82,6 +82,9 @@ plugins:
   #  fuzzy: search albums and tracks with fuzzy string matching.
   #    Query Prefix (~).
   - fuzzy
+  #  hook: run commands in response to events
+  #    Passive (as defined).
+  - hook
   #  info: print music files’ tags to the console.
   #    Command (info).
   - info
@@ -196,8 +199,6 @@ plugins:
   #  hasart: query whether an item has embedded art
   #    Named Query (has_embedded_art:, all_tracks_have_art:).
   - hasart
-  #  hookscripts: run external scripts on hook events
-  - hookscripts
   #  inlinehook: run inline python on events
   - inlinehook
   #  open: open media paths with external applications

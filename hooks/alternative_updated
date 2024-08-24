@@ -16,6 +16,20 @@ shift
 directory="$1"
 shift
 
+BEETS_LIBRARY=$(beet get-config-path directory)
+if [ -z "$BEETS_LIBRARY" ]; then
+    echo >&2 "Error: unable to determine library directory"
+    exit 1
+fi
+
+case "$directory" in
+    /*)
+        ;;
+    *)
+        directory="$BEETS_LIBRARY/$directory"
+        ;;
+esac
+
 if ! [ -d "$directory" ]; then
     echo >&2 "Error: $directory does not exist after alternative update"
     exit 1
