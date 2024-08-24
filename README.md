@@ -21,10 +21,14 @@ The `loved` field is used at both item and track level to bring those items up t
 - `mediatitledisambig`: This string disambiguates cases where multiple albums reference the same media. In-game, score, orchestral, inspired by, etc.
 - `franchise`: The media franchise this music references.
 
+- `single_track`: Boolean field which indicates that a track should be placed with the Single Tracks sections of my browseable library, rather than kept in the Albums folder. This is used when I want to hoist tracks from incomplete albums or singles out, rather than having album folders with single tracks.
+
 ## Reference
 
 ### Commands
 
+- `beet tls` will list in a table format.
+- `beet lslimit --head=10` will list a limited number of items. Coupled with `added-`, this will show a limited number of the most recent additions to the library. Alternatively, `beet ls added- "limit:<10"` does the same.
 - `beet lastgenre` to set genres on music from last.fm. This requires manual review, and may well require further tweaking of genre-whitelist.txt and genres-tree.yaml. Better yet, I intend to drop it in favor of whatlastgenre, but it'll do for now.
 - `beet wlg` to set genre from discogs, etc. This still requires review.
 - `beet mbsync` will update from musicbrainz, but often requires manual review to correct bits that were fixed at import time. I should fix `modifyonimport` to also apply on `mbsync`.
@@ -40,6 +44,7 @@ The `loved` field is used at both item and track level to bring those items up t
 - `*` is for a fuzzy match
 - `%` is for a set/non-NULL match
 - `^` is for an unset/NULL match
+- `@` is for an empty string match
 
 #### Global
 
