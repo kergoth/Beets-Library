@@ -15,4 +15,4 @@ find "$PWD/Library" -type f \
     | grep -iEv '\.DS_Store|state\.pickle|library\.db|import\.log|\.cue|\.log|\.par2|/Playlists/' \
     | sort -f >"$diskfile"
 touch "$diskfile"
-comm -i13 "$dbfile" "$diskfile"
+/usr/bin/comm -i13 "$dbfile" "$diskfile"
