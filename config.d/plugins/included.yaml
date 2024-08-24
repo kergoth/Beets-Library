@@ -137,6 +137,14 @@ item_fields:
     else:
       return u'%02i - ' % track
 
+  disc_and_track: |
+    if not track or (tracktotal and tracktotal == 1):
+      return ''
+    elif disctotal > 1:
+      return u'%02i.%02i' % (disc, track)
+    else:
+      return u'%02i' % track
+
   # Do we have more tracks than we should for this album?
   excess_tracks: bool(tracktotal and track and track > tracktotal)
 

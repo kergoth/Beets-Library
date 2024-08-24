@@ -15,6 +15,7 @@ pluginpath:
   - ./src/beets-kergoth/beetsplug
   - ./src/beets-alternatives/beetsplug
   - ./src/whatlastgenre/plugin/beets/beetsplug
+  - ./src/beets-stylize/src/beetsplug
 
 ignore: ['.DS_Store', '@eaDir', '.*', '*~', 'System Volume Information', 'lost+found']
 
@@ -42,11 +43,31 @@ replace:
   '^-': _
 path_sep_replace: ／
 
-format_item: '%ifdef{id,[$id] }%if{$album,$album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%if{$e_albumadvisory, (Explicit)} - $disc_and_track_pre}$artist - $full_title'
-format_album: '%ifdef{id,[$id] }$albumartist - $album%if{$albumtypes,%if{$atypes, $atypes}}%aunique{}%if{$e_albumadvisory, (Explicit)}'
+format_item: '%ifdef{id,$format_id }%if{$album,$format_album_title %nocolor{- }%if{disc_and_track,$format_disc_and_track %nocolor{- }}}$format_artist %nocolor{- }$format_title'
+format_album: '%ifdef{id,$format_album_id }$format_album_title%if{$albumartist, %nocolor{- }$format_albumartist}'
+
 sort_item: albumartist+ album+ disc+ track+ artist+
 sort_album: albumartist+ album+
 per_disc_numbering: yes
+
+ui:
+  color: true
+  # Available colors: black, darkred, darkgreen, brown (darkyellow), darkblue, purple (darkmagenta),
+  # teal (darkcyan), lightgray, darkgray, red, green, yellow, blue, fuchsia (magenta),
+  # turquoise (cyan), white
+  colors:
+    # Field colors for use in the item and album formats.
+    added: ['magenta']
+    advisory: ['red']
+    album: ['blue', 'bold']
+    albumartist: ['yellow']
+    albumtypes: ['cyan']
+    artist: ['bold', 'yellow']
+    explicit: ['red', 'bold']
+    id: ['faint']
+    source: ['green', 'bold']
+    title: ['normal']
+    track: ['green']
 
 convert:
   copy_album_art: yes
