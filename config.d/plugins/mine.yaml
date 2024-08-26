@@ -60,7 +60,7 @@ modifyonimport:
       'genre:game': 'avmedia="Video Games"'
   modify_singleton:
     # Sane default for artist_sort
-    'artist_sort::"^$" artist::"^The ': 'artist_sort=%the{$artist}'
+    'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
     # Clear out the album field for imported singletons
     'album::.': 'album='
     # Genre
