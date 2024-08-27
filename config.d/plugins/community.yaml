@@ -30,5 +30,5 @@ alternatives:
 
 ## Miscellaneous
 
-copyartifacts:
+filetote:
   extensions: .cue .log .jpg .png .txt .pdf .doc .rtf .par2

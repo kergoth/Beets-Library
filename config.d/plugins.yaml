@@ -130,10 +130,9 @@ plugins:
   #  check: automatically checksum your files to detect corruption
   #    Passive (import, modify, write) and Command (check).
   - check
-  #  copyartifacts: move non-music files during the import process
+  #  filetote: move non-music files during import & other operations
   #    Passive (import).
-  - copyartifacts
-
+  - filetote
 
   # My plugins
 
