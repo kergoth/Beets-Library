@@ -2,17 +2,21 @@
 
 PATH="$(dirname "$0"):$PATH"
 
+beets="$1"
+shift
+
 for url in https://github.com/beetbox/beets \
-           https://github.com/snejus/beetcamp \
-           https://github.com/kergoth/beets-kergoth \
-           https://github.com/edk0/beets-join-albums \
-           https://github.com/kergoth/beets-alternatives \
-           https://github.com/adammillerio/beets-copyartifacts \
-           https://github.com/geigerzaehler/beets-check \
-           https://github.com/adamjakab/BeetsPluginXtractor \
-           https://github.com/adamjakab/BeetsPluginYearFixer \
-           https://github.com/phirestalker/beets-musicintegrity \
-           https://github.com/tandy-1000/whatlastgenre@patch-1; do
+    https://github.com/snejus/beetcamp \
+    https://github.com/kergoth/beets-alias \
+    https://github.com/kergoth/beets-stylize \
+    https://github.com/kergoth/beets-kergoth \
+    https://github.com/edk0/beets-join-albums \
+    https://github.com/kergoth/beets-alternatives \
+    https://github.com/geigerzaehler/beets-check \
+    https://github.com/adamjakab/BeetsPluginXtractor \
+    https://github.com/adamjakab/BeetsPluginYearFixer \
+    https://github.com/phirestalker/beets-musicintegrity \
+    https://github.com/tandy-1000/whatlastgenre@patch-1; do
 
     case "$url" in
         *copyartifacts*)
@@ -27,8 +31,8 @@ for url in https://github.com/beetbox/beets \
     if [ -d src ]; then
         name="$(basename "${url%@*}")"
         if [ -d "src/$name" ]; then
-        ( cd "src/$name" && git checkout "$branch" && git pull )
-        spec="src/$name"
+            # (cd "src/$name" && if [ "$(git rev-parse --symbolic-full-name HEAD)" != "refs/heads/$branch" ]; then git checkout "$branch"; fi && git pull) || :
+            spec="src/$name"
         fi
     else
         if [ "$branch" != master ]; then
@@ -36,10 +40,15 @@ for url in https://github.com/beetbox/beets \
         fi
     fi
 
+    if [ -z "$beets" ]; then
+        beets="$spec"
+        continue
+    fi
     set -- "$@" "$spec"
 done
 
-beets="$1"
-shift
+PIPX_DEFAULT_PYTHON="$(command -v python3)"
+export PIPX_DEFAULT_PYTHON
+
 pipx install -f "$beets"
-pipx inject beets "$@" requests discogs-client pyacoustid beets-bandcamp beets-noimport requests_oauthlib pylast beautifulsoup4
+pipx inject beets "$@" requests python3-discogs-client pyacoustid beets-filetote beets-noimport requests_oauthlib pylast beautifulsoup4 rich
