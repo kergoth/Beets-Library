@@ -31,7 +31,6 @@ importinspect:
     - mb_releasetrackid
     - mb_trackid
     - mb_workid
-    - media
     - releasecountry
     - releasestatus
     - script
