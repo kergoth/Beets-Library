@@ -129,7 +129,7 @@ plugins:
   ## Miscellaneous
   #  check: automatically checksum your files to detect corruption
   #    Passive (import, modify, write) and Command (check).
-  - check
+  # - check
   #  filetote: move non-music files during import & other operations
   #    Passive (import).
   - filetote
