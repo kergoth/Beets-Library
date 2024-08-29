@@ -51,4 +51,4 @@ PIPX_DEFAULT_PYTHON="$(command -v python3)"
 export PIPX_DEFAULT_PYTHON
 
 pipx install -f "$beets"
-pipx inject beets "$@" requests python3-discogs-client pyacoustid beets-filetote beets-noimport requests_oauthlib pylast beautifulsoup4 rich
+pipx inject beets "$@" requests python3-discogs-client pyacoustid beets-filetote beets-noimport requests_oauthlib pylast beautifulsoup4 rich beets-beatport4
