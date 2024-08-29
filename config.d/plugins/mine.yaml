@@ -222,6 +222,7 @@ aliases:
   # Show incomplete albums, skipping any albums where I only have one track
   incomplete-albums: 'ls -a -f "$format_album %stylize{track,$existing/$albumtotal}" missing:1.. \^album_query:is_game one_track:0'
   incomplete-games: 'ls -a -f "$format_album %stylize{track,$existing/$albumtotal}" missing:2.. one_track:0 album_query:is_game'
+  incomplete: 'ls -a -f "$format_album %stylize{track,$existing/$albumtotal}" missing:1.. \^album_query:is_game one_track:0 , missing:2.. one_track:0 album_query:is_game'
 
   # Red flags
   empty-artist: ls artist:@
