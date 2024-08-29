@@ -114,6 +114,8 @@ album_fields:
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
+  
+  artist_differs: artist if artist != albumartist else ''
 
   artist_credit_case:
     return artist_credit and artist != artist_credit and artist.lower() == artist_credit.lower()

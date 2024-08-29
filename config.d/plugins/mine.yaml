@@ -145,9 +145,9 @@ item_formats:
 
   # format_id: '%stylize{id,%ifdef{path,%link{file://$path,$id},$id },[$id]}'
   format_id: '%stylize{id,$id,[$id]}'
-  format_album_title: '%stylize{album,$album%aunique{}%if{$albumtypes,%if{$atypes, $atypes}}}'
+  format_album_title: '%if{$comp,,%if{$albumartist,%stylize{albumartist,$albumartist} %nocolor{- }}}%stylize{album,$album%aunique{}%if{$albumtypes,%if{$atypes, $atypes}}}'
   format_disc_and_track: '%stylize{track,$disc_and_track}'
-  format_artist: '%stylize{artist,$artist}'
+  format_artist: '%if{$artist_differs,%stylize{artist,$artist} %nocolor{- }}'
   format_title: '%stylize{title,$title%if{$e_advisory,%stylize{advisory,$explicit_or_clean}}}'
 
 album_formats:
@@ -176,6 +176,10 @@ aliases:
   recent-albums:
     help: Show recently added albums
     command: ls -a -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_album' 'added-'
+
+  recent-singletons:
+        help: Show recently added singletons
+        command: ls -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_item' singleton:true 'added-'
 
   recent:
     help: Show recently added items
