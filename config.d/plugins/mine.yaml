@@ -146,9 +146,11 @@ item_formats:
   # format_id: '%stylize{id,%ifdef{path,%link{file://$path,$id},$id },[$id]}'
   format_id: '%stylize{id,$id,[$id]}'
   format_album_title: '%if{$comp,,%if{$albumartist,%stylize{albumartist,$albumartist} %nocolor{- }}}%stylize{album,$album%aunique{}%if{$albumtypes,%if{$atypes, $atypes}}}'
+
   format_disc_and_track: '%stylize{track,$disc_and_track}'
   format_artist: '%if{$artist_differs,%stylize{artist,$artist} %nocolor{- }}'
   format_title: '%stylize{title,$title%if{$e_advisory,%stylize{advisory,$explicit_or_clean}}}'
+  format_track: '%if{$disc_and_track,$format_disc_and_track %nocolor{- }}$format_artist$format_title'
 
 album_formats:
   # format_album_id: '%stylize{id,%link{file://$path,$album_id},[$album_id]}'
