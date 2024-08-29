@@ -11,3 +11,4 @@
 /src/
 /testing/
 *.code-workspace
+tidal.json
