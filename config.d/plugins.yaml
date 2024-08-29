@@ -84,6 +84,9 @@ plugins:
   - limit
   #  random: randomly choose albums and tracks from your library.
   #    Command (random).
+  - permissions
+  #  permissions: set file permissions for imported music
+  #    Passive (import).
   - random
   #  types: declare types for flexible attributes.
   #    Passive (alters flexible attribute storage).
