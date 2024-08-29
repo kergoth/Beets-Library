@@ -21,9 +21,4 @@ if [ -n "$(beet ls last_import:1)" ]; then
 
     echo >&2 "Checking for red flags"
     beet-check-sanity last_import:1
-
-    if [ -z "${BEETS_SKIP_IMPORT_PAR2:-}" ]; then
-        echo >&2 "Generating par2 files"
-        beet -p musicintegrity par2create last_import:1 2>/dev/null
-    fi
 fi
