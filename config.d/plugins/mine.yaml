@@ -158,6 +158,9 @@ album_formats:
   format_album_title: '%stylize{album,$album%aunique{}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}}'
   format_albumartist: '%stylize{albumartist,$albumartist}'
 
+  # Ease use of ls aliases by allowing format_item to resolve to format_album in that context
+  format_item: '$format_album'
+
 ## Interoperability
 
 alternativesplaylist:
