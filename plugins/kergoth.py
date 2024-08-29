@@ -3,11 +3,9 @@
 from __future__ import absolute_import, division, print_function
 
 import os
-import sys
 from pathlib import Path
 
 import beets
-from beets import config
 from beets.library import DefaultTemplateFunctions
 from beets.plugins import BeetsPlugin, find_plugins
 from beets.ui import UserError
@@ -38,7 +36,7 @@ class KergothPlugin(BeetsPlugin):
                     f"`{plugin_name}` plugin is required to use the `{self.name}` plugin"
                 )
 
-        self.savedqueries = FactoryDict(lambda name: self.queryfunc('query', name))
+        self.savedqueries = FactoryDict(lambda name: self.queryfunc("query", name))
         self.template_fields = {
             "extension": self.extension,
             "navigation_path": self.navigation_path,
@@ -191,11 +189,10 @@ class KergothPlugin(BeetsPlugin):
     def by_album(self, item, media=True, franchise=False):
         if self.query("for_single_tracks", item):
             return f"Single Tracks/{self.artist_title(item)}"
+        elif franchise:
+            return f"{self.franchise_albumdir(item, media)}/{self.comp_filename(item)}"
         else:
-            if franchise:
-                return f"{self.franchise_albumdir(item, media)}/{self.comp_filename(item)}"
-            else:
-                return f"{self.albumdir(item, media)}/{self.comp_filename(item)}"
+            return f"{self.albumdir(item, media)}/{self.comp_filename(item)}"
 
     def franchise_albumdir(self, item, media=True):
         if "franchise" in item and item.franchise:
@@ -244,13 +241,9 @@ class KergothPlugin(BeetsPlugin):
             elif self.query("is_sole_track", item) or self.query(
                 "for_single_tracks", item
             ):
-                return self.path(
-                    f"To Listen/Single Tracks/{self.artist_title(item)}"
-                )
+                return self.path(f"To Listen/Single Tracks/{self.artist_title(item)}")
             else:
-                return self.path(
-                    f"To Listen/{self.by_artist(item, media=False)}"
-                )
+                return self.path(f"To Listen/{self.by_artist(item, media=False)}")
         elif self.is_loved(item):
             if (
                 self.query("is_sole_track", item)
