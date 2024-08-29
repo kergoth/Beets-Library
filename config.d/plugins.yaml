@@ -18,9 +18,6 @@ plugins:
   - spotify
 
   ## Metadata
-  #  acousticbrainz: get acoustic-analysis information.
-  #    Passive (import) and Command (acousticbrainz).
-  #- acousticbrainz
   #  edit: edit metadata from a text editor.
   #    Interactive (import) and Command (edit).
   - edit
