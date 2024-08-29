@@ -17,11 +17,6 @@ lyrics:
   auto: true
   sources: bandcamp genius musixmatch
 
-zero:
-  fields: month day original_month original_day comments
-  comments: [EAC, LAME]
-  update_database: true
-
 ## Path Formats
 
 bucket:
