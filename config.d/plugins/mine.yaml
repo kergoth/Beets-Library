@@ -190,6 +190,11 @@ aliases:
     help: Show recently added items
     command: ls -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
 
+  lsl:
+    help: List items, linking to their files
+    command: ls -f '%link{file://$path,$format_item}'
+    aliases: list-linked
+
   # Reimport unidentified items
   reimport-mb: import -L mb_albumid:@
 
