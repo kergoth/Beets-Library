@@ -162,7 +162,7 @@ item_fields:
   trim_track: str(track)
   trim_disc: str(disc)
 
-  alt_dap: globals()['alt.dap']
+  alt_dap: globals().get('alt.dap', '')
 
 ## Interoperability
 
