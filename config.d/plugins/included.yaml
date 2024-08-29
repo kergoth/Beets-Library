@@ -101,7 +101,10 @@ album_fields:
   # Alter 'albumtypes' to add 'single' and drop other/album/ep.
   single_albumtypes: |
     if globals().get('albumtypes'):
-      types = [t.strip() for t in albumtypes.split(';')]
+      if isinstance(albumtypes, str):
+        types = [t.strip() for t in albumtypes.split(';')]
+      else:
+        types = albumtypes[:]
       for t in ['other', 'album', 'ep']:
         if t in types:
           types.remove(t)
