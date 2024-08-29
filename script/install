@@ -15,6 +15,7 @@ for url in https://github.com/beetbox/beets \
     https://github.com/geigerzaehler/beets-check \
     https://github.com/adamjakab/BeetsPluginXtractor \
     https://github.com/adamjakab/BeetsPluginYearFixer \
+    https://github.com/arsaboo/beets-tidal \
     https://github.com/tandy-1000/whatlastgenre@patch-1; do
 
     case "$url" in
