@@ -145,7 +145,7 @@ item_formats:
 
   # format_id: '%stylize{id,%ifdef{path,%link{file://$path,$id},$id },[$id]}'
   format_id: '%stylize{id,$id,[$id]}'
-  format_album_title: '%stylize{album,$album%aunique{}%if{$albumtypes,%if{$atypes, $atypes}}}'
+  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}'
 
   format_disc_and_track: '%stylize{track,$disc_and_track}'
   format_artist: '%if{$artist_differs,%stylize{artist,$artist} %nocolor{- }}'
@@ -157,7 +157,7 @@ item_formats:
 album_formats:
   # format_album_id: '%stylize{id,%link{file://$path,$album_id},[$album_id]}'
   format_album_id: '%stylize{id,$id,[$id]}'
-  format_album_title: '%stylize{album,$album%aunique{}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}}'
+  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}'
   format_albumartist: '%stylize{albumartist,$albumartist}'
 
   # Ease use of ls aliases by allowing format_item to resolve to format_album in that context
