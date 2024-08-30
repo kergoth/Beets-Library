@@ -178,17 +178,17 @@ aliases:
   # $ beet get-config-path library
   get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
+  recent:
+      help: Show recently added items
+      command: ls -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
+
   recent-albums:
     help: Show recently added albums
-    command: ls -a -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_album' 'added-'
+    command: recent -a
 
   recent-singletons:
         help: Show recently added singletons
-        command: ls -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_item' singleton:true 'added-'
-
-  recent:
-    help: Show recently added items
-    command: ls -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
+        command: recent singleton:true
 
   lsl:
     help: List items, linking to their files
