@@ -153,16 +153,10 @@ item_formats:
 
   browseable_path: '%pathfield{${navigation_path}}$extension'
 
-  # Shorthand
-  format: '$format_item'
-
 album_formats:
   format_album_id: '%stylize{id,$id,[$id]}'
   format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}'
   format_albumartist: '%stylize{albumartist,$albumartist}'
-
-  # Shorthand
-  format: '$format_album'
 
 ## Interoperability
 
