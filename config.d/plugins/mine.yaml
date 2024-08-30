@@ -143,7 +143,6 @@ item_formats:
   path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
   full_title: '$title%if{$e_advisory,$explicit_or_clean}'
 
-  # format_id: '%stylize{id,%ifdef{path,%link{file://$path,$id},$id },[$id]}'
   format_id: '%stylize{id,$id,[$id]}'
   format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}'
 
@@ -155,7 +154,6 @@ item_formats:
   browseable_path: '%pathfield{${navigation_path}}$extension'
 
 album_formats:
-  # format_album_id: '%stylize{id,%link{file://$path,$album_id},[$album_id]}'
   format_album_id: '%stylize{id,$id,[$id]}'
   format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}'
   format_albumartist: '%stylize{albumartist,$albumartist}'
