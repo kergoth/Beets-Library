@@ -152,6 +152,8 @@ item_formats:
   format_title: '%stylize{title,$title%if{$e_advisory,%stylize{advisory,$explicit_or_clean}}}'
   format_track: '%if{$disc_and_track,$format_disc_and_track %nocolor{- }}$format_artist$format_title'
 
+  browseable_path: '%pathfield{${navigation_path}}$extension'
+
 album_formats:
   # format_album_id: '%stylize{id,%link{file://$path,$album_id},[$album_id]}'
   format_album_id: '%stylize{id,$id,[$id]}'
@@ -212,7 +214,7 @@ aliases:
   edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
 
   # Alternatives
-  ls-alt: ls -f '%pathfield{${navigation_path}}$extension'
+  ls-alt: ls -f '$browseable_path'
 
   # Mac-specific
   reveal: open -R --
