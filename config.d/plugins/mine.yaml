@@ -141,15 +141,16 @@ replacefunc:
 
 item_formats:
   path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
-  full_title: '$title%if{$e_advisory,$explicit_or_clean}'
+  full_title: '$title$format_advisory'
 
   format_id: '%stylize{id,$id,[$id]}'
   format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}'
 
   format_disc_and_track: '%stylize{track,$disc_and_track}'
   format_artist: '%if{$artist_differs,%stylize{artist,$artist} %nocolor{- }}'
-  format_title: '%stylize{title,$title%if{$e_advisory,%stylize{advisory,$explicit_or_clean}}}'
+  format_title: '%stylize{title,$title$format_advisory}'
   format_track: '%if{$disc_and_track,$format_disc_and_track %nocolor{- }}$format_artist$format_title'
+  format_advisory: '%if{$e_advisory,%if{$is_explicit,%stylize{explicit, (Explicit)},%if{$is_clean,%stylize{clean, (Clean)}}}}'
 
   browseable_path: '%pathfield{${navigation_path}}$extension'
 

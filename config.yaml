@@ -63,6 +63,7 @@ ui:
     albumartist: ['yellow', 'bold']
     albumtypes: ['cyan']
     artist: ['yellow']
+    clean: ['green', 'bold']
     explicit: ['red', 'bold']
     genre: ['blue']
     id: ['faint']

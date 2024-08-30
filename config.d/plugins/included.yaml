@@ -114,7 +114,7 @@ album_fields:
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
-  
+
   artist_differs: artist if artist != albumartist else ''
 
   artist_credit_case:
@@ -157,6 +157,9 @@ item_fields:
         return ' (Clean)'
     else:
       return ''
+
+  is_explicit: globals().get('advisory', 0) == 1
+  is_clean: globals().get('advisory', 0) == 2
 
   # Not used at this time, only made available
   definite_year: u'%04i' % original_year or original_date[:3] or year or date[:3] or 0
@@ -222,6 +225,8 @@ types:
   e_loved: bool
   excess_tracks: bool
   artist_credit_case: bool
+  is_explicit: bool
+  is_clean: bool
 
   # Flexible fields
   #franchise: string
