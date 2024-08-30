@@ -43,7 +43,7 @@ replace:
   '^-': _
 path_sep_replace: ／
 
-format_item: '%ifdef{id,$format_id }%if{$album,$format_album_title %nocolor{- }}$format_track'
+format_item: '%ifdef{id,$format_id }%if{$album,%if{$comp,,%if{$albumartist,%stylize{albumartist,$albumartist} %nocolor{- }}}$format_album_title %nocolor{- }}$format_track'
 format_album: '%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title'
 
 sort_item: albumartist+ album+ disc+ track+ artist+
