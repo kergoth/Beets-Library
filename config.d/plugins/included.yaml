@@ -29,6 +29,8 @@ bucket:
 album_fields:
   album_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
+  icon: '"📁"'
+
   # Deal with undefined values for queries
   e_albumadvisory: albumadvisory if 'albumadvisory' in globals() else 0
   e_loved: loved if 'loved' in globals() else False
@@ -114,6 +116,8 @@ album_fields:
 
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
+
+  icon: '"📄"'
 
   artist_differs: artist if artist != albumartist else ''
 

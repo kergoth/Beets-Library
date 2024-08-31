@@ -190,7 +190,7 @@ aliases:
 
   lsl:
     help: List items, linking to their files
-    command: ls -f '%link{file://$path,$format_item}'
+    command: ls -f '%link{file://$path,$icon} $format_item'
     aliases: list-linked
 
   # Reimport unidentified items
