@@ -20,9 +20,9 @@ lyrics:
 ## Path Formats
 
 bucket:
-  bucket_alpha: ['A - D', 'E - L', 'M - R', 'S - Z']
+  bucket_alpha: ["A - D", "E - L", "M - R", "S - Z"]
   bucket_alpha_regex:
-    'A - D': ^[0-9a-dA-D…äÄ]
+    "A - D": ^[0-9a-dA-D…äÄ]
 
 # It's irritating that we can't reference other inline fields to avoid this
 # code duplication amongst album and item fields.
@@ -117,8 +117,7 @@ item_fields:
 
   artist_differs: artist if artist != albumartist else ''
 
-  artist_credit_case:
-    return artist_credit and artist != artist_credit and artist.lower() == artist_credit.lower()
+  artist_credit_case: return artist_credit and artist != artist_credit and artist.lower() == artist_credit.lower()
 
   artist_credit_case_only: |
     artist_credit = globals().get('artist_credit')
@@ -179,15 +178,15 @@ playlist:
 ## Miscellaneous
 
 badfiles:
-    check_on_import: yes
-    commands:
-        m4a: ffmpeg -v error -f null - -i
-        mp4: ffmpeg -v error -f null - -i
-        ogg: oggz-validate
+  check_on_import: yes
+  commands:
+    m4a: ffmpeg -v error -f null - -i
+    mp4: ffmpeg -v error -f null - -i
+    ogg: oggz-validate
 
 fuzzy:
   # Default ~ prefix conflicts with case-insensitive exact match prefix
-  prefix: '*'
+  prefix: "*"
 
 hook:
   hooks:
@@ -245,5 +244,5 @@ types:
   reimported: bool
 
 unimported:
-    ignore_extensions: jpg png pdf txt log cue html nfo rtf doc m3u DS_Store par2
-    ignore_subdirectories: ''
+  ignore_extensions: jpg png pdf txt log cue html nfo rtf doc m3u DS_Store par2
+  ignore_subdirectories: ""

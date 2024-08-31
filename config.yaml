@@ -17,34 +17,35 @@ pluginpath:
   - ./src/whatlastgenre/plugin/beets/beetsplug
   - ./src/beets-stylize/src/beetsplug
 
-ignore: ['.DS_Store', '@eaDir', '.*', '*~', 'System Volume Information', 'lost+found']
+ignore:
+  [".DS_Store", "@eaDir", ".*", "*~", "System Volume Information", "lost+found"]
 
 # For unicode lookalikes, see:
 # http://www.unicode.org/Public/security/latest/confusables.txt
 replace:
   # Avoid trailing periods, invalid on Windows
-  ' E\.P\.': ' EP'
-  ' *(\.\.\.)$': '…'
-  '\.+$': ''
+  ' E\.P\.': " EP"
+  ' *(\.\.\.)$': "…"
+  '\.+$': ""
 
   # Zero-width space
-  '​': ''
+  "​": ""
 
   # Colon in paths is often unsupported. Use a unicode lookalike.
-  ' *:': '∶'
+  " *:": "∶"
 
   # Remaining default configuration for portability
   '[\\/]': _
   '^\.+': _
   '[\x00-\x1f]': _
   # '[<>"\?\*\|]': _
-  '\s+$': ''
-  '^\s+': ''
-  '^-': _
+  '\s+$': ""
+  '^\s+': ""
+  "^-": _
 path_sep_replace: ／
 
-format_item: '%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{- }}$format_track'
-format_album: '%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title'
+format_item: "%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{- }}$format_track"
+format_album: "%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title"
 
 sort_item: albumartist+ album+ disc+ track+ artist+
 sort_album: albumartist+ album+
@@ -57,30 +58,30 @@ ui:
   # turquoise (cyan), white
   colors:
     # General colors
-    text_diff_added:   ['bold', 'green']
-    text_diff_removed: ['bold', 'red']
-    text_diff_changed: ['bold', 'yellow']
+    text_diff_added: ["bold", "green"]
+    text_diff_removed: ["bold", "red"]
+    text_diff_changed: ["bold", "yellow"]
 
     # Field colors for use in the item and album formats.
-    added: ['magenta']
-    advisory: ['red']
-    album: ['blue', 'bold']
-    albumartist: ['yellow', 'bold']
-    albumtypes: ['cyan']
-    artist: ['yellow', 'bold']
-    clean: ['green', 'bold']
-    explicit: ['red', 'bold']
-    genre: ['blue']
-    id: ['faint']
-    source: ['green', 'bold']
-    title: ['normal']
-    track: ['green']
+    added: ["magenta"]
+    advisory: ["red"]
+    album: ["blue", "bold"]
+    albumartist: ["yellow", "bold"]
+    albumtypes: ["cyan"]
+    artist: ["yellow", "bold"]
+    clean: ["green", "bold"]
+    explicit: ["red", "bold"]
+    genre: ["blue"]
+    id: ["faint"]
+    source: ["green", "bold"]
+    title: ["normal"]
+    track: ["green"]
 
 convert:
   copy_album_art: yes
   threads: 1
 
-clutter: ['*.m3u', 'Thumbs.DB', '.DS_Store']
+clutter: ["*.m3u", "Thumbs.DB", ".DS_Store"]
 
 id3v23: yes
 
@@ -116,14 +117,14 @@ match:
     # Default: 0.6
     unmatched_tracks: 10.0
   preferred:
-    countries: ['US', 'XW', 'GB|UK']
-    media: ['Digital Media|File', 'CD']
+    countries: ["US", "XW", "GB|UK"]
+    media: ["Digital Media|File", "CD"]
   ignored_media:
-    ['DVD', 'DVD-Video', 'Blu-ray', 'HD-DVD', 'VCD', 'SVCD', 'UMD', 'VHS']
+    ["DVD", "DVD-Video", "Blu-ray", "HD-DVD", "VCD", "SVCD", "UMD", "VHS"]
 
 paths:
-  default: '$source/%if{$albumartist_credit,%if{$albumartist_credit_case_only,$albumartist,$albumartist_credit},$albumartist}/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
-  singleton: '$source/%if{$artist_credit,%if{$artist_credit_case_only,$artist,$artist_credit},$artist}/[non-album tracks]/$path_filename'
-  comp: '$source/Compilations/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename'
+  default: "$source/%if{$albumartist_credit,%if{$albumartist_credit_case_only,$albumartist,$albumartist_credit},$albumartist}/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename"
+  singleton: "$source/%if{$artist_credit,%if{$artist_credit_case_only,$artist,$artist_credit},$artist}/[non-album tracks]/$path_filename"
+  comp: "$source/Compilations/%if{$album,$album%aunique{},[non-album tracks]}/$path_filename"
   ext:log: $albumpath/$album
   ext:cue: $albumpath/$album

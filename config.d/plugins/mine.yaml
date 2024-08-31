@@ -38,35 +38,35 @@ importinspect:
 modifyonimport:
   modify_album:
     # Sane default for albumartist_sort
-    'albumartist_sort::"^$" artist::"^The "': 'albumartist_sort=%the{$albumartist}'
+    'albumartist_sort::"^$" artist::"^The "': "albumartist_sort=%the{$albumartist}"
     # Need albumtypes
-    'albumtype::. albumtypes::"^$"': 'albumtypes=$albumtype'
+    'albumtype::. albumtypes::"^$"': "albumtypes=$albumtype"
     # Likely a single
-    'albumtotal:1 albumtype::"^(|other)$"': 'albumtype=single albumtypes=$single_albumtypes'
+    'albumtotal:1 albumtype::"^(|other)$"': "albumtype=single albumtypes=$single_albumtypes"
     # 'Various Artists' albums not flagged as compilations
-    'album_query:is_various_not_comp': 'comp=1'
+    "album_query:is_various_not_comp": "comp=1"
     # Genre
-    'genre:Holiday': 'genre=Christmas'
-    'genre:game': 'avmedia="Video Games"'
-    'source:GOG': 'avmedia="Video Games"'
-    'source:Steam': 'avmedia="Video Games"'
+    "genre:Holiday": "genre=Christmas"
+    "genre:game": 'avmedia="Video Games"'
+    "source:GOG": 'avmedia="Video Games"'
+    "source:Steam": 'avmedia="Video Games"'
   modify_album_items:
-    '':
+    "":
       # Sane default for artist_sort
-      'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
+      'artist_sort::"^$" artist::"^The "': "artist_sort=%the{$artist}"
       # Genre
-      'genre:Holiday': 'genre=Christmas'
-      'genre:game': 'avmedia="Video Games"'
+      "genre:Holiday": "genre=Christmas"
+      "genre:game": 'avmedia="Video Games"'
   modify_singleton:
     # Sane default for artist_sort
-    'artist_sort::"^$" artist::"^The "': 'artist_sort=%the{$artist}'
+    'artist_sort::"^$" artist::"^The "': "artist_sort=%the{$artist}"
     # Clear out the album field for imported singletons
-    'album::.': 'album='
+    "album::.": "album="
     # Genre
-    'genre:Holiday': 'genre=Christmas'
-    'genre:game': 'avmedia="Video Games"'
-    'source:GOG': 'avmedia="Video Games"'
-    'source:Steam': 'avmedia="Video Games"'
+    "genre:Holiday": "genre=Christmas"
+    "genre:game": 'avmedia="Video Games"'
+    "source:GOG": 'avmedia="Video Games"'
+    "source:Steam": 'avmedia="Video Games"'
 
 ## Path Formats and Fields
 
@@ -74,90 +74,90 @@ replacefunc:
   # These replacements improve the visuals and navigation on the media player
   alt:
     # Marks I don't care about
-    ' *[™®©](?![a-zA-Z])': ''
+    " *[™®©](?![a-zA-Z])": ""
 
     # Visual cleanup
     '[\x00-\x1f]': _
-    '^\s+': ''
-    '\s+$': ''
+    '^\s+': ""
+    '\s+$': ""
 
     # Revert asciify for certain chars
-    '\.\.\.': '…'
+    '\.\.\.': "…"
 
     # Bad font rendering for these characters on the Shanling M0 DAP
-    '“': '"'
-    '”': '"'
-    '‘': "'"
-    '’': "'"
+    "“": '"'
+    "”": '"'
+    "‘": "'"
+    "’": "'"
 
   album:
     # Consistency
-    'Computec Edition Vol. 1': 'Computec Edition, Vol. 1'
-    'HGTV / Paste': 'HGTV & Paste'
-    'Kentucky Route Zero, Act II': 'Kentucky Route Zero - Act II'
-    'Video Games Live, Volume One': 'Video Games Live: Level 1'
+    "Computec Edition Vol. 1": "Computec Edition, Vol. 1"
+    "HGTV / Paste": "HGTV & Paste"
+    "Kentucky Route Zero, Act II": "Kentucky Route Zero - Act II"
+    "Video Games Live, Volume One": "Video Games Live: Level 1"
 
     # Ease navigation
-    'Calling All Dawns: A Song Cycle': 'Calling All Dawns'
+    "Calling All Dawns: A Song Cycle": "Calling All Dawns"
 
   artist:
     # Deal with non-alphanumeric sort issues when browsing
-    '_ensnare_': 'ensnare'
-    ':wumpscut:': 'wumpscut'
-    '“Weird Al” Yankovic': 'Weird Al Yankovic'
-    '\.mpegasus': 'mpegasus'
+    "_ensnare_": "ensnare"
+    ":wumpscut:": "wumpscut"
+    "“Weird Al” Yankovic": "Weird Al Yankovic"
+    '\.mpegasus': "mpegasus"
 
     # Remove featuring artists for navigation
-    ' ([fF]([eE][aA])?[tT]\.|w[/／]) .*': ''
+    ' ([fF]([eE][aA])?[tT]\.|w[/／]) .*': ""
 
     # Multi-artist
-    ' / .*': ''
-    ' *[,;](?! *Jr).*': ''
-    'Chris Ballew and .*': 'Chris Ballew'
-    ' with .*': ''
+    " / .*": ""
+    " *[,;](?! *Jr).*": ""
+    "Chris Ballew and .*": "Chris Ballew"
+    " with .*": ""
 
     # Consistency
-    'George Alistair Sanger': 'George Sanger'
+    "George Alistair Sanger": "George Sanger"
 
     # Ease navigation
-    'Amanda Palmer \+ The Grand Theft Orchestra': 'Amanda Palmer'
-    'Amanda Palmer & The Grand Theft Orchestra': 'Amanda Palmer'
-    'Bob Seger & the Silver Bullet Band': 'Bob Seger'
-    'Ben Harper With Charlie Musselwhite': 'Ben Harper'
-    'Bob Marley & The Wailers': 'Bob Marley'
-    'Stafford Bawler + Todd Baker': 'Stafford Bawler'
-    'Christopher Tin & Voces8': 'Christopher Tin'
+    'Amanda Palmer \+ The Grand Theft Orchestra': "Amanda Palmer"
+    "Amanda Palmer & The Grand Theft Orchestra": "Amanda Palmer"
+    "Bob Seger & the Silver Bullet Band": "Bob Seger"
+    "Ben Harper With Charlie Musselwhite": "Ben Harper"
+    "Bob Marley & The Wailers": "Bob Marley"
+    "Stafford Bawler + Todd Baker": "Stafford Bawler"
+    "Christopher Tin & Voces8": "Christopher Tin"
 
   franchise:
-    'The Legend of Zelda': 'Zelda'
+    "The Legend of Zelda": "Zelda"
 
   media:
-    'Command & Conquer: Red Alert': 'Red Alert'
-    'Quest for Glory: Shadows of Darkness': 'Quest for Glory IV'
-    'The Chronicles of Riddick: Escape From Butcher Bay': 'Riddick'
-    'The Elder Scrolls V: Skyrim': 'Skyrim'
-    'The Incredible Adventures of Van Helsing': 'Van Helsing'
-    'Ultima: Worlds of Adventure 2: Martian Dreams': 'Worlds of Ultima: Martian Dreams'
+    "Command & Conquer: Red Alert": "Red Alert"
+    "Quest for Glory: Shadows of Darkness": "Quest for Glory IV"
+    "The Chronicles of Riddick: Escape From Butcher Bay": "Riddick"
+    "The Elder Scrolls V: Skyrim": "Skyrim"
+    "The Incredible Adventures of Van Helsing": "Van Helsing"
+    "Ultima: Worlds of Adventure 2: Martian Dreams": "Worlds of Ultima: Martian Dreams"
 
 item_formats:
-  path_filename: '%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title'
-  full_title: '$title$format_advisory'
+  path_filename: "%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title"
+  full_title: "$title$format_advisory"
 
-  format_id: '%stylize{id,$id,[$id]}'
-  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}'
+  format_id: "%stylize{id,$id,[$id]}"
+  format_album_title: "%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}"
 
-  format_disc_and_track: '%stylize{track,$disc_and_track}'
-  format_artist: '%stylize{artist,$artist} %nocolor{- }'
-  format_title: '%stylize{title,$title$format_advisory}'
-  format_track: '%if{$disc_and_track,$format_disc_and_track %nocolor{- }}$format_artist$format_title'
-  format_advisory: '%if{$e_advisory,%if{$is_explicit,%stylize{explicit, (Explicit)},%if{$is_clean,%stylize{clean, (Clean)}}}}'
+  format_disc_and_track: "%stylize{track,$disc_and_track}"
+  format_artist: "%stylize{artist,$artist} %nocolor{- }"
+  format_title: "%stylize{title,$title$format_advisory}"
+  format_track: "%if{$disc_and_track,$format_disc_and_track %nocolor{- }}$format_artist$format_title"
+  format_advisory: "%if{$e_advisory,%if{$is_explicit,%stylize{explicit, (Explicit)},%if{$is_clean,%stylize{clean, (Clean)}}}}"
 
-  browseable_path: '%pathfield{${navigation_path}}$extension'
+  browseable_path: "%pathfield{${navigation_path}}$extension"
 
 album_formats:
-  format_album_id: '%stylize{id,$id,[$id]}'
-  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}'
-  format_albumartist: '%stylize{albumartist,$albumartist}'
+  format_album_id: "%stylize{id,$id,[$id]}"
+  format_album_title: "%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}"
+  format_albumartist: "%stylize{albumartist,$albumartist}"
 
 ## Interoperability
 
@@ -177,16 +177,16 @@ aliases:
   get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
   recent:
-      help: List recently added items
-      command: ls -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
+    help: List recently added items
+    command: ls -f '%stylize{added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
 
   recent-albums:
     help: List recently added albums
     command: recent -a
 
   recent-singletons:
-        help: List recently added singletons
-        command: recent singleton:true
+    help: List recently added singletons
+    command: recent singleton:true
 
   lsl:
     help: List items, linking to their files
@@ -261,7 +261,7 @@ aliases:
 
 inlinehook:
   hooks:
-    - event: 'album_imported'
+    - event: "album_imported"
       handler: |
         from beets.ui import UserError, log
 
@@ -279,7 +279,7 @@ inlinehook:
           if item.genre.lower() == 'book' and 'audiobook' not in item.albumtypes:
             log.warning(f'Genre is `book`, but `albumtypes` does not include `audiobook` for {item}')
 
-    - event: 'item_imported'
+    - event: "item_imported"
       handler: |
         from beets.ui import UserError, log
 
@@ -290,8 +290,8 @@ inlinehook:
 
 album_queries:
   is_game: 'avmedia:"Video Games"'
-  is_incomplete_album: 'album_query:is_game missing:2.. , ^album_query:is_game missing:1..'
-  is_sampler: 'albumtypes:sampler , album:sampler'
+  is_incomplete_album: "album_query:is_game missing:2.. , ^album_query:is_game missing:1.."
+  is_sampler: "albumtypes:sampler , album:sampler"
   # This is used both in an alias command and modifyonimport
   is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   by_label: 'label:"OverClocked ReMix"'
@@ -303,39 +303,39 @@ item_queries:
   sole_track_candidates: 'query:is_music \^query:is_mfp \^query:is_ocremix \^query:is_game'
 
   # As-needed
-  albums_to_split_up: 'query:is_incomplete_album existing:..4'
-  is_incomplete_album: 'query:is_game missing:2.. , ^query:is_game missing:1..'
+  albums_to_split_up: "query:is_incomplete_album existing:..4"
+  is_incomplete_album: "query:is_game missing:2.. , ^query:is_game missing:1.."
   is_loved: album_loved:true , loved:true query:for_single_tracks
   has_lyrics: lyrics::. ^lyrics:=[Instrumental] ^lyrics:=XXX
 
   # General and Path Formats. A number of these are used by the `kergoth` plugin for $navigation_path.
-  for_single_tracks: 'album_id:^ , single_track:true'
-  is_christmas: 'genre:Christmas'
-  is_classical: 'genre:Classical'
+  for_single_tracks: "album_id:^ , single_track:true"
+  is_christmas: "genre:Christmas"
+  is_classical: "genre:Classical"
   is_game: 'avmedia:"Video Games"'
-  is_chiptune: 'genre:chiptune'
-  is_music: '^query:is_non_music'
+  is_chiptune: "genre:chiptune"
+  is_music: "^query:is_non_music"
   is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
-  is_sampler: 'albumtypes:sampler , album:sampler'
-  is_sole_track: 'sole_track:true'
-  is_soundtrack: 'albumtypes:soundtrack'
+  is_sampler: "albumtypes:sampler , album:sampler"
+  is_sole_track: "sole_track:true"
+  is_soundtrack: "albumtypes:soundtrack"
 
   # Categories
-  alt_game_extra: '^albumtypes:soundtrack query:is_game'
-  alt_game: 'query:is_game albumtypes:soundtrack'
-  alt_to_listen: 'to_listen:true'
+  alt_game_extra: "^albumtypes:soundtrack query:is_game"
+  alt_game: "query:is_game albumtypes:soundtrack"
+  alt_to_listen: "to_listen:true"
   by_label_flat: 'label:"Music for Programming"'
   by_label: 'label:"OverClocked ReMix"'
-  chiptune_game: 'query:is_chiptune query:is_game query:is_soundtrack'
-  chiptune_game_extra: 'query:is_chiptune query:is_game ^query:is_soundtrack'
-  chiptune: 'query:is_chiptune'
-  christmas_sole_tracks: 'genre:Christmas query:is_sole_track'
-  christmas: 'query:is_christmas'
-  classical_sole_tracks: 'genre:classical query:is_sole_track'
-  classical: 'query:is_classical ^query:is_soundtrack'
+  chiptune_game: "query:is_chiptune query:is_game query:is_soundtrack"
+  chiptune_game_extra: "query:is_chiptune query:is_game ^query:is_soundtrack"
+  chiptune: "query:is_chiptune"
+  christmas_sole_tracks: "genre:Christmas query:is_sole_track"
+  christmas: "query:is_christmas"
+  classical_sole_tracks: "genre:classical query:is_sole_track"
+  classical: "query:is_classical ^query:is_soundtrack"
   non_music: 'genre:meditation , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
-  sampler: 'query:is_sampler ^query:for_single_tracks'
-  soundtrack: 'query:is_soundtrack ^query:for_single_tracks'
+  sampler: "query:is_sampler ^query:for_single_tracks"
+  soundtrack: "query:is_soundtrack ^query:for_single_tracks"
 
 ## Config-Specific
 

@@ -6,35 +6,35 @@ smartplaylist:
   playlist_dir: Library/Playlists
   playlists:
     - name: High-Res.m3u
-      query: 'samplerate:96000..'
+      query: "samplerate:96000.."
 
     - name: Recent/Last 3 Days.m3u
-      album_query: 'added- added:-3d..'
-      query: 'added- added:-3d.. singleton:true'
+      album_query: "added- added:-3d.."
+      query: "added- added:-3d.. singleton:true"
     - name: Recent/Last 7 Days.m3u
-      album_query: 'added- added:-7d..'
-      query: 'added- added:-7d.. singleton:true'
+      album_query: "added- added:-7d.."
+      query: "added- added:-7d.. singleton:true"
     - name: Recent/Last 30 Days.m3u
-      album_query: 'added- added:-30d..'
-      query: 'added- added:-30d.. singleton:true'
+      album_query: "added- added:-30d.."
+      query: "added- added:-30d.. singleton:true"
     - name: Recent/Last 60 Days.m3u
-      album_query: 'added- added:-60d..'
-      query: 'added- added:-60d.. singleton:true'
+      album_query: "added- added:-60d.."
+      query: "added- added:-60d.. singleton:true"
 
     - name: Genre/Chiptunes.m3u
       query: genre:Chiptune
     - name: Genre/Christmas.m3u
-      query: 'genre:Christmas, genre:Holiday'
+      query: "genre:Christmas, genre:Holiday"
     - name: Genre/Classical.m3u
-      query: 'genre:Classical'
+      query: "genre:Classical"
     - name: Genre/Downtempo.m3u
       query: 'artist:"Jason Barty" , genre:Downtempo , genre:"Trip Hop" , genre:"Dub Music"'
     - name: Genre/Ambient.m3u
-      query: 'genre:Ambient'
+      query: "genre:Ambient"
     - name: Genre/Steampunk.m3u
       query: genre:Steampunk
     - name: Genre/Synthwave.m3u
-      query: 'genre:Synthwave , genre:Retrowave'
+      query: "genre:Synthwave , genre:Retrowave"
 
     - name: Chill Music.m3u
       album_query:
@@ -55,10 +55,10 @@ smartplaylist:
       query:
         - "music for programming"
 
-    - name: 'Loved Albums.m3u'
+    - name: "Loved Albums.m3u"
       album_query: loved:true
 
-    - name: 'Dad.m3u'
+    - name: "Dad.m3u"
       query:
         - 'artist:"Stabbing Westward" title:"Save Yourself"'
         - 'artist:"Stereo MC''s" title:"Connected"'
@@ -68,10 +68,10 @@ smartplaylist:
         - 'artist:"Nine Inch Nails" title:"Closer"'
         - 'artist:"Yello" title:"Oh Yeah"'
 
-    - name: 'Morning.m3u'
+    - name: "Morning.m3u"
       query: 'artist:"C+C Music Factory" title:"Gonna Make You Sweat"'
 
-    - name: 'Workout.m3u'
+    - name: "Workout.m3u"
       album_query: 'album:"Workout Mix"'
 
     - name: By Source/7digital.m3u
@@ -139,50 +139,50 @@ smartplaylist:
     - name: By Source/Youtube.m3u
       query: source:"Youtube"
 
-    - name: 'Artists/Ramin Djawadi.m3u'
+    - name: "Artists/Ramin Djawadi.m3u"
       query: 'artist:"Ramin Djawadi" , albumartist:"Ramin Djawadi" , composer:"Ramin Djawadi"'
-    - name: 'Artists/Depeche Mode.m3u'
+    - name: "Artists/Depeche Mode.m3u"
       query: 'artist:"Depeche Mode" , albumartist:"Depeche Mode" , composer:"Depeche Mode"'
-    - name: 'Artists/Amanda Palmer.m3u'
+    - name: "Artists/Amanda Palmer.m3u"
       album_query:
         - 'albumartist:"Amanda Palmer"'
         - 'albumartist:"8in8"'
         - 'albumartist:"Dresden Dolls"'
-    - name: 'Artists/Austin Wintory.m3u'
+    - name: "Artists/Austin Wintory.m3u"
       query: 'artist:"Austin Wintory" , albumartist:"Austin Wintory" , composer:"Austin Wintory"'
-    - name: 'Artists/Ben Prunty.m3u'
+    - name: "Artists/Ben Prunty.m3u"
       query: 'artist:"Ben Prunty" , albumartist:"Ben Prunty" , composer:"Ben Prunty"'
-    - name: 'Artists/Chris Ballew.m3u'
+    - name: "Artists/Chris Ballew.m3u"
       query:
         - 'artist:"Chris Ballew"'
         - 'artist:"The Presidents of the United States of America"'
-    - name: 'Artists/Christopher Tin.m3u'
+    - name: "Artists/Christopher Tin.m3u"
       query:
         - 'artist:"Christopher Tin"'
         - 'composer:"Christopher Tin"'
         - 'artist:"Stereo Alchemy"'
-    - name: 'Artists/Fitz and The Tantrums.m3u'
+    - name: "Artists/Fitz and The Tantrums.m3u"
       query: 'artist:"Fitz and The Tantrums" , artist:"Fitz & The Tantrums"'
-    - name: 'Artists/Frank Klepacki.m3u'
+    - name: "Artists/Frank Klepacki.m3u"
       query: 'artist:"Frank Klepacki" , composer:"Frank Klepacki" , title:"Frank Klepacki"'
-    - name: 'Artists/Jeremy Soule.m3u'
+    - name: "Artists/Jeremy Soule.m3u"
       query: 'artist:"Jeremy Soule"'
-    - name: 'Artists/Jim Guthrie.m3u'
+    - name: "Artists/Jim Guthrie.m3u"
       query: 'artist:"Jim Guthrie" , composer:"Jim Guthrie"'
-    - name: 'Artists/Jonathan Geer.m3u'
+    - name: "Artists/Jonathan Geer.m3u"
       query: 'artist:"Jonathan Geer"'
-    - name: 'Artists/Steve Roach.m3u'
+    - name: "Artists/Steve Roach.m3u"
       query: 'artist:"Steve Roach"'
-    - name: 'Artists/The Black Keys.m3u'
+    - name: "Artists/The Black Keys.m3u"
       query: 'artist:"Black Keys"'
-    - name: 'Artists/Trent Reznor.m3u'
+    - name: "Artists/Trent Reznor.m3u"
       query:
         - 'artist:"Trent Reznor"'
         - 'composer:"Trent Reznor"'
         - 'artist:"Nine Inch Nails"'
         - 'artist:"How to Destroy Angels"'
-    - name: 'Artists/twenty one pilots.m3u'
+    - name: "Artists/twenty one pilots.m3u"
       album_query: 'albumartist:"twenty one pilots"'
       query: 'artist:"twenty one pilots" ^albumartist:"twenty one pilots"'
-    - name: 'Artists/WASD.m3u'
+    - name: "Artists/WASD.m3u"
       query: 'artist:"WASD" , artist:"Stroggos Rising"'

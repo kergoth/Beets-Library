@@ -8,7 +8,7 @@ xtractor:
   keep_output: yes
   keep_profiles: no
   output_path: "/Volumes/Libraries/Music Library/Xtractor/Data"
-    #essentia_extractor: "/Volumes/Libraries/Music Library/Xtractor/streaming_extractor_music"
+  #essentia_extractor: "/Volumes/Libraries/Music Library/Xtractor/streaming_extractor_music"
   essentia_extractor: "/Volumes/Libraries/Music Library/Xtractor/streaming_extractor_music_docker"
   high_level_targets:
     genre_rosamerica_probability: # 0..1

@@ -10,14 +10,14 @@ wlg:
   auto: no
   force: no
   count: 4
-  separator: '; '
+  separator: "; "
   whitelist: beets
 
 ## Interoperability
 
 alternatives:
   dap:
-    directory: '../DAP'
+    directory: "../DAP"
     formats: link
     link_type: hardlink
     embed: no
@@ -26,7 +26,7 @@ alternatives:
     query: ^disliked:true
     paths:
       # navigation_path is defined in plugins/kergoth.py
-      default: '%pathfield{${navigation_path}}'
+      default: "%pathfield{${navigation_path}}"
 
 ## Miscellaneous
 
