@@ -107,7 +107,7 @@ plugins:
   - beatport4
   #  tidal: include matches from Tidal.
   #   Passive (import).
-  - tidal
+  # - tidal
   ## Metadata
   #  join_albums: merge albums
   #    Command (join).
