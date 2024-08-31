@@ -17,6 +17,12 @@ lyrics:
   auto: true
   sources: bandcamp genius musixmatch
 
+replaygain:
+  # Disable at import-time, as it's quite slow
+  auto: false
+  # Compute EBU R128 with ffmpeg
+  backend: ffmpeg
+
 ## Path Formats
 
 bucket:

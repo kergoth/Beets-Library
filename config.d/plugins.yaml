@@ -33,6 +33,9 @@ plugins:
   #  mbsync: fetch updated metadata from MusicBrainz.
   #    Command (mbsync).
   - mbsync
+  #  replaygain: compute ReplayGain for a variety of file formats
+  #    Passive (import) and Command (replaygain).
+  - replaygain
 
   ## Path Formats and Fields
   - albumtypes
