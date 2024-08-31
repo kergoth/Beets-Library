@@ -56,6 +56,11 @@ ui:
   # teal (darkcyan), lightgray, darkgray, red, green, yellow, blue, fuchsia (magenta),
   # turquoise (cyan), white
   colors:
+    # General colors
+    text_diff_added:   ['bold', 'green']
+    text_diff_removed: ['bold', 'red']
+    text_diff_changed: ['bold', 'yellow']
+
     # Field colors for use in the item and album formats.
     added: ['magenta']
     advisory: ['red']
