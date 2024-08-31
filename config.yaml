@@ -62,7 +62,7 @@ ui:
     album: ['blue', 'bold']
     albumartist: ['yellow', 'bold']
     albumtypes: ['cyan']
-    artist: ['yellow']
+    artist: ['yellow', 'bold']
     clean: ['green', 'bold']
     explicit: ['red', 'bold']
     genre: ['blue']
