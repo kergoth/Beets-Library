@@ -149,7 +149,7 @@ item_formats:
   format_disc_and_track: "%stylize{track,$disc_and_track}"
   format_artist: "%stylize{artist,$artist} %nocolor{- }"
   format_title: "%stylize{title,$title$format_advisory}"
-  format_track: "%if{$disc_and_track,$format_disc_and_track %nocolor{- }}$format_artist$format_title"
+  format_track: "%if{$singleton,,%if{$disc_and_track,$format_disc_and_track %nocolor{- }}}$format_artist$format_title"
   format_advisory: "%if{$e_advisory,%if{$is_explicit,%stylize{explicit, (Explicit)},%if{$is_clean,%stylize{clean, (Clean)}}}}"
 
   browseable_path: "%pathfield{${navigation_path}}$extension"
