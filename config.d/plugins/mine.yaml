@@ -144,7 +144,7 @@ item_formats:
   full_title: '$title$format_advisory'
 
   format_id: '%stylize{id,$id,[$id]}'
-  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}'
+  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}'
 
   format_disc_and_track: '%stylize{track,$disc_and_track}'
   format_artist: '%if{$artist_differs,%stylize{artist,$artist} %nocolor{- }}'
@@ -156,7 +156,7 @@ item_formats:
 
 album_formats:
   format_album_id: '%stylize{id,$id,[$id]}'
-  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%if{$atypes, $atypes}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}'
+  format_album_title: '%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}'
   format_albumartist: '%stylize{albumartist,$albumartist}'
 
 ## Interoperability
