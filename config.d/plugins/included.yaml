@@ -20,8 +20,14 @@ lyrics:
 replaygain:
   # Disable at import-time, as it's quite slow
   auto: false
-  # Compute EBU R128 with ffmpeg
+  # Compute with ffmpeg
   backend: ffmpeg
+  # Don't use the Opus format-specific R128 fields
+  r128: []
+  # Target loudness level is -18 LUFS / 89 Decibels
+  targetlevel: 89
+  # Use the true peak method, not sample
+  peak: "true"
 
 ## Path Formats
 
