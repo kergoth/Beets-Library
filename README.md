@@ -23,6 +23,12 @@ The `loved` field is used at both item and track level to bring those items up t
 
 - `single_track`: Boolean field which indicates that a track should be placed with the Single Tracks sections of my browseable library, rather than kept in the Albums folder. This is used when I want to hoist tracks from incomplete albums or singles out, rather than having album folders with single tracks.
 
+## Music and Exceptions
+
+Generally I keep albums together, and only split up samplers. For example, this means that marking a track within an album as loved, but not marking the album as loved will not result in moving the track in my browseable layout to Loved as this would break up the album. The only current exceptions to this are:
+
+- Smooth by Santana. I don't love the rest of the album, but I do love the track, so I explicitly set single_track=true on this track, which hoists it out of the album into the Single Tracks section.
+
 ## Reference
 
 ### Commands
