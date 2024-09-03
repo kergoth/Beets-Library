@@ -1,3 +1,4 @@
 #!/bin/sh
 
 mkdir -p Library/Playlists
+git update-index --assume-unchanged config.d/local.yaml
