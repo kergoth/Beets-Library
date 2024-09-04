@@ -85,7 +85,10 @@ album_fields:
   is_comp_same_artists: comp and all(item.artist == items[0].artist for item in items)
 
   # Album with items whose artists differ
-  multiartist: not bool(all(item.artist == items[0].artist for item in items))
+  multiartist: |
+    first = items[0]
+    first_artist = first.artists[0] if first.artists else first.artist
+    return any(((item.artists[0] if item.artists else item.artist) != first_artist) for item in items)
 
   # Album with no genre set, whose items have differing genre
   needs_album_genre: |
