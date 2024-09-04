@@ -117,7 +117,7 @@ match:
     # Default: 0.6
     unmatched_tracks: 10.0
   preferred:
-    countries: ["US", "XW", "GB|UK"]
+    countries: ["US", "XW"]
     media: ["Digital Media|File", "CD"]
   ignored_media:
     ["DVD", "DVD-Video", "Blu-ray", "HD-DVD", "VCD", "SVCD", "UMD", "VHS"]
