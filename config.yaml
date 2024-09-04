@@ -64,7 +64,8 @@ ui:
     text_highlight: ["bold", "green"]
 
     # Field colors for use in the item and album formats.
-    added: ["magenta"]
+    #  'added' is already taken by the diff colors, so we use 'field_added' instead
+    field_added: ["magenta"]
     advisory: ["red"]
     album: ["blue", "bold"]
     albumartist: ["yellow", "bold"]
