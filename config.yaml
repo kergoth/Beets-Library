@@ -73,6 +73,7 @@ ui:
     artist: ["yellow", "bold"]
     clean: ["green", "bold"]
     explicit: ["red", "bold"]
+    format: ["cyan"]
     genre: ["blue"]
     id: ["faint"]
     source: ["green", "bold"]

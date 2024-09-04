@@ -254,7 +254,7 @@ aliases:
   singletons: ls singleton:true
   complete: ls -a missing:0
   high-res: ls-format samplerate:96000..
-  ls-format: ls -f '$format | $samplerate | $format_item'
+  ls-format: ls -f '%color{format,$format} %nocolor{| }%color{format,$samplerate} %nocolor{| }$format_item'
 
   # Show incomplete albums, skipping any albums where I only have one track
   incomplete-albums: 'ls -a -f "$format_album %stylize{track,$existing/$albumtotal}" missing:1.. \^album_query:is_game one_track:0'
