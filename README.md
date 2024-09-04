@@ -28,6 +28,7 @@ The `loved` field is used at both item and track level to bring those items up t
 Generally I keep albums together, and only split up samplers. For example, this means that marking a track within an album as loved, but not marking the album as loved will not result in moving the track in my browseable layout to Loved as this would break up the album. The only current exceptions to this are:
 
 - Smooth by Santana. I don't love the rest of the album, but I do love the track, so I explicitly set single_track=true on this track, which hoists it out of the album into the Single Tracks section.
+- Techno Syndrome ('97 Mix*) by The Immortals. This mix is unavailable anywhere else, but the other tracks on this album are in the existing Mortal Kombat soundtracks, so I don't need to play them via this album. I've set single_track=true on this track to hoist it out of the album into the Single Tracks section.
 
 ## Reference
 
