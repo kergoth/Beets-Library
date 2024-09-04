@@ -43,6 +43,9 @@ album_fields:
 
   icon: '"📁"'
 
+  # First album artist (usually primary)
+  first_albumartist: albumartists[0] if albumartists else albumartist
+
   # Deal with undefined values for queries
   e_albumadvisory: albumadvisory if 'albumadvisory' in globals() else 0
   e_loved: loved if 'loved' in globals() else False
@@ -133,6 +136,9 @@ item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
   icon: '"📄"'
+
+  # First artist (usually primary)
+  first_artist: artists[0] if artists else artist
 
   artist_differs: artist if artist != albumartist else ''
 
