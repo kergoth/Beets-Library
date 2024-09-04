@@ -193,6 +193,10 @@ aliases:
     command: ls -f '%link{file://$path,$icon} $format_item'
     aliases: list-linked
 
+  lsf:
+    help: List items, with links to play them in foobar2000
+    command: ls -f '%link{shortcuts://run-shortcut?name=Open in foobar2000&input=text&text=%urlencode{$path},$icon} $format_item'
+
   reimport-unmatched:
     help: Reimport unmatched/unidentified items
     command: import -L mb_albumid:@
