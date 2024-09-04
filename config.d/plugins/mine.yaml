@@ -193,8 +193,9 @@ aliases:
     command: ls -f '%link{file://$path,$icon} $format_item'
     aliases: list-linked
 
-  # Reimport unidentified items
-  reimport-mb: import -L mb_albumid:@
+  reimport-unmatched:
+    help: Reimport unmatched/unidentified items
+    command: import -L mb_albumid:@
 
   # Strip release-specific tags. Useful in cases where the precise release
   # is unknown, or is not in MusicBrainz yet.
