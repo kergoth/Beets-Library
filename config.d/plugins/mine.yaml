@@ -313,6 +313,7 @@ album_queries:
   # This is used both in an alias command and modifyonimport
   is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   by_label: 'label:"OverClocked ReMix"'
+  separated_by_genre: 'genre:Comedy , genre:Humor , genre:Humour'
 
 item_queries:
   # Used by the sole-tracks script

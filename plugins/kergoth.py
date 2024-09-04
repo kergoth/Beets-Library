@@ -37,6 +37,7 @@ class KergothPlugin(BeetsPlugin):
                 )
 
         self.savedqueries = FactoryDict(lambda name: self.queryfunc("query", name))
+        self.album_queries = FactoryDict(lambda name: self.queryfunc("album_query", name))
         self.template_fields = {
             "extension": self.extension,
             "navigation_path": self.navigation_path,
@@ -51,6 +52,9 @@ class KergothPlugin(BeetsPlugin):
     # Utility functions
     def query(self, name, formatteditem):
         return self.savedqueries[name].match(formatteditem.item)
+
+    def album_query(self, name, album):
+        return self.album_queries[name].match(album)
 
     def path(self, string):
         return self.replacefunc("alt", string).replace("/", "\0")
@@ -216,7 +220,11 @@ class KergothPlugin(BeetsPlugin):
                 dirname = self.albumartistdir(item)
             return f"{dirname}/{self.by_album(item, media)}"
 
-    def bucket_by_artist(self, item, media=True):
+    def music_section(self, item, media=True):
+        album = item._cached_album
+        if album and album.genre and self.album_query("separated_by_genre", album):
+            return f'{album.genre}/{self.by_artist(item, media)}'
+
         if self.query("for_single_tracks", item):
             bucketed = self.artistdir(item)
         else:
@@ -317,7 +325,7 @@ class KergothPlugin(BeetsPlugin):
         elif item.comp and not item.get("single_track", False):
             return self.path(f"Music/Compilations/{self.by_album(item, media=False)}")
         else:
-            return self.path(f"Music/{self.bucket_by_artist(item, media=False)}")
+            return self.path(f"Music/{self.music_section(item, media=False)}")
 
 
 class FactoryDict(dict):
