@@ -213,8 +213,11 @@ aliases:
   # Browseable paths
   ls-browseable: ls -f '$browseable_path'
 
+  reveal:
+    help: Reveal items in file manager / Finder
+    command: open -R --
+
   # Mac-specific
-  reveal: open -R --
   picard: 'open -A "-a MusicBrainz\ Picard" --'
   vlc: 'open -A "-a VLC" --'
 
