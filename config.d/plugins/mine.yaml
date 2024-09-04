@@ -218,8 +218,18 @@ aliases:
     command: open -R --
 
   # Mac-specific
-  picard: 'open -A "-a MusicBrainz\ Picard" --'
-  vlc: 'open -A "-a VLC" --'
+  picard:
+    help: Open item(s) in MusicBrainz Picard
+    command: 'open -A "-a MusicBrainz\ Picard" --'
+
+  vlc:
+    help: Open item(s) in VLC
+    command: 'open -A "-a VLC" --'
+
+  fb:
+    help: Open item(s) in foobar2000
+    command: 'open -A "-a foobar2000" --'
+    aliases: foobar foobar2k foobar2000
 
   # Complete non-game/non-christmas albums with more than one track
   non-game-albums: ls -a existing:2.. missing:0 ^album_query:is_game ^genre:Christmas
