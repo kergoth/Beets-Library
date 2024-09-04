@@ -50,6 +50,13 @@ modifyonimport:
     "genre:game": 'avmedia="Video Games"'
     "source:GOG": 'avmedia="Video Games"'
     "source:Steam": 'avmedia="Video Games"'
+
+    # Overrides from MusicBrainz
+    #  These are soundtracks
+    "album:Return to Zork": "albumtype=soundtrack albumtypes=soundtrack"
+    "album:Civilization VI": "albumtype=soundtrack albumtypes=soundtrack"
+    #  This is not music
+    "album:You Don't Hear Jack": "albumtype=spokenword albumtypes=spokenword"
   modify_album_items:
     "":
       # Sane default for artist_sort
