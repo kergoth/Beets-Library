@@ -61,6 +61,7 @@ ui:
     text_diff_added: ["bold", "green"]
     text_diff_removed: ["bold", "red"]
     text_diff_changed: ["bold", "yellow"]
+    text_highlight: ["bold", "green"]
 
     # Field colors for use in the item and album formats.
     added: ["magenta"]

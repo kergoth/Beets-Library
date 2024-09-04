@@ -141,7 +141,7 @@ replacefunc:
 
 item_formats:
   path_filename: "%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title"
-  full_title: '$title%if{$e_advisory,$explicit_or_clean}'
+  full_title: "$title%if{$e_advisory,$explicit_or_clean}"
 
   format_id: "%stylize{id,$id,[$id]}"
   format_album_title: "%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}"
