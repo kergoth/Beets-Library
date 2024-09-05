@@ -52,8 +52,8 @@ elif [ -d "${BEETS_LIBRARY:-}" ]; then
         find "$directory/$playlistdir" -type f \
             | while read -r fn; do
                 rel="${fn#"$directory/$playlistdir/"}"
-                if ! [ -e "$BEETS_LIBRARY/$library_playlistdir/$rel" ]; then
-                    msg "$BEETS_LIBRARY/$library_playlistdir/$rel does not exist, but $fn does, removing"
+                if ! [ -e "$library_playlistdir/$rel" ]; then
+                    msg "$library_playlistdir/$rel does not exist, but $fn does, removing"
                     rm -fv "$fn"
                 fi
             done
