@@ -312,6 +312,8 @@ inlinehook:
 
         if not item.artist:
           log.warning(f'Artist not set for {item}')
+        if item.genre.lower() == 'book' and 'audiobook' not in item.albumtypes:
+          log.warning(f'Genre is `book`, but `albumtypes` does not include `audiobook` for {item}')
 
 album_queries:
   is_game: 'avmedia:"Video Games"'
