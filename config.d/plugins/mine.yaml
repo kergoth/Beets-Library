@@ -385,6 +385,8 @@ soletracks:
   # I don't need to check_single_track, as I already use a flexible field `single_track`
   check_single_track: no
   sections:
-    - query:is_classical ^query:is_christmas
-    - query:is_christmas ^query:is_classical
-    - ^query:is_christmas ^query:is_classical
+    - query:is_classical ^query:is_christmas ^loved:true ^query:is_game
+    - query:is_christmas ^query:is_classical ^loved:true ^query:is_game
+    - query:is_game ^query:is_christmas ^query:is_classical ^loved:true
+    - loved:true ^query:is_christmas ^query:is_classical ^query:is_game
+    - ^query:is_christmas ^query:is_classical ^loved:true ^query:is_game
