@@ -27,6 +27,8 @@ smartplaylist:
       query: "genre:Christmas, genre:Holiday"
     - name: Genre/Classical.m3u
       query: "genre:Classical"
+    - name: Genre/Comedy.m3u
+      query: genre:Comedy
     - name: Genre/Downtempo.m3u
       query: 'artist:"Jason Barty" , genre:Downtempo , genre:"Trip Hop" , genre:"Dub Music"'
     - name: Genre/Ambient.m3u
