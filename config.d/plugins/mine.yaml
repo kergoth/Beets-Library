@@ -206,6 +206,10 @@ aliases:
     help: List items, with links to play them in foobar2000 (macOS only)
     command: ls -f '%link{shortcuts://run-shortcut?name=Open in foobar2000&input=text&text=%urlencode{$path},$icon} $format_item'
 
+  ls-unmatched:
+      help: List unmatched/unidentified items
+      command: ls mb_albumid:@
+  
   reimport-unmatched:
     help: Reimport unmatched/unidentified items
     command: import -L mb_albumid:@
