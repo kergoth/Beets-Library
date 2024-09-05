@@ -56,7 +56,7 @@ modifyonimport:
     "album:Return to Zork": "albumtype=soundtrack albumtypes=soundtrack"
     "album:Civilization VI": "albumtype=soundtrack albumtypes=soundtrack"
     #  This is not music
-    "album:You Don't Hear Jack": "albumtype=spokenword albumtypes=spokenword"
+    'album:"You Don''t Hear Jack"': "albumtype=spokenword albumtypes=spokenword"
   modify_album_items:
     "":
       # Sane default for artist_sort
