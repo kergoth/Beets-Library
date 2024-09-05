@@ -193,6 +193,8 @@ class KergothPlugin(BeetsPlugin):
     def by_album(self, item, media=True, franchise=False):
         if self.query("for_single_tracks", item):
             return f"Single Tracks/{self.artist_title(item)}"
+        elif "albumdir" in item and item.albumdir:
+            return f"{item.item.albumdir}/{self.comp_filename(item)}"
         elif franchise:
             return f"{self.franchise_albumdir(item, media)}/{self.comp_filename(item)}"
         else:
