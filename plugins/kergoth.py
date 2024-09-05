@@ -206,7 +206,7 @@ class KergothPlugin(BeetsPlugin):
         else:
             return self.the(self.albumonlydir(item, media))
 
-    def by_artist(self, item, media=True, split_samplers=False, label=False):
+    def by_artist(self, item, media=True, split_samplers=False, label=False, franchise=False):
         if self.query("for_single_tracks", item) or (
             split_samplers and self.query("is_sampler", item)
         ):
@@ -220,7 +220,7 @@ class KergothPlugin(BeetsPlugin):
                 dirname = self.labeldir(item)
             else:
                 dirname = self.albumartistdir(item)
-            return f"{dirname}/{self.by_album(item, media)}"
+            return f"{dirname}/{self.by_album(item, media, franchise=franchise)}"
 
     def music_section(self, item, media=True):
         album = item._cached_album
@@ -306,14 +306,9 @@ class KergothPlugin(BeetsPlugin):
                     f"Games/Extras/Single Tracks/{self.artist_title(item)}"
                 )
             else:
-                if "mediatitle" in item and item.mediatitle:
-                    return self.path(
-                        f"Games/Extras/{self.by_album(item, media=True, franchise=False)}"
-                    )
-                else:
-                    return self.path(
-                        f"Games/Extras/{self.by_artist(item, media=False)}"
-                    )
+                return self.path(
+                    f"Games/Extras/{self.by_artist(item)}"
+                )
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
         elif self.query("sampler", item):
