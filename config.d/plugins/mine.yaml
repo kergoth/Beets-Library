@@ -66,6 +66,8 @@ modifyonimport:
       "genre:Holiday": "genre=Christmas"
       "genre:game": 'avmedia="Video Games"'
       'albumartist:Stephen Lynch': 'genre=Comedy'
+      # Set single_track to 1 if there's only one track'
+      'existing:1': "single_track=1"
   modify_singleton:
     # Sane default for artist_sort
     'artist_sort::"^$" artist::"^The "': "artist_sort=%the{$artist}"
