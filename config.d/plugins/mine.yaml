@@ -349,6 +349,7 @@ item_queries:
   is_sampler: "albumtypes:sampler , album:sampler"
   is_sole_track: "sole_track:true"
   is_soundtrack: "albumtypes:soundtrack"
+  separated_by_genre: "genre:Comedy , genre:Humor , genre:Humour"
 
   # Categories
   alt_game_extra: "^albumtypes:soundtrack query:is_game"

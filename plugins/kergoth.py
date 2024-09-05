@@ -224,8 +224,12 @@ class KergothPlugin(BeetsPlugin):
 
     def music_section(self, item, media=True):
         album = item._cached_album
-        if album and album.genre and self.album_query("separated_by_genre", album):
-            return f'{album.genre}/{self.by_artist(item, media)}'
+        if album:
+            if album.genre and self.album_query("separated_by_genre", album):
+                return f'{album.genre}/{self.by_artist(item, media)}'
+        else:
+            if item.genre and self.query("separated_by_genre", item):
+                return f'{item.genre}/{self.by_artist(item, media)}'
 
         if self.query("for_single_tracks", item):
             bucketed = self.artistdir(item)
