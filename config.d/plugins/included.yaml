@@ -59,6 +59,9 @@ album_fields:
   album_genres: "','.join(sorted(set(filter(None, (item.genre for item in items)))))"
   all_same_genres: all(item.genre == items[0].genre for item in items)
 
+  # Compare to release group title
+  title_matches_group: release_group_title.lower() == album.lower()
+
   albumartist_credit_case: |
     return albumartist_credit and albumartist != albumartist_credit and albumartist.lower() == albumartist_credit.lower()
 
@@ -242,6 +245,7 @@ types:
   multidisc: bool
   one_track: bool
   albumartist_credit_case: bool
+  title_matches_group: bool
 
   # Item inline and format fields
   e_advisory: int
