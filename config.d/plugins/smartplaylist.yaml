@@ -61,7 +61,7 @@ smartplaylist:
       album_query: loved:true
 
     - name: "Loved Tracks in Unloved Albums.m3u"
-      query: loved:true album_loved:false singleton:false \^single_track:true \^sole_track:true albumartist+ album+ disc+ track+ artist+
+      query: loved:true album_loved:false singleton:false \^single_track:true \^sole_track:true original_year+ albumartist+ album+ disc+ track+ artist+
 
     - name: "Dad.m3u"
       query:
