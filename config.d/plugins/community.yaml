@@ -16,13 +16,13 @@ wlg:
 ## Interoperability
 
 alternatives:
-  dap:
-    directory: "../DAP"
+  browse:
+    directory: "../Browse"
     formats: link
     link_type: hardlink
     embed: no
     copy_album_art: yes
-    copy_album_art_pp: shrink-art-dap
+    copy_album_art_pp: shrink-art
     query: ^disliked:true ^hidden:true
     paths:
       # navigation_path is defined in plugins/kergoth.py

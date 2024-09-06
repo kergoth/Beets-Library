@@ -12,13 +12,13 @@ abspath() {
 }
 
 library_dir="$(beet get-config-path directory)"
-dap_dir="$(beet get-config alternatives.dap.directory)"
-if [ -z "$dap_dir" ]; then
-    echo >&2 "Error looking up alternatives.dap.directory in beets config"
+browse_dir="$(beet get-config alternatives.browse.directory)"
+if [ -z "$browse_dir" ]; then
+    echo >&2 "Error looking up alternatives.browse.directory in beets config"
     exit 1
 fi
-dap_dir="$(abspath "$dap_dir" "$library_dir")"
-if [ -z "$dap_dir" ]; then
+browse_dir="$(abspath "$browse_dir" "$library_dir")"
+if [ -z "$browse_dir" ]; then
     exit 1
 fi
 
@@ -27,4 +27,4 @@ if ! [ -e /Volumes/DAP ]; then
     exit 3
 fi
 
-rsync -avLP --exclude .Trashes --exclude .fseventsd --exclude .DS_Store --exclude ._\* --exclude .Spotlight-V100 --exclude .git --delete "$@" "$dap_dir/" "$library_dir/../Manual Additions/" /Volumes/DAP/
+rsync -avLP --exclude .Trashes --exclude .fseventsd --exclude .DS_Store --exclude ._\* --exclude .Spotlight-V100 --exclude .git --delete "$@" "$browse_dir/" "$library_dir/../Manual Additions/" /Volumes/DAP/
