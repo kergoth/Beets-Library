@@ -144,6 +144,7 @@ item_fields:
   first_artist: artists[0] if artists else artist
 
   artist_differs: artist if artist != albumartist else ''
+  artist_sort_equal: artist_sort == artist
 
   artist_credit_case: return artist_credit and artist != artist_credit and artist.lower() == artist_credit.lower()
 
@@ -255,6 +256,7 @@ types:
   artist_credit_case: bool
   is_explicit: bool
   is_clean: bool
+  artist_sort_equal: bool
 
   # Flexible fields
   #franchise: string
