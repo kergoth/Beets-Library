@@ -1,0 +1,45 @@
+#!/bin/sh
+# Show items corresponding to an album search
+
+quote(){
+    sed -e "s,','\\\\'',g; 1s,^,',; \$s,\$,',;" << EOF
+$1
+EOF
+}
+
+save () {
+    case "$1" in
+    # when a string contains a "'" we have to escape it
+    *\'*)
+        saved="$saved $(quote "$1")"
+        ;;
+    # otherwise just quote the variable
+    *)
+        saved="$saved '$1'"
+        ;;
+    esac
+}
+
+saved=
+format=
+while [ $# -gt 0 ]; do
+    arg="$1"
+    shift
+    case "$arg" in
+        -f)
+            if [ $# -gt 0 ]; then
+                format="$1"
+                shift
+                continue
+            fi
+    esac
+    save "$arg"
+done
+eval set -- "$saved"
+
+# shellcheck disable=SC2016
+album_id_query="$(beet ls -f '$id' -a "$@" | xargs | sed -e 's/^/ /; s/ / , album_id:/g; s/^ , //')"
+if [ -n "$album_id_query" ]; then
+    # shellcheck disable=SC2086
+    beet ls ${format:+-f "$format"} $album_id_query
+fi
