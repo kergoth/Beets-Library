@@ -14,6 +14,7 @@ My library utilizes various flexible fields.
 The `loved` field is used at both item and track level to bring those items up to the top-level in my media player path formats for easier navigation to the songs and albums I listen to most often. I may rename this field in the future.
 
 - `disliked`: Music I actively dislike but don't yet want to remove from the library.
+- `hidden`: Music I don't want to see in my browseable library, but don't want to remove.
 - `loved`: This field is used at both album and track level to hoist those items up to the root level in my media player path formats for easier navigation to items I play often.
 - `to_listen`: Music I'd like to listen to.
 - `avmedia`: Media type. Current expected values: Video Games, TV, Movies, Performances, Musicals, Anime, Documentaries.

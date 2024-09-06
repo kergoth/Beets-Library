@@ -23,7 +23,7 @@ alternatives:
     embed: no
     copy_album_art: yes
     copy_album_art_pp: shrink-art-dap
-    query: ^disliked:true
+    query: ^disliked:true ^hidden:true
     paths:
       # navigation_path is defined in plugins/kergoth.py
       default: "%pathfield{${navigation_path}}"

@@ -261,6 +261,7 @@ types:
   #mediatitle: string
   #mediatitledisambig: string
   disliked: bool
+  hidden: bool
   loved: bool
   to_listen: bool
 
