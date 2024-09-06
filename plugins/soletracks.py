@@ -7,8 +7,11 @@ of "albums" with one track each is not useful.
 
 import collections
 import re
+
 from beets import library, plugins, ui
 from beets.dbcore import types
+from beets.plugins import find_plugins
+from beets.ui import UserError
 
 
 class SoleTracks(plugins.BeetsPlugin):
@@ -34,6 +37,9 @@ class SoleTracks(plugins.BeetsPlugin):
         )
         self.artist_tokens = re.compile(r"(?<=\s)(?:and|\&|,)(?=\s)")
         self.asciify = library.DefaultTemplateFunctions.tmpl_asciify
+
+        self.needed_plugins = ["savedqueries"]
+        self.register_listener("pluginload", self.loaded)
 
     def commands(self):
         list_cmd = ui.Subcommand(
@@ -121,7 +127,9 @@ class SoleTracks(plugins.BeetsPlugin):
         base_check_query, _ = library.parse_query_string(base_check_query, library.Item)
 
         candidates_by_section = collections.defaultdict(set)
-        checked_by_artist = collections.defaultdict(lambda: collections.defaultdict(set))
+        checked_by_artist = collections.defaultdict(
+            lambda: collections.defaultdict(set)
+        )
 
         self._log.debug("Gathering item artist information")
         for item in lib.items():
@@ -136,8 +144,7 @@ class SoleTracks(plugins.BeetsPlugin):
                     if base_match:
                         candidates_by_section[section].add(item)
                     if check_match:
-                        for artist in self.artists(item, check_fields):
-                            checked_by_artist[section][artist].add(item)
+                        checked_by_artist[section][self.item_artist(item)].add(item)
 
         seen = set()
         for section in sections:
@@ -153,35 +160,42 @@ class SoleTracks(plugins.BeetsPlugin):
                             # Not a single track
                             continue
 
-                item_artists = self.artists(item, artist_fields)
-                self._log.debug(f'Checking for artists ({", ".join(item_artists)})')
-                for artist in item_artists:
-                    other_items = [i for i in checked_by_artist[section][artist] if i != item]
-                    if other_items:
-                        yield item, False
-                        break
-                else:
-                    yield item, True
+                yield item, len(checked_by_artist[section][self.item_artist(item)]) == 1
 
-    def artists(self, item, artist_fields):
-        artists = set()
-        for field in artist_fields:
-            if field in item:
-                value = item.get(field)
-                if value:
-                    if isinstance(value, str):
-                        artists.add(value.strip().lower())
+    def item_artist(self, item):
+        if item.album:
+            return self.albumartistname(item)
+        else:
+            if item.artists:
+                return item.artists[0]
+            else:
+                return item.artist
 
-                        value = self.feat_tokens.split(value, 1)[0]
-                        artists.add(value.strip().lower())
+    def albumartistname(self, item):
+        if self.query("classical", item):
+            album = item._cached_album
+            if "composer" in album and album.composer:
+                return album.composer
 
-                        split_artist = self.artist_tokens.split(value)[0]
-                        if split_artist:
-                            artists.add(split_artist)
-                    else:
-                        artists |= set(value)
+        if "albumartists" in item and item.albumartists:
+            return item.albumartists[0]
+        else:
+            return item.albumartist
 
-        if artists:
-            artists |= set(self.asciify(artist) for artist in artists)
+    def query(self, name, item):
+        return self.queryfunc("query", name).match(item)
 
-        return artists
+    def loaded(self):
+        found_plugins = set()
+        for plugin in find_plugins():
+            if plugin.name in self.needed_plugins:
+                found_plugins.add(plugin.name)
+
+            if plugin.name == "savedqueries":
+                self.queryfunc = plugin.item_query
+
+        for plugin_name in self.needed_plugins:
+            if plugin_name not in found_plugins:
+                raise UserError(
+                    f"`{plugin_name}` plugin is required to use the `{self.name}` plugin"
+                )
