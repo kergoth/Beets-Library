@@ -100,6 +100,13 @@ musicbrainz:
   searchlimit: 10
   extra_tags: [year, catalognum, country, media, label]
   genres: no
+  external_ids:
+    discogs: yes
+    spotify: yes
+    bandcamp: yes
+    beatport: yes
+    deezer: yes
+    tidal: yes
 
 match:
   strong_rec_thresh: 0.075
