@@ -46,6 +46,8 @@ path_sep_replace: ／
 
 format_item: "%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{- }}$format_track"
 format_album: "%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title %nocolor{| }$format_year"
+time_format: '%Y-%m-%d'
+format_raw_length: no
 
 sort_item: year- albumartist+ album+ disc+ track+
 sort_album: year- albumartist+ album+
