@@ -22,7 +22,12 @@ The `loved` field is used at both item and track level to bring those items up t
 - `mediatitledisambig`: This string disambiguates cases where multiple albums reference the same media. In-game, score, orchestral, inspired by, etc.
 - `franchise`: The media franchise this music references.
 
-- `single_track`: Boolean field which indicates that a track should be placed with the Single Tracks sections of my browseable library, rather than kept in the Albums folder. This is used when I want to hoist tracks from incomplete albums or singles out, rather than having album folders with single tracks.
+- `single_track`: Boolean field which indicates that a track should be placed with the Single Tracks sections of my browseable library, rather than kept in the album folder. This can be set manually when I want to hoist tracks from incomplete albums or singles out, rather than having album folders with single tracks. This is set automatically for imported albums which only have one track.
+- `sole_track`: Boolean field which indicates that a track is a sole track. A sole track is a single track which is placed outside the artist folder, since it's the only track I have by that artist, whereas single tracks which are not sole tracks are placed in a `Single Tracks` folder within the artist folder. This field is normally not set manually, but by the soletracks plugin command `modify-sole-tracks`.
+
+## Genre
+
+I currently lack a cohesive genre system for my library. As such, the assigned genres are currently a bit of a mess. There are a small number of genres I use consistently. For non-music tracks, for example, the genre is used in my browseable layout for my digital audio player, so I use genres there: Background, Book, Comedy, Game, Meditations, Speech. The Comedy genre is also used in the music as well. The Classical, Christmas, and Chiptune genres are also used for browseable sections. Synthwave is a genre I have manually assigned and used in playlist generation. The genre is not used for media type, as that is stored in the avmedia field.
 
 ## Music and Exceptions
 
