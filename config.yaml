@@ -45,7 +45,7 @@ replace:
 path_sep_replace: ／
 
 format_item: "%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{- }}$format_track"
-format_album: "%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title"
+format_album: "%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title %nocolor{| }$format_year"
 
 sort_item: albumartist+ album+ disc+ track+ artist+
 sort_album: albumartist+ album+
@@ -79,6 +79,7 @@ ui:
     source: ["green", "bold"]
     title: ["normal"]
     track: ["green"]
+    year: ["magenta", "bold"]
 
 convert:
   copy_album_art: yes
