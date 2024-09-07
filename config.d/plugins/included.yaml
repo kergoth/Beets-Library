@@ -53,6 +53,8 @@ album_fields:
   # Album fields masked by the item, renamed for use from that context
   album_composer: composer if 'composer' in globals() else False
   album_id: id
+  album_added: added
+  album_year: year
   album_loved: loved if 'loved' in globals() else False
 
   # Album vs item genre
@@ -233,7 +235,9 @@ types:
 
   # Album inline and format fields
   album_id: int
+  album_added: date
   album_loved: bool
+  album_year: int
   all_same_genres: bool
   average_bpm: int
   e_albumadvisory: int
