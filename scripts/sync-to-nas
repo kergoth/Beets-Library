@@ -6,4 +6,4 @@ music_dir="$(dirname "$(dirname "$0")")"
 
 cp -al "$music_dir/Manual Additions/." "$music_dir/Browse/"
 
-rsync -avhHL --info=progress2 --exclude @eaDir --exclude .direnv --exclude .venv --exclude .nox --exclude __pycache__ --exclude .ruff_cache --exclude .tox --exclude venv --exclude .mypy_cache --exclude .Trashes --exclude .fseventsd --exclude .DS_Store --exclude ._\* --exclude .Spotlight-V100 --delete --delete-excluded "$@" "$music_dir/" cosca.local::Archives/Libraries/Audio/
+rsync -avhHL --info=progress2 --exclude @eaDir --exclude .direnv --exclude .venv --exclude .nox --exclude __pycache__ --exclude .ruff_cache --exclude .tox --exclude venv --exclude .mypy_cache --exclude .Trashes --exclude .fseventsd --exclude .DS_Store --exclude ._\* --exclude .Spotlight-V100 --exclude Incoming --delete --delete-excluded "$@" "$music_dir/" cosca.local::Archives/Libraries/Audio/
