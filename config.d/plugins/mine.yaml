@@ -169,7 +169,7 @@ album_formats:
   format_album_id: "%stylize{id,$id,[$id]}"
   format_album_title: "%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}"
   format_albumartist: "%stylize{albumartist,$albumartist}"
-  format_year: "%stylize{year,%if{$original_year,$original_year,$year}}"
+  format_year: "%stylize{year,$year}"
 
 ## Interoperability
 
