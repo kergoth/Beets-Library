@@ -137,6 +137,8 @@ album_fields:
       return '; '.join(t for t in types if t)
     return 'single'
 
+  original_is_newer: original_year and year and original_year > year
+
 item_fields:
   item_field_context: "', '.join(g for g in sorted(globals()) if not g.startswith('__'))"
 
@@ -251,6 +253,7 @@ types:
   one_track: bool
   albumartist_credit_case: bool
   title_matches_group: bool
+  original_is_newer: bool
 
   # Item inline and format fields
   e_advisory: int

@@ -277,6 +277,9 @@ aliases:
   unknown-source: ls source:Unknown , source:@
   excess-tracks: 'ls -f "$format_item %stylize{track,$track/$tracktotal} %nocolor{via }%stylize{source,$source}" excess_tracks:1'
   negative-missing: 'ls -a -f "$missing - $format_album" missing:..-1'
+  original-is-newer:
+    help: 'Red Flag: Is the original release year is newer than the current year?'
+    command: ls -a -f "$format_album %nocolor{| }%stylize{year,$original_year} > %stylize{year,$year}" original_is_newer:1
 
   # Potential concerns
   missing-albumtotal: 'ls -a -f "$format_album %stylize{track,$existing_by_disc}" one_track:false albumtotal:0'

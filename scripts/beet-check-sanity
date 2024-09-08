@@ -6,7 +6,7 @@ run_beet() {
 }
 
 (
-    for cmd in empty-artist empty-album book-not-audiobook unknown-source excess-tracks negative-missing; do
+    for cmd in empty-artist empty-album book-not-audiobook unknown-source excess-tracks negative-missing original-is-newer; do
         run_beet "$cmd" "$@" | sed -e "s#^#Warning: $cmd: #"
     done
     run_beet ls -a genre:soundtrack ^albumtypes:soundtrack ^albumtype:soundtrack "$@"
