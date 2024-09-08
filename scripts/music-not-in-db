@@ -13,4 +13,4 @@ beet ls -f '$path' \
 find -L "$library" \( -type f -o -type l \) -not -name ._\* \( -iname \*.flac -o -iname \*mp3 -o -iname \*.m4a -o -iname \*.ogg -o -iname \*.dsf \) \
     | sort -f >"$diskfile"
 touch "$diskfile"
-comm -i13 "$dbfile" "$diskfile"
+/usr/bin/comm -i13 "$dbfile" "$diskfile"
