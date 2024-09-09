@@ -10,7 +10,7 @@ library="$PWD/Library"
 
 beet ls -f '$path' \
     | sort -f >"$dbfile"
-find -L "$library" \( -type f -o -type l \) -not -name ._\* \( -iname \*.flac -o -iname \*mp3 -o -iname \*.m4a -o -iname \*.ogg -o -iname \*.dsf \) \
+find -L "$library" \( -type f -o -type l \) -not -name ._\* \( -iname \*.flac -o -iname \*mp3 -o -iname \*.m4a -o -iname \*.ogg -o -iname \*.dsf -o -iname \*.flac.\[0-9\] -o -iname \*mp3.\[0-9\] -o -iname \*.m4a.\[0-9\] -o -iname \*.ogg.\[0-9\] -o -iname \*.dsf.\[0-9\] \) \
     | sort -f >"$diskfile"
 touch "$diskfile"
 /usr/bin/comm -i13 "$dbfile" "$diskfile"
