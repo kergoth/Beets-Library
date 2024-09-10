@@ -211,8 +211,12 @@ aliases:
     command: ls -f '%link{shortcuts://run-shortcut?name=Open in foobar2000&input=text&text=%urlencode{$path},$icon} $format_item'
 
   ls-unmatched:
-      help: List unmatched/unidentified items
-      command: ls mb_albumid:@
+    help: List unmatched/unidentified albums
+    command: ls -a mb_albumid:@
+
+  ls-unmatched-singletons:
+    help: List unmatched/unidentified singletons
+    command: ls singleton:true mb_trackid:@
 
   reimport-unmatched:
     help: Reimport unmatched/unidentified items
