@@ -36,6 +36,9 @@ plugins:
   #  replaygain: compute ReplayGain for a variety of file formats
   #    Passive (import) and Command (replaygain).
   - replaygain
+  #  zero: nullify fields by pattern or unconditionally.
+  #    Passive (import) and Command (zero).
+  - zero
 
   ## Path Formats and Fields
   - albumtypes
@@ -162,6 +165,9 @@ plugins:
   #  yearfixer: attempts to fix all missing original_year and year fields.
   #    Command (yearfixer).
   - yearfixer
+  #  zeroalbum: clear fields in albums in the database, obeying the 'zero' plugin configuration
+  #    Passive.
+  - zeroalbum
 
   ## Path Formats and Fields
   #  defaultformats: define format strings for the default list formats

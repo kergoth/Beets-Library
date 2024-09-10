@@ -29,6 +29,11 @@ replaygain:
   # Use the true peak method, not sample
   peak: "true"
 
+zero:
+  fields: month day original_month original_day comments
+  comments: [EAC, LAME]
+  update_database: true
+
 ## Path Formats
 
 bucket:

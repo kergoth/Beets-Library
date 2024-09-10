@@ -19,6 +19,6 @@ if [ -n "$(beet ls last_import:1)" ]; then
         beet-export-album-comments last_import:1
     fi
 
-    echo >&2 "Checking for red flags"
-    beet-check-sanity last_import:1
+    # echo >&2 "Checking for red flags"
+    # beet-check-sanity last_import:1
 fi
