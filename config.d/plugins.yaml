@@ -170,9 +170,6 @@ plugins:
   - zeroalbum
 
   ## Path Formats and Fields
-  #  defaultformats: define format strings for the default list formats
-  #    Template Fields ($format_album, $format_item).
-  - defaultformats
   #  pathfield: add template functions for working with paths via fields
   #    Template Functions (%path, %pathfield).
   - pathfield

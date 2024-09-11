@@ -44,8 +44,8 @@ replace:
   "^-": _
 path_sep_replace: ／
 
-format_item: "%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{| }}$format_year %nocolor{- }$format_track"
-format_album: "%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title %nocolor{| }$format_year"
+format_item: $format_item
+format_album: $format_album
 time_format: "%Y-%m-%d"
 format_raw_length: no
 
