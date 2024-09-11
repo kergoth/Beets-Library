@@ -314,12 +314,29 @@ inlinehook:
           log.warning(f'No track total found for {album}')
         elif len(items) > album.albumtotal:
           log.warning(f'Excess items ({len(items)} > {album.albumtotal}) for {album}')
+        if not album.albumartist:
+          log.warning(f'Album artist not set for {album}')
+        if album.albumtype and not album.albumtypes:
+          log.warning(f'Album type set, but `albumtypes` is not set for {album}')
+        if album.year and album.original_year and album.original_year > album.year:
+          log.warning(f'Original release year is newer than the current year for {album}')
+        if album.genre == 'soundtrack' and 'soundtrack' not in album.albumtypes:
+          log.warning(f'Genre is `soundtrack`, but `albumtypes` does not include `soundtrack` for {album}')
+        if (album.genre == 'soundtrack' or 'soundtrack' in album.albumtypes):
+          if not album.get('avmedia'):
+            log.warning(f'Album is a soundtrack, but `avmedia` is not set for {album}')
+          if not album.get('mediatitle'):
+            log.warning(f'Album is a soundtrack, but `mediatitle` is not set for {album}')
 
         for item in items:
           if not item.artist:
             log.warning(f'Artist not set for {item}')
           if item.genre.lower() == 'book' and 'audiobook' not in item.albumtypes:
             log.warning(f'Genre is `book`, but `albumtypes` does not include `audiobook` for {item}')
+          if item.year and item.original_year and item.original_year > item.year:
+            log.warning(f'Original release year is newer than the current year for {item}')
+          if item.genre == 'soundtrack' and 'soundtrack' not in item.albumtypes:
+            log.warning(f'Genre is `soundtrack`, but `albumtypes` does not include `soundtrack` for {item}')
 
     - event: "item_imported"
       handler: |
@@ -331,6 +348,15 @@ inlinehook:
           log.warning(f'Artist not set for {item}')
         if item.genre.lower() == 'book' and 'audiobook' not in item.albumtypes:
           log.warning(f'Genre is `book`, but `albumtypes` does not include `audiobook` for {item}')
+        if item.year and item.original_year and item.original_year > item.year:
+          log.warning(f'Original release year is newer than the current year for {item}')
+        if item.genre == 'soundtrack' and 'soundtrack' not in item.albumtypes:
+          log.warning(f'Genre is `soundtrack`, but `albumtypes` does not include `soundtrack` for {item}')
+        if (item.genre == 'soundtrack' or 'soundtrack' in item.albumtypes):
+          if not item.get('avmedia'):
+            log.warning(f'Item is a soundtrack, but `avmedia` is not set for {item}')
+          if not item.get('mediatitle'):
+            log.warning(f'Item is a soundtrack, but `mediatitle` is not set for {item}')
 
 album_queries:
   is_game: 'avmedia:"Video Games"'
