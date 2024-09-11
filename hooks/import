@@ -7,7 +7,7 @@ fi
 
 if [ -n "$(beet ls last_import:1)" ]; then
     beet ls -a -f '$path' last_import:1
-    beet ls -f '$path' last_import:1 album_id:^
+    beet ls -f '$path' last_import:1 singleton:true
 
     if [ -n "$(beet ls singleton:false last_import:1 "artpath:^")" ]; then
         echo >&2 "Extracting any embedded album art if needed"
