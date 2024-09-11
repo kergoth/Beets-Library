@@ -58,6 +58,8 @@ modifyonimport:
     "album:Civilization VI": "albumtype=soundtrack albumtypes=soundtrack"
     #  This is not music
     'album:"You Don''t Hear Jack"': "albumtype=spokenword albumtypes=spokenword"
+    #  This is music *inspired by* a game, not an actual game soundtrack
+    "album:Music to Go POSTAL By": "albumtype=album albumtypes=album"
   modify_album_items:
     "":
       # Sane default for artist_sort
