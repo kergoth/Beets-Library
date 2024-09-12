@@ -236,22 +236,59 @@ aliases:
     help: List unmatched/unidentified singletons
     command: ls singleton:true mb_trackid:@
 
+  music:
+    help: List music items
+    command: ls ^query:is_non_music
+
+  singletons:
+    help: List singleton items
+    command: ls singleton:true
+
+  complete:
+    help: List complete albums
+    command: ls -a missing:0
+
+  high-res:
+    help: List high-resolution items
+    command: ls-format samplerate:96000..
+
+  ls-format:
+    help: List items with format information
+    command: ls -f '%color{format,$format} %nocolor{| }%color{format,$samplerate} %nocolor{| }$format_item'
+
+  incomplete-games:
+    help: List incomplete game albums
+    command: lse missing:2.. one_track:0 album_query:is_game
+
+  incomplete-albums:
+    help: List incomplete non-game albums
+    command: lse missing:1.. ^album_query:is_game one_track:0 ^album:sampler ^albumtypes:sampler
+
+  incomplete:
+    help: List incomplete albums
+    command: lse missing:1.. ^album_query:is_game one_track:0 , missing:2.. one_track:0 album_query:is_game
+
   reimport-unmatched:
     help: Reimport unmatched/unidentified items
     command: import -L mb_albumid:@
 
-  # Strip release-specific tags. Useful in cases where the precise release
-  # is unknown, or is not in MusicBrainz yet.
-  norelease: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
+  # Useful in cases where the precise release is unknown, or is not in
+  # MusicBrainz yet.
+  norelease:
+    help: Strip release-specific tags
+    command: modify 'asin!' 'isrc!' 'barcode!' 'catalognumber!' 'label!' 'media!' 'releasecountry!' 'releasestatus!' 'mb_albumid!' 'mb_workid!' 'mb_trackid!' 'mb_releasetrackid!' 'mb_releasegroupid!'
 
-  # Extract embedded art only for albums missing a cover art file
-  extract-missing-art: extractart -a artpath:^
+  extract-missing-art:
+    help: Extract embedded art for albums missing a cover art file
+    command: extractart -a artpath:^
 
-  # Clear embedded art from albums that have an artpath, excluding single/sole tracks
-  clearart-albums: clearart album_id::. artpath:% ^query:is_sole_track ^query:for_single_tracks
+  clearart-albums:
+    help: Clear embedded art from albums that have an artpath, excluding single/sole tracks
+    command: clearart album_id::. artpath:% ^query:is_sole_track ^query:for_single_tracks
 
-  # Edit 'media' fields
-  edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
+  edit-media:
+    help: Edit 'media' fields
+    command: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
 
   reveal:
     help: Reveal items in file manager / Finder
@@ -276,41 +313,62 @@ aliases:
   dup-albums: dup -aF
   dup-games: dup -aF -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -k franchise -k mediatitle -k mediatitledisambig query:is_game mediatitle:%
 
-  music: ls \^query:is_non_music
-  singletons: ls singleton:true
-  complete: ls -a missing:0
-  high-res: ls-format samplerate:96000..
-  ls-format: ls -f '%color{format,$format} %nocolor{| }%color{format,$samplerate} %nocolor{| }$format_item'
-
-  # Show incomplete albums, skipping any albums where I only have one track
-  incomplete-albums: lse missing:1.. \^album_query:is_game one_track:0 ^album:sampler ^albumtypes:sampler
-  incomplete-games: lse missing:2.. one_track:0 album_query:is_game
-  incomplete: lse missing:1.. \^album_query:is_game one_track:0 , missing:2.. one_track:0 album_query:is_game
-
   # Red flags
-  empty-artist: ls artist:@
-  empty-album: ls album:@ singleton:false
-  book-not-audiobook: ls genre:book ^albumtypes:audiobook
-  unknown-source: ls source:Unknown , source:@
-  excess-tracks: 'ls -f "$format_item %stylize{track,$track/$tracktotal} %nocolor{via }%stylize{source,$source}" excess_tracks:1'
-  negative-missing: 'ls -a -f "$missing - $format_album" missing:..-1'
+  empty-artist:
+    help: 'Red Flag: Is the artist field empty?'
+    command: ls artist:@
+
+  empty-album:
+    help: 'Red Flag: Is the album field empty?'
+    command: ls album:@ singleton:false
+
+  book-not-audiobook:
+    help: 'Red Flag: Is the genre "book" but the album type is not "audiobook"?'
+    command: ls genre:book ^albumtypes:audiobook
+
+  unknown-source:
+    help: 'Red Flag: Is the source field empty or unknown?'
+    command: ls source:Unknown , source:@
+
+  excess-tracks:
+    help: 'Red Flag: Are there more tracks than the album total?'
+    command: ls -f "$format_item %stylize{track,$track/$tracktotal} %nocolor{via }%stylize{source,$source}" excess_tracks:1
+
+  negative-missing:
+    help: 'Red Flag: Are there negative missing tracks, which implies an unset album total?'
+    command: ls -a -f "$missing - $format_album" missing:..-1
+
   original-is-newer:
     help: 'Red Flag: Is the original release year is newer than the current year?'
     command: ls -a -f "$format_album %nocolor{| }%stylize{year,$original_year} > %stylize{year,$year}" original_is_newer:1
 
-  # Potential concerns
-  missing-albumtotal: 'ls -a -f "$format_album %stylize{track,$existing_by_disc}" one_track:false albumtotal:0'
-  # This is automatically corrected in modifyonimport
-  various-not-comp: ls -a album_query:is_various_not_comp
+  missing-albumtotal:
+    help: 'Potential Concern: Is the album total missing?'
+    command: ls -a -f "$format_album %stylize{track,$existing_by_disc}" one_track:false albumtotal:0
+
+  various-not-comp:
+    help: 'Potential Concern: Is the album artist "Various Artists" but the album is not marked as a compilation?'
+    command: ls -a album_query:is_various_not_comp
 
   # Informative
-  possible-singles: ls -a albumtotal:1 albumtypes::'^(|other)$'
-  possible-not-comp: ls -a comp:1 missing:0 is_comp_same_artists:1
+  possible-singles:
+    help: 'List albums that may be singles'
+    command: ls -a albumtotal:1 albumtypes::'^(|other)$
+
+  possible-not-comp:
+    help: 'List albums that may not be compilations'
+    command: ls -a comp:1 missing:0 is_comp_same_artists:1
+
   # These are often not an issue, just albums which feature multiple
   # artists, but aren't compilations. Cases where the album artist is the
   # producer, cases where there are featuring artist, etc.
-  multiartist-not-comp: ls -a comp:0 multiartist:1
-  has-multiple-genres: ls -a -f '%if{$album_genres,%stylize{genre,$album_genres} }$format_album' all_same_genres:0
+  multiartist-not-comp:
+    help: 'List albums with multiple artists that are not compilations'
+    command: ls -a comp:0 multiartist:1
+
+  has-multiple-genres:
+    help: 'List albums with multiple genres'
+    command: ls -a -f '%if{$album_genres,%stylize{genre,$album_genres} }$format_album' all_same_genres:0
 
 inlinehook:
   hooks:
