@@ -311,11 +311,6 @@ aliases:
     command: 'open -A "-a foobar2000" --'
     aliases: foobar foobar2k foobar2000
 
-  # Very basic dupe check for albums lacking musicbrainz data, primarily
-  simple-dupe-check: 'dup -Fa -k albumartist -k album -k disctotal -k albumtotal -f "$format_album %nocolor{- }%stylize{track,$existing/$albumtotal} %nocolor{via }%stylize{source,$source}"'
-  dup-albums: dup -aF
-  dup-games: dup -aF -f '$franchise - $mediatitle - $mediatitledisambig | $format_album' -k franchise -k mediatitle -k mediatitledisambig query:is_game mediatitle:%
-
   # Red flags
   empty-artist:
     help: 'Red Flag: Is the artist field empty?'
