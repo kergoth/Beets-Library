@@ -399,7 +399,7 @@ item_queries:
   is_christmas: "genre:Christmas"
   is_classical: "genre:Classical"
   is_game: 'avmedia:"Video Games"'
-  is_chiptune: "genre:chiptune"
+  is_chiptune: "genre:chiptune , genre:8-bit"
   is_music: "^query:is_non_music"
   is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
   is_sampler: "albumtypes:sampler , album:sampler"
