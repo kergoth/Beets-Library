@@ -273,10 +273,10 @@ class KergothPlugin(BeetsPlugin):
                     subdir = "Chiptunes"
                 elif self.query("alt_game", item):
                     item.comp = False
-                    subdir = "Games"
+                    subdir = "Video Game Soundtracks"
                 elif self.query("alt_game_extra", item):
                     item.comp = False
-                    subdir = "Game Extras"
+                    subdir = "Video Game Music"
                 elif self.query("soundtrack", item):
                     subdir = "Soundtracks"
                 else:
@@ -292,29 +292,31 @@ class KergothPlugin(BeetsPlugin):
             return self.path(f"Classical/{self.by_artist(item, media=False)}")
         elif self.query("chiptune_game", item):
             item.comp = False
-            return self.path(f"Chiptunes/Games/{self.bucket_by_album(item)}")
+            return self.path(
+                f"Chiptunes/Video Game Soundtracks/{self.bucket_by_album(item)}"
+            )
         elif self.query("chiptune_game_extra", item):
             item.comp = False
-            return self.path(f"Chiptunes/Games/Extras/{self.by_album(item)}")
+            return self.path(f"Chiptunes/Video Game Music/{self.by_album(item)}")
         elif self.query("chiptune", item):
             return self.path(f"Chiptunes/Music/{self.by_artist(item, media=False)}")
         elif self.query("alt_game", item):
             item.comp = False
-            return self.path(f"Games/{self.bucket_by_album(item, franchise=True)}")
+            return self.path(f"Video Game Soundtracks/{self.bucket_by_album(item, franchise=True)}")
         elif self.query("alt_game_extra", item):
             if self.query("by_label", item):
                 return self.path(
-                    f"Games/Extras/{self.by_artist(item, media=True, label=True)}"
+                    f"Video Game Music/{self.by_artist(item, media=True, label=True)}"
                 )
             elif self.query("is_sole_track", item) or self.query(
                 "for_single_tracks", item
             ):
                 return self.path(
-                    f"Games/Extras/Single Tracks/{self.artist_title(item)}"
+                    f"Video Game Music/Single Tracks/{self.artist_title(item)}"
                 )
             else:
                 return self.path(
-                    f"Games/Extras/{self.by_artist(item)}"
+                    f"Video Game Music/{self.by_artist(item)}"
                 )
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
