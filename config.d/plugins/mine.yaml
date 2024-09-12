@@ -218,6 +218,11 @@ aliases:
     help: List items, with links to play them in foobar2000 (macOS only)
     command: ls -f '%link{shortcuts://run-shortcut?name=Open in foobar2000&input=text&text=%urlencode{$path},$icon} $format_item'
 
+  lsb:
+    help: List browseable paths for items, as they exist in the Browse structure.
+    command: ls -f '$browseable_path'
+    aliases: ls-browsable
+
   ls-unmatched:
     help: List unmatched/unidentified albums
     command: ls -a mb_albumid:@
@@ -242,9 +247,6 @@ aliases:
 
   # Edit 'media' fields
   edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
-
-  # Browseable paths
-  ls-browseable: ls -f '$browseable_path'
 
   reveal:
     help: Reveal items in file manager / Finder
