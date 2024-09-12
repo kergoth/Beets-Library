@@ -203,6 +203,7 @@ plugins:
   #    Named Query (has_embedded_art:, all_tracks_have_art:).
   - hasart
   #  inlinehook: run inline python on events
+  #    Passive (as defined).
   - inlinehook
   #  open: open media paths with external applications
   #    Command (open).
@@ -219,7 +220,6 @@ plugins:
   - savedqueries
   #  stylize: define stylized output for fields
   #    Template Functions (stylize, isatty, notatty).
-  #    Command (stylize).
   - stylize
 
   ## Config-Specific
