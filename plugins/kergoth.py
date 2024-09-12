@@ -4,6 +4,7 @@ from __future__ import absolute_import, division, print_function
 
 import os
 from pathlib import Path
+import re
 
 import beets
 from beets.library import DefaultTemplateFunctions
@@ -226,10 +227,12 @@ class KergothPlugin(BeetsPlugin):
         album = item._cached_album
         if album:
             if album.genre and self.album_query("separated_by_genre", album):
-                return f'{album.genre}/{self.by_artist(item, media)}'
+                genre = re.split(r"[/／ ;]", album.genre)[0]
+                return f'{genre}/{self.by_artist(item, media)}'
         else:
             if item.genre and self.query("separated_by_genre", item):
-                return f'{item.genre}/{self.by_artist(item, media)}'
+                genre = re.split(r"[/／ ;]", item.genre)[0]
+                return f'{genre}/{self.by_artist(item, media)}'
 
         if self.query("for_single_tracks", item):
             bucketed = self.artistdir(item)
