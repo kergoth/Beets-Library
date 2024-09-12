@@ -380,7 +380,7 @@ album_queries:
   # This is used both in an alias command and modifyonimport
   is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   by_label: 'label:"OverClocked ReMix"'
-  separated_by_genre: "genre:Comedy , genre:Humor , genre:Humour"
+  separated_by_genre: "genre:Comedy , genre:Humor , genre:Humour , genre:Nerdcore"
 
 item_queries:
   # Used by the sole-tracks script
@@ -405,7 +405,7 @@ item_queries:
   is_sampler: "albumtypes:sampler , album:sampler"
   is_sole_track: "sole_track:true"
   is_soundtrack: "albumtypes:soundtrack"
-  separated_by_genre: "genre:Comedy , genre:Humor , genre:Humour"
+  separated_by_genre: "genre:Comedy , genre:Humor , genre:Humour , genre:Nerdcore"
 
   # Categories
   alt_game_extra: "^albumtypes:soundtrack query:is_game"
