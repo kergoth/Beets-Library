@@ -192,10 +192,13 @@ alternativesplaylist:
 
 aliases:
   # Utilities
-  # $ beet get-config alias.aliases.reimport
-  get-config: '!sh -c "for arg; do beet config | yq -r \".$arg\"; done" -'
-  # $ beet get-config-path library
-  get-config-path: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
+  get-config:
+    help: 'Get configuration values. Example: beet get-config alias.aliases.reimport'
+    command: '!sh -c "for arg; do beet config | yq -r \".$arg\"; done" -'
+
+  get-config-path:
+    help: 'Get configuration paths. Example: beet get-config-path library'
+    command: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
   recent:
     help: List recently added items
