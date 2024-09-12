@@ -24,8 +24,6 @@ class SoleTracks(plugins.BeetsPlugin):
 
         self.config.add(
             {
-                "artist_fields": "artist artist_credit artists",
-                "check_fields": "artist artist_credit artists albumartist albumartist_credit",
                 "check_query": "^comp:1",
                 "check_single_track": True,
                 "sections": "",
@@ -118,8 +116,6 @@ class SoleTracks(plugins.BeetsPlugin):
 
     def list_sole_tracks(self, lib):
         check_single_track = self.config["check_single_track"].get(True)
-        artist_fields = self.config["artist_fields"].as_str_seq()
-        check_fields = self.config["check_fields"].as_str_seq()
         sections = self.config["sections"].as_str_seq()
 
         base_check_query = self.config["check_query"].as_str()
@@ -160,7 +156,14 @@ class SoleTracks(plugins.BeetsPlugin):
                             # Not a single track
                             continue
 
-                yield item, len(checked_by_artist[section][self.item_artist(item)]) == 1
+                found_items = set(checked_by_artist[section][self.item_artist(item)])
+                if item in found_items:
+                    found_items.remove(item)
+                if found_items:
+                    self._log.debug(f"{item}: Found items for artist {self.item_artist(item)}: {', '.join(str(i) for i in found_items)}")
+                else:
+                    self._log.debug(f"{item}: No other items for artist {self.item_artist(item)}")
+                yield item, len(found_items) == 0
 
     def item_artist(self, item):
         if item.album:
