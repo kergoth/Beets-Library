@@ -237,8 +237,8 @@ aliases:
   # Extract embedded art only for albums missing a cover art file
   extract-missing-art: extractart -a artpath:^
 
-  # Clear embedded art from albums that have an artpath
-  clearart-albums: clearart album_id::. artpath:%
+  # Clear embedded art from albums that have an artpath, excluding single/sole tracks
+  clearart-albums: clearart album_id::. artpath:% ^query:is_sole_track ^query:for_single_tracks
 
   # Edit 'media' fields
   edit-media: edit -f albumtypes -f albumtype -f avmedia -f franchise -f mediatitle -f mediatitledisambig
