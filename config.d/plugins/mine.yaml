@@ -304,7 +304,6 @@ aliases:
   various-not-comp: ls -a album_query:is_various_not_comp
 
   # Informative
-  non-mb-albums: ls -a mb_albumid:@
   possible-singles: ls -a albumtotal:1 albumtypes::'^(|other)$'
   possible-not-comp: ls -a comp:1 missing:0 is_comp_same_artists:1
   # These are often not an issue, just albums which feature multiple
