@@ -1,0 +1,41 @@
+#!/bin/sh
+# shellcheck disable=SC2016
+
+set -e
+
+if [ $# -eq 0 ]; then
+    echo >&2 'Usage: remove-item QUERY [..]'
+    exit 1
+fi
+
+remove_dest="$(beet get-config-path directory)/../Removed"
+
+librarypath="$(cd "$(beet get-config-path directory)" && pwd -P)"
+item_flexible_fields="$(beet-flexible-fields -i | xargs | tr ' ' ',')"
+
+items="$(beet ls -f '$id' "$@" | xargs)"
+
+for id in $items; do
+    beet ls id:"$id"
+
+    # Ensure paths in library are current
+    beet mv id:"$id"
+
+    # Move the files to Removed
+    beet mv -te -d "$remove_dest" id:"$id"
+    find "$(beet ls -p id:"$id" | sed -e "s#$librarypath/#$remove_dest/#")" -type f
+
+    # Export flexible fields
+    path="$(beet ls -f '$path' "id:$id")"
+    relpath="$(relpath "$path" "$librarypath")"
+    dest="$remove_dest/$relpath"
+    destdir=$(dirname "$dest")
+    mkdir -p "$destdir"
+    if [ -d "$destdir" ]; then
+        echo >&2 "Exporting item fields to ${dest%.*}.json"
+        beet export -l -i "path,$item_flexible_fields" "id:$id" | jq . >"${dest%.*}.json"
+    fi
+
+    # Remove the files from the db
+    beet rm -d "id:$id"
+done
