@@ -52,7 +52,9 @@ modifyonimport:
     "source:Steam": 'avmedia="Video Games"'
     'albumartist:Stephen Lynch': 'genre=Comedy'
 
-    # Overrides from MusicBrainz
+    # Overrides from MusicBrainz.
+    # FIXME: This does not currently apply to `mbsync`. I would need to catch
+    # `trackinfo_received` to override results from MusicBrainz for all cases.
     #  These are soundtracks
     "album:Return to Zork": "albumtype=soundtrack albumtypes=soundtrack"
     "album:Civilization VI": "albumtype=soundtrack albumtypes=soundtrack"
@@ -60,6 +62,16 @@ modifyonimport:
     'album:"You Don''t Hear Jack"': "albumtype=spokenword albumtypes=spokenword"
     #  This is music *inspired by* a game, not an actual game soundtrack
     "album:Music to Go POSTAL By": "albumtype=album albumtypes=album"
+    #  These are remixes
+    "album:Open Remix: To Benefit IntraHealth": "albumtype=album albumtypes='album; remix'"
+    "album:Mount Cleverest Remixes": "albumtype=ep albumtypes='ep; remix'"
+    "album:Stop, Drop & Roll Remix EP": "albumtype=ep albumtypes='ep; remix'"
+    "album:Pokémon Theme (TheFatRat Remix)": "albumtype=single albumtypes='single; remix'"
+    "album:River of Darkness (Primo the Alien remix)": "albumtype=single albumtypes='single; remix'"
+    "album:Good Feeling (violin remix)": "albumtype=single albumtypes='single; remix'"
+    "album:Sweat (remix)": "albumtype=single albumtypes='single; remix'"
+    #  This is a compilation
+    "album:#DECADE albumartist:'Steve Angello'": "albumtype=other albumtypes='other; compilation'"
   modify_album_items:
     "":
       # Sane default for artist_sort
