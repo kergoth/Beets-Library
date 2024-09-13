@@ -36,6 +36,35 @@ zero:
 
 ## Path Formats
 
+albumtypes:
+    # Excluded: album, Album, other, sampler, Audio drama, interview
+    # Excluded Discogs types: FLAC, MP3, Stereo, Promo, Reissue, Release, Demo, Interview
+    # Fixed to remove: Limited Edition, FLAC
+    types:
+    # Default
+    #  Primary types
+    - [ep, EP]
+    - [single, Single]
+    #  Secondary types
+    - [soundtrack, OST]
+    - [live, Live]
+    - [compilation, Anthology]
+    - [remix, Remix]
+    # Added by me
+    - [audiobook, Audiobook]
+    - [audio drama, Audio Drama]
+    - [dj-mix, Mix]
+    - [mixtape, Mixtape]
+    - [mixtape/street, Mixtape]
+    - [spokenword, Spoken]
+    # Non-MusicBrainz importer, i.e. Discogs
+    - [Compilation, Anthology]
+    - [EP, EP]
+    - [Mixtape, Mixtape]
+    - [Single, Single]
+    ignore_va: [compilation, Compilation]
+    bracket: '[]'
+
 bucket:
   bucket_alpha: ["A - D", "E - L", "M - R", "S - Z"]
   bucket_alpha_regex:
