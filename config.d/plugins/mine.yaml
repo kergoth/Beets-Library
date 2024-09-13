@@ -45,6 +45,8 @@ modifyonimport:
     'albumtotal:1 albumtype::"^(|other)$"': "albumtype=single albumtypes=$single_albumtypes"
     # 'Various Artists' albums not flagged as compilations
     "album_query:is_various_not_comp": "comp=1"
+    # Discogs albumtype uses , as a separator
+    "albumtype::', ' , albumtypes::', '": "albumtypes=$discogs_albumtypes albumtype=$discogs_albumtype"
     # Genre
     "genre:Holiday": "genre=Christmas"
     "genre:game": 'avmedia="Video Games"'
