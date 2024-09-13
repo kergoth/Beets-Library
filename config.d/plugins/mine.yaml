@@ -340,10 +340,6 @@ aliases:
     help: 'Red Flag: Is the original release year is newer than the current year?'
     command: ls -a -f "$format_album %nocolor{| }%stylize{year,$original_year} > %stylize{year,$year}" original_is_newer:1
 
-  missing-albumtotal:
-    help: 'Potential Concern: Is the album total missing?'
-    command: ls -a -f "$format_album %stylize{track,$existing_by_disc}" one_track:false albumtotal:0
-
   various-not-comp:
     help: 'Potential Concern: Is the album artist "Various Artists" but the album is not marked as a compilation?'
     command: ls -a album_query:is_various_not_comp
