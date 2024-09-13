@@ -34,6 +34,11 @@ zero:
   comments: [EAC, LAME]
   update_database: true
 
+## Metadata Source
+
+discogs:
+  separator: '; '
+
 ## Path Formats
 
 albumtypes:
