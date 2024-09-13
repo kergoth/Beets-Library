@@ -360,6 +360,26 @@ aliases:
     help: 'Red Flag: Is the original release year is newer than the current year?'
     command: ls -a -f "$format_album %nocolor{| }%stylize{year,$original_year} > %stylize{year,$year}" original_is_newer:1
 
+  soundtrack-no-avmedia:
+    help: 'Red Flag: Is the album type "soundtrack" but the avmedia field is not set?'
+    command: ls -a albumtypes:soundtrack ^avmedia::.
+
+  soundtrack-no-mediatitle:
+    help: 'Red Flag: Is the album type "soundtrack" but the mediatitle field is not set?'
+    command: ls -a albumtypes:soundtrack ^mediatitle::.
+
+  albumtype-should-be-ep:
+    help: 'Red Flag: Is "EP" in the album title, but the album type is not set to "ep"?'
+    command: ls -a album::' [Ee][Pp]( |$)' ^album:"the ep collection" ^albumtypes::ep
+
+  albumtype-should-be-mixtape:
+    help: 'Red Flag: Is "Mixtape" in the album title, but the album type is not set to "mixtape"?'
+    command: ls -a album::' [mM]ixtape( |$)' ^albumtypes::mixtape
+
+  albumtype-should-be-remix:
+    help: 'Red Flag: Is "Remix" in the album title, but the album type is not set to "remix"?'
+    command: ls -a album::'[rR]emix' ^albumtypes::remix
+
   various-not-comp:
     help: 'Potential Concern: Is the album artist "Various Artists" but the album is not marked as a compilation?'
     command: ls -a album_query:is_various_not_comp
