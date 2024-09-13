@@ -221,6 +221,7 @@ badfiles:
     m4a: ffmpeg -v error -f null - -i
     mp4: ffmpeg -v error -f null - -i
     ogg: oggz-validate
+    wv: wvunpack -vq
 
 fuzzy:
   # Default ~ prefix conflicts with case-insensitive exact match prefix
