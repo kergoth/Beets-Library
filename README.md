@@ -38,6 +38,22 @@ Generally I keep albums together, and only split up samplers. For example, this 
 
 ## Reference
 
+### Implicit or Non-Obvious Behavior
+
+#### Path Formats
+
+> As a convenience, however, beets allows $albumartist to fall back to the value for $artist and vice-versa if one tag is present but the other is not.
+
+#### Queries
+
+> For multi-valued tags (such as artists or albumartists), a regular expression search must be used to search for a single value within the multi-valued tag.
+
+#### Sorting
+
+> The artist and albumartist keys are special: they attempt to use their corresponding artist_sort and albumartist_sort fields for sorting transparently (but fall back to the ordinary fields when those are empty).
+>
+> Note that when sorting by fields that are not present on all items (such as flexible fields, or those defined by plugins) in ascending order, the items that lack that particular field will be listed at the beginning of the list.
+
 ### Commands
 
 - `beet tls` will list in a table format.
