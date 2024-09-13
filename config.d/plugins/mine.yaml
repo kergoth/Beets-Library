@@ -72,8 +72,14 @@ modifyonimport:
     "album:River of Darkness (Primo the Alien remix)": "albumtype=single albumtypes='single; remix'"
     "album:Good Feeling (violin remix)": "albumtype=single albumtypes='single; remix'"
     "album:Sweat (remix)": "albumtype=single albumtypes='single; remix'"
+    #  These are mixtapes
+    "album:2012 Holiday Road Trip Mixtape": "albumtype=album albumtypes='album; compilation; mixtape'"
+    "album:'Liberated: Mixtape - Vol. 1'": "albumtype=album albumtypes='album; soundtrack; mixtape'"
     #  This is a compilation
     "album:#DECADE albumartist:'Steve Angello'": "albumtype=other albumtypes='other; compilation'"
+    #  This is an EP
+    "album:The Hateful Eye EP": "albumtype=ep albumtypes=ep"
+    "albumartist:'La Roux' album='Quicksand EP'": "albumtype=ep albumtypes=ep"
   modify_album_items:
     "":
       # Sane default for artist_sort
