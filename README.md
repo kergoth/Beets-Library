@@ -82,6 +82,7 @@ Generally I keep albums together, and only split up samplers. For example, this 
 ### Other
 
 - [Rehoming an existing database?](https://github.com/beetbox/beets/issues/1598) Shows how to change the library paths hardcoded in the library db after the fact:
+
   ```sql
   UPDATE items
   SET "path" = CAST(REPLACE(CAST("path" AS TEXT), '/Volumes/SD/Music Library/Library/', '/Volumes/Data/Music Library/Library/') AS BLOB);
