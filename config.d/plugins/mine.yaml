@@ -251,6 +251,11 @@ aliases:
     command: ls -a -f "$format_album %stylize{track,$existing/$albumtotal}"
     aliases: ls-existing
 
+  lsg:
+    help: List items, showing genre
+    command: ls -f "$format_item %nocolor{| }%stylize{genre,$genre}"
+    aliases: ls-genre
+
   ls-unmatched:
     help: List unmatched/unidentified albums
     command: ls -a mb_albumid:@
