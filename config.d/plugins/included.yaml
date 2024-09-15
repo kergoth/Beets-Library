@@ -88,6 +88,9 @@ album_fields:
   # Deal with undefined values for queries
   e_albumadvisory: albumadvisory if 'albumadvisory' in globals() else 0
   e_loved: loved if 'loved' in globals() else False
+  e_disliked: disliked if 'disliked' in globals() else False
+  e_hidden: hidden if 'hidden' in globals() else False
+  e_to_listen: to_listen if 'to_listen' in globals() else False
 
   # Album fields masked by the item, renamed for use from that context
   album_composer: composer if 'composer' in globals() else False
@@ -219,6 +222,9 @@ item_fields:
   # Deal with undefined values for queries
   e_advisory: advisory if 'advisory' in globals() else 0
   e_loved: loved if 'loved' in globals() else False
+  e_disliked: disliked if 'disliked' in globals() else False
+  e_hidden: hidden if 'hidden' in globals() else False
+  e_to_listen: to_listen if 'to_listen' in globals() else False
 
   # disc and track prefix with ' - ' sep. Returns '' if track == 0 or this is the only track.
   disc_and_track_pre: |
@@ -320,6 +326,9 @@ types:
   e_advisory: int
   advisory: int
   e_loved: bool
+  e_disliked: bool
+  e_hidden: bool
+  e_to_listen: bool
   excess_tracks: bool
   artist_credit_case: bool
   is_explicit: bool

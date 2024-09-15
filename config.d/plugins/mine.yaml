@@ -176,7 +176,8 @@ item_formats:
   path_filename: "%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title"
   full_title: "$title%if{$e_advisory,$explicit_or_clean}"
 
-  format_item: "%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{| }}$format_year %nocolor{- }$format_track"
+  format_item: "${format_flag}%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{| }}$format_year %nocolor{- }$format_track"
+  format_flag: "%if{$e_loved,%stylize{loved,♥},%if{$e_disliked,%stylize{disliked,👎},%if{$e_hidden,%stylize{hidden,🙈},%if{$e_to_listen,%stylize{to_listen,☑️}, }}}}"
   format_id: "%stylize{id,$id,[$id]}"
   format_album_title: "%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}"
 
@@ -190,8 +191,9 @@ item_formats:
   browseable_path: "%pathfield{${navigation_path}}$extension"
 
 album_formats:
-  format_album: "%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title %nocolor{| }$format_year"
+  format_album: "${format_flag}%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_album_title %nocolor{| }$format_year"
 
+  format_flag: "%if{$e_loved,%stylize{loved,♥},%if{$e_disliked,%stylize{disliked,👎},%if{$e_hidden,%stylize{hidden,🙈},%if{$e_to_listen,%stylize{to_listen,☑️}, }}}}"
   format_album_id: "%stylize{id,$id,[$id]}"
   format_album_title: "%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}"
   format_albumartist: "%stylize{albumartist,$albumartist}"

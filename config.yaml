@@ -78,6 +78,7 @@ ui:
     format: ["cyan"]
     genre: ["blue"]
     id: ["faint"]
+    loved: ["red", "bold"]
     source: ["green", "bold"]
     title: ["normal"]
     track: ["green"]
