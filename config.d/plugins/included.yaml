@@ -98,6 +98,9 @@ album_fields:
   album_added: added
   album_year: year
   album_loved: loved if 'loved' in globals() else False
+  album_disliked: disliked if 'disliked' in globals() else False
+  album_hidden: hidden if 'hidden' in globals() else False
+  album_to_listen: to_listen if 'to_listen' in globals() else False
 
   # Album vs item genre
   album_genres: "','.join(sorted(set(filter(None, (item.genre for item in items)))))"
