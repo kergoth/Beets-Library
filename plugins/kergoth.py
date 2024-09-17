@@ -262,7 +262,15 @@ class KergothPlugin(BeetsPlugin):
             else:
                 return self.path(f"To Listen/{self.by_artist(item, media=False)}")
         elif self.is_loved(item):
-            if (
+            if self.query("christmas_sole_tracks", item):
+                return self.path(f"Loved/Christmas/Single Tracks/{self.artist_title(item)}")
+            elif self.query("christmas", item):
+                return self.path(f"Loved/Christmas/{self.by_album(item)}")
+            elif self.query("classical_sole_tracks", item):
+                return self.path(f"Loved/Classical/Single Tracks/{self.artist_title(item)}")
+            elif self.query("classical", item):
+                return self.path(f"Loved/Classical/{self.by_album(item)}")
+            elif (
                 self.query("is_sole_track", item)
                 or self.query("for_single_tracks", item)
                 or self.query("is_sampler", item)
