@@ -96,6 +96,7 @@ album_fields:
   album_composer: composer if 'composer' in globals() else False
   album_id: id
   album_added: added
+  album_genre: genre
   album_year: year
   album_loved: loved if 'loved' in globals() else False
   album_disliked: disliked if 'disliked' in globals() else False
