@@ -408,8 +408,8 @@ aliases:
     command: ls -a comp:0 multiartist:1
 
   has-multiple-genres:
-    help: 'List albums with multiple genres'
-    command: ls -a -f '%if{$album_genres,%stylize{genre,$album_genres} }$format_album' all_same_genres:0
+    help: 'List non-compilation / non-sampler albums with multiple genres'
+    command: ls -a -f '%if{$album_genres,%stylize{genre,$album_genres} }$format_album' all_same_genres:0 comp:0 ^album:sampler ^albumtypes:sampler
 
 inlinehook:
   hooks:
