@@ -270,6 +270,12 @@ class KergothPlugin(BeetsPlugin):
                 return self.path(f"Loved/Classical/Single Tracks/{self.artist_title(item)}")
             elif self.query("classical", item):
                 return self.path(f"Loved/Classical/{self.by_album(item)}")
+            elif self.query("jazz_sole_tracks", item):
+                return self.path(
+                    f"Loved/Jazz/Single Tracks/{self.artist_title(item)}"
+                )
+            elif self.query("jazz", item):
+                return self.path(f"Loved/Jazz/{self.by_album(item)}")
             elif (
                 self.query("is_sole_track", item)
                 or self.query("for_single_tracks", item)
@@ -294,10 +300,6 @@ class KergothPlugin(BeetsPlugin):
             return self.path(f"Christmas/Single Tracks/{self.artist_title(item)}")
         elif self.query("christmas", item):
             return self.path(f"Christmas/{self.by_artist(item, media=False)}")
-        elif self.query("classical_sole_tracks", item):
-            return self.path(f"Classical/Single Tracks/{self.artist_title(item)}")
-        elif self.query("classical", item):
-            return self.path(f"Classical/{self.by_artist(item, media=False)}")
         elif self.query("chiptune_game", item):
             item.comp = False
             return self.path(
@@ -328,6 +330,14 @@ class KergothPlugin(BeetsPlugin):
                 )
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
+        elif self.query("classical_sole_tracks", item):
+            return self.path(f"Classical/Single Tracks/{self.artist_title(item)}")
+        elif self.query("classical", item):
+            return self.path(f"Classical/{self.by_artist(item, media=False)}")
+        elif self.query("jazz_sole_tracks", item):
+            return self.path(f"Jazz/Single Tracks/{self.artist_title(item)}")
+        elif self.query("jazz", item):
+            return self.path(f"Jazz/{self.by_artist(item, media=False)}")
         elif self.query("sampler", item):
             return self.path(f"Samplers/{self.by_album(item, media=False)}")
         elif self.query("is_sole_track", item):

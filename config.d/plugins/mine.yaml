@@ -493,6 +493,7 @@ item_queries:
   for_single_tracks: "album_id:^ , single_track:true"
   is_christmas: "genre:Christmas"
   is_classical: "genre:Classical"
+  is_jazz: "genre:=Jazz ^genre:Electronic"
   is_game: 'avmedia:"Video Games"'
   is_chiptune: "genre:chiptune , genre:8-bit"
   is_music: "^query:is_non_music"
@@ -515,6 +516,8 @@ item_queries:
   christmas: "query:is_christmas"
   classical_sole_tracks: "genre:classical query:is_sole_track"
   classical: "query:is_classical ^query:is_soundtrack"
+  jazz_sole_tracks: "genre:jazz query:is_sole_track"
+  jazz: "query:is_jazz ^query:is_soundtrack"
   non_music: 'genre:meditation , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
   sampler: "query:is_sampler ^query:for_single_tracks"
   soundtrack: "query:is_soundtrack ^query:for_single_tracks"
