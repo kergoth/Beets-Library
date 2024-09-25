@@ -219,6 +219,10 @@ aliases:
     help: 'Get configuration paths. Example: beet get-config-path library'
     command: '!sh -c "p=\"$(beet config | yq -r \".$1\")\"; cd \"${BEETSDIR:-~/.config/beets}\" && abspath \"$p\"" -'
 
+  l:
+    help: 'List items, using a pager'
+    command: '!env BEETS_COLOR=always sh -c "beet ls \"$@\" | ${PAGER:-${GIT_PAGER:-less}}" -'
+
   recent:
     help: List recently added items
     command: ls -f '%stylize{field_added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
