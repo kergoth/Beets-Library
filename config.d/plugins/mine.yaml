@@ -225,7 +225,7 @@ aliases:
 
   recent:
     help: List recently added items
-    command: ls -f '%stylize{field_added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
+    command: l -f '%stylize{field_added,$added} %nocolor{via }%stylize{source,$source} $format_item' 'added-'
 
   recent-albums:
     help: List recently added albums
@@ -237,47 +237,47 @@ aliases:
 
   lsl:
     help: List items, linking to their files
-    command: ls -f '%link{file://$path,$icon} $format_item'
+    command: l -f '%link{file://$path,$icon} $format_item'
     aliases: ls-linked
 
   lsf:
     help: List items, with links to play them in foobar2000 (macOS only)
-    command: ls -f '%link{shortcuts://run-shortcut?name=Open in foobar2000&input=text&text=%urlencode{$path},$icon} $format_item'
+    command: l -f '%link{shortcuts://run-shortcut?name=Open in foobar2000&input=text&text=%urlencode{$path},$icon} $format_item'
 
   lsb:
     help: List browseable paths for items, as they exist in the Browse structure.
-    command: ls -f '$browseable_path'
+    command: l -f '$browseable_path'
     aliases: ls-browsable
 
   lse:
     help: List albums, showing existing and total tracks
-    command: ls -a -f "$format_album %stylize{track,$existing/$albumtotal}"
+    command: l -a -f "$format_album %stylize{track,$existing/$albumtotal}"
     aliases: ls-existing
 
   lsg:
     help: List items, showing genre
-    command: ls -f "$format_item %nocolor{| }%stylize{genre,$genre}"
+    command: l -f "$format_item %nocolor{| }%stylize{genre,$genre}"
     aliases: ls-genre
 
   ls-unmatched:
     help: List unmatched/unidentified albums
-    command: ls -a mb_albumid:@
+    command: l -a mb_albumid:@
 
   ls-unmatched-singletons:
     help: List unmatched/unidentified singletons
-    command: ls singleton:true mb_trackid:@
+    command: l singleton:true mb_trackid:@
 
   music:
     help: List music items
-    command: ls ^query:is_non_music
+    command: l ^query:is_non_music
 
   singletons:
     help: List singleton items
-    command: ls singleton:true
+    command: l singleton:true
 
   complete:
     help: List complete albums
-    command: ls -a missing:0
+    command: l -a missing:0
 
   high-res:
     help: List high-resolution items
@@ -285,7 +285,7 @@ aliases:
 
   ls-format:
     help: List items with format information
-    command: ls -f '%color{format,$format} %nocolor{| }%color{format,$samplerate} %nocolor{| }$format_item'
+    command: l -f '%color{format,$format} %nocolor{| }%color{format,$samplerate} %nocolor{| }$format_item'
 
   incomplete-games:
     help: List incomplete game albums
@@ -342,75 +342,75 @@ aliases:
   # Red flags
   empty-artist:
     help: 'Red Flag: Is the artist field empty?'
-    command: ls artist:@
+    command: l artist:@
 
   empty-album:
     help: 'Red Flag: Is the album field empty?'
-    command: ls album:@ singleton:false
+    command: l album:@ singleton:false
 
   book-not-audiobook:
     help: 'Red Flag: Is the genre "book" but the album type is not "audiobook"?'
-    command: ls genre:book ^albumtypes:audiobook
+    command: l genre:book ^albumtypes:audiobook
 
   unknown-source:
     help: 'Red Flag: Is the source field empty or unknown?'
-    command: ls source:Unknown , source:@
+    command: l source:Unknown , source:@
 
   excess-tracks:
     help: 'Red Flag: Are there more tracks than the album total?'
-    command: ls -f "$format_item %stylize{track,$track/$tracktotal} %nocolor{via }%stylize{source,$source}" excess_tracks:1
+    command: l -f "$format_item %stylize{track,$track/$tracktotal} %nocolor{via }%stylize{source,$source}" excess_tracks:1
 
   negative-missing:
     help: 'Red Flag: Are there negative missing tracks, which implies an unset album total?'
-    command: ls -a -f "$missing - $format_album" missing:..-1
+    command: l -a -f "$missing - $format_album" missing:..-1
 
   original-is-newer:
     help: 'Red Flag: Is the original release year is newer than the current year?'
-    command: ls -a -f "$format_album %nocolor{| }%stylize{year,$original_year} > %stylize{year,$year}" original_is_newer:1
+    command: l -a -f "$format_album %nocolor{| }%stylize{year,$original_year} > %stylize{year,$year}" original_is_newer:1
 
   soundtrack-no-avmedia:
     help: 'Red Flag: Is the album type "soundtrack" but the avmedia field is not set?'
-    command: ls -a albumtypes:soundtrack ^avmedia::.
+    command: l -a albumtypes:soundtrack ^avmedia::.
 
   soundtrack-no-mediatitle:
     help: 'Red Flag: Is the album type "soundtrack" but the mediatitle field is not set?'
-    command: ls -a albumtypes:soundtrack ^mediatitle::.
+    command: l -a albumtypes:soundtrack ^mediatitle::.
 
   albumtype-should-be-ep:
     help: 'Red Flag: Is "EP" in the album title, but the album type is not set to "ep"?'
-    command: ls -a album::' [Ee][Pp]( |$)' ^album:"the ep collection" ^albumtypes::ep
+    command: l -a album::' [Ee][Pp]( |$)' ^album:"the ep collection" ^albumtypes::ep
 
   albumtype-should-be-mixtape:
     help: 'Red Flag: Is "Mixtape" in the album title, but the album type is not set to "mixtape"?'
-    command: ls -a album::' [mM]ixtape( |$)' ^albumtypes::mixtape
+    command: l -a album::' [mM]ixtape( |$)' ^albumtypes::mixtape
 
   albumtype-should-be-remix:
     help: 'Red Flag: Is "Remix" in the album title, but the album type is not set to "remix"?'
-    command: ls -a album::'[rR]emix' ^albumtypes::remix
+    command: l -a album::'[rR]emix' ^albumtypes::remix
 
   various-not-comp:
     help: 'Potential Concern: Is the album artist "Various Artists" but the album is not marked as a compilation?'
-    command: ls -a album_query:is_various_not_comp
+    command: l -a album_query:is_various_not_comp
 
   # Informative
   possible-singles:
     help: 'List albums that may be singles'
-    command: ls -a albumtotal:1 albumtypes::'^(|other)$
+    command: l -a albumtotal:1 albumtypes::'^(|other)$
 
   possible-not-comp:
     help: 'List albums that may not be compilations'
-    command: ls -a comp:1 missing:0 is_comp_same_artists:1
+    command: l -a comp:1 missing:0 is_comp_same_artists:1
 
   # These are often not an issue, just albums which feature multiple
   # artists, but aren't compilations. Cases where the album artist is the
   # producer, cases where there are featuring artist, etc.
   multiartist-not-comp:
     help: 'List albums with multiple artists that are not compilations'
-    command: ls -a comp:0 multiartist:1
+    command: l -a comp:0 multiartist:1
 
   has-multiple-genres:
     help: 'List non-compilation / non-sampler albums with multiple genres'
-    command: ls -a -f '%if{$album_genres,%stylize{genre,$album_genres} }$format_album' all_same_genres:0 comp:0 ^album:sampler ^albumtypes:sampler
+    command: l -a -f '%if{$album_genres,%stylize{genre,$album_genres} }$format_album' all_same_genres:0 comp:0 ^album:sampler ^albumtypes:sampler
 
 inlinehook:
   hooks:
