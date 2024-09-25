@@ -101,7 +101,7 @@ import:
   default_action: skip
 
 musicbrainz:
-  searchlimit: 10
+  searchlimit: 5
   extra_tags: [year, catalognum, country, media, label]
   genres: no
   external_ids:
