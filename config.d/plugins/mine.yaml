@@ -164,7 +164,6 @@ replacefunc:
     "The Chronicles of Riddick: Escape From Butcher Bay": "Riddick"
     "The Elder Scrolls V: Skyrim": "Skyrim"
     "The Incredible Adventures of Van Helsing": "Van Helsing"
-    "Ultima: Worlds of Adventure 2: Martian Dreams": "Worlds of Ultima: Martian Dreams"
 
 item_formats:
   path_filename: "%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title"
