@@ -62,6 +62,9 @@ importmodifyinfo:
     - album:'The Hateful Eye EP' albumtype=ep albumtypes=ep
     - album:'Quicksand EP' albumtype=ep albumtypes=ep
 
+    # Set a default value for albumtypes, if only albumtype is set
+    - albumtype::. ^albumtypes::[a-zA-Z] albumtypes=$albumtype
+
 modifyonimport:
   modify_album:
     # Set a default value for albumtypes, if only albumtype is set
