@@ -37,7 +37,7 @@ importinspect:
 
 importmodifyinfo:
   modify_albuminfo:
-    # Override release/album types from MusicBrainz
+    # Override release/album types from the importers
     #  These are soundtracks
     - album:'Return to Zork' albumtype=album albumtypes='album; soundtrack'
     - album:'Civilization VI' albumtype=ep albumtypes='ep; soundtrack'
