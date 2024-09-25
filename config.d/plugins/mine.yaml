@@ -64,8 +64,6 @@ importmodifyinfo:
 
 modifyonimport:
   modify_album:
-    # Sane default for albumartist_sort
-    'albumartist_sort::"^$" artist::"^The "': "albumartist_sort=%the{$albumartist}"
     # Need albumtypes
     'albumtype::. albumtypes::"^$"': "albumtypes=$albumtype"
     # Likely a single
@@ -82,8 +80,6 @@ modifyonimport:
     "albumartist:Stephen Lynch": "genre=Comedy"
   modify_album_items:
     "":
-      # Sane default for artist_sort
-      'artist_sort::"^$" artist::"^The "': "artist_sort=%the{$artist}"
       # Genre
       "genre:Holiday": "genre=Christmas"
       "genre:game": 'avmedia="Video Games"'
@@ -91,8 +87,6 @@ modifyonimport:
       # Set single_track to 1 if there's only one track'
       "existing:1": "single_track=1"
   modify_singleton:
-    # Sane default for artist_sort
-    'artist_sort::"^$" artist::"^The "': "artist_sort=%the{$artist}"
     # Clear out the album field for imported singletons
     "album::.": "album="
     # Genre
