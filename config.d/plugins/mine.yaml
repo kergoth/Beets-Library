@@ -64,8 +64,8 @@ importmodifyinfo:
 
 modifyonimport:
   modify_album:
-    # Need albumtypes
-    'albumtype::. albumtypes::"^$"': "albumtypes=$albumtype"
+    # Set a default value for albumtypes, if only albumtype is set
+    'albumtype::. ^albumtypes::[a-zA-Z]': "albumtypes=$albumtype"
     # Likely a single
     'albumtotal:1 albumtype::"^(|other)$"': "albumtype=single albumtypes=$single_albumtypes"
     # 'Various Artists' albums not flagged as compilations
