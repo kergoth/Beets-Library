@@ -35,6 +35,33 @@ importinspect:
     - releasestatus
     - script
 
+importmodifyinfo:
+  modify_albuminfo:
+    # Override release/album types from MusicBrainz
+    #  These are soundtracks
+    - album:'Return to Zork' albumtype=album albumtypes='album; soundtrack'
+    - album:'Civilization VI' albumtype=ep albumtypes='ep; soundtrack'
+    #  This is not music
+    - "album:You album:Hear album:Jack albumtype=spokenword albumtypes=spokenword"
+    #  This is music *inspired by* a game, not an actual game soundtrack
+    - album:'Music to Go POSTAL By' albumtype=album albumtypes=album
+    #  These are remixes
+    - "album:'Open Remix: To Benefit IntraHealth' albumtype=album albumtypes='album; remix'"
+    - album:'Stop, Drop & Roll Remix EP' albumtype=ep albumtypes='ep; remix'
+    - album:'Pokémon Theme (TheFatRat Remix)' albumtype=single albumtypes='single; remix'
+    - album:'River of Darkness (Primo the Alien remix)' albumtype=single albumtypes='single; remix'
+    - album:'Good Feeling (violin remix)' albumtype=single albumtypes='single; remix'
+    - album:'Sweat (remix)' albumtype=single albumtypes='single; remix'
+    - album:'Mount Cleverest Remixes' albumtype=ep albumtypes='ep; remix'
+    #  These are mixtapes
+    - album:'2012 Holiday Road Trip Mixtape' albumtype=album albumtypes='album; compilation; mixtape'
+    - "album:Liberated album:Mixtape albumtype=album albumtypes='album; soundtrack; mixtape'"
+    #  This is a compilation
+    - album:'#DECADE' artist:'Steve Angello' albumtype=other albumtypes='other; compilation'
+    #  This is an EP
+    - album:'The Hateful Eye EP' albumtype=ep albumtypes=ep
+    - album:'Quicksand EP' albumtype=ep albumtypes=ep
+
 modifyonimport:
   modify_album:
     # Sane default for albumartist_sort
@@ -52,34 +79,7 @@ modifyonimport:
     "genre:game": 'avmedia="Video Games"'
     "source:GOG": 'avmedia="Video Games"'
     "source:Steam": 'avmedia="Video Games"'
-    'albumartist:Stephen Lynch': 'genre=Comedy'
-
-    # Overrides from MusicBrainz.
-    # FIXME: This does not currently apply to `mbsync`. I would need to catch
-    # `trackinfo_received` to override results from MusicBrainz for all cases.
-    #  These are soundtracks
-    "album:Return to Zork": "albumtype=soundtrack albumtypes=soundtrack"
-    "album:Civilization VI": "albumtype=soundtrack albumtypes=soundtrack"
-    #  This is not music
-    'album:"You Don''t Hear Jack"': "albumtype=spokenword albumtypes=spokenword"
-    #  This is music *inspired by* a game, not an actual game soundtrack
-    "album:Music to Go POSTAL By": "albumtype=album albumtypes=album"
-    #  These are remixes
-    "album:Open Remix: To Benefit IntraHealth": "albumtype=album albumtypes='album; remix'"
-    "album:Mount Cleverest Remixes": "albumtype=ep albumtypes='ep; remix'"
-    "album:Stop, Drop & Roll Remix EP": "albumtype=ep albumtypes='ep; remix'"
-    "album:Pokémon Theme (TheFatRat Remix)": "albumtype=single albumtypes='single; remix'"
-    "album:River of Darkness (Primo the Alien remix)": "albumtype=single albumtypes='single; remix'"
-    "album:Good Feeling (violin remix)": "albumtype=single albumtypes='single; remix'"
-    "album:Sweat (remix)": "albumtype=single albumtypes='single; remix'"
-    #  These are mixtapes
-    "album:2012 Holiday Road Trip Mixtape": "albumtype=album albumtypes='album; compilation; mixtape'"
-    "album:'Liberated: Mixtape - Vol. 1'": "albumtype=album albumtypes='album; soundtrack; mixtape'"
-    #  This is a compilation
-    "album:#DECADE albumartist:'Steve Angello'": "albumtype=other albumtypes='other; compilation'"
-    #  This is an EP
-    "album:The Hateful Eye EP": "albumtype=ep albumtypes=ep"
-    "albumartist:'La Roux' album='Quicksand EP'": "albumtype=ep albumtypes=ep"
+    "albumartist:Stephen Lynch": "genre=Comedy"
   modify_album_items:
     "":
       # Sane default for artist_sort
@@ -87,9 +87,9 @@ modifyonimport:
       # Genre
       "genre:Holiday": "genre=Christmas"
       "genre:game": 'avmedia="Video Games"'
-      'albumartist:Stephen Lynch': 'genre=Comedy'
+      "albumartist:Stephen Lynch": "genre=Comedy"
       # Set single_track to 1 if there's only one track'
-      'existing:1': "single_track=1"
+      "existing:1": "single_track=1"
   modify_singleton:
     # Sane default for artist_sort
     'artist_sort::"^$" artist::"^The "': "artist_sort=%the{$artist}"

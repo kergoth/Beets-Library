@@ -147,6 +147,9 @@ plugins:
   #  importinspect: inspect candidate changes when importing
   #    Interactive (import).
   - importinspect
+  #  importmodifyinfo: apply modifications to received metadata before import
+  #    Interactive (import).
+  - importmodifyinfo
   #  inconsistentalbumtracks: identify albums whose tracks have inconsistent album fields
   #    Command (inconsistent-album-tracks).
   - inconsistentalbumtracks
