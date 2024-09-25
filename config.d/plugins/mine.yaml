@@ -61,7 +61,7 @@ importmodifyinfo:
     #  This is an EP
     - album:'The Hateful Eye EP' albumtype=ep albumtypes=ep
     - album:'Quicksand EP' albumtype=ep albumtypes=ep
-    - album:'The EP Collection' artist:'Jason Shannon' albumtype=ep
+    - album:'The EP Collection' artist:'Jason Shannon' albumtype=ep albumtypes=ep
 
     # Set a default value for albumtypes, if only albumtype is set
     - albumtype::. ^albumtypes::[a-zA-Z] albumtypes=$albumtype
