@@ -74,16 +74,21 @@ ui:
     albumartist: ["yellow", "bold"]
     albumtypes: ["cyan"]
     artist: ["yellow", "bold"]
-    clean: ["green", "bold"]
-    explicit: ["red", "bold"]
     format: ["cyan"]
     genre: ["blue"]
     id: ["faint"]
-    loved: ["red", "bold"]
-    source: ["green", "bold"]
     title: ["normal"]
     track: ["green"]
     year: ["magenta", "bold"]
+    # Flexible fields
+    avmedia: ["red", "faint"]
+    clean: ["green", "bold"]
+    explicit: ["red", "bold"]
+    franchise: ["magenta"]
+    loved: ["red", "bold"]
+    mediatitle: ["blue", "bold"]
+    mediatitledisambig: ["cyan"]
+    source: ["green", "bold"]
 
 convert:
   copy_album_art: yes

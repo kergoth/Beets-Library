@@ -185,6 +185,11 @@ item_formats:
   format_advisory: "%if{$e_advisory,%if{$is_explicit,%stylize{explicit, (Explicit)},%if{$is_clean,%stylize{clean, (Clean)}}}}"
   format_year: "%stylize{year,$year}"
 
+  # For the `lsm` alias
+  format_media: "$format_media_item"
+  format_media_item: "%ifdef{id,$format_id }$format_media_title %nocolor{| }$format_year %if{$singleton,,%nocolor{- }$format_track }%nocolor{| }%color{avmedia,$avmedia}"
+  format_media_title: "%ifdef{franchise,%stylize{franchise,$franchise} %nocolor{- }}%stylize{mediatitle,$mediatitle}%ifdef{mediatitledisambig, %color{mediatitledisambig,($mediatitledisambig)}}"
+
   browseable_path: "%pathfield{${navigation_path}}$extension"
 
 album_formats:
@@ -195,6 +200,11 @@ album_formats:
   format_album_title: "${format_flag}%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}"
   format_albumartist: "%stylize{albumartist,$albumartist}"
   format_year: "%stylize{year,$year}"
+
+  # For the `lsm` alias
+  format_media: "$format_media_album"
+  format_media_album: "%ifdef{id,$format_album_id }%if{$albumartist,$format_albumartist %nocolor{- }}$format_media_title %nocolor{| }$format_year %nocolor{| }%color{avmedia,$avmedia}"
+  format_media_title: "%ifdef{franchise,%stylize{franchise,$franchise} %nocolor{- }}%stylize{mediatitle,$mediatitle}%ifdef{mediatitledisambig, %color{mediatitledisambig,($mediatitledisambig)}}"
 
   # Allow for aliases with `-f '$format_item'` to be used when `-a` is passed
   format_item: "$format_album"
@@ -258,6 +268,10 @@ aliases:
     help: List items, showing genre
     command: l -f "$format_item %nocolor{| }%stylize{genre,$genre}"
     aliases: ls-genre
+
+  lsm:
+    help: List media items (albums with media titles, i.e. Video Game soundtracks, etc.)
+    command: l -f "$format_media" mediatitle::.
 
   ls-unmatched:
     help: List unmatched/unidentified albums
