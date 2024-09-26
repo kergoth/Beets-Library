@@ -173,7 +173,7 @@ item_formats:
   path_filename: "%if{$album,$disc_and_track_pre}%if{$comp,%if{$artist_credit,$artist_credit,$artist} - }$full_title"
   full_title: "$title%if{$e_advisory,$explicit_or_clean}"
 
-  format_item: "%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{| }}$format_year %nocolor{- }$format_track"
+  format_item: "%ifdef{id,$format_id }%if{$singleton,,$format_album_title %nocolor{| }}$format_year %nocolor{| }$format_track"
   format_flag: "%if{$e_loved,%stylize{loved,♥ },%if{$e_disliked,%stylize{disliked,👎 },%if{$e_hidden,%stylize{hidden,🙈 },%if{$e_to_listen,%stylize{to_listen,☑️ }}}}}"
   format_id: "%stylize{id,$id,[$id]}"
   format_album_title: "%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}"
@@ -187,7 +187,7 @@ item_formats:
 
   # For the `lsm` alias
   format_media: "$format_media_item"
-  format_media_item: "%ifdef{id,$format_id }$format_media_title %nocolor{| }$format_year %if{$singleton,,%nocolor{- }$format_track }%nocolor{| }%color{avmedia,$avmedia}"
+  format_media_item: "%ifdef{id,$format_id }$format_media_title %nocolor{| }$format_year %if{$singleton,,%nocolor{| }$format_track }%nocolor{| }%color{avmedia,$avmedia}"
   format_media_title: "%ifdef{franchise,%stylize{franchise,$franchise} %nocolor{- }}%stylize{mediatitle,$mediatitle}%ifdef{mediatitledisambig, %color{mediatitledisambig,($mediatitledisambig)}}"
 
   browseable_path: "%pathfield{${navigation_path}}$extension"
