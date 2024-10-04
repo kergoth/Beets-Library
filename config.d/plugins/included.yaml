@@ -183,27 +183,6 @@ album_fields:
       return '; '.join(t for t in types if t)
     return 'single'
 
-  discogs_albumtypes: |
-    types = '; '.join(albumtypes).lower().split(", ")
-    for t in ['flac', 'mp3', 'stereo', 'release', 'reissue']:
-      if t in types:
-        types.remove(t)
-    for t in ['ep', 'single', 'album', 'other']:
-      if t in types:
-        types.remove(t)
-        types[0:0] = [t]
-    return '; '.join(t for t in types if t)
-
-  discogs_albumtype: |
-    types = '; '.join(albumtypes).lower().split(", ")
-    for t in ['flac', 'mp3', 'stereo', 'release', 'reissue']:
-      if t in types:
-        types.remove(t)
-    for t in ['ep', 'single', 'album', 'other']:
-      if t in types:
-        return t
-    return types[0]
-
   original_is_newer: original_year and year and original_year > year
 
 item_fields:
