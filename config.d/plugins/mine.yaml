@@ -229,7 +229,7 @@ aliases:
 
   l:
     help: 'List items, using a pager'
-    command: '!env BEETS_COLOR=always sh -c "beet ls \"$@\" | ${PAGER:-${GIT_PAGER:-less}}" -'
+    command: '!sh -c "if [ -t 1 ]; then BEETS_COLOR=always beet ls \"$@\" | ${PAGER:-${GIT_PAGER:-less}}; else beet ls \"$@\"; fi" -'
 
   recent:
     help: List recently added items
