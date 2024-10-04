@@ -16,7 +16,7 @@ pluginpath:
   - ./src/beets-alternatives/beetsplug
   - ./src/whatlastgenre/plugin/beets/beetsplug
   - ./src/beets-stylize/src/beetsplug
-  - ./src/beets-importmodify/src/beetsplug
+  - ./src/beets-importmodifyinfo/src/beetsplug
 
 ignore:
   [".DS_Store", "@eaDir", ".*", "*~", "System Volume Information", "lost+found"]
