@@ -179,7 +179,7 @@ item_formats:
   format_disc_and_track: "%stylize{track,$disc_and_track}"
   format_artist: "%stylize{artist,$artist} %nocolor{- }"
   format_title: "%stylize{title,$title$format_advisory}"
-  format_track: "%if{$singleton,,%if{$disc_and_track,$format_disc_and_track %nocolor{- }}}${format_flag}$format_artist$format_title"
+  format_track: "%if{$singleton,,%if{$disc_and_track,$format_disc_and_track %nocolor{- }}}%nocolor{,${format_flag}}$format_artist$format_title"
   format_advisory: "%if{$e_advisory,%if{$is_explicit,%stylize{explicit, (Explicit)},%if{$is_clean,%stylize{clean, (Clean)}}}}"
   format_year: "%stylize{year,$year}"
 
@@ -195,7 +195,7 @@ album_formats:
 
   format_flag: "%if{$e_loved,%stylize{loved,♥ },%if{$e_disliked,%stylize{disliked,👎 },%if{$e_hidden,%stylize{hidden,🙈 },%if{$e_to_listen,%stylize{to_listen,☑️ }}}}}"
   format_album_id: "%stylize{id,$id,[$id]}"
-  format_album_title: "${format_flag}%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}"
+  format_album_title: "%nocolor{,${format_flag}}%stylize{album,$album%aunique{}}%if{$albumtypes,%stylize{albumtypes,%ifdef{atypes,%if{$atypes, $atypes}}}}%if{$e_albumadvisory, %stylize{explicit,(Explicit)}}"
   format_albumartist: "%stylize{albumartist,$albumartist}"
   format_year: "%stylize{year,$year}"
 
