@@ -79,13 +79,13 @@ modifyonimport:
     "genre:game": 'avmedia="Video Games"'
     "source:GOG": 'avmedia="Video Games"'
     "source:Steam": 'avmedia="Video Games"'
-    "albumartist:Stephen Lynch": "genre=Comedy"
+    "albumartist:'Stephen Lynch'": "genre=Comedy"
   modify_album_items:
     "":
       # Genre
       "genre:Holiday": "genre=Christmas"
       "genre:game": 'avmedia="Video Games"'
-      "albumartist:Stephen Lynch": "genre=Comedy"
+      "albumartist:'Stephen Lynch'": "genre=Comedy"
       # Set single_track to 1 if there's only one track'
       "existing:1": "single_track=1"
   modify_singleton:
