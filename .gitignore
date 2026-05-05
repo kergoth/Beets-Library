@@ -12,4 +12,3 @@
 /testing/
 *.code-workspace
 tidal.json
-config.d/local.yaml
