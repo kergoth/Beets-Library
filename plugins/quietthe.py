@@ -12,7 +12,9 @@ class QuietThe(plugins.BeetsPlugin):
     def loaded(self):
         for plugin in plugins.find_plugins():
             if plugin.name == "the":
-                plugin.template_funcs['the'] = lambda text: the_template_func(plugin, text)
+                plugin.template_funcs["the"] = lambda text: the_template_func(
+                    plugin, text
+                )
                 break
             elif plugin.name == "kergoth":
                 plugin.the = lambda text: the_template_func(plugin, text)

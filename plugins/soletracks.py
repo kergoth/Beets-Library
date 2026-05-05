@@ -10,6 +10,7 @@ import re
 
 from beets import library, plugins, ui
 from beets.dbcore import types
+from beets.library.models import DefaultTemplateFunctions
 from beets.plugins import find_plugins
 from beets.ui import UserError
 
@@ -31,10 +32,10 @@ class SoleTracks(plugins.BeetsPlugin):
         )
 
         self.feat_tokens = re.compile(
-            plugins.feat_tokens(for_artist=True).replace("|and", "").replace("|\&", "")
+            plugins.feat_tokens(for_artist=True).replace("|and", "").replace("|\\&", "")
         )
         self.artist_tokens = re.compile(r"(?<=\s)(?:and|\&|,)(?=\s)")
-        self.asciify = library.DefaultTemplateFunctions.tmpl_asciify
+        self.asciify = DefaultTemplateFunctions.tmpl_asciify
 
         self.needed_plugins = ["savedqueries"]
         self.register_listener("pluginload", self.loaded)
@@ -106,7 +107,7 @@ class SoleTracks(plugins.BeetsPlugin):
         query = ui.decargs(args)
         if query:
             self.config["query"] = query
-            self._log.debug(f'Using base query {" ".join(query)}')
+            self._log.debug(f"Using base query {' '.join(query)}")
             base_query, _ = library.parse_query_parts(query, library.Item)
         else:
             query = self.config["query"].as_str()
@@ -160,9 +161,13 @@ class SoleTracks(plugins.BeetsPlugin):
                 if item in found_items:
                     found_items.remove(item)
                 if found_items:
-                    self._log.debug(f"{item}: Found items for artist {self.item_artist(item)}: {', '.join(str(i) for i in found_items)}")
+                    self._log.debug(
+                        f"{item}: Found items for artist {self.item_artist(item)}: {', '.join(str(i) for i in found_items)}"
+                    )
                 else:
-                    self._log.debug(f"{item}: No other items for artist {self.item_artist(item)}")
+                    self._log.debug(
+                        f"{item}: No other items for artist {self.item_artist(item)}"
+                    )
                 yield item, len(found_items) == 0
 
     def item_artist(self, item):

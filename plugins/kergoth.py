@@ -7,9 +7,9 @@ from pathlib import Path
 import re
 
 import beets
-from beets.library import DefaultTemplateFunctions
 from beets.plugins import BeetsPlugin, find_plugins
 from beets.ui import UserError
+from beets.library.models import DefaultTemplateFunctions
 
 
 class KergothPlugin(BeetsPlugin):
@@ -38,7 +38,9 @@ class KergothPlugin(BeetsPlugin):
                 )
 
         self.savedqueries = FactoryDict(lambda name: self.queryfunc("query", name))
-        self.album_queries = FactoryDict(lambda name: self.queryfunc("album_query", name))
+        self.album_queries = FactoryDict(
+            lambda name: self.queryfunc("album_query", name)
+        )
         self.template_fields = {
             "extension": self.extension,
             "navigation_path": self.navigation_path,
@@ -207,7 +209,9 @@ class KergothPlugin(BeetsPlugin):
         else:
             return self.the(self.albumonlydir(item, media))
 
-    def by_artist(self, item, media=True, split_samplers=False, label=False, franchise=False):
+    def by_artist(
+        self, item, media=True, split_samplers=False, label=False, franchise=False
+    ):
         if self.query("for_single_tracks", item) or (
             split_samplers and self.query("is_sampler", item)
         ):
@@ -228,17 +232,17 @@ class KergothPlugin(BeetsPlugin):
         if album:
             if album.genre and self.album_query("separated_by_genre", album):
                 genre = re.split(r"[/／ ;]", album.genre)[0]
-                return f'{genre}/{self.by_artist(item, media)}'
+                return f"{genre}/{self.by_artist(item, media)}"
         else:
             if item.genre and self.query("separated_by_genre", item):
                 genre = re.split(r"[/／ ;]", item.genre)[0]
-                return f'{genre}/{self.by_artist(item, media)}'
+                return f"{genre}/{self.by_artist(item, media)}"
 
         if self.query("for_single_tracks", item):
             bucketed = self.artistdir(item)
         else:
             bucketed = self.albumartistdir(item)
-        return f'{self.bucket(bucketed, "alpha")}/{self.by_artist(item, media)}'
+        return f"{self.bucket(bucketed, 'alpha')}/{self.by_artist(item, media)}"
 
     # Full path
     def extension(self, item):
@@ -263,17 +267,19 @@ class KergothPlugin(BeetsPlugin):
                 return self.path(f"To Listen/{self.by_artist(item, media=False)}")
         elif self.is_loved(item):
             if self.query("christmas_sole_tracks", item):
-                return self.path(f"Loved/Christmas/Single Tracks/{self.artist_title(item)}")
+                return self.path(
+                    f"Loved/Christmas/Single Tracks/{self.artist_title(item)}"
+                )
             elif self.query("christmas", item):
                 return self.path(f"Loved/Christmas/{self.by_album(item)}")
             elif self.query("classical_sole_tracks", item):
-                return self.path(f"Loved/Classical/Single Tracks/{self.artist_title(item)}")
+                return self.path(
+                    f"Loved/Classical/Single Tracks/{self.artist_title(item)}"
+                )
             elif self.query("classical", item):
                 return self.path(f"Loved/Classical/{self.by_album(item)}")
             elif self.query("jazz_sole_tracks", item):
-                return self.path(
-                    f"Loved/Jazz/Single Tracks/{self.artist_title(item)}"
-                )
+                return self.path(f"Loved/Jazz/Single Tracks/{self.artist_title(item)}")
             elif self.query("jazz", item):
                 return self.path(f"Loved/Jazz/{self.by_album(item)}")
             elif (
@@ -312,7 +318,9 @@ class KergothPlugin(BeetsPlugin):
             return self.path(f"Chiptunes/Music/{self.by_artist(item, media=False)}")
         elif self.query("alt_game", item):
             item.comp = False
-            return self.path(f"Video Game Soundtracks/{self.bucket_by_album(item, franchise=True)}")
+            return self.path(
+                f"Video Game Soundtracks/{self.bucket_by_album(item, franchise=True)}"
+            )
         elif self.query("alt_game_extra", item):
             if self.query("by_label", item):
                 return self.path(
@@ -325,9 +333,7 @@ class KergothPlugin(BeetsPlugin):
                     f"Video Game Music/Single Tracks/{self.artist_title(item)}"
                 )
             else:
-                return self.path(
-                    f"Video Game Music/{self.by_artist(item)}"
-                )
+                return self.path(f"Video Game Music/{self.by_artist(item)}")
         elif self.query("soundtrack", item):
             return self.path(f"Soundtracks/{self.by_album(item)}")
         elif self.query("classical_sole_tracks", item):
