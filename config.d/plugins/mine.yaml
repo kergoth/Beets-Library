@@ -75,16 +75,16 @@ modifyonimport:
     # 'Various Artists' albums not flagged as compilations
     "album_query:is_various_not_comp": "comp=1"
     # Genre
-    "genre:Holiday": "genre=Christmas"
-    "genre:game": 'avmedia="Video Games"'
+    "genres:Holiday": "genre=Christmas"
+    "genres:game": 'avmedia="Video Games"'
     "source:GOG": 'avmedia="Video Games"'
     "source:Steam": 'avmedia="Video Games"'
     "albumartist:'Stephen Lynch'": "genre=Comedy"
   modify_album_items:
     "":
       # Genre
-      "genre:Holiday": "genre=Christmas"
-      "genre:game": 'avmedia="Video Games"'
+      "genres:Holiday": "genre=Christmas"
+      "genres:game": 'avmedia="Video Games"'
       "albumartist:'Stephen Lynch'": "genre=Comedy"
       # Set single_track to 1 if there's only one track'
       "existing:1": "single_track=1"
@@ -92,8 +92,8 @@ modifyonimport:
     # Clear out the album field for imported singletons
     "album::.": "album="
     # Genre
-    "genre:Holiday": "genre=Christmas"
-    "genre:game": 'avmedia="Video Games"'
+    "genres:Holiday": "genre=Christmas"
+    "genres:game": 'avmedia="Video Games"'
     "source:GOG": 'avmedia="Video Games"'
     "source:Steam": 'avmedia="Video Games"'
 
@@ -323,7 +323,7 @@ aliases:
 
   extract-missing-art:
     help: Extract embedded art for albums missing a cover art file
-    command: extractart -a artpath:^
+    command: extractart -a has_art:0
 
   clearart-albums:
     help: Clear embedded art from albums that have an artpath, excluding single/sole tracks
@@ -362,7 +362,7 @@ aliases:
 
   book-not-audiobook:
     help: 'Red Flag: Is the genre "book" but the album type is not "audiobook"?'
-    command: l genre:book ^albumtypes:audiobook
+    command: l genres:book ^albumtypes:audiobook
 
   unknown-source:
     help: 'Red Flag: Is the source field empty or unknown?'
@@ -407,7 +407,7 @@ aliases:
   # Informative
   possible-singles:
     help: 'List albums that may be singles'
-    command: l -a albumtotal:1 albumtypes::'^(|other)$
+    command: "l -a albumtotal:1 albumtypes::'^(|other)$'"
 
   possible-not-comp:
     help: 'List albums that may not be compilations'
@@ -443,9 +443,9 @@ inlinehook:
           log.warning(f'Album type set, but `albumtypes` is not set for {album}')
         if album.year and album.original_year and album.original_year > album.year:
           log.warning(f'Original release year is newer than the current year for {album}')
-        if album.genre == 'soundtrack' and 'soundtrack' not in album.albumtypes:
+        if album.genres[0] == 'soundtrack' and 'soundtrack' not in album.albumtypes:
           log.warning(f'Genre is `soundtrack`, but `albumtypes` does not include `soundtrack` for {album}')
-        if (album.genre == 'soundtrack' or 'soundtrack' in album.albumtypes):
+        if (album.genres[0] == 'soundtrack' or 'soundtrack' in album.albumtypes):
           if not album.get('avmedia'):
             log.warning(f'Album is a soundtrack, but `avmedia` is not set for {album}')
           if not album.get('mediatitle'):
@@ -454,11 +454,11 @@ inlinehook:
         for item in items:
           if not item.artist:
             log.warning(f'Artist not set for {item}')
-          if item.genre.lower() == 'book' and 'audiobook' not in item.albumtypes:
+          if item.genres[0].lower() == 'book' and 'audiobook' not in item.albumtypes:
             log.warning(f'Genre is `book`, but `albumtypes` does not include `audiobook` for {item}')
           if item.year and item.original_year and item.original_year > item.year:
             log.warning(f'Original release year is newer than the current year for {item}')
-          if item.genre == 'soundtrack' and 'soundtrack' not in item.albumtypes:
+          if item.genres[0] == 'soundtrack' and 'soundtrack' not in item.albumtypes:
             log.warning(f'Genre is `soundtrack`, but `albumtypes` does not include `soundtrack` for {item}')
 
     - event: "item_imported"
@@ -469,13 +469,13 @@ inlinehook:
 
         if not item.artist:
           log.warning(f'Artist not set for {item}')
-        if item.genre.lower() == 'book' and 'audiobook' not in item.albumtypes:
+        if item.genres[0].lower() == 'book' and 'audiobook' not in item.albumtypes:
           log.warning(f'Genre is `book`, but `albumtypes` does not include `audiobook` for {item}')
         if item.year and item.original_year and item.original_year > item.year:
           log.warning(f'Original release year is newer than the current year for {item}')
-        if item.genre == 'soundtrack' and 'soundtrack' not in item.albumtypes:
+        if item.genres[0] == 'soundtrack' and 'soundtrack' not in item.albumtypes:
           log.warning(f'Genre is `soundtrack`, but `albumtypes` does not include `soundtrack` for {item}')
-        if (item.genre == 'soundtrack' or 'soundtrack' in item.albumtypes):
+        if (item.genres[0] == 'soundtrack' or 'soundtrack' in item.albumtypes):
           if not item.get('avmedia'):
             log.warning(f'Item is a soundtrack, but `avmedia` is not set for {item}')
           if not item.get('mediatitle'):
@@ -488,7 +488,7 @@ album_queries:
   # This is used both in an alias command and modifyonimport
   is_various_not_comp: 'comp:0 albumartist:@"Various Artists"'
   by_label: 'label:"OverClocked ReMix"'
-  separated_by_genre: "genre:Comedy , genre:Humor , genre:Humour , genre:Nerdcore"
+  separated_by_genre: "genres:Comedy , genres:Humor , genres:Humour , genres:Nerdcore"
 
 item_queries:
   # Used by the sole-tracks script
@@ -503,18 +503,18 @@ item_queries:
   has_lyrics: lyrics::. ^lyrics:=[Instrumental] ^lyrics:=XXX
 
   # General and Path Formats. A number of these are used by the `kergoth` plugin for $navigation_path.
-  for_single_tracks: "album_id:^ , single_track:true"
-  is_christmas: "genre:Christmas"
-  is_classical: "genre:Classical"
-  is_jazz: "genre:=Jazz ^genre:Electronic"
+  for_single_tracks: "singleton:1 , single_track:true"
+  is_christmas: "genres:Christmas"
+  is_classical: "genres:Classical"
+  is_jazz: "genres:=Jazz ^genres:Electronic"
   is_game: 'avmedia:"Video Games"'
-  is_chiptune: "genre:chiptune , genre:8-bit"
+  is_chiptune: "genres:chiptune , genres:8-bit"
   is_music: "^query:is_non_music"
-  is_non_music: 'genre:speech , genre:meditation , genre:dharma , genre:book , genre:spoken , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
+  is_non_music: 'genres:speech , genres:meditation , genres:dharma , genres:book , genres:spoken , genres:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
   is_sampler: "albumtypes:sampler , album:sampler"
   is_sole_track: "sole_track:true"
   is_soundtrack: "albumtypes:soundtrack"
-  separated_by_genre: "genre:Comedy , genre:Humor , genre:Humour , genre:Nerdcore"
+  separated_by_genre: "genres:Comedy , genres:Humor , genres:Humour , genres:Nerdcore"
 
   # Categories
   alt_game_extra: "^albumtypes:soundtrack query:is_game"
@@ -525,13 +525,13 @@ item_queries:
   chiptune_game: "query:is_chiptune query:is_game query:is_soundtrack"
   chiptune_game_extra: "query:is_chiptune query:is_game ^query:is_soundtrack"
   chiptune: "query:is_chiptune"
-  christmas_sole_tracks: "genre:Christmas query:is_sole_track"
+  christmas_sole_tracks: "genres:Christmas query:is_sole_track"
   christmas: "query:is_christmas"
-  classical_sole_tracks: "genre:classical query:is_sole_track"
+  classical_sole_tracks: "genres:classical query:is_sole_track"
   classical: "query:is_classical ^query:is_soundtrack"
-  jazz_sole_tracks: "genre:jazz query:is_sole_track"
+  jazz_sole_tracks: "genres:jazz query:is_sole_track"
   jazz: "query:is_jazz ^query:is_soundtrack"
-  non_music: 'genre:meditation , genre:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
+  non_music: 'genres:meditation , genres:background , albumtypes:spokenword , albumtypes:audiobook , albumtypes:"audio drama" , albumtypes:interview'
   sampler: "query:is_sampler ^query:for_single_tracks"
   soundtrack: "query:is_soundtrack ^query:for_single_tracks"
 

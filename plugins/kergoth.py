@@ -230,13 +230,11 @@ class KergothPlugin(BeetsPlugin):
     def music_section(self, item, media=True):
         album = item._cached_album
         if album:
-            if album.genre and self.album_query("separated_by_genre", album):
-                genre = re.split(r"[/／ ;]", album.genre)[0]
-                return f"{genre}/{self.by_artist(item, media)}"
+            if album.genres and self.album_query("separated_by_genre", album):
+                return f"{album.genres[0]}/{self.by_artist(item, media)}"
         else:
-            if item.genre and self.query("separated_by_genre", item):
-                genre = re.split(r"[/／ ;]", item.genre)[0]
-                return f"{genre}/{self.by_artist(item, media)}"
+            if item.genres and self.query("separated_by_genre", item):
+                return f"{item.genres[0]}/{self.by_artist(item, media)}"
 
         if self.query("for_single_tracks", item):
             bucketed = self.artistdir(item)
@@ -252,7 +250,7 @@ class KergothPlugin(BeetsPlugin):
         item = FormattedItem(item)
         if self.query("non_music", item):
             return self.path(
-                f"Non-Music/{item.genre}/{self.by_artist(item, media=False)}"
+                f"Non-Music/{item.genres[0]}/{self.by_artist(item, media=False)}"
             )
         elif self.query("alt_to_listen", item):
             if self.query("by_label", item):

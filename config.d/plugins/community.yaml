@@ -19,7 +19,7 @@ alternatives:
   browse:
     directory: "../Browse"
     formats: link
-    link_type: hardlink
+    # link_type: hardlink
     embed: no
     copy_album_art: yes
     copy_album_art_pp: shrink-art
